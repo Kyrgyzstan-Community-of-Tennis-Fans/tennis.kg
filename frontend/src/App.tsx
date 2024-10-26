@@ -1,6 +1,13 @@
+import { Login } from '@/features/users/Login';
+import { Register } from '@/features/users/Register';
 import React from 'react';
-import { Button } from '@/components/ui/button';
+import { Route, Routes } from 'react-router-dom';
 
 export const App: React.FC = () => {
-  return <Button>Initial app</Button>;
+  return (
+    <Routes>
+      <Route path={'/login'} element={<Login />} />
+      <Route path={'/register'} element={<Register />} />
+    </Routes>
+  );
 };
