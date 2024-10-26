@@ -195,6 +195,7 @@ export const Register: React.FC = () => {
 
   return (
     <div className={'xs:bg-[url("/muted-logo.svg")] h-16 mt-2 ml-2 bg-left-top bg-no-repeat'}>
+      <div>HELLO WORLD!</div>
       <form onSubmit={handleSubmit}>
         <section
           className={
