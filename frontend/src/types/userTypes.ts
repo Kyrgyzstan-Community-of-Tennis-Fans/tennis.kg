@@ -8,7 +8,6 @@ export interface RegisterMutation {
   password: string;
   fullName: string;
   gender: string;
-  avatar: File | null;
   rank: string;
   dateOfBirth: string;
 }
@@ -17,7 +16,6 @@ export interface User {
   _id: string;
   username: string;
   displayName: string;
-  avatar: string;
   token: string;
   role: 'admin' | 'user';
   googleId?: string;

@@ -32,7 +32,7 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>({
         const user = await User.findOne({ telephone: value });
         return !user;
       },
-      message: 'A user with this number already exists.',
+      message: 'Пользователь с таким телефоном уже существует!',
     },
   },
   dateOfBirth: {
@@ -42,10 +42,6 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>({
   gender: {
     type: String,
     enum: ['male', 'female'],
-    required: true,
-  },
-  avatar: {
-    type: String,
     required: true,
   },
   password: {
