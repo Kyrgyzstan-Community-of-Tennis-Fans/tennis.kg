@@ -5,11 +5,13 @@ export interface UserFields {
   telephone: string;
   dateOfBirth: string;
   gender: 'male' | 'female';
-  rank: string;
+  category: string;
   avatar: string | null;
   password: string;
   token: string;
   role: 'user' | 'admin';
+  email: string;
+  createdAt: Date;
 }
 
 export interface UserMethods {
@@ -19,6 +21,6 @@ export interface UserMethods {
 
 export type UserModel = Model<UserFields, {}, UserMethods>;
 
-export interface RankFields {
+export interface CategoryFields {
   name: string;
 }

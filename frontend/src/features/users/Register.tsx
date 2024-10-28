@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/components/ui/button';
-import { selectRanks, selectRanksFetching } from '@/features/ranks/ranksSlice';
-import { fetchRanks } from '@/features/ranks/ranksThunks';
-import { FirstStep } from '@/features/users/components/FirstStep';
-import { SecondStep } from '@/features/users/components/SecondStep';
-import { ThirdStep } from '@/features/users/components/ThirdStep';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
+import { fetchCategories } from '@/features/category/categoryThunks';
+import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
 import { selectRegisterError, selectRegisterLoading } from '@/features/users/usersSlice';
 import { register } from '@/features/users/usersThunks';
 import type { RegisterMutation } from '@/types/userTypes';
@@ -17,151 +17,245 @@ import { toast } from 'sonner';
 const initialState: RegisterMutation = {
   telephone: '',
   password: '',
-  rank: '',
+  category: '',
   fullName: '',
   gender: '',
   dateOfBirth: '',
+  email: '',
 };
 
 export const Register: React.FC = () => {
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectRegisterLoading);
-  const ranks = useAppSelector(selectRanks);
-  const ranksFetching = useAppSelector(selectRanksFetching);
+  const categories = useAppSelector(selectCategories);
+  const categoriesFetching = useAppSelector(selectCategoriesFetching);
   const error = useAppSelector(selectRegisterError);
   const navigate = useNavigate();
   const [registerMutation, setRegisterMutation] = useState(initialState);
-  const [step, setStep] = useState(1);
   const [confirmPassword, setConfirmPassword] = useState<string>('');
-
-  const buttonDisabled = (() => {
-    if (step === 1) {
-      return !registerMutation.telephone || !registerMutation.password || registerMutation.password !== confirmPassword;
-    }
-    if (step === 2) {
-      return !registerMutation.dateOfBirth || !registerMutation.fullName;
-    }
-    if (step === 3) {
-      return !registerMutation.gender || !registerMutation.rank;
-    }
-    return false;
-  })();
 
   useEffect(() => {
     if (error && error.errors) {
-      for (const key in error.errors) {
-        toast.error(error.errors[key].message);
-      }
+      Object.values(error.errors).forEach((err) => {
+        toast.error(err.message);
+      });
     }
   }, [error]);
 
   useEffect(() => {
-    if (step === 3) {
-      dispatch(fetchRanks());
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    let value = event.target.value.replace(/\D/g, '');
+
+    if (value.length > 8) {
+      value = value.slice(0, 8);
     }
-  }, [dispatch, step]);
+
+    let formattedDate = '';
+
+    if (value.length > 0) {
+      const day = value.slice(0, 2);
+      if (parseInt(day, 10) > 31) {
+        formattedDate += '31';
+      } else {
+        formattedDate += day;
+      }
+    }
+    if (value.length > 2) {
+      formattedDate += '.';
+      const month = value.slice(2, 4);
+      if (parseInt(month, 10) > 12) {
+        formattedDate += '12';
+      } else {
+        formattedDate += month;
+      }
+    }
+    if (value.length > 4) {
+      formattedDate += '.';
+      formattedDate += value.slice(4);
+    }
+
+    updateRegisterField('dateOfBirth', formattedDate);
+  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
-    setRegisterMutation((prev) => ({ ...prev, [id]: value }));
-  };
 
-  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setRegisterMutation((prev) => ({
-      ...prev,
-      dateOfBirth: event.target.value,
-    }));
+    if (id === 'telephone') {
+      const digitsOnly = value.replace(/\D/g, '');
+      let formattedPhone = digitsOnly;
+
+      if (digitsOnly.length > 1) {
+        formattedPhone = '0' + digitsOnly.slice(1, 4);
+      }
+      if (digitsOnly.length > 4) {
+        formattedPhone += ' ' + digitsOnly.slice(4, 7);
+      }
+      if (digitsOnly.length > 7) {
+        formattedPhone += ' ' + digitsOnly.slice(7, 10);
+      }
+
+      setRegisterMutation((prev) => ({ ...prev, telephone: formattedPhone }));
+      return;
+    }
+
+    updateRegisterField(id, value);
   };
 
   const handleSelectChange = (value: string, id: string) => {
-    let field: string = '';
-    field = id === 'gender' ? 'gender' : id === 'rank' ? 'rank' : '';
+    const field = id === 'gender' ? 'gender' : 'category';
+    updateRegisterField(field, value);
+  };
 
-    setRegisterMutation((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+  const updateRegisterField = (field: string, value: string) => {
+    setRegisterMutation((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const isFormValid = () => {
+    const isFilled =
+      Object.values(registerMutation).every((value) => value.trim() !== '') && confirmPassword.trim() !== '';
+    const passwordsMatch = registerMutation.password === confirmPassword;
+
+    return isFilled && passwordsMatch;
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    try {
-      event.preventDefault();
-
-      await dispatch(register(registerMutation)).unwrap();
-      setRegisterMutation(initialState);
-      navigate('/');
-    } catch (error) {
-      console.error(error);
-      toast.error('Произошла ошибка при регистрации');
-    }
-  };
-
-  const handleNextStep = () => {
-    if (step < 3) {
-      setStep((prev) => prev + 1);
-    }
+    event.preventDefault();
+    await dispatch(register(registerMutation)).unwrap();
+    setRegisterMutation(initialState);
+    navigate('/');
   };
 
   return (
-    <div className={'xs:bg-[url("/muted-logo.svg")] h-16 mt-2 ml-2 bg-left-top bg-no-repeat'}>
-      <form onSubmit={handleSubmit}>
-        <section
-          className={
-            'w-full py-10 px-6 xs:max-w-[545px] xs:py-12 xs:px-10 fixed top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4 rounded-3xl'
-          }
-          style={{
-            boxShadow: '0px 4px 100px 0px #00000017',
-          }}
-        >
-          <div className={'mb-3'}>
-            <h1 className={'font-bold text-[28px]'}>Создать аккаунт.</h1>
-            <p className={'text-sm text-black/75'}>Пожалуйста, заполните все данные для создания аккаунта.</p>
+    <form onSubmit={handleSubmit}>
+      <section
+        className='w-full py-10 mx-auto px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl'
+        style={{ boxShadow: '0px 4px 100px 0px #00000017' }}
+      >
+        <div className='mb-3'>
+          <h1 className='font-bold text-[28px]'>Создать аккаунт.</h1>
+          <p className='text-sm text-black/75'>Пожалуйста, заполните все данные для создания аккаунта.</p>
+        </div>
+
+        <div className='space-y-3 mb-8'>
+          <UsersInput
+            id='telephone'
+            value={registerMutation.telephone}
+            onChange={handleChange}
+            label='Номер телефона'
+            placeholder={'0500 000 000'}
+            autoComplete={'tel'}
+          />
+
+          <UsersInput
+            id='email'
+            value={registerMutation.email}
+            onChange={handleChange}
+            label='Почта'
+            placeholder={'example@gmail.com'}
+            autoComplete={'email'}
+          />
+
+          <UsersInput
+            id='password'
+            value={registerMutation.password}
+            onChange={handleChange}
+            label='Пароль'
+            type='password'
+            autoComplete='new-password'
+          />
+
+          <UsersInput
+            id='confirm-password'
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            label='Подтвердите пароль'
+            type='password'
+            autoComplete='current-password'
+            className={
+              confirmPassword !== registerMutation.password ? 'ring-red-500 ring-1 focus-visible:ring-red-500' : ''
+            }
+            error={confirmPassword !== registerMutation.password ? 'Пароли не совпадают' : ''}
+          />
+
+          <UsersInput
+            id='dateOfBirth'
+            value={registerMutation.dateOfBirth}
+            onChange={handleDateChange}
+            label='Дата рождения'
+            placeholder='15.10.2007'
+            autoComplete='bday'
+          />
+
+          <UsersInput
+            id='fullName'
+            value={registerMutation.fullName}
+            onChange={handleChange}
+            label='ФИО'
+            placeholder='Введите ваше полное ФИО'
+            autoComplete='name'
+          />
+
+          <div>
+            <Label htmlFor='gender'>Пол</Label>
+            <Select value={registerMutation.gender} onValueChange={(value) => handleSelectChange(value, 'gender')}>
+              <SelectTrigger id='gender'>
+                <SelectValue placeholder='Укажите ваш пол' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value='male'>Мужской</SelectItem>
+                  <SelectItem value='female'>Женский</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
 
-          {step === 1 ? (
-            <FirstStep
-              registerMutation={registerMutation}
-              confirmPassword={confirmPassword}
-              setConfirmPassword={setConfirmPassword}
-              handleChange={handleChange}
-            />
-          ) : step === 2 ? (
-            <SecondStep
-              registerMutation={registerMutation}
-              handleChange={handleChange}
-              handleDateChange={handleDateChange}
-            />
-          ) : (
-            <ThirdStep
-              registerMutation={registerMutation}
-              handleSelectChange={handleSelectChange}
-              ranks={ranks}
-              ranksFetching={ranksFetching}
-            />
-          )}
+          <div>
+            <Label htmlFor='category'>Категория</Label>
+            <Select
+              disabled={categoriesFetching || categories.length === 0}
+              value={registerMutation.category}
+              onValueChange={(value) => handleSelectChange(value, 'category')}
+            >
+              <SelectTrigger id='category'>
+                <SelectValue placeholder='Выберите вашу категорию' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {categories.map((item) => (
+                    <SelectItem key={item._id} value={item._id}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
 
-          <Button
-            disabled={buttonDisabled}
-            onClick={handleNextStep}
-            type={step === 3 ? 'submit' : 'button'}
-            className={'w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5'}
-          >
-            {step === 3 ? 'Зарегистрироваться' : 'Далее'}
-            {loading ? <Loader /> : <ArrowLongRightIcon style={{ width: '2.5rem', height: '2.5rem' }} />}
-          </Button>
+        <Button
+          type='submit'
+          className='w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5'
+          disabled={!isFormValid()}
+        >
+          Зарегистрироваться
+          {loading ? <Loader /> : <ArrowLongRightIcon style={{ width: 40, height: 40 }} strokeWidth={1} />}
+        </Button>
 
-          <Link
-            to={'/forgot-password'}
-            className={'block text-[#3F6A11] border-b border-[#3F6A11] leading-none mx-auto w-fit mb-4'}
-          >
-            Забыли пароль?
-          </Link>
+        <Link
+          to='/forgot-password'
+          className='block text-[#3F6A11] border-b border-[#3F6A11] leading-none mx-auto w-fit mb-4'
+        >
+          Забыли пароль?
+        </Link>
 
-          <Link to={'/login'} className={'text-sm block text-center text-black/50 w-fit mx-auto'}>
-            Уже зарегистрированы? <span className={'font-medium text-black'}>Войдите</span>
-          </Link>
-        </section>
-      </form>
-    </div>
+        <Link to='/login' className='text-sm block text-center text-black/50 w-fit mx-auto'>
+          Уже зарегистрированы? <span className='font-medium text-black'>Войдите</span>
+        </Link>
+      </section>
+    </form>
   );
 };

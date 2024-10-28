@@ -2,32 +2,21 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { auth, type RequestWithUser } from '../middleware/auth';
 import { User } from '../model/User';
-import { imagesUpload } from '../multer';
 
 export const usersRouter = express.Router();
 
-usersRouter.get('/', async (req, res, next) => {
+usersRouter.post('/', async (req, res, next) => {
   try {
-    const users = await User.find();
-
-    return res.send(users);
-  } catch (error) {
-    return next(error);
-  }
-});
-
-usersRouter.post('/', imagesUpload.single('avatar'), async (req, res, next) => {
-  try {
-    const { rank, fullName, telephone, dateOfBirth, gender, password } = req.body;
+    const { email, category, fullName, telephone, dateOfBirth, gender, password } = req.body;
 
     const user = new User({
-      rank,
+      category,
       fullName,
       telephone,
       dateOfBirth,
       gender,
       password,
-      avatar: req.file ? req.file.filename : null,
+      email,
     });
 
     user.generateToken();
@@ -45,7 +34,7 @@ usersRouter.post('/', imagesUpload.single('avatar'), async (req, res, next) => {
 
 usersRouter.post('/sessions', async (req, res, next) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({ telephone: req.body.telephone });
 
     if (!user) {
       return res.status(400).send({ error: 'Username not found!' });

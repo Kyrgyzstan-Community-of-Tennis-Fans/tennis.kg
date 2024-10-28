@@ -9,9 +9,9 @@ const SALT_WORK_FACTOR = 10;
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema<UserFields, UserModel, UserMethods>({
-  rank: {
+  category: {
     type: String,
-    ref: 'Rank',
+    ref: 'Category',
     required: true,
   },
   fullName: {
@@ -56,6 +56,15 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>({
     type: String,
     enum: ['user', 'admin'],
     default: 'user',
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    required: true,
   },
 });
 
