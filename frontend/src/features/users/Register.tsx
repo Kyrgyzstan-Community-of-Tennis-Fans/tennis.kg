@@ -163,6 +163,7 @@ export const Register: React.FC = () => {
             value={registerMutation.password}
             onChange={handleChange}
             label='Пароль'
+            placeholder='Введите пароль'
             type='password'
             autoComplete='new-password'
           />
@@ -173,10 +174,9 @@ export const Register: React.FC = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             label='Подтвердите пароль'
             type='password'
+            placeholder='Введите пароль еще раз'
             autoComplete='current-password'
-            className={
-              confirmPassword !== registerMutation.password ? 'ring-red-500 ring-1 focus-visible:ring-red-500' : ''
-            }
+            className={`${confirmPassword !== registerMutation.password && 'ring-red-500 ring-1 focus-visible:ring-red-500'} h-12`}
             error={confirmPassword !== registerMutation.password ? 'Пароли не совпадают' : ''}
           />
 
@@ -201,7 +201,7 @@ export const Register: React.FC = () => {
           <div>
             <Label htmlFor='gender'>Пол</Label>
             <Select value={registerMutation.gender} onValueChange={(value) => handleSelectChange(value, 'gender')}>
-              <SelectTrigger id='gender'>
+              <SelectTrigger className={'h-12'} id='gender'>
                 <SelectValue placeholder='Укажите ваш пол' />
               </SelectTrigger>
               <SelectContent>
@@ -220,7 +220,7 @@ export const Register: React.FC = () => {
               value={registerMutation.category}
               onValueChange={(value) => handleSelectChange(value, 'category')}
             >
-              <SelectTrigger id='category'>
+              <SelectTrigger className={'h-12'} id='category'>
                 <SelectValue placeholder='Выберите вашу категорию' />
               </SelectTrigger>
               <SelectContent>
