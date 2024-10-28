@@ -1,4 +1,4 @@
-import { login, register } from '@/features/users/usersThunks';
+import { forgotPassword, login, register } from '@/features/users/usersThunks';
 import type { GlobalError, User, ValidationError } from '@/types/userTypes';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -8,6 +8,10 @@ interface UsersState {
   registerError: ValidationError | null;
   loginLoading: boolean;
   loginError: GlobalError | null;
+  forgotPasswordLoading: boolean;
+  forgotPasswordError: GlobalError | null;
+  resetPasswordLoading: boolean;
+  resetPasswordError: GlobalError | null;
 }
 
 const initialState: UsersState = {
@@ -16,6 +20,10 @@ const initialState: UsersState = {
   registerError: null,
   loginLoading: false,
   loginError: null,
+  forgotPasswordLoading: false,
+  forgotPasswordError: null,
+  resetPasswordError: null,
+  resetPasswordLoading: false,
 };
 
 export const usersSlice = createSlice({
@@ -54,6 +62,19 @@ export const usersSlice = createSlice({
         state.loginError = error || null;
         state.loginLoading = false;
       });
+
+    builder
+      .addCase(forgotPassword.pending, (state) => {
+        state.forgotPasswordError = null;
+        state.forgotPasswordLoading = true;
+      })
+      .addCase(forgotPassword.fulfilled, (state) => {
+        state.forgotPasswordLoading = false;
+      })
+      .addCase(forgotPassword.rejected, (state, { payload: error }) => {
+        state.forgotPasswordError = error || null;
+        state.forgotPasswordLoading = false;
+      });
   },
   selectors: {
     selectUser: (state) => state.user,
@@ -61,10 +82,23 @@ export const usersSlice = createSlice({
     selectRegisterError: (state) => state.registerError,
     selectLoginLoading: (state) => state.loginLoading,
     selectLoginError: (state) => state.loginError,
+    selectForgotPasswordLoading: (state) => state.forgotPasswordLoading,
+    selectForgotPasswordError: (state) => state.forgotPasswordError,
+    selectResetPasswordLoading: (state) => state.resetPasswordLoading,
+    selectResetPasswordError: (state) => state.resetPasswordError,
   },
 });
 
 export const { unsetUser } = usersSlice.actions;
 
-export const { selectUser, selectRegisterLoading, selectRegisterError, selectLoginLoading, selectLoginError } =
-  usersSlice.selectors;
+export const {
+  selectUser,
+  selectRegisterLoading,
+  selectRegisterError,
+  selectLoginLoading,
+  selectLoginError,
+  selectForgotPasswordLoading,
+  selectForgotPasswordError,
+  selectResetPasswordLoading,
+  selectResetPasswordError,
+} = usersSlice.selectors;

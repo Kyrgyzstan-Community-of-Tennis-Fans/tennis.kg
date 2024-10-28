@@ -47,3 +47,33 @@ export const logout = createAsyncThunk<void, void, { state: RootState }>(
     dispatch(unsetUser());
   },
 );
+
+export const forgotPassword = createAsyncThunk<void, string, { rejectValue: GlobalError }>(
+  'users/forgotPassword',
+  async (email, { rejectWithValue }) => {
+    try {
+      await axiosApi.post('/users/forgot-password', { email });
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data);
+      }
+
+      throw error;
+    }
+  },
+);
+
+export const resetPassword = createAsyncThunk<void, { password: string; token: string }, { rejectValue: GlobalError }>(
+  'users/resetPassword',
+  async ({ password, token }, { rejectWithValue }) => {
+    try {
+      await axiosApi.post(`/users/reset-password/${token}`, { password });
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data);
+      }
+
+      throw error;
+    }
+  },
+);

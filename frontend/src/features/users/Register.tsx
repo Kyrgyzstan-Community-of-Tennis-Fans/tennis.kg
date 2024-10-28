@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
@@ -33,6 +34,10 @@ export const Register: React.FC = () => {
   const navigate = useNavigate();
   const [registerMutation, setRegisterMutation] = useState(initialState);
   const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [isRulesChecked, setIsRulesChecked] = useState({
+    rules: false,
+    personalData: false,
+  });
 
   useEffect(() => {
     if (error && error.errors) {
@@ -80,6 +85,10 @@ export const Register: React.FC = () => {
     updateRegisterField('dateOfBirth', formattedDate);
   };
 
+  const handleRulesChange = (value: boolean, id: string) => {
+    setIsRulesChecked((prev) => ({ ...prev, [id]: value }));
+  };
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
 
@@ -117,8 +126,9 @@ export const Register: React.FC = () => {
     const isFilled =
       Object.values(registerMutation).every((value) => value.trim() !== '') && confirmPassword.trim() !== '';
     const passwordsMatch = registerMutation.password === confirmPassword;
+    const isRulesAccepted = Object.values(isRulesChecked).every((value) => value);
 
-    return isFilled && passwordsMatch;
+    return isFilled && passwordsMatch && isRulesAccepted;
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -131,7 +141,7 @@ export const Register: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <section
-        className='w-full py-10 mx-auto px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl'
+        className='w-full my-14 py-10 mx-auto px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl'
         style={{ boxShadow: '0px 4px 100px 0px #00000017' }}
       >
         <div className='mb-3'>
@@ -176,7 +186,7 @@ export const Register: React.FC = () => {
             type='password'
             placeholder='Введите пароль еще раз'
             autoComplete='current-password'
-            className={`${confirmPassword !== registerMutation.password && 'ring-red-500 ring-1 focus-visible:ring-red-500'} h-12`}
+            className={`${confirmPassword !== registerMutation.password && 'ring-red-500 ring-1 focus-visible:ring-red-500'} h-12 focus-visible:ring-[#80BC41]`}
             error={confirmPassword !== registerMutation.password ? 'Пароли не совпадают' : ''}
           />
 
@@ -201,7 +211,7 @@ export const Register: React.FC = () => {
           <div>
             <Label htmlFor='gender'>Пол</Label>
             <Select value={registerMutation.gender} onValueChange={(value) => handleSelectChange(value, 'gender')}>
-              <SelectTrigger className={'h-12'} id='gender'>
+              <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='gender'>
                 <SelectValue placeholder='Укажите ваш пол' />
               </SelectTrigger>
               <SelectContent>
@@ -220,7 +230,7 @@ export const Register: React.FC = () => {
               value={registerMutation.category}
               onValueChange={(value) => handleSelectChange(value, 'category')}
             >
-              <SelectTrigger className={'h-12'} id='category'>
+              <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='category'>
                 <SelectValue placeholder='Выберите вашу категорию' />
               </SelectTrigger>
               <SelectContent>
@@ -234,6 +244,30 @@ export const Register: React.FC = () => {
               </SelectContent>
             </Select>
           </div>
+
+          <div className={'space-y-2'}>
+            <div className={'flex items-center gap-2'}>
+              <Checkbox
+                onCheckedChange={(value) => handleRulesChange(Boolean(value), 'rules')}
+                id={'rules'}
+                className={'size-4'}
+              />
+              <Label htmlFor={'rules'} className={'font-normal'}>
+                Ознакомился с правилами КСЛТ
+              </Label>
+            </div>
+
+            <div className={'flex items-center gap-2'}>
+              <Checkbox
+                onCheckedChange={(value) => handleRulesChange(Boolean(value), 'personalData')}
+                id={'rules'}
+                className={'size-4'}
+              />
+              <Label htmlFor={'rules'} className={'font-normal'}>
+                Даю согласие на обработку персональных данных
+              </Label>
+            </div>
+          </div>
         </div>
 
         <Button
@@ -244,13 +278,6 @@ export const Register: React.FC = () => {
           Зарегистрироваться
           {loading ? <Loader /> : <ArrowLongRightIcon style={{ width: 40, height: 40 }} strokeWidth={1} />}
         </Button>
-
-        <Link
-          to='/forgot-password'
-          className='block text-[#3F6A11] border-b border-[#3F6A11] leading-none mx-auto w-fit mb-4'
-        >
-          Забыли пароль?
-        </Link>
 
         <Link to='/login' className='text-sm block text-center text-black/50 w-fit mx-auto'>
           Уже зарегистрированы? <span className='font-medium text-black'>Войдите</span>

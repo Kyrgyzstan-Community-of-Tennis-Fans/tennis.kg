@@ -62,6 +62,8 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>(
       type: String,
       required: true,
     },
+    resetPasswordToken: { type: String, default: null },
+    resetPasswordExpires: { type: Date, default: null },
   },
   { timestamps: true }
 );

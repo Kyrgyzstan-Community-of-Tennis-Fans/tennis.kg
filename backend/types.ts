@@ -12,6 +12,8 @@ export interface UserFields {
   role: 'user' | 'admin';
   email: string;
   createdAt: Date;
+  resetPasswordToken: string | null;
+  resetPasswordExpires: number | null;
 }
 
 export interface UserMethods {

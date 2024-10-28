@@ -22,10 +22,11 @@ export const Login: React.FC = () => {
   const navigate = useNavigate();
   const [loginMutation, setLoginMutation] = useState(initialState);
 
+  const translatedError = error?.error === 'Username not found!' ? 'Неверный номер телефона или пароль' : error?.error;
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
 
-    // Форматирование номера телефона
     if (id === 'telephone') {
       const digitsOnly = value.replace(/\D/g, '');
       let formattedPhone = digitsOnly;
@@ -50,7 +51,6 @@ export const Login: React.FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Отправка данных на сервер
     await dispatch(login(loginMutation)).unwrap();
     navigate('/');
   };
@@ -58,92 +58,88 @@ export const Login: React.FC = () => {
   const isButtonDisabled = !loginMutation.telephone || !loginMutation.password;
 
   return (
-    <div className={'xs:bg-[url("/muted-logo.svg")] h-16 mt-2 ml-2 bg-left-top bg-no-repeat'}>
-      <form onSubmit={handleSubmit}>
-        <section
-          className={
-            'w-full py-10 px-6 xs:max-w-[545px] xs:py-12 xs:px-10 absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4 rounded-3xl'
-          }
-          style={{
-            boxShadow: '0px 4px 100px 0px #00000017',
-          }}
+    <form onSubmit={handleSubmit}>
+      <section
+        className={
+          'w-full py-10 px-6 xs:max-w-[545px] xs:py-12 xs:px-10 absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4 rounded-3xl'
+        }
+        style={{
+          boxShadow: '0px 4px 100px 0px #00000017',
+        }}
+      >
+        <div className={'mb-7'}>
+          <h1 className={'font-bold text-[28px] mb-2'}>Добро пожаловать.</h1>
+          <p className={'text-sm text-black/75'}>
+            Пожалуйста, введите ваш телефон и пароль для входа в личный кабинет.
+          </p>
+        </div>
+
+        <div className={'mb-4'}>
+          <div className={'flex justify-between'}>
+            <Label htmlFor={'telephone'} className={'text-base font-medium block mb-0.5'}>
+              Номер телефона
+            </Label>
+            {error && <span className={'text-sm text-red-500'}>{translatedError}</span>}
+          </div>
+          <Input
+            className={'h-12 focus-visible:ring-[#80BC41]'}
+            id={'telephone'}
+            value={loginMutation.telephone}
+            onChange={handleChange}
+            placeholder={'0500 000 000'}
+            type={'tel'}
+          />
+        </div>
+
+        <div className={'mb-8'}>
+          <div className={'flex justify-between'}>
+            <Label htmlFor={'password'} className={'text-base font-medium block mb-0.5'}>
+              Пароль
+            </Label>
+            {error && <span className={'text-sm text-red-500'}>{translatedError}</span>}
+          </div>
+          <Input
+            type={'password'}
+            className={'h-12 focus-visible:ring-[#80BC41]'}
+            id={'password'}
+            autoComplete={'current-password'}
+            placeholder={'Введите пароль'}
+            value={loginMutation.password}
+            onChange={handleChange}
+          />
+        </div>
+
+        <Button
+          disabled={loading || isButtonDisabled}
+          className={'w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5'}
+          type={'submit'}
         >
-          <div className={'mb-7'}>
-            <h1 className={'font-bold text-[28px] mb-2'}>Добро пожаловать.</h1>
-            <p className={'text-sm text-black/75'}>
-              Пожалуйста, введите ваш телефон и пароль для входа в личный кабинет.
-            </p>
-          </div>
+          Войти
+          {loading ? <Loader /> : <ArrowLongRightIcon style={{ width: '2.5rem', height: '2.5rem' }} />}
+        </Button>
 
-          <div className={'mb-4'}>
-            <div className={'flex justify-between'}>
-              <Label htmlFor={'telephone'} className={'text-base font-medium block mb-0.5'}>
-                Номер телефона
-              </Label>
-              {error && <span className={'text-sm text-red-500'}>{error.error}</span>}
-            </div>
-            <Input
-              className={'h-12 focus-visible:ring-[#80BC41]'}
-              id={'telephone'}
-              value={loginMutation.telephone}
-              onChange={handleChange}
-              placeholder={'0500 000 000'}
-              type={'tel'}
-            />
-          </div>
+        <Link
+          to={'/forgot-password'}
+          className={'block text-[#3F6A11] border-b border-[#3F6A11] leading-none mx-auto max-w-max mb-8'}
+        >
+          Забыли пароль?
+        </Link>
+        <Link
+          to={'/register'}
+          className={'block text-muted-foreground text-center mb-5 hover:underline underline-offset-2'}
+        >
+          У вас нет аккаунта?
+        </Link>
 
-          <div className={'mb-8'}>
-            <div className={'flex justify-between'}>
-              <Label htmlFor={'password'} className={'text-base font-medium block mb-0.5'}>
-                Пароль
-              </Label>
-              {error && <span className={'text-sm text-red-500'}>{error.error}</span>}
-            </div>
-            <Input
-              type={'password'}
-              className={'h-12 focus-visible:ring-[#80BC41]'}
-              id={'password'}
-              autoComplete={'current-password'}
-              placeholder={'Введите пароль'}
-              value={loginMutation.password}
-              onChange={handleChange}
-            />
-          </div>
-
+        <Link to={'/register'}>
           <Button
-            disabled={loading || isButtonDisabled}
-            className={'w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5'}
-            type={'submit'}
+            type={'button'}
+            className={'bg-[#D9EBC6] text-[#3F6A11] shadow-none w-full h-12 uppercase rounded-full hover:bg-[#C8E1B1]'}
           >
-            Войти
-            {loading ? <Loader /> : <ArrowLongRightIcon style={{ width: '2.5rem', height: '2.5rem' }} />}
+            Создать аккаунт
           </Button>
-
-          <Link
-            to={'/forgot-password'}
-            className={'block text-[#3F6A11] border-b border-[#3F6A11] leading-none mx-auto max-w-max mb-8'}
-          >
-            Забыли пароль?
-          </Link>
-          <Link
-            to={'/register'}
-            className={'block text-muted-foreground text-center mb-5 hover:underline underline-offset-2'}
-          >
-            У вас нет аккаунта?
-          </Link>
-
-          <Link to={'/register'}>
-            <Button
-              type={'button'}
-              className={
-                'bg-[#D9EBC6] text-[#3F6A11] shadow-none w-full h-12 uppercase rounded-full hover:bg-[#C8E1B1]'
-              }
-            >
-              Создать аккаунт
-            </Button>
-          </Link>
-        </section>
-      </form>
-    </div>
+        </Link>
+      </section>
+    </form>
   );
 };
