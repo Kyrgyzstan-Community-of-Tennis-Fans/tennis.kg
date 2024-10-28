@@ -4,39 +4,52 @@ import { permit } from '../middleware/permit';
 import { auth } from '../middleware/auth';
 import News from '../model/News';
 import { format } from 'date-fns/format';
+import { imagesUpload } from '../multer';
 
 const newsRouter = Router();
 
-newsRouter.post('/', auth, permit('admin'), async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { title, subtitle, content } = req.body;
+newsRouter.post(
+  '/',
+  // auth,
+  // permit('admin'),
+  imagesUpload.fields([
+    { name: 'newsCover', maxCount: 1 },
+    { name: 'images', maxCount: 5 },
+  ]),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { title, subtitle, content } = req.body;
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
-    const newsData = {
-      title,
-      subtitle,
-      content,
-    };
+      const newsData = {
+        title,
+        subtitle,
+        content,
+        newsCover: files['newsCover'] && files['newsCover'][0] ? files['newsCover'][0].filename : '',
+        images: files['images'] ? files['images'].map((file) => file.filename) : [],
+      };
 
-    const news = new News(newsData);
-    await news.save();
+      const news = new News(newsData);
+      await news.save();
 
-    return res.send(news);
-  } catch (e) {
-    if (e instanceof Error.ValidationError) {
-      return res.status(422).send(e);
+      return res.send(news);
+    } catch (e) {
+      if (e instanceof Error.ValidationError) {
+        return res.status(422).send(e);
+      }
+
+      return next(e);
     }
-
-    return next(e);
   }
-});
+);
 
 newsRouter.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const news = await News.find().lean();
     const formattedNews = news.map((item) => ({
       ...item,
-      createdAt: format(item.createdAt, 'dd.MM.yyyy HH:mm'),
-      updatedAt: format(item.updatedAt, 'dd.MM.yyyy HH:mm'),
+      createdAt: format(item.createdAt, 'dd.MM.yyyy'),
+      updatedAt: format(item.updatedAt, 'dd.MM.yyyy'),
     }));
 
     return res.send(formattedNews);
@@ -60,8 +73,8 @@ newsRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
 
     const formattedNews = {
       ...newsById,
-      createdAt: format(newsById.createdAt, 'dd.MM.yyyy HH:mm'),
-      updatedAt: format(newsById.updatedAt, 'dd.MM.yyyy HH:mm'),
+      createdAt: format(newsById.createdAt, 'dd.MM.yyyy'),
+      updatedAt: format(newsById.updatedAt, 'dd.MM.yyyy'),
     };
 
     return res.send(formattedNews);

@@ -30,4 +30,6 @@ export interface NewsFields {
   content: string;
   createdAt: Date;
   updatedAt: Date;
+  newsCover?: string;
+  images?: string[];
 }
