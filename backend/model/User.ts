@@ -8,65 +8,63 @@ const SALT_WORK_FACTOR = 10;
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema<UserFields, UserModel, UserMethods>({
-  category: {
-    type: String,
-    ref: 'Category',
-    required: true,
-  },
-  fullName: {
-    type: String,
-    required: true,
-  },
-  telephone: {
-    type: String,
-    required: true,
-    unique: true,
+const UserSchema = new Schema<UserFields, UserModel, UserMethods>(
+  {
+    category: {
+      type: String,
+      ref: 'Category',
+      required: true,
+    },
+    fullName: {
+      type: String,
+      required: true,
+    },
+    telephone: {
+      type: String,
+      required: true,
+      unique: true,
 
-    validate: {
-      validator: async function (value: string): Promise<boolean> {
-        if (!(this as HydratedDocument<UserFields>).isModified('telephone')) {
-          return true;
-        }
+      validate: {
+        validator: async function (value: string): Promise<boolean> {
+          if (!(this as HydratedDocument<UserFields>).isModified('telephone')) {
+            return true;
+          }
 
-        const user = await User.findOne({ telephone: value });
-        return !user;
+          const user = await User.findOne({ telephone: value });
+          return !user;
+        },
+        message: 'Пользователь с таким телефоном уже существует!',
       },
-      message: 'Пользователь с таким телефоном уже существует!',
+    },
+    dateOfBirth: {
+      type: String,
+      required: true,
+    },
+    gender: {
+      type: String,
+      enum: ['male', 'female'],
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    token: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user',
+    },
+    email: {
+      type: String,
+      required: true,
     },
   },
-  dateOfBirth: {
-    type: String,
-    required: true,
-  },
-  gender: {
-    type: String,
-    enum: ['male', 'female'],
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  token: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user',
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 UserSchema.methods.checkPassword = function (password: string) {
   return bcrypt.compare(password, this.password);
