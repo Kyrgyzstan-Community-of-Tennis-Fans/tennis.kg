@@ -76,5 +76,8 @@
 
     body {
         @apply bg-background text-foreground;
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
     }
 }

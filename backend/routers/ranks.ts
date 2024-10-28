@@ -6,7 +6,7 @@ import { Rank } from '../model/Rank';
 
 export const ranksRouter = express.Router();
 
-ranksRouter.get('/', async (req, res, next) => {
+ranksRouter.get('/', async (_, res, next) => {
   try {
     const ranks = await Rank.find();
 
