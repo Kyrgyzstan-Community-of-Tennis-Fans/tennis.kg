@@ -44,4 +44,8 @@ const run = async () => {
       url: 'https://www.artium.com',
     }
   );
+
+  await db.close()
 };
+
+run().catch((err) => {console.log(err)})
