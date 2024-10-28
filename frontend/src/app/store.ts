@@ -3,6 +3,7 @@ import { usersSlice } from '@/features/users/usersSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import {CarouselReducer} from '@/features/carousel/CarouselSlice';
 
 const usersPersistConfig = {
   key: 'tennis:users',
@@ -13,6 +14,7 @@ const usersPersistConfig = {
 const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersSlice.reducer),
   ranks: ranksSlice.reducer,
+  carousel:CarouselReducer
 });
 
 export const store = configureStore({
