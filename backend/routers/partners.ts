@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 
 export const partnersRouter = express.Router();
 
-partnersRouter.get('/', async (req, res, next) => {
+partnersRouter.get('/', async (_, res, next) => {
   try {
     const partners = await Partner.find();
 
