@@ -260,10 +260,10 @@ export const Register: React.FC = () => {
             <div className={'flex items-center gap-2'}>
               <Checkbox
                 onCheckedChange={(value) => handleRulesChange(Boolean(value), 'personalData')}
-                id={'rules'}
+                id={'personalData'}
                 className={'size-4'}
               />
-              <Label htmlFor={'rules'} className={'font-normal'}>
+              <Label htmlFor={'personalData'} className={'font-normal'}>
                 Даю согласие на обработку персональных данных
               </Label>
             </div>
