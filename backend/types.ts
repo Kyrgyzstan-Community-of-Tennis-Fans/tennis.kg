@@ -1,5 +1,13 @@
 import type { Model } from 'mongoose';
 
+export interface RatingMemberFields {
+  _id: any;
+  name: string;
+  image: string;
+  gender: 'male' | 'female';
+  place: number;
+}
+
 export interface UserFields {
   fullName: string;
   telephone: string;

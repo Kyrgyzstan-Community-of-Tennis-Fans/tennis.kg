@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import config from './config';
 import { categoriesRouter } from './routers/categories';
 import { usersRouter } from './routers/users';
+import { ratingMembersRouter } from './routers/mainRatings';
 import { partnersRouter } from './routers/partners';
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(cors(config.corsOptions));
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/users', usersRouter);
+app.use('/ratingMembers', ratingMembersRouter);
 app.use('/categories', categoriesRouter);
 app.use('/partners', partnersRouter);
 
