@@ -9,17 +9,7 @@ export const register = createAsyncThunk<User, RegisterMutation, { rejectValue: 
   'users/register',
   async (registerMutation, { rejectWithValue }) => {
     try {
-      const formData = new FormData();
-
-      const keys = Object.keys(registerMutation) as (keyof RegisterMutation)[];
-      keys.forEach((key) => {
-        const value = registerMutation[key];
-        if (value !== null) {
-          formData.append(key, value);
-        }
-      });
-
-      const { data: user } = await axiosApi.post<User>('/users', formData);
+      const { data: user } = await axiosApi.post<User>('/users', registerMutation);
 
       return user;
     } catch (error) {
@@ -55,5 +45,35 @@ export const logout = createAsyncThunk<void, void, { state: RootState }>(
     const token = getState().users.user?.token;
     await axiosApi.delete('/users/sessions', { headers: { Authorization: `Bearer ${token}` } });
     dispatch(unsetUser());
+  },
+);
+
+export const forgotPassword = createAsyncThunk<void, string, { rejectValue: GlobalError }>(
+  'users/forgotPassword',
+  async (email, { rejectWithValue }) => {
+    try {
+      await axiosApi.post('/users/forgot-password', { email });
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data);
+      }
+
+      throw error;
+    }
+  },
+);
+
+export const resetPassword = createAsyncThunk<void, { password: string; token: string }, { rejectValue: GlobalError }>(
+  'users/resetPassword',
+  async ({ password, token }, { rejectWithValue }) => {
+    try {
+      await axiosApi.post(`/users/reset-password/${token}`, { password });
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data);
+      }
+
+      throw error;
+    }
   },
 );

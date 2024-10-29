@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import config from './config';
-import { ranksRouter } from './routers/ranks';
+import { categoriesRouter } from './routers/categories';
 import { usersRouter } from './routers/users';
 import newsRouter from './routers/news';
 import { partnersRouter } from './routers/partners';
@@ -17,6 +17,7 @@ app.use('/public', express.static('public'));
 app.use('/users', usersRouter);
 app.use('/ranks', ranksRouter);
 app.use('/news', newsRouter);
+app.use('/categories', categoriesRouter);
 app.use('/partners', partnersRouter);
 
 const run = async () => {

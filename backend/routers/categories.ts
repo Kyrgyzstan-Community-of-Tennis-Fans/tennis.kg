@@ -2,13 +2,13 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { auth } from '../middleware/auth';
 import { permit } from '../middleware/permit';
-import { Rank } from '../model/Rank';
+import { Category } from '../model/Category';
 
-export const ranksRouter = express.Router();
+export const categoriesRouter = express.Router();
 
-ranksRouter.get('/', async (_, res, next) => {
+categoriesRouter.get('/', async (req, res, next) => {
   try {
-    const ranks = await Rank.find();
+    const ranks = await Category.find();
 
     return res.send(ranks);
   } catch (error) {
@@ -16,11 +16,11 @@ ranksRouter.get('/', async (_, res, next) => {
   }
 });
 
-ranksRouter.post('/', auth, permit('admin'), async (req, res, next) => {
+categoriesRouter.post('/', auth, permit('admin'), async (req, res, next) => {
   try {
     const { name } = req.body;
 
-    const rank = new Rank({
+    const rank = new Category({
       name,
     });
     await rank.save();

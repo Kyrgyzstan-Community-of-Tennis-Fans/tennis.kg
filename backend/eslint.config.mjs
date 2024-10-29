@@ -9,7 +9,7 @@ const eslint = new ESLint({
   overrideConfig: {
     languageOptions: {
       globals: globals.node,
-      parser: tsparser, // Убедитесь, что парсер правильно импортирован
+      parser: tsparser,
       parserOptions: {
         ecmaVersion: 2021,
         sourceType: 'module',
