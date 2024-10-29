@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import { auth, type RequestWithUser } from '../middleware/auth';
 import { User } from '../model/User';
 import { randomBytes } from 'crypto';
-import 'dotenv/config';
 import nodemailer from 'nodemailer';
 
 export const usersRouter = express.Router();
