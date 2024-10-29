@@ -1,4 +1,4 @@
-export interface Rank {
+export interface Category {
   _id: string;
   name: string;
 }

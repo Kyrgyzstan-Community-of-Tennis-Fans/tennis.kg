@@ -1,16 +1,16 @@
 import React, {useEffect} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {getCarousel} from "@/features/carousel/CarouselThunk";
-import {loadingCarouselState, photoCarouselState} from "@/features/carousel/CarouselSlice";
-import Slider from "react-slick";
+import {useAppDispatch, useAppSelector} from '@/app/hooks';
+import {getCarousel} from '@/features/carousel/CarouselThunk';
+import {loadingCarouselState, photoCarouselState} from '@/features/carousel/CarouselSlice';
+import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import {API_URl} from "@/consts";
-import {Loader} from "@/components/Loader/Loader";
+import {API_URl} from '@/consts';
+import {Loader} from '@/components/Loader/Loader';
 
 
 export const BlockCarousel = () => {
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
     const carousel = useAppSelector(photoCarouselState);
     const loadingCarousel = useAppSelector(loadingCarouselState);
 
@@ -58,8 +58,9 @@ export const BlockCarousel = () => {
                             <Slider {...settings}>
                                 {carousel.map(img => (
                                     <div key={img._id} className="p-2">
-                                        <img src={API_URl + "/" + img.image} alt={`${img._id}`}
-                                             className="w-full h-auto rounded-lg object-cover"/>
+                                        <img src={API_URl + '/' + img.image} alt={`${img._id}`}
+                                             className="w-full h-auto rounded-lg object-cover"
+                                        />
                                     </div>
                                 ))}
                             </Slider>
