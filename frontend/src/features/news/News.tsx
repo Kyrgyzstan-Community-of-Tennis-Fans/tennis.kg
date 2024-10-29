@@ -12,7 +12,6 @@ const News: React.FC = () => {
   }, [dispatch]);
 
   const news = useAppSelector(selectNews);
-  console.log(news);
 
   return (
     <section>
@@ -21,7 +20,7 @@ const News: React.FC = () => {
         <h2 className='text-cr-gray-500 text-[20px] sm:text-2xl font-medium uppercase'>Наш блог</h2>
       </div>
 
-      <div className='grid gap-5 justify-items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+      <div className='grid gap-5 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         {news.map((newsItem) => (
           <NewsCard key={newsItem._id} news={newsItem} />
         ))}
