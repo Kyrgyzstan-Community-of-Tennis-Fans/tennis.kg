@@ -7,7 +7,7 @@ import { ResetPassword } from '@/features/users/ResetPassword';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {BlockCarousel} from '@/features/carousel/BlockCarousel';
-import AdminPaneBlockCarousel from '@/features/carousel/AdminPaneBlockCarousel';
+import { AdminPaneBlockCarousel } from '@/features/carousel/AdminPaneBlockCarousel';
 export const App: React.FC = () => {
   return (
     <>

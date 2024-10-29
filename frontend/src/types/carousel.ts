@@ -3,3 +3,7 @@ export interface Carousel {
     image:string | null;
     createdAt:string;
 }
+
+export interface CarouselMutation {
+    image:string | null;
+}

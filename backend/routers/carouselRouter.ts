@@ -1,6 +1,8 @@
 import express from 'express';
 import {Carousel} from '../model/Carousel';
 import {ImagesCarousel} from '../multer';
+import { auth } from '../middleware/auth';
+import { permit } from '../middleware/permit';
 
 export const carouselRouter = express.Router();
 
@@ -16,7 +18,7 @@ carouselRouter.get('/',async (req,res,next) => {
 
 });
 
-carouselRouter.post('/',ImagesCarousel.single('image'),async (req,res,next) => {
+carouselRouter.post('/admin-post-image-carousel',auth,permit('admin'),ImagesCarousel.single('image'),async (req,res,next) => {
   try {
 
     if (!req.file) {
@@ -33,7 +35,7 @@ carouselRouter.post('/',ImagesCarousel.single('image'),async (req,res,next) => {
   }
 });
 
-carouselRouter.delete('/admin-delete/:id',async (req,res,next) => {
+carouselRouter.delete('/admin-delete-image-carousel/:id',auth,permit('admin'),async (req,res,next) => {
   try {
     const id = req.params.id;
     await Carousel.deleteOne({ _id: id });

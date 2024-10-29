@@ -54,13 +54,12 @@ export const BlockCarousel = () => {
                     loadingCarousel ? (
                         <Loader/>
                     ) : (
-                        <div className="mx-auto px-4 lg:px-[50px] mb-5">
+                        <div className="px-4 lg:px-[50px] mb-5">
                             <Slider {...settings}>
                                 {carousel.map(img => (
                                     <div key={img._id} className="p-2">
-                                        <img src={API_URl + '/' + img.image} alt={`${img._id}`}
-                                             className="w-full h-auto rounded-lg object-cover"
-                                        />
+                                        <img src={API_URl + "/" + img.image} alt={`${img._id}`}
+                                             className="w-full h-[244px] sm:h-[400px] md:h-[450px] lg:h-[662px] rounded-lg object-cover"/>
                                     </div>
                                 ))}
                             </Slider>

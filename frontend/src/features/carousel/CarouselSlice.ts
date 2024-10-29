@@ -1,7 +1,7 @@
 import {Carousel} from '@/types/carousel';
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from '@/app/store';
-import {getCarousel} from "@/features/carousel/CarouselThunk";
+import { deleteImageCarousel, getCarousel, postFetchCarousel } from '@/features/carousel/CarouselThunk';
 
 export interface carouselState {
     img:Carousel[];
@@ -32,6 +32,32 @@ export const CarouselSlice = createSlice<carouselState>({
         });
         builder.addCase(getCarousel.rejected,(state) => {
             state.loadingImgCarousel = false;
+            state.errorImgCarousel = true;
+        });
+
+
+        builder.addCase(postFetchCarousel.pending,(state) => {
+            state.loadingImgCarousel = true;
+            state.errorImgCarousel = false;
+        });
+        builder.addCase(postFetchCarousel.fulfilled,(state) => {
+            state.loadingImgCarousel = false;
+        });
+        builder.addCase(postFetchCarousel.rejected,(state) => {
+            state.loadingImgCarousel = false;
+            state.errorImgCarousel = true;
+        });
+
+
+        builder.addCase(deleteImageCarousel.pending,(state) => {
+            state.deleteImgCarousel = true;
+            state.errorImgCarousel = false;
+        });
+        builder.addCase(deleteImageCarousel.fulfilled,(state) => {
+            state.deleteImgCarousel = false;
+        });
+        builder.addCase(deleteImageCarousel.rejected,(state) => {
+            state.deleteImgCarousel = false;
             state.errorImgCarousel = true;
         });
     }
