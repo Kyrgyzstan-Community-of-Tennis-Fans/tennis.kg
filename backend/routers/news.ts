@@ -10,8 +10,8 @@ const newsRouter = Router();
 
 newsRouter.post(
   '/',
-  // auth,
-  // permit('admin'),
+  auth,
+  permit('admin'),
   imagesUpload.fields([
     { name: 'newsCover', maxCount: 1 },
     { name: 'images', maxCount: 5 },
