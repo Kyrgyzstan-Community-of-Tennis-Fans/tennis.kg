@@ -5,4 +5,6 @@ export interface News {
   content: string;
   createdAt: string;
   updatedAt: string;
+  newsCover: string;
+  images: string[];
 }
