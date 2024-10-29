@@ -1,4 +1,4 @@
-import { ranksSlice } from '@/features/ranks/ranksSlice';
+import { categorySlice } from '@/features/category/categorySlice';
 import { usersSlice } from '@/features/users/usersSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
@@ -13,8 +13,8 @@ const usersPersistConfig = {
 
 const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersSlice.reducer),
-  ranks: ranksSlice.reducer,
   partners: partnerReducer,
+  category: categorySlice.reducer,
 });
 
 export const store = configureStore({
