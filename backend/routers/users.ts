@@ -6,7 +6,7 @@ import { imagesUpload } from '../multer';
 
 export const usersRouter = express.Router();
 
-usersRouter.get('/', async (req, res, next) => {
+usersRouter.get('/', async (_, res, next) => {
   try {
     const users = await User.find();
 
