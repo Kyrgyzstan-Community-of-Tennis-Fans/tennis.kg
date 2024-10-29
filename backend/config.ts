@@ -1,8 +1,5 @@
 import path from 'path';
 import { CorsOptions } from 'cors';
-import { configDotenv } from 'dotenv';
-
-configDotenv();
 
 const rootPath = __dirname;
 const corsWhitelist = ['http://localhost:5173'];
@@ -22,10 +19,6 @@ const config = {
   publicPath: path.join(rootPath, 'public'),
   corsOptions,
   database: 'mongodb://localhost/tennis',
-  google: {
-    clientId: process.env.GOOGLE_CLIEETID,
-    clientSecret: process.env.GOOGLE_CLIEETSECRET,
-  },
 };
 
 export default config;
