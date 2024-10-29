@@ -1,6 +1,7 @@
 import {Carousel} from '@/types/carousel';
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from '@/app/store';
+import {getCarousel} from "@/features/carousel/CarouselThunk";
 
 export interface carouselState {
     img:Carousel[];
@@ -20,7 +21,20 @@ export const CarouselSlice = createSlice<carouselState>({
     name:'carousel',
     initialState,
     reducers:{},
-    extraReducers:(builder) => {}
+    extraReducers:(builder) => {
+        builder.addCase(getCarousel.pending,(state) => {
+            state.loadingImgCarousel = true;
+            state.errorImgCarousel = false;
+        });
+        builder.addCase(getCarousel.fulfilled,(state,{payload:img}) => {
+            state.loadingImgCarousel = false;
+            state.img = img;
+        });
+        builder.addCase(getCarousel.rejected,(state) => {
+            state.loadingImgCarousel = false;
+            state.errorImgCarousel = true;
+        });
+    }
 });
 
 export const CarouselReducer = CarouselSlice.reducer;

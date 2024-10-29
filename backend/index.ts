@@ -7,7 +7,7 @@ import { usersRouter } from './routers/users';
 import {carouselRouter} from './routers/carouselRouter';
 
 const app = express();
-const port = 8030;
+const port = 8000;
 
 app.use(cors(config.corsOptions));
 app.use(express.json());
