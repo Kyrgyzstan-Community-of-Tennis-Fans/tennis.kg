@@ -1,10 +1,11 @@
 .embla {
-    height: 320px;
+    height: auto;
     --slide-spacing: 1rem;
 }
 
 .embla__viewport {
     overflow: hidden;
+    margin-bottom: 20px;
 }
 
 .embla__container {
@@ -25,13 +26,12 @@
     height: 100%;
 }
 
-
 .embla__controls {
     display: grid;
     grid-template-columns: auto 1fr;
     justify-content: space-between;
     gap: 1.2rem;
-    margin-top: 1.8rem;
+    /*margin-top: 0.8rem;*/
 }
 
 .embla__buttons {

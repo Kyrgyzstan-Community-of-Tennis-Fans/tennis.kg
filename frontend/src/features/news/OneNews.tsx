@@ -41,13 +41,18 @@ const OneNews: React.FC = () => {
             ))}
           </div>
         </div>
-
-        <div className='embla__controls'>
+        <div className='embla__controls my-4'>
           <div className='embla__buttons'>
             <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
             <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
           </div>
         </div>
+      </section>
+      <section className='mb-5'>
+        <p className='text-lg sm:text-xl leading-6 sm:leading-8 mb-5'>{oneNews?.content}</p>
+      </section>
+      <section>
+        <h3 className='text-4xl font-semibold'>Другие новости</h3>
       </section>
     </main>
   );
