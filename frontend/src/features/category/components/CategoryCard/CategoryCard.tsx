@@ -30,11 +30,11 @@ export const CategoryCard: React.FC<Props> = ({ category }) => {
   };
 
   return (
-    <Card className={'p-3 shadow-none min-w-40 relative flex-1'}>
-      <div className={'flex items-center gap-2 justify-between flex-wrap flex-col lg:flex-row'}>
+    <Card className={'p-3 shadow-none relative flex-1'}>
+      <div className={'flex items-center gap-2 justify-between flex-col lg:flex-row flex-nowrap'}>
         <h3 className={'text-sm'}>{category.name}</h3>
 
-        <div className={'space-x-1'}>
+        <div className={'space-x-1 flex items-center'}>
           <Confirm onOk={handleDelete}>
             <Button size={'sm'}>
               <TrashIcon />

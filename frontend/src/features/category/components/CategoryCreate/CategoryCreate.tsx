@@ -40,8 +40,8 @@ export const CategoryCreate: React.FC<Props> = ({ categories }) => {
   const handleSubmit = async (event: FormEvent) => {
     try {
       event.preventDefault();
-      await dispatch(createCategory(category)).unwrap();
       closeRef.current?.click();
+      await dispatch(createCategory(category)).unwrap();
       toast.success('Категория успешно добавлена.');
     } catch (error) {
       console.error(error);
