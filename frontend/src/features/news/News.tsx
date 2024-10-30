@@ -1,21 +1,14 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { fetchNews } from '@/features/news/newsThunks';
-import NewsCard from '@/features/news/components/NewsCard';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
 import { useSearchParams } from 'react-router-dom';
-import { selectNews, selectNewsPagesCount } from '@/features/news/newsSlice';
+import { fetchNews } from '@/features/news/newsThunks';
+import { selectNews } from '@/features/news/newsSlice';
+import NewsCard from '@/features/news/components/NewsCard';
+import CustomPagination from '@/features/news/components/CustomPagination/CustomPagination';
 
 const News: React.FC = () => {
-  const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') as string, 10) || 1;
   const limit = parseInt(searchParams.get('limit') as string, 10) || 12;
 
@@ -24,7 +17,6 @@ const News: React.FC = () => {
   }, [dispatch, page, limit]);
 
   const news = useAppSelector(selectNews);
-  const pages = useAppSelector(selectNewsPagesCount);
 
   return (
     <main>
@@ -33,37 +25,13 @@ const News: React.FC = () => {
         <h2 className='text-cr-gray-500 text-[20px] sm:text-2xl font-medium uppercase'>Наш блог</h2>
       </div>
 
-      <div className='grid gap-5 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+      <div className='grid gap-5 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-6'>
         {news.map((newsItem) => (
           <NewsCard key={newsItem._id} news={newsItem} />
         ))}
       </div>
 
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            {page > 1 ? (
-              <PaginationPrevious href={`?page=${page - 1}&limit=${limit}`} />
-            ) : (
-              <span className='text-gray-400 cursor-not-allowed'>Previous</span>
-            )}
-          </PaginationItem>
-          {Array.from({ length: pages }, (_, index) => (
-            <PaginationItem key={index}>
-              <PaginationLink href={`?page=${index + 1}&limit=${limit}`} isActive={page === index + 1}>
-                {index + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-          <PaginationItem>
-            {page < pages ? (
-              <PaginationNext href={`?page=${page + 1}&limit=${limit}`} />
-            ) : (
-              <span className='text-gray-400 cursor-not-allowed'>Next</span>
-            )}
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      <CustomPagination page={page} limit={limit} />
     </main>
   );
 };

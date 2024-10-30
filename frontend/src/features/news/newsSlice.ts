@@ -38,8 +38,8 @@ export const newsSlice = createSlice({
     builder.addCase(fetchNewsByLimit.pending, (state) => {
       state.fetchNewsLoading = true;
     });
-    builder.addCase(fetchNewsByLimit.fulfilled, (state, { payload: news }) => {
-      state.news = news;
+    builder.addCase(fetchNewsByLimit.fulfilled, (state, { payload: response }) => {
+      state.news = response.data;
       state.fetchNewsLoading = false;
     });
     builder.addCase(fetchNewsByLimit.rejected, (state) => {

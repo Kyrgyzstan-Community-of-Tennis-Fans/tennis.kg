@@ -15,7 +15,7 @@ export const fetchOneNews = createAsyncThunk<News, string>('news/fetchOneNews', 
   return oneNews;
 });
 
-export const fetchNewsByLimit = createAsyncThunk<News[], number>('news/fetchNewsByLimit', async (limit) => {
-  const { data: news } = await axiosApi.get<News[]>(`/news?limit=${limit}`);
-  return news;
+export const fetchNewsByLimit = createAsyncThunk<NewsResponse, number>('news/fetchNewsByLimit', async (limit) => {
+  const response = await axiosApi.get<NewsResponse>(`/news?limit=${limit}`);
+  return response.data;
 });

@@ -11,7 +11,6 @@ import NewsCard from '@/features/news/components/NewsCard';
 
 const OneNews: React.FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ dragFree: true, loop: true });
-
   const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(emblaApi);
 
   const { id } = useParams();
