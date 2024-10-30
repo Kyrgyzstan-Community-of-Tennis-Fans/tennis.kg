@@ -6,6 +6,7 @@ import { Register } from '@/features/users/Register';
 import { ResetPassword } from '@/features/users/ResetPassword';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import AdminPartners from '@/features/partners/AdminPartners';
 
 export const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ export const App: React.FC = () => {
         <Route path={'/reset-password/:token'} element={<ResetPassword />} />
         <Route path={'/forgot-password'} element={<ForgotPassword />} />
         <Route path={'/partners'} element={<Partners />} />
+        <Route path={'/admin-partners'} element={<AdminPartners />} />
       </Routes>
       <Toaster />
     </>

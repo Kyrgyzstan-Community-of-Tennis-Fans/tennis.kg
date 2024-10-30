@@ -4,3 +4,5 @@ export interface Partner {
   image: string;
   url: string;
 }
+
+export type mutationPartner = Omit<Partner, '_id'>

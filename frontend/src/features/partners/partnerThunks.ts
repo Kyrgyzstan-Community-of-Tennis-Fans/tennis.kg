@@ -17,7 +17,7 @@ export const createPartner = createAsyncThunk<
     rejectValue: GlobalError;
     state: RootState;
   }
->('album/create', async (partner, { rejectWithValue }) => {
+>('partner/create', async (partner, { rejectWithValue, dispatch }) => {
   try {
     const formData = new FormData();
 
@@ -28,7 +28,8 @@ export const createPartner = createAsyncThunk<
         formData.append(key, value);
       }
     });
-    await axiosApi.post('/artists', formData);
+    await axiosApi.post('/partners', formData);
+    dispatch(fetchPartner());
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data);
