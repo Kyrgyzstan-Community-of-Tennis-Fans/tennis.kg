@@ -45,15 +45,21 @@ newsRouter.post(
 
 newsRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const limit = parseInt(req.query.limit as string, 10) || 0;
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = parseInt(req.query.limit as string, 10) || 4;
+    const startIndex = (page - 1) * limit;
+    const total = await News.countDocuments();
 
-    const news = await News.find().sort({ createdAt: -1 }).limit(limit).lean();
+    const news = await News.find().sort({ createdAt: -1 }).skip(startIndex).limit(limit).lean();
     const formattedNews = news.map((item) => ({
       ...item,
       createdAt: format(item.createdAt, 'dd.MM.yyyy'),
       updatedAt: format(item.updatedAt, 'dd.MM.yyyy'),
     }));
 
+    const pages = limit > 0 ? Math.ceil(total / limit) : null;
+
+    // return res.send({ page, limit, total, pages, data: formattedNews });
     return res.send(formattedNews);
   } catch (e) {
     return next(e);
