@@ -42,6 +42,9 @@ const run = async () => {
         'public/newsFixtures/newsInner1.png',
         'public/newsFixtures/newsInner2.png',
         'public/newsFixtures/newsInner3.png',
+        'public/newsFixtures/first.png',
+        'public/newsFixtures/second.png',
+        'public/newsFixtures/third.png',
       ],
     },
     {

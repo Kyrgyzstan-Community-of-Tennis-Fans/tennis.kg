@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchNews, fetchOneNews } from '@/features/news/newsThunks';
 import { News } from '@/types/news';
-import { fetchNews } from '@/features/news/newsThunks';
 
 interface NewsState {
   news: News[];
@@ -31,16 +31,17 @@ export const newsSlice = createSlice({
     builder.addCase(fetchNews.rejected, (state) => {
       state.fetchNewsLoading = false;
     });
-    // builder.addCase(fetchOneNews.pending, (state) => {
-    //   state.fetchOneNewsLoading = true;
-    // });
-    // builder.addCase(fetchOneNews.fulfilled, (state, action) => {
-    //   state.oneNews = action.payload;
-    //   state.fetchOneNewsLoading = false;
-    // });
-    // builder.addCase(fetchOneNews.rejected, (state) => {
-    //   state.fetchOneNewsLoading = false;
-    // });
+
+    builder.addCase(fetchOneNews.pending, (state) => {
+      state.fetchOneNewsLoading = true;
+    });
+    builder.addCase(fetchOneNews.fulfilled, (state, { payload: oneNews }) => {
+      state.oneNews = oneNews;
+      state.fetchOneNewsLoading = false;
+    });
+    builder.addCase(fetchOneNews.rejected, (state) => {
+      state.fetchOneNewsLoading = false;
+    });
   },
   selectors: {
     selectNews: (state) => state.news,
