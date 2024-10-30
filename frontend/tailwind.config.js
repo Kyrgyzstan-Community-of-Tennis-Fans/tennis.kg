@@ -12,6 +12,18 @@ export default {
       '2xl': '1536px',
     },
     extend: {
+      container: {
+        center: true,
+        padding: '1rem',
+        screens: {
+          xs: '100%',
+          sm: '640px',
+          md: '768px',
+          lg: '1024px',
+          xl: '1280px',
+          '2xl': '1440px',
+        },
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -74,7 +86,7 @@ export default {
       },
       width: {
         partner: '170px',
-        '700': '700px',
+        700: '700px',
       },
     },
   },
