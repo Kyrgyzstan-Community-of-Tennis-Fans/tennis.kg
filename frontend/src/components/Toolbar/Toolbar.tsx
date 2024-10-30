@@ -53,7 +53,7 @@ export const Toolbar = () => {
   return (
     <div className={'bg-cr-shark'}>
       <nav aria-label='Global' className={'mx-auto flex max-w-7xl items-center justify-between p-6 px-3 lg:px-8'}>
-        <div className={'flex lg:flex-1'}>
+        <div className={'flex lg:flex-1 basis-1/5'}>
           <NavLink to='/' className={'-m-1.5 p-1.5'}>
             <span className='sr-only'>Your Company</span>
             <svg width='98' height='36' viewBox='0 0 98 36' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -68,7 +68,7 @@ export const Toolbar = () => {
             </svg>
           </NavLink>
         </div>
-        <div className={'flex lg:hidden'}>
+        <div className={'flex md:hidden'}>
           <button
             type='button'
             onClick={() => setMobileMenuOpen(true)}
@@ -78,7 +78,7 @@ export const Toolbar = () => {
             <Bars3Icon aria-hidden='true' className={'h-6 w-6'} />
           </button>
         </div>
-        <PopoverGroup className={'hidden lg:flex lg:gap-x-12'}>
+        <PopoverGroup className={'hidden md:flex md:gap-x-12 basis-1/2'}>
           <NavLink
             to='/'
             className={'text-sm leading-6'}
@@ -151,7 +151,7 @@ export const Toolbar = () => {
             </PopoverPanel>
           </Popover>
         </PopoverGroup>
-        <div className={'hidden lg:flex lg:flex-1 lg:justify-end'}>
+        <div className={'hidden md:flex md:flex-1 md:justify-end'}>
           {user ? (
             <DropdownMenuToolbar handleLogout={handleLogout}/>
           ) : (
