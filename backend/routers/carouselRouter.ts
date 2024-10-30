@@ -37,11 +37,42 @@ carouselRouter.post('/admin-post-image-carousel',auth,permit('admin'),ImagesCaro
 
 carouselRouter.delete('/admin-delete-image-carousel/:id',auth,permit('admin'),async (req,res,next) => {
   try {
+    const count = await Carousel.countDocuments();
+
+    if (count <= 2) {
+      return res.status(400).send({ error: 'Не удается удалить изображение. В карусели должно быть не менее 2 изображений.' });
+    }
+
+
     const id = req.params.id;
     await Carousel.deleteOne({ _id: id });
     return res.status(200).send({ message: 'Image deleted successfully' });
 
   } catch (error) {
     return next(error)
+  }
+});
+
+carouselRouter.put('/admin-update-image-carousel/:id', auth, permit('admin'), ImagesCarousel.single('image'), async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!req.file) {
+      return res.status(400).send({ error: 'Image field is required' });
+    }
+
+    const carouselItem = await Carousel.findById(id);
+
+    if (!carouselItem) {
+      return res.status(404).send({ error: 'Image not found' });
+    }
+
+    carouselItem.image = 'images/imgCarousel/' + req.file.filename;
+    await carouselItem.save();
+
+    return res.status(200).send({ message: 'Image updated successfully', carouselItem });
+
+  } catch (error) {
+    return next(error);
   }
 });

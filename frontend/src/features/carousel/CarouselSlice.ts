@@ -1,20 +1,27 @@
 import {Carousel} from '@/types/carousel';
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState} from '@/app/store';
-import { deleteImageCarousel, getCarousel, postFetchCarousel } from '@/features/carousel/CarouselThunk';
+import {
+    deleteImageCarousel,
+    getCarousel,
+    postFetchCarousel,
+    updateCarouselImage,
+} from '@/features/carousel/CarouselThunk';
+import type { GlobalError } from '@/types/userTypes';
+import { toast } from 'sonner';
 
 export interface carouselState {
     img:Carousel[];
     loadingImgCarousel:boolean;
     deleteImgCarousel:boolean;
-    errorImgCarousel:boolean;
+    errorImgCarousel:GlobalError | null;
 }
 
 export const initialState:carouselState = {
     img:[],
     loadingImgCarousel:false,
     deleteImgCarousel:false,
-    errorImgCarousel:false,
+    errorImgCarousel:null,
 };
 
 export const CarouselSlice = createSlice<carouselState>({
@@ -24,7 +31,7 @@ export const CarouselSlice = createSlice<carouselState>({
     extraReducers:(builder) => {
         builder.addCase(getCarousel.pending,(state) => {
             state.loadingImgCarousel = true;
-            state.errorImgCarousel = false;
+            state.errorImgCarousel = null;
         });
         builder.addCase(getCarousel.fulfilled,(state,{payload:img}) => {
             state.loadingImgCarousel = false;
@@ -32,33 +39,46 @@ export const CarouselSlice = createSlice<carouselState>({
         });
         builder.addCase(getCarousel.rejected,(state) => {
             state.loadingImgCarousel = false;
-            state.errorImgCarousel = true;
+            state.errorImgCarousel = null;
         });
 
 
         builder.addCase(postFetchCarousel.pending,(state) => {
             state.loadingImgCarousel = true;
-            state.errorImgCarousel = false;
+            state.errorImgCarousel = null;
         });
         builder.addCase(postFetchCarousel.fulfilled,(state) => {
             state.loadingImgCarousel = false;
         });
         builder.addCase(postFetchCarousel.rejected,(state) => {
             state.loadingImgCarousel = false;
-            state.errorImgCarousel = true;
+            state.errorImgCarousel = null;
         });
 
 
         builder.addCase(deleteImageCarousel.pending,(state) => {
             state.deleteImgCarousel = true;
-            state.errorImgCarousel = false;
+            state.errorImgCarousel = null;
         });
         builder.addCase(deleteImageCarousel.fulfilled,(state) => {
             state.deleteImgCarousel = false;
         });
-        builder.addCase(deleteImageCarousel.rejected,(state) => {
+        builder.addCase(deleteImageCarousel.rejected,(state,{payload:error}) => {
+            toast.warning(error?.error)
             state.deleteImgCarousel = false;
-            state.errorImgCarousel = true;
+            state.errorImgCarousel =  error || null;
+        });
+
+        builder.addCase(updateCarouselImage.pending, (state) => {
+            state.loadingImgCarousel = true;
+            state.errorImgCarousel = null;
+        });
+        builder.addCase(updateCarouselImage.fulfilled, (state) => {
+            state.loadingImgCarousel = false;
+        });
+        builder.addCase(updateCarouselImage.rejected, (state, { payload: error }) => {
+            state.loadingImgCarousel = false;
+            state.errorImgCarousel = error || null;
         });
     }
 });

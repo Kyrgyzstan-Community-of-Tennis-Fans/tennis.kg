@@ -1,0 +1,7 @@
+.sliderImage {
+    @apply outline-0;
+
+    &:focus {
+        @apply outline-0 p-2;
+    }
+}
