@@ -6,10 +6,14 @@ import { Register } from '@/features/users/Register';
 import { ResetPassword } from '@/features/users/ResetPassword';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { Toolbar } from '@/components/Toolbar/Toolbar';
 
 export const App: React.FC = () => {
   return (
     <>
+      <header>
+        <Toolbar />
+      </header>
       <Routes>
         <Route path={'/login'} element={<Login />} />
         <Route path={'/register'} element={<Register />} />

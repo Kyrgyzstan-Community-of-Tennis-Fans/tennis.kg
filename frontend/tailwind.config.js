@@ -10,7 +10,6 @@ export default {
       lg: '1024px',
       xl: '1280px',
       '2xl': '1536px',
-
     },
     extend: {
       borderRadius: {
@@ -71,11 +70,11 @@ export default {
         'cr-green-300': 'hsla(var(--cr-green-300))',
       },
       boxShadow: {
-        'partner': '0px 30px 100px 0px hsla(0, 0%, 0%, 0.08)',
+        partner: '0px 30px 100px 0px hsla(0, 0%, 0%, 0.08)',
       },
       width: {
-        'partner': '170px',
-      }
+        partner: '170px',
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],
