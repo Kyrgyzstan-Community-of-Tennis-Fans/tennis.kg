@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchNews, fetchOneNews } from '@/features/news/newsThunks';
+import { fetchNews, fetchNewsByLimit, fetchOneNews } from '@/features/news/newsThunks';
 import { News } from '@/types/news';
 
 interface NewsState {
@@ -29,6 +29,17 @@ export const newsSlice = createSlice({
       state.fetchNewsLoading = false;
     });
     builder.addCase(fetchNews.rejected, (state) => {
+      state.fetchNewsLoading = false;
+    });
+
+    builder.addCase(fetchNewsByLimit.pending, (state) => {
+      state.fetchNewsLoading = true;
+    });
+    builder.addCase(fetchNewsByLimit.fulfilled, (state, { payload: news }) => {
+      state.news = news;
+      state.fetchNewsLoading = false;
+    });
+    builder.addCase(fetchNewsByLimit.rejected, (state) => {
       state.fetchNewsLoading = false;
     });
 

@@ -43,9 +43,11 @@ newsRouter.post(
   }
 );
 
-newsRouter.get('/', async (_req: Request, res: Response, next: NextFunction) => {
+newsRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const news = await News.find().lean();
+    const limit = parseInt(req.query.limit as string, 10) || 0;
+
+    const news = await News.find().sort({ createdAt: -1 }).limit(limit).lean();
     const formattedNews = news.map((item) => ({
       ...item,
       createdAt: format(item.createdAt, 'dd.MM.yyyy'),
