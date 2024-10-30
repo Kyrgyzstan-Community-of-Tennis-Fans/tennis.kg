@@ -58,9 +58,7 @@ newsRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     }));
 
     const pages = limit > 0 ? Math.ceil(total / limit) : null;
-
-    // return res.send({ page, limit, total, pages, data: formattedNews });
-    return res.send(formattedNews);
+    return res.send({ page, limit, total, pages, data: formattedNews });
   } catch (e) {
     return next(e);
   }

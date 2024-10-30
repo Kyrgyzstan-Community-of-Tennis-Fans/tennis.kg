@@ -4,6 +4,7 @@ import { News } from '@/types/news';
 
 interface NewsState {
   news: News[];
+  newsPages: number;
   oneNews: News | null;
   fetchNewsLoading: boolean;
   fetchOneNewsLoading: boolean;
@@ -11,6 +12,7 @@ interface NewsState {
 
 const initialState: NewsState = {
   news: [],
+  newsPages: 0,
   oneNews: null,
   fetchNewsLoading: false,
   fetchOneNewsLoading: false,
@@ -24,8 +26,9 @@ export const newsSlice = createSlice({
     builder.addCase(fetchNews.pending, (state) => {
       state.fetchNewsLoading = true;
     });
-    builder.addCase(fetchNews.fulfilled, (state, { payload: news }) => {
-      state.news = news;
+    builder.addCase(fetchNews.fulfilled, (state, action) => {
+      state.news = action.payload.data;
+      state.newsPages = action.payload.pages;
       state.fetchNewsLoading = false;
     });
     builder.addCase(fetchNews.rejected, (state) => {
@@ -56,6 +59,7 @@ export const newsSlice = createSlice({
   },
   selectors: {
     selectNews: (state) => state.news,
+    selectNewsPagesCount: (state) => state.newsPages,
     selectOneNews: (state) => state.oneNews,
     selectFetchNewsLoading: (state) => state.fetchNewsLoading,
     selectFetchOneNewsLoading: (state) => state.fetchOneNewsLoading,
@@ -64,4 +68,5 @@ export const newsSlice = createSlice({
 
 export const newsReducer = newsSlice.reducer;
 
-export const { selectNews, selectOneNews, selectFetchOneNewsLoading, selectFetchNewsLoading } = newsSlice.selectors;
+export const { selectNews, selectNewsPagesCount, selectOneNews, selectFetchOneNewsLoading, selectFetchNewsLoading } =
+  newsSlice.selectors;

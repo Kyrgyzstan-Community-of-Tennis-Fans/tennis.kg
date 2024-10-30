@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosApi } from '@/axiosApi';
-import { News } from '@/types/news';
+import { News, NewsResponse } from '@/types/news';
 
-export const fetchNews = createAsyncThunk<News[], { page: number; limit: number }>(
+export const fetchNews = createAsyncThunk<NewsResponse, { page: number; limit: number }>(
   'news/fetchNews',
-  async ({ page, limit }): Promise<News[]> => {
-    const { data: news } = await axiosApi.get<News[]>(`/news?page=${page}&limit=${limit}`);
-    return news;
+  async ({ page, limit }): Promise<NewsResponse> => {
+    const response = await axiosApi.get<NewsResponse>(`/news?page=${page}&limit=${limit}`);
+    return response.data;
   },
 );
 

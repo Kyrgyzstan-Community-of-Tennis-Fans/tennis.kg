@@ -5,27 +5,13 @@ import NewsCard from '@/features/news/components/NewsCard';
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { useSearchParams } from 'react-router-dom';
-import { selectNews } from '@/features/news/newsSlice';
-
-// const generateDummyNews = (count: number): News[] => {
-//   return Array.from({ length: count }, (_, index) => ({
-//     _id: `id_${index}`,
-//     title: `Title ${index}`,
-//     subtitle: `Subtitle ${index}`,
-//     content: `Content ${index}`,
-//     createdAt: new Date().toISOString(),
-//     updatedAt: new Date().toISOString(),
-//     newsCover: `cover_${index}.jpg`,
-//     images: [`image_${index}_1.jpg`, `image_${index}_2.jpg`],
-//   }));
-// };
+import { selectNews, selectNewsPagesCount } from '@/features/news/newsSlice';
 
 const News: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -38,6 +24,7 @@ const News: React.FC = () => {
   }, [dispatch, page, limit]);
 
   const news = useAppSelector(selectNews);
+  const pages = useAppSelector(selectNewsPagesCount);
 
   return (
     <main>
@@ -55,24 +42,25 @@ const News: React.FC = () => {
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href='#' />
+            {page > 1 ? (
+              <PaginationPrevious href={`?page=${page - 1}&limit=${limit}`} />
+            ) : (
+              <span className='text-gray-400 cursor-not-allowed'>Previous</span>
+            )}
           </PaginationItem>
+          {Array.from({ length: pages }, (_, index) => (
+            <PaginationItem key={index}>
+              <PaginationLink href={`?page=${index + 1}&limit=${limit}`} isActive={page === index + 1}>
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
           <PaginationItem>
-            <PaginationLink href='#'>1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href='#' isActive>
-              2
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href='#'>3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href='#' />
+            {page < pages ? (
+              <PaginationNext href={`?page=${page + 1}&limit=${limit}`} />
+            ) : (
+              <span className='text-gray-400 cursor-not-allowed'>Next</span>
+            )}
           </PaginationItem>
         </PaginationContent>
       </Pagination>
