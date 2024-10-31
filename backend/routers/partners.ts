@@ -2,6 +2,10 @@ import express from 'express';
 import { Partner } from '../model/Partner';
 import { imagesUpload } from '../multer';
 import mongoose from 'mongoose';
+import { auth } from '../middleware/auth';
+import { Category } from '../model/Category';
+import { categoriesRouter } from './categories';
+import { permit } from '../middleware/permit';
 
 export const partnersRouter = express.Router();
 
@@ -15,7 +19,7 @@ partnersRouter.get('/', async (_, res, next) => {
   }
 });
 
-partnersRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
+partnersRouter.post('/', auth, permit('admin'), imagesUpload.single('image'), async (req, res, next) => {
   try {
     const partner = await Partner.create({
       name: req.body.name,
@@ -32,7 +36,7 @@ partnersRouter.post('/', imagesUpload.single('image'), async (req, res, next) =>
   }
 });
 
-partnersRouter.delete('/:id', async (req, res, next) => {
+partnersRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
   try {
     const partner = await Partner.findOne({ _id: req.params.id });
     if (!partner) {
@@ -40,6 +44,48 @@ partnersRouter.delete('/:id', async (req, res, next) => {
     }
     await Partner.deleteOne({ _id: req.params.id });
     return res.status(204).send();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+partnersRouter.put('/:id', auth, permit('admin'), imagesUpload.single('image'), async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const partner = await Partner.findById(id);
+
+    if (!partner) {
+      return res.status(404).send({ error: 'Not found' });
+    }
+
+    const partnerData = {
+      name: req.body.name,
+      url: req.body.url,
+      image: req.file ? req.file.filename : null,
+    };
+
+    const updatedPartner = await Partner.findByIdAndUpdate(id, partnerData, { new: true, runValidators: true });
+
+    if (!updatedPartner) {
+      return res.status(404).send({ error: 'Partner not found or failed to update' });
+    }
+
+    return res.send(updatedPartner);
+  } catch (e) {
+    next(e);
+  }
+});
+
+partnersRouter.get('/:id', async (req, res, next) => {
+  try {
+    const partner = await Partner.findById(req.params.id);
+
+    if (!partner) {
+      return res.status(404).send({ message: 'Partner not found' });
+    }
+
+    return res.send(partner);
   } catch (error) {
     return next(error);
   }

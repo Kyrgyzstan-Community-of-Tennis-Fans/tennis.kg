@@ -12,6 +12,7 @@ import { ResetPassword } from '@/features/users/ResetPassword';
 import { selectUser } from '@/features/users/usersSlice';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import AdminPartners from '@/features/partners/AdminPartners';
 
 export const App: React.FC = () => {
   const user = useAppSelector(selectUser);
@@ -36,6 +37,14 @@ export const App: React.FC = () => {
           element={
             <ProtectedRoute isAllowed={user && user.role === 'admin'}>
               <Category />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={'/admin-partners'}
+          element={
+            <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+              <AdminPartners />
             </ProtectedRoute>
           }
         />

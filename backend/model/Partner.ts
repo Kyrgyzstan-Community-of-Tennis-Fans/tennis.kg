@@ -9,16 +9,6 @@ const PartnerSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      validate: {
-        validator: async function (value: string): Promise<boolean> {
-          if (!(this as unknown as HydratedDocument<PartnerFields>).isModified('name')) {
-            return true;
-          }
-          const partner = await Partner.findOne({ name: value });
-          return !partner;
-        },
-        message: 'Такой партнер уже есть',
-      },
     },
     image: {
       type: String,

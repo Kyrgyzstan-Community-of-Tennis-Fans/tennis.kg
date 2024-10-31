@@ -1,9 +1,20 @@
-import React, { ChangeEvent, useState } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { mutationPartner, Partner } from '@/types/partnerTypes';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Loader } from '@/components/Loader/Loader';
+import { useAppSelector } from '@/app/hooks';
+import { selectPartners, selectPartnersCreating } from '@/features/partners/partnerSlice';
+import { toast } from 'sonner';
 
 interface PartnersFormProps {
   isOpen: boolean;
@@ -17,26 +28,51 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
     url: '',
     image: '',
   });
-  const [descriptionError, setDescriptionError] = useState<string | null>(null);
+  const partners = useAppSelector(selectPartners);
+  const loading = useAppSelector(selectPartnersCreating);
+  const [nameError, setNameError] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
+  const isFormValid = state.name && state.image;
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const blockedWords = partners.map((p) => p.name.toLowerCase());
+  const isBlocked = blockedWords.includes(state.name.toLowerCase());
+
+  useEffect(() => {
+    if (isOpen) {
+      setState({
+        name: '',
+        url: '',
+        image: null,
+      });
+      setNameError(null);
+      setImageError(null);
+    }
+  }, [isOpen]);
 
   const submitFormHandler = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!state.name) {
-      setDescriptionError('Название обязательно');
-      return;
+    try {
+      event.preventDefault();
+      closeRef.current?.click();
+      if (!state.name) {
+        setNameError('Название обязательно');
+        return;
+      }
+      if (!state.image) {
+        setImageError('URL логотипа обязателен');
+        return;
+      }
+      setImageError(null);
+      setNameError(null);
+      onSubmit({
+        ...state,
+        _id: '',
+      });
+      toast.success('Партнер успешно создан');
+      onClose();
+    } catch (error) {
+      console.error(error);
+      toast.error('Ошибка при создании Партнера.');
     }
-    if (!state.image) {
-      setImageError('URL логотипа обязателен');
-      return;
-    }
-    setImageError(null);
-    setDescriptionError(null);
-    onSubmit({
-      ...state,
-      _id: '',
-    });
-    onClose();
   };
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,22 +103,28 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
           <div className='form-group'>
             <Label htmlFor='name'>Название Компании Партнера</Label>
             <Input required id='name' name='name' value={state.name} onChange={inputChangeHandler} />
+            {isBlocked && <small className={'text-red-600 leading-none'}>Партнер {state.name} уже существует.</small>}
+            {nameError && <p className='text-red-600 text-sm'>{nameError}</p>}
           </div>
 
           <div className='form-group'>
             <Label htmlFor='url'>Url Адрес Партнера</Label>
             <Input required id='url' name='url' value={state.url} onChange={inputChangeHandler} />
-            {descriptionError && <p className='text-red-600 text-sm'>{descriptionError}</p>}
           </div>
 
           <div className='form-group'>
             <Label htmlFor='image'>Добавить логотип Компании</Label>
-            <Input type={'file'} required id='image' name='image' onChange={handleImageChange} />
+            <Input required type={'file'} id='image' name='image' onChange={handleImageChange} />
             {imageError && <p className='text-red-600 text-sm'>{imageError}</p>}
           </div>
-          <Button type='submit' className='bg-green-600 mt-4'>
-            Добавить
+          <Button disabled={loading || !isFormValid} type='submit' className=' mt-4'>
+            Добавить {loading && <Loader size={'sm'} theme={'light'} />}
           </Button>
+          <DialogClose ref={closeRef} asChild>
+            <Button disabled={loading} type={'button'} variant={'outline'}>
+              Отменить
+            </Button>
+          </DialogClose>
         </form>
       </DialogContent>
     </Dialog>

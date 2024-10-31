@@ -86,7 +86,6 @@ export default {
       },
       width: {
         partner: '170px',
-        700: '700px',
       },
     },
   },
