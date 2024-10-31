@@ -42,14 +42,7 @@ export const App: React.FC = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-          path={'/admin-partners'}
-          element={
-            <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-              <AdminPartners />
-            </ProtectedRoute>
-          }
-        />
+        <Route path={'/admin-partners'} element={<AdminPartners />} />
         <Route path={'*'} element={<Error404 />} />
       </Routes>
       <Toaster />

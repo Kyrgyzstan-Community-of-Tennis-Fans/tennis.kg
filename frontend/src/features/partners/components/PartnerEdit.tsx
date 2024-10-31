@@ -24,6 +24,7 @@ import {
 } from '@/features/partners/partnerSlice';
 import { fetchOnePartner, fetchPartner, updatePartner } from '@/features/partners/partnerThunks';
 import { API_URl } from '@/consts';
+import { mutationPartner } from '@/types/partnerTypes';
 
 interface Props {
   id: string;
@@ -37,8 +38,9 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
   const partnerFetching = useAppSelector(selectPartnersFetching);
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-  const [partnerData, setPartnerData] = useState({
+  const [partnerData, setPartnerData] = useState<mutationPartner>({
     name: '',
     url: '',
     image: '',
@@ -60,12 +62,14 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
         url: partner.url || '',
         image: partner.image || '',
       });
+      setPreviewImage(`${API_URl}/${partner.image}`);
     }
   }, [partner, open]);
 
   useEffect(() => {
     if (!open) {
       setPartnerData({ name: '', url: '', image: '' });
+      setPreviewImage(null);
     }
   }, [open]);
 
@@ -80,6 +84,12 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
+      // const formData = new FormData();
+      // formData.append('name', partnerData.name);
+      // formData.append('url', partnerData.url);
+      // if (partnerData.image) {
+      //   formData.append('image', partnerData.image);
+      // }
       await dispatch(updatePartner({ id, partnerData })).unwrap();
       await dispatch(fetchPartner());
       closeRef.current?.click();
@@ -91,12 +101,14 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
   };
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { id, files } = event.target;
-    const value = files && files[0] ? files[0] : null;
-    setPartnerData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+    const { files } = event.target;
+    if (files && files[0]) {
+      setPartnerData((prevState) => ({
+        ...prevState,
+        image: files[0],
+      }));
+      setPreviewImage(URL.createObjectURL(files[0]));
+    }
   };
 
   return (
@@ -151,8 +163,7 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
                 <Label htmlFor='image'>Логотип Компании</Label>
                 <Input type={'file'} id='image' name='image' placeholder='URL логотипа' onChange={handleImageChange} />
               </div>
-              <img src={`${API_URl}/${partnerData.image}`} alt={partnerData.name} />
-
+              {previewImage && <img src={previewImage} alt={partnerData.name} className='w-24 h-24 mt-1 mb-1 rounded' />}
               <div className='flex flex-col gap-1'>
                 <Button disabled={partnerUpdating || isNameBlocked} size='sm'>
                   Сохранить {partnerUpdating && <Loader size='sm' theme='light' />}

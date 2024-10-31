@@ -1,7 +1,7 @@
 export interface Partner {
   _id: string;
   name: string;
-  image: string | null;
+  image: string | File;
   url: string;
 }
 

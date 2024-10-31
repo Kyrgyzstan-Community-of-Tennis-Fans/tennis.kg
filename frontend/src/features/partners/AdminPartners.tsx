@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import PartnersForm from '@/features/partners/components/PartnersForm';
 import { Partner } from '@/types/partnerTypes';
 import { Loader } from '@/components/Loader/Loader';
+import { SquaresPlusIcon } from '@heroicons/react/24/outline';
 
 const AdminPartners = () => {
   const dispatch = useAppDispatch();
@@ -33,21 +34,25 @@ const AdminPartners = () => {
   }
   return (
     <>
-      <div className='mt-16 pb-10  text-center border-4 h-auto ml-auto mr-auto rounded-lg shadow-partner w-full max-w-[90%] sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl  '>
-        <h1 className={'text-black  text-2xl md:text-4xl font-medium mt-5'}>Партнеры</h1>
-        <Button className={'mt-3 mb-3 font-medium  text-sm md:text-base'} onClick={() => setIsDialogOpen(true)}>
-          Добавить Партнера
-        </Button>
-        <hr />
-        <div className='max-h-[500px] overflow-y-auto px-4 mt-5'>
+      <section>
+        <header className={'flex xs:items-center justify-between gap-2 flex-col xs:flex-row border-b pb-1.5'}>
+          <div>
+            <h1 className={'text-lg font-medium leading-none'}>Партнеры</h1>
+            <small className={'text-muted-foreground'}>Список всех партнеров и управление партнерами.</small>
+          </div>
+          <Button className={'w-full xs:w-max'} size={'sm'} onClick={() => setIsDialogOpen(true)}>
+            Добавить Партнера <SquaresPlusIcon />
+          </Button>
+        </header>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3'>
           {!loading && partners.length === 0 ? (
             <small>Партнеры не найдены. Добавьте партнеров.</small>
           ) : (
             partners.map((partner) => <PartnersCard partner={partner} key={partner._id} />)
           )}
+          <PartnersForm isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} onSubmit={handleSubmit} />
         </div>
-        <PartnersForm isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} onSubmit={handleSubmit} />
-      </div>
+      </section>
     </>
   );
 };

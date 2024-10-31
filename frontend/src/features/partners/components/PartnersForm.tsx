@@ -42,7 +42,7 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
       setState({
         name: '',
         url: '',
-        image: null,
+        image: '',
       });
       setNameError(null);
       setImageError(null);
