@@ -4,6 +4,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { partnerReducer } from '@/features/partners/partnerSlice';
+import { ratingMembersReducer } from '@/features/mainRatingMembers/ratingMembersSlice';
 
 const usersPersistConfig = {
   key: 'tennis:users',
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersSlice.reducer),
   partners: partnerReducer,
   category: categorySlice.reducer,
+  ratingMembers: ratingMembersReducer,
 });
 
 export const store = configureStore({

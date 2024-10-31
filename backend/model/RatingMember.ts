@@ -22,7 +22,7 @@ const RatingMemberSchema = new Schema<RatingMemberFields>(
     },
     place: {
       type: Number,
-      required: true,
+      required: [true, 'Выберите место!'],
       enum: [1, 2, 3, 4, 5, 6, 7, 8],
     },
   },
