@@ -5,7 +5,7 @@ import { auth } from '../middleware/auth';
 import News from '../model/News';
 import { format } from 'date-fns/format';
 import { imagesUpload } from '../multer';
-import { isValid, parse } from 'date-fns';
+import { isValid, parseISO } from 'date-fns';
 
 const newsRouter = Router();
 
@@ -50,15 +50,14 @@ newsRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     const page = parseInt(req.query.page as string, 10) || 1;
     const limit = parseInt(req.query.limit as string, 10) || 12;
     const startIndex = (page - 1) * limit;
-    const total = await News.countDocuments();
-
     const dateFilter: { createdAt?: { $gte: Date; $lte: Date } } = {};
-    if (req.query.firstDate && req.query.secondDate) {
-      const firstDate = parse(req.query.firstDate as string, dateFormat, new Date());
-      const secondDate = parse(req.query.secondDate as string, dateFormat, new Date());
 
-      if (isValid(firstDate) && isValid(secondDate)) {
-        dateFilter.createdAt = { $gte: firstDate, $lte: secondDate };
+    if (req.query.startDate && req.query.endDate) {
+      const startDate = parseISO(req.query.startDate as string);
+      const endDate = parseISO(req.query.endDate as string);
+
+      if (isValid(startDate) && isValid(endDate)) {
+        dateFilter.createdAt = { $gte: startDate, $lte: endDate };
       }
     }
 
@@ -70,7 +69,9 @@ newsRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
       updatedAt: format(item.updatedAt, dateFormat),
     }));
 
+    const total = await News.countDocuments(dateFilter);
     const pages = limit > 0 ? Math.ceil(total / limit) : null;
+
     return res.send({ page, limit, total, pages, data: formattedNews });
   } catch (e) {
     return next(e);

@@ -2,11 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosApi } from '@/axiosApi';
 import { News, NewsResponse } from '@/types/news';
 
-export const fetchNews = createAsyncThunk<NewsResponse, { page: number; firstDate?: string; secondDate?: string }>(
+export const fetchNews = createAsyncThunk<NewsResponse, { page: number; startDate?: string; endDate?: string }>(
   'news/fetchNews',
-  async ({ page, firstDate, secondDate }): Promise<NewsResponse> => {
+  async ({ page, startDate, endDate }): Promise<NewsResponse> => {
     let requestQuery = `/news?page=${page}`;
-    if (firstDate && secondDate) requestQuery = `/news?page=${page}&firstDate=${firstDate}&secondDate=${secondDate}`;
+    if (startDate && endDate) requestQuery = `/news?page=${page}&startDate=${startDate}&endDate=${endDate}`;
 
     const response = await axiosApi.get<NewsResponse>(requestQuery);
     return response.data;

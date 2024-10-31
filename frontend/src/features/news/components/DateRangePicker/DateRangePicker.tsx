@@ -1,55 +1,69 @@
 'use client';
 
 import * as React from 'react';
-import { CalendarIcon } from '@radix-ui/react-icons';
-import { addDays, format } from 'date-fns';
-import { DateRange } from 'react-day-picker';
+import { useState } from 'react';
+import { format } from 'date-fns';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-export function DatePickerWithRange({ className }: React.HTMLAttributes<HTMLDivElement>) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  });
+interface Props {
+  firstDate?: Date;
+  secondDate?: Date;
+  onDateChange: (firstDate: Date | undefined, secondDate: Date | undefined) => void; // Add this line
+}
+
+export const DatePicker: React.FC<Props> = ({ firstDate, secondDate, onDateChange }) => {
+  const [selectedFirstDate, setSelectedFirstDate] = useState<Date | undefined>(firstDate);
+  const [selectedSecondDate, setSelectedSecondDate] = useState<Date | undefined>(secondDate);
+
+  const handleFirstDateSelect = (date: Date | undefined) => {
+    setSelectedFirstDate(date);
+    onDateChange(date, selectedSecondDate);
+  };
+
+  const handleSecondDateSelect = (date: Date | undefined) => {
+    setSelectedSecondDate(date);
+    onDateChange(selectedFirstDate, date);
+  };
 
   return (
-    <div className={cn('grid gap-2', className)}>
+    <div className='flex flex-wrap justify-between items-center xs:justify-start gap-2.5 mb-7'>
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            id='date'
             variant={'outline'}
-            className={cn('w-[300px] justify-start text-left font-normal', !date && 'text-muted-foreground')}
-          >
-            <CalendarIcon />
-            {date?.from ? (
-              date.to ? (
-                <>
-                  {format(date.from, 'LLL dd, y')} - {format(date.to, 'LLL dd, y')}
-                </>
-              ) : (
-                format(date.from, 'LLL dd, y')
-              )
-            ) : (
-              <span>Pick a date</span>
+            className={cn(
+              'w-full xs:w-[200px] justify-start text-left font-normal',
+              !selectedFirstDate && 'text-muted-foreground',
             )}
+          >
+            {selectedFirstDate ? format(selectedFirstDate, 'PPP') : <span>Начало даты</span>}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-auto p-0' align='start'>
-          <Calendar
-            initialFocus
-            mode='range'
-            defaultMonth={date?.from}
-            selected={date}
-            onSelect={setDate}
-            numberOfMonths={2}
-          />
+        <PopoverContent className='w-auto p-0'>
+          <Calendar mode='single' selected={selectedFirstDate} onSelect={handleFirstDateSelect} initialFocus />
+        </PopoverContent>
+      </Popover>
+
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant={'outline'}
+            className={cn(
+              'w-full xs:w-[200px] justify-start text-left font-normal',
+              !selectedSecondDate && 'text-muted-foreground',
+            )}
+          >
+            {selectedSecondDate ? format(selectedSecondDate, 'PPP') : <span>Конец даты</span>}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className='w-auto p-0'>
+          <Calendar mode='single' selected={selectedSecondDate} onSelect={handleSecondDateSelect} initialFocus />
         </PopoverContent>
       </Popover>
     </div>
   );
-}
+};
