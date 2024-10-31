@@ -25,7 +25,7 @@ const PartnersCard: React.FC<Props> = ({ partner }) => {
   };
 
   return (
-    <div className='w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg bg-white/0 backdrop-blur-lg shadow-lg rounded-lg flex items-center p-4 space-x-4 mx-auto gap-5 mb-3'>
+    <div className='w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg bg-white/0 backdrop-blur-lg shadow-lg rounded-lg flex items-center p-4 space-x-4 mx-auto gap-1 sm:gap-5'>
       <img alt='Логотип компании' className='w-14 h-14 rounded-full' src={`${API_URl}/${partner.image}`} />
       <div className='flex-1'>
         <h3 className='text-sm font-semibold text-gray-800 hidden sm:block'>{partner.name}</h3>

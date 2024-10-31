@@ -26,9 +26,3 @@ export type UserModel = Model<UserFields, {}, UserMethods>;
 export interface CategoryFields {
   name: string;
 }
-
-export interface PartnerFields {
-  name: string;
-  image: string | null;
-  url: string;
-}

@@ -23,6 +23,7 @@ import {
   selectPartnersUpdating,
 } from '@/features/partners/partnerSlice';
 import { fetchOnePartner, fetchPartner, updatePartner } from '@/features/partners/partnerThunks';
+import { API_URl } from '@/consts';
 
 interface Props {
   id: string;
@@ -150,6 +151,7 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
                 <Label htmlFor='image'>Логотип Компании</Label>
                 <Input type={'file'} id='image' name='image' placeholder='URL логотипа' onChange={handleImageChange} />
               </div>
+              <img src={`${API_URl}/${partnerData.image}`} alt={partnerData.name} />
 
               <div className='flex flex-col gap-1'>
                 <Button disabled={partnerUpdating || isNameBlocked} size='sm'>
