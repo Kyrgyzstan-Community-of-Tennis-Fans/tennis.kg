@@ -87,3 +87,4 @@ export const CarouselReducer = CarouselSlice.reducer;
 export const photoCarouselState = (state:RootState) => state.carousel.img;
 export const loadingCarouselState = (state:RootState) => state.carousel.loadingImgCarousel;
 export const deleteCarouselState = (state:RootState) => state.carousel.deleteImgCarousel;
+export const errorImgCarouselState = (state:RootState) => state.carousel.errorImgCarousel;

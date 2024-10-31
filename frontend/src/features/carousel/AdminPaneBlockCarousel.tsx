@@ -10,7 +10,7 @@ import {
 } from '@/features/carousel/CarouselThunk';
 import { Button } from '@/components/ui/button';
 import {
-  deleteCarouselState,
+  deleteCarouselState, errorImgCarouselState,
   loadingCarouselState,
   photoCarouselState,
 } from '@/features/carousel/CarouselSlice';
@@ -27,6 +27,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Confirm } from '@/components/Confirm/Confirm';
 
 
 const emptyState:CarouselMutation = {
@@ -40,6 +41,7 @@ export const AdminPaneBlockCarousel = () => {
   const carousel = useAppSelector(photoCarouselState);
   const loadingCarousel = useAppSelector(loadingCarouselState);
   const loadingDeleteCarousel = useAppSelector(deleteCarouselState);
+  const errorImgCarousel = useAppSelector(errorImgCarouselState)
 
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,6 +77,7 @@ export const AdminPaneBlockCarousel = () => {
       await dispatch(postFetchCarousel(newImage)).unwrap();
       setNewImage(emptyState);
       await dispatch(getCarousel());
+      toast.success('Изображение успешно вылажено');
     } catch(error) {
       console.log(error);
     }
@@ -87,18 +90,23 @@ export const AdminPaneBlockCarousel = () => {
   };
 
   const onUpdateImage = async (id:string, event: FormEvent) => {
-    event.preventDefault();
-    if (!newImage.image) {
-      toast.warning('Изображение обязательно!')
-      return;
+    try {
+      event.preventDefault();
+      if (!newImage.image) {
+        toast.warning('Изображение обязательно!')
+        return;
+      }
+
+      await dispatch(updateCarouselImage({id,updatedImage: newImage})).unwrap();
+      setNewImage(emptyState);
+      await dispatch(getCarousel()).unwrap();
+      toast.success('Изображение успешно обнавленно');
+
+    } catch (error) {
+      if(errorImgCarousel) {
+        toast.error('извините что-то пошло не так, попробуйте еще раз');
+      }
     }
-
-    console.log(newImage,id,'state');
-    await dispatch(updateCarouselImage({id,updatedImage: newImage})).unwrap();
-    setNewImage(emptyState);
-    await dispatch(getCarousel()).unwrap();
-    toast.success('Изображение успешно обнавленно');
-
   };
 
 
@@ -109,7 +117,7 @@ export const AdminPaneBlockCarousel = () => {
 
         <div className="flex justify-center flex-col">
           <div className="mb-3 mx-auto text-cr-black text-[24px] font-bold  uppercase px-5 pb-[25px] md:text-[40px] md:pb-[16px]">
-            <h3> Admin panel for slider in the main page </h3>
+            <h3> Admin panel for the slider in the main page </h3>
           </div>
 
           <div className="flex justify-center">
@@ -145,9 +153,11 @@ export const AdminPaneBlockCarousel = () => {
                         <Loader />
                       ) : (
                         <div className="top-3 left-6 absolute">
-                          <Button className="me-3" onClick={() => onDelete(image._id)}>
-                           <TrashIcon/>
-                          </Button>
+                          <Confirm onOk={() => onDelete(image._id)}>
+                            <Button className="me-3" >
+                              <TrashIcon/>
+                            </Button>
+                          </Confirm>
                           <Dialog>
                             <DialogTrigger asChild>
                               <Button>
