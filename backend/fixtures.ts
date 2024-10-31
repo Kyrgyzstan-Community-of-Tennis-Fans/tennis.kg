@@ -123,12 +123,6 @@ const run = async () => {
     }
   );
 
-  await db.close();
-};
-
-run().catch((err) => {
-  console.log(err);
-});
   const [masters, proMasters, futures] = await Category.create(
     {
       name: 'Masters',
