@@ -3,8 +3,6 @@ import { Partner } from '../model/Partner';
 import { imagesUpload } from '../multer';
 import mongoose from 'mongoose';
 import { auth } from '../middleware/auth';
-import { Category } from '../model/Category';
-import { categoriesRouter } from './categories';
 import { permit } from '../middleware/permit';
 
 export const partnersRouter = express.Router();

@@ -1,5 +1,4 @@
-import mongoose, { HydratedDocument } from 'mongoose';
-import { PartnerFields } from '../types';
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
