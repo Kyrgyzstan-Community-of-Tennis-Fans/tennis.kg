@@ -1,6 +1,6 @@
 import express from 'express';
-import { Partner } from '../model/Partner';
-import { imagesUpload } from '../multer';
+import { Partner } from '../../model/Partner';
+import { imagesUpload } from '../../multer';
 import mongoose from 'mongoose';
 
 export const partnersRouter = express.Router();

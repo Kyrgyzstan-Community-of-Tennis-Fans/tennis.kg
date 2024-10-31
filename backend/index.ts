@@ -2,10 +2,12 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import config from './config';
-import { categoriesRouter } from './routers/categories';
-import { usersRouter } from './routers/users';
-import newsRouter from './routers/news';
-import { partnersRouter } from './routers/partners';
+import { categoriesRouter } from './src/routers/categories';
+import { usersRouter } from './src/routers/users';
+import newsRouter from './src/routers/news';
+import { partnersRouter } from './src/routers/partners';
+// пишите импорты в одном стиле
+// да и не только импорты, а вобще весь код
 
 const app = express();
 const port = 8000;

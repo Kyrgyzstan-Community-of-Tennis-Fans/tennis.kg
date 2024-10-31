@@ -2,9 +2,9 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { Error, Types } from 'mongoose';
 import { permit } from '../middleware/permit';
 import { auth } from '../middleware/auth';
-import News from '../model/News';
+import News from '../../model/News';
 import { format } from 'date-fns/format';
-import { imagesUpload } from '../multer';
+import { imagesUpload } from '../../multer';
 
 const newsRouter = Router();
 

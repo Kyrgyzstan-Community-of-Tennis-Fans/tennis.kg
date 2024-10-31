@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { auth, type RequestWithUser } from '../middleware/auth';
-import { User } from '../model/User';
+import { User } from '../../model/User';
 import { randomBytes } from 'crypto';
 import nodemailer from 'nodemailer';
 
