@@ -4,33 +4,31 @@ import { fetchNews } from '@/features/news/newsThunks';
 import { selectNews, selectNewsPagesCount } from '@/features/news/newsSlice';
 import NewsCard from '@/features/news/components/NewsCard';
 import CustomPagination from '@/features/news/components/CustomPagination/CustomPagination';
-import { DatePicker } from '@/features/news/components/DateRangePicker/DateRangePicker';
-import { Button } from '@/components/ui/button';
+import { DatePicker } from '@/features/news/components/DatePicker/DatePicker';
 
 const News: React.FC = () => {
   const [query, setQuery] = useState({
-    firstDate: '',
-    secondDate: '',
+    startDate: '',
+    endDate: '',
   });
   const [page, setPage] = useState(1);
+  const [dateFilterApplied, setDateFilterApplied] = useState(false);
   const dispatch = useAppDispatch();
 
-  const handleDateChange = (firstDate: Date | undefined, secondDate: Date | undefined) => {
+  const handleDateChange = (startDate: Date | undefined, endDate: Date | undefined) => {
     setQuery({
-      firstDate: firstDate ? firstDate.toISOString() : '',
-      secondDate: secondDate ? secondDate.toISOString() : '',
+      startDate: startDate ? startDate.toISOString() : '',
+      endDate: endDate ? endDate.toISOString() : '',
     });
   };
 
-  const applyFilter = () => {
-    setPage(1);
-    console.log(query.firstDate, query.secondDate);
-    dispatch(fetchNews({ page: 1, startDate: query.firstDate, endDate: query.secondDate }));
-  };
-
   useEffect(() => {
-    dispatch(fetchNews({ page }));
-  }, [dispatch, page, query]);
+    if (query.startDate && query.endDate && !dateFilterApplied) {
+      setPage(1);
+      setDateFilterApplied(true);
+    }
+    dispatch(fetchNews({ page, startDate: query.startDate, endDate: query.endDate }));
+  }, [dispatch, page, query, dateFilterApplied]);
 
   const news = useAppSelector(selectNews);
   const totalPages = useAppSelector(selectNewsPagesCount);
@@ -42,7 +40,6 @@ const News: React.FC = () => {
         <h2 className='text-cr-gray-500 text-[20px] sm:text-2xl font-medium uppercase'>Наш блог</h2>
       </div>
       <DatePicker onDateChange={handleDateChange} />
-      <Button onClick={applyFilter}>Применить</Button>
 
       <div className='grid gap-5 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-6'>
         {news.map((newsItem) => (
