@@ -12,6 +12,7 @@ import { ResetPassword } from '@/features/users/ResetPassword';
 import { selectUser } from '@/features/users/usersSlice';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import News from '@/features/news/News';
 
 export const App: React.FC = () => {
   const user = useAppSelector(selectUser);
@@ -23,6 +24,7 @@ export const App: React.FC = () => {
         <Route path={'/register'} element={<Register />} />
         <Route path={'/reset-password/:token'} element={<ResetPassword />} />
         <Route path={'/forgot-password'} element={<ForgotPassword />} />
+        <Route path={'/news'} element={<News />} />
         <Route
           path={'/partners'}
           element={
