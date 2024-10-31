@@ -8,19 +8,22 @@ export interface RegisterMutation {
   password: string;
   fullName: string;
   gender: string;
-  avatar: File | null;
-  rank: string;
+  category: string;
   dateOfBirth: string;
+  email: string;
 }
 
 export interface User {
   _id: string;
-  username: string;
-  displayName: string;
-  avatar: string;
+  telephone: string;
+  fullName: string;
+  gender: 'male' | 'female';
+  category: string;
+  dateOfBirth: string;
+  email: string;
   token: string;
   role: 'admin' | 'user';
-  googleId?: string;
+  createdAt: string;
 }
 
 export interface ValidationError {
