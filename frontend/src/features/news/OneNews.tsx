@@ -43,7 +43,7 @@ const OneNews: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className='embla__controls my-4'>
+        <div className='embla__controls'>
           <div className='embla__buttons'>
             <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
             <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />

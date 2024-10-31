@@ -1,22 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { useSearchParams } from 'react-router-dom';
 import { fetchNews } from '@/features/news/newsThunks';
-import { selectNews } from '@/features/news/newsSlice';
+import { selectNews, selectNewsPagesCount } from '@/features/news/newsSlice';
 import NewsCard from '@/features/news/components/NewsCard';
 import CustomPagination from '@/features/news/components/CustomPagination/CustomPagination';
+import { DatePickerWithRange } from '@/features/news/components/DateRangePicker/DateRangePicker';
 
 const News: React.FC = () => {
+  const [query, setQuery] = useState({
+    firstDate: '',
+    secondDate: '',
+  });
+  const [page, setPage] = useState(1);
   const dispatch = useAppDispatch();
-  const [searchParams] = useSearchParams();
-  const page = parseInt(searchParams.get('page') as string, 10) || 1;
-  const limit = parseInt(searchParams.get('limit') as string, 10) || 12;
+
+  const queriesChangeHandler = (key, value) => {
+    setQuery((prevFilters) => ({
+      ...prevFilters,
+      [key]: value,
+    }));
+  };
 
   useEffect(() => {
-    dispatch(fetchNews({ page, limit }));
-  }, [dispatch, page, limit]);
+    dispatch(fetchNews({ page }));
+  }, [dispatch, page]);
 
   const news = useAppSelector(selectNews);
+  const totalPages = useAppSelector(selectNewsPagesCount);
 
   return (
     <main>
@@ -24,6 +34,7 @@ const News: React.FC = () => {
         <h1 className='font-semibold leading-10 text-2xl sm:text-4xl md:text-5xl sm:mb-2'>Свежие новости</h1>
         <h2 className='text-cr-gray-500 text-[20px] sm:text-2xl font-medium uppercase'>Наш блог</h2>
       </div>
+      <DatePickerWithRange />
 
       <div className='grid gap-5 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-6'>
         {news.map((newsItem) => (
@@ -31,7 +42,7 @@ const News: React.FC = () => {
         ))}
       </div>
 
-      <CustomPagination page={page} limit={limit} />
+      <CustomPagination page={page} total={totalPages} setPage={(page) => setPage(page)} />
     </main>
   );
 };

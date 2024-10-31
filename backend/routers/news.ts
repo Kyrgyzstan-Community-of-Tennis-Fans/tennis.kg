@@ -5,6 +5,7 @@ import { auth } from '../middleware/auth';
 import News from '../model/News';
 import { format } from 'date-fns/format';
 import { imagesUpload } from '../multer';
+import { isValid, parse } from 'date-fns';
 
 const newsRouter = Router();
 
@@ -45,16 +46,28 @@ newsRouter.post(
 
 newsRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const dateFormat = 'dd.MM.yyyy';
     const page = parseInt(req.query.page as string, 10) || 1;
-    const limit = parseInt(req.query.limit as string, 10) || 4;
+    const limit = parseInt(req.query.limit as string, 10) || 12;
     const startIndex = (page - 1) * limit;
     const total = await News.countDocuments();
 
-    const news = await News.find().sort({ createdAt: -1 }).skip(startIndex).limit(limit).lean();
+    const dateFilter: { createdAt?: { $gte: Date; $lte: Date } } = {};
+    if (req.query.firstDate && req.query.secondDate) {
+      const firstDate = parse(req.query.firstDate as string, dateFormat, new Date());
+      const secondDate = parse(req.query.secondDate as string, dateFormat, new Date());
+
+      if (isValid(firstDate) && isValid(secondDate)) {
+        dateFilter.createdAt = { $gte: firstDate, $lte: secondDate };
+      }
+    }
+
+    const news = await News.find(dateFilter).sort({ createdAt: -1 }).skip(startIndex).limit(limit).lean();
+
     const formattedNews = news.map((item) => ({
       ...item,
-      createdAt: format(item.createdAt, 'dd.MM.yyyy'),
-      updatedAt: format(item.updatedAt, 'dd.MM.yyyy'),
+      createdAt: format(item.createdAt, dateFormat),
+      updatedAt: format(item.updatedAt, dateFormat),
     }));
 
     const pages = limit > 0 ? Math.ceil(total / limit) : null;

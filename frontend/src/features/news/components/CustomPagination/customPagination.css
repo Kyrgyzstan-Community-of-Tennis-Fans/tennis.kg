@@ -6,10 +6,6 @@
     @apply hidden min-[380px]:list-item;
 }
 
-.pagination_link {
-    @apply flex justify-center items-center p-2 w-9 h-9 border rounded-lg no-underline hover:bg-[#64B32C63];
-}
-
 .select_trigger {
     @apply flex justify-between items-center w-11 h-9;
 }

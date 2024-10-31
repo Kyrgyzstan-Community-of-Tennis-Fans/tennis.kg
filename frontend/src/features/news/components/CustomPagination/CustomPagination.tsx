@@ -1,26 +1,23 @@
 import React from 'react';
-import { useAppSelector } from '@/app/hooks';
-import { useNavigate } from 'react-router-dom';
-import { selectNewsPagesCount } from '@/features/news/newsSlice';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from '@/components/ui/pagination';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from '@heroicons/react/16/solid';
 import './customPagination.css';
+import { Button } from '@/components/ui/button';
 
 interface Props {
   page: number;
-  limit: number;
+  setPage: (page: number) => void;
+  total: number;
 }
 
-const CustomPagination: React.FC<Props> = ({ page, limit }) => {
-  const navigate = useNavigate();
-  const totalPages = useAppSelector(selectNewsPagesCount);
+const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
   const pageNumbers = [];
 
   const maxVisiblePages = 3;
   let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
-  const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+  const endPage = Math.min(total, startPage + maxVisiblePages - 1);
 
   if (endPage - startPage < maxVisiblePages - 1) {
     startPage = Math.max(1, endPage - maxVisiblePages + 1);
@@ -29,12 +26,6 @@ const CustomPagination: React.FC<Props> = ({ page, limit }) => {
   for (let i = startPage; i <= endPage; i++) {
     pageNumbers.push(i);
   }
-
-  const handlePageSelect = (selectedPage: string) => {
-    navigate(`?page=${selectedPage}&limit=${limit}`);
-  };
-
-  const paginationQuery = (page: number, limit: number) => `?page=${page}&limit=${limit}`;
   const disableButton = (bound: number): React.CSSProperties => ({
     pointerEvents: page === bound ? 'none' : 'auto',
   });
@@ -43,22 +34,34 @@ const CustomPagination: React.FC<Props> = ({ page, limit }) => {
     <Pagination className='py-6'>
       <PaginationContent>
         <PaginationItem className='pagination_item'>
-          <a href={paginationQuery(1, limit)} className='pagination_link' style={disableButton(1)}>
+          <Button
+            variant='outline'
+            size='icon'
+            className='hover:bg-[#64B32C63]'
+            style={disableButton(1)}
+            onClick={() => setPage(1)}
+          >
             <ChevronDoubleLeftIcon />
-          </a>
+          </Button>
         </PaginationItem>
         <PaginationItem>
-          <a href={paginationQuery(page - 1, limit)} className='pagination_link' style={disableButton(1)}>
+          <Button
+            variant='outline'
+            size='icon'
+            className='hover:bg-[#64B32C63]'
+            style={disableButton(1)}
+            onClick={() => setPage(page - 1)}
+          >
             <ChevronLeftIcon />
-          </a>
+          </Button>
         </PaginationItem>
 
         {pageNumbers.map((pageNumber) => (
           <PaginationItem key={pageNumber} className={pageNumber !== page ? 'pagination_item border rounded-lg' : ''}>
             <PaginationLink
-              href={paginationQuery(pageNumber, limit)}
               isActive={page === pageNumber}
-              className={page === pageNumber ? 'pagination_link bg-[#64B32C63]' : 'hover:bg-[#64B32C63]'}
+              className={'cursor-pointer hover:bg-[#64B32C63] ' + (page === pageNumber ? 'bg-[#64B32C63]' : '')}
+              onClick={() => setPage(pageNumber)}
             >
               {pageNumber}
             </PaginationLink>
@@ -66,21 +69,33 @@ const CustomPagination: React.FC<Props> = ({ page, limit }) => {
         ))}
 
         <PaginationItem>
-          <a href={paginationQuery(page + 1, limit)} className='pagination_link' style={disableButton(totalPages)}>
+          <Button
+            variant='outline'
+            size='icon'
+            className='hover:bg-[#64B32C63]'
+            style={disableButton(total)}
+            onClick={() => setPage(page + 1)}
+          >
             <ChevronRightIcon />
-          </a>
+          </Button>
         </PaginationItem>
         <PaginationItem className='pagination_item'>
-          <a href={paginationQuery(totalPages, limit)} className='pagination_link' style={disableButton(totalPages)}>
+          <Button
+            variant='outline'
+            size='icon'
+            className='hover:bg-[#64B32C63]'
+            style={disableButton(total)}
+            onClick={() => setPage(total)}
+          >
             <ChevronDoubleRightIcon />
-          </a>
+          </Button>
         </PaginationItem>
 
-        <Select onValueChange={handlePageSelect}>
+        <Select onValueChange={(value) => setPage(Number(value))}>
           <SelectTrigger className='select_trigger' />
           <SelectContent>
             <SelectGroup>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+              {Array.from({ length: total }, (_, i) => i + 1).map((pageNum) => (
                 <SelectItem key={pageNum} value={pageNum.toString()}>
                   {pageNum}
                 </SelectItem>
