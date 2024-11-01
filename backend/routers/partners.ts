@@ -50,24 +50,20 @@ partnersRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
 partnersRouter.put('/:id', auth, permit('admin'), imagesUpload.single('image'), async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { name, url } = req.body;
 
     const partner = await Partner.findById(id);
-
-    if (!partner) {
-      return res.status(404).send({ error: 'Not found' });
-    }
+    if (!partner) return res.status(404).send({ error: 'Not found' });
 
     const partnerData = {
-      name: req.body.name,
-      url: req.body.url,
-      image: req.file ? req.file.filename : null,
+      name: name || partner.name,
+      url: url || partner.url,
+      image: req.file?.filename || req.body.image
     };
 
     const updatedPartner = await Partner.findByIdAndUpdate(id, partnerData, { new: true, runValidators: true });
 
-    if (!updatedPartner) {
-      return res.status(404).send({ error: 'Partner not found or failed to update' });
-    }
+    if (!updatedPartner) return res.status(404).send({ error: 'Partner not found or failed to update' });
 
     return res.send(updatedPartner);
   } catch (e) {

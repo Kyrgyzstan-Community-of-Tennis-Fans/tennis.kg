@@ -29,9 +29,8 @@ const AdminPartners = () => {
     }
   };
 
-  if (loading) {
-    return <Loader fixed />;
-  }
+  if (loading) return <Loader fixed />;
+
   return (
     <>
       <section>

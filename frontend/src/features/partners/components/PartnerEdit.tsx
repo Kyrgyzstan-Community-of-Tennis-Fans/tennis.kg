@@ -84,12 +84,6 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      // const formData = new FormData();
-      // formData.append('name', partnerData.name);
-      // formData.append('url', partnerData.url);
-      // if (partnerData.image) {
-      //   formData.append('image', partnerData.image);
-      // }
       await dispatch(updatePartner({ id, partnerData })).unwrap();
       await dispatch(fetchPartner());
       closeRef.current?.click();
