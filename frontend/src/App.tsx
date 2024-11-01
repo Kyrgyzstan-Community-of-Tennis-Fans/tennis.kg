@@ -12,6 +12,8 @@ import { ResetPassword } from '@/features/users/ResetPassword';
 import { selectUser } from '@/features/users/usersSlice';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { BlockCarousel } from '@/features/carousel/BlockCarousel';
+import { AdminPaneBlockCarousel } from '@/features/carousel/AdminPaneBlockCarousel';
 import News from '@/features/news/News';
 
 export const App: React.FC = () => {
@@ -38,6 +40,15 @@ export const App: React.FC = () => {
           element={
             <ProtectedRoute isAllowed={user && user.role === 'admin'}>
               <Category />
+            </ProtectedRoute>
+          }
+        />
+        <Route path={'/carousel'} element={<BlockCarousel />} />
+        <Route
+          path={'/admin-panel-block-carousel'}
+          element={
+            <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+              <AdminPaneBlockCarousel />
             </ProtectedRoute>
           }
         />

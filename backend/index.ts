@@ -2,19 +2,20 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import config from './config';
-import { categoriesRouter } from './src/routers/categories';
-import { usersRouter } from './src/routers/users';
-import { newsRouter } from './src/routers/news';
-import { partnersRouter } from './src/routers/partners';
+import { categoriesRouter } from './routers/categories';
+import { usersRouter } from './routers/users';
+import { newsRouter } from './routers/news';
+import { carouselRouter } from './routers/carouselRouter';
+import { partnersRouter } from './routers/partners';
 
 const app = express();
 const port = 8000;
 
 app.use(cors(config.corsOptions));
 app.use(express.json());
-app.use('/public', express.static('public'));
-
+app.use(express.static('public'));
 app.use('/users', usersRouter);
+app.use('/carousel', carouselRouter);
 app.use('/news', newsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/partners', partnersRouter);
