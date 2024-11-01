@@ -9,6 +9,14 @@ export interface News {
   images: string[];
 }
 
+export interface NewsMutation {
+  title: string;
+  subtitle: string;
+  content: string;
+  newsCover: string;
+  images: string[];
+}
+
 export interface NewsResponse {
   page: number;
   limit: number;
