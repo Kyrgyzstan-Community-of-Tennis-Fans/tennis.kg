@@ -102,9 +102,9 @@ export const AdminPaneBlockCarousel = () => {
       if (errorImgCarousel) {
         toast.error('извините что-то пошло не так, попробуйте еще раз');
       }
+      console.log(error);
     }
   };
-
   return (
     <>
       <div className='mt-5'>
@@ -129,14 +129,14 @@ export const AdminPaneBlockCarousel = () => {
           </div>
         </div>
 
-        <div className='mt-5 flex flex-col'>
+        <div className='mt-5 flex flex-col lg:flex-row lg:flex-wrap'>
           {loadingCarousel ? (
             <div className='mx-auto'>
               <Loader />
             </div>
           ) : (
             carousel.map((image) => (
-              <div key={image._id} className='m-[10px] relative mx-auto'>
+              <div key={image._id} className='mt-[10px] mb-[10px] mx-auto  relative'>
                 <img
                   src={API_URl + '/' + image.image}
                   alt={`${image._id}`}

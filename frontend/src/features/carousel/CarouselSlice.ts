@@ -24,7 +24,7 @@ export const initialState: carouselState = {
   errorImgCarousel: null,
 };
 
-export const CarouselSlice = createSlice<carouselState>({
+export const CarouselSlice = createSlice({
   name: 'carousel',
   initialState,
   reducers: {},

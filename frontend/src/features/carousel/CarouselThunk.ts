@@ -5,11 +5,11 @@ import { isAxiosError } from 'axios';
 import type { GlobalError } from '@/types/userTypes';
 
 export const getCarousel = createAsyncThunk<Carousel[]>('carousel/getCarousel', async () => {
-  const response = await axiosApi.get<Carousel[] | null>('/carousel');
+  const response = await axiosApi.get<Carousel[] | []>('/carousel');
   return response.data;
 });
 
-export const postFetchCarousel = createAsyncThunk('carousel/postFetchCarousel', async (newImage) => {
+export const postFetchCarousel = createAsyncThunk('carousel/postFetchCarousel', async (newImage:CarouselMutation) => {
   const formData = new FormData();
   const keys = Object.keys(newImage) as (keyof CarouselMutation)[];
 

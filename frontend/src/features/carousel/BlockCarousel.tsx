@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { getCarousel } from '@/features/carousel/CarouselThunk';
 import { loadingCarouselState, photoCarouselState } from '@/features/carousel/CarouselSlice';
