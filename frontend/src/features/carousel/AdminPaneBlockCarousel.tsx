@@ -109,8 +109,8 @@ export const AdminPaneBlockCarousel = () => {
     <>
       <div className='mt-5'>
         <div className='flex justify-center flex-col'>
-          <div className='mb-3 mx-auto text-cr-black text-[24px] font-bold  uppercase px-5 pb-[25px] md:text-[40px] md:pb-[16px]'>
-            <h3 className="text-center"> Панель администратора для слайдера на главной странице </h3>
+          <div className='mb-3 mx-auto md:pb-[16px]'>
+            <h3 className="text-center text-cr-black text-[24px] font-bold  uppercase px-5 pb-[25px] md:text-[40px]">  Админ-панель для главного слайдера  </h3>
           </div>
 
           <div className='flex justify-center'>
@@ -129,14 +129,14 @@ export const AdminPaneBlockCarousel = () => {
           </div>
         </div>
 
-        <div className='mt-5 flex flex-col lg:flex-row lg:flex-wrap'>
+        <div className='mt-5 flex flex-col lg:flex-row lg:flex-wrap lg:justify-center'>
           {loadingCarousel ? (
             <div className='mx-auto'>
               <Loader />
             </div>
           ) : (
             carousel.map((image) => (
-              <div key={image._id} className='mt-[10px] mb-[10px] mx-auto  relative'>
+              <div key={image._id} className='mt-[10px] mb-[10px] mx-auto lg:mx-[5px]  relative'>
                 <img
                   src={API_URl + '/' + image.image}
                   alt={`${image._id}`}
