@@ -47,7 +47,7 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
       setNameError(null);
       setImageError(null);
     }
-  }, [isOpen]);
+  }, [isOpen, setState]);
 
   const submitFormHandler = (event: React.FormEvent) => {
     try {

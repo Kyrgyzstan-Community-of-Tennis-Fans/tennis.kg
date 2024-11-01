@@ -15,7 +15,7 @@ const run = async () => {
     await db.dropCollection('categories');
     await db.dropCollection('users');
     await db.dropCollection('partners');
-    await db.dropCollection('carousel');
+    await db.dropCollection('carousels');
   } catch (e) {
     console.log('Skipping drop...');
   }

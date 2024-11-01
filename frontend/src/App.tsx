@@ -31,9 +31,7 @@ export const App: React.FC = () => {
         <Route
           path={'/partners'}
           element={
-            <ProtectedRoute isAllowed={user && user.role === 'admin'}>
               <Partners />
-            </ProtectedRoute>
           }
         />
         <Route
