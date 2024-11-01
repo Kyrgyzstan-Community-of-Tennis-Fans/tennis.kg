@@ -8,7 +8,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import {API_URl} from '@/consts';
 import {Loader} from '@/components/Loader/Loader';
 import styles from  "./Carousel.module.css"
-
+import './Carousel.css'
 
 export const BlockCarousel = () => {
     const dispatch = useAppDispatch();
@@ -26,6 +26,8 @@ export const BlockCarousel = () => {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
+        pauseOnFocus: false,
+        dotsClass: 'slick-dots custom-dots',
         responsive: [
             {
                 breakpoint: 640,
@@ -51,8 +53,8 @@ export const BlockCarousel = () => {
     return (
         <>
             <div>
-                <div className="pt-[52px] text-center md:pt-[157px]">
-                    <h1 className="text-cr-black text-[24px] font-bold  uppercase px-5 pb-[25px] md:text-[64px] md:pb-[16px]">Кыргызстанское
+                <div className="mt-[52px] text-center md:mt-[157px]">
+                    <h1 className="text-cr-black text-[20px] font-bold  uppercase px-5 mb-[25px] md:text-[64px] md:mb-[16px]">Кыргызстанское
                         сообщество любителей тенниса</h1>
                     <p className="hidden text-[#808080] md:block text-[36px] font-medium pb-[56px]">Искусство становиться первым!</p>
                 </div>

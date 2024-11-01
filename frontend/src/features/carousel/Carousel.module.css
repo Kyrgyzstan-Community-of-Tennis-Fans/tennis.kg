@@ -1,7 +1,9 @@
 .sliderImage {
-    @apply outline-0;
+    @apply outline-0 transform-none transition-none;
 
     &:focus {
-        @apply outline-0 p-2;
+        @apply outline-0 transform-none transition-none;
     }
 }
+
+

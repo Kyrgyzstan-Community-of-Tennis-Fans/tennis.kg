@@ -100,7 +100,7 @@ export const AdminPaneBlockCarousel = () => {
       await dispatch(updateCarouselImage({id,updatedImage: newImage})).unwrap();
       setNewImage(emptyState);
       await dispatch(getCarousel()).unwrap();
-      toast.success('Изображение успешно обнавленно');
+      toast.success('Изображение успешно обновленно');
 
     } catch (error) {
       if(errorImgCarousel) {
@@ -117,7 +117,7 @@ export const AdminPaneBlockCarousel = () => {
 
         <div className="flex justify-center flex-col">
           <div className="mb-3 mx-auto text-cr-black text-[24px] font-bold  uppercase px-5 pb-[25px] md:text-[40px] md:pb-[16px]">
-            <h3> Admin panel for the slider in the main page </h3>
+            <h3> Панель администратора для слайдера на главной странице </h3>
           </div>
 
           <div className="flex justify-center">
@@ -135,7 +135,7 @@ export const AdminPaneBlockCarousel = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap mt-5">
+        <div className="mt-5 flex flex-wrap justify-center">
           {loadingCarousel ? (
             <div className="mx-auto">
               <Loader />
@@ -143,9 +143,9 @@ export const AdminPaneBlockCarousel = () => {
 
           ) : (
             carousel.map(image => (
-              <div key={image._id} className="mx-auto mb-[10px] mt-[10px] relative">
+              <div key={image._id} className="m-[10px] relative">
               <img src={API_URl + '/' + image.image} alt={`${image._id}`}
-                     className="rounded-lg object-cover w-[300px] h-[200px] md:w-[900px] md:h-[400px]"
+                     className="rounded-lg object-cover w-[300px] h-[200px] md:w-[400px] md:h-[300px]"
                 />
                 {
                   user && user.role === 'admin' && (
