@@ -1,7 +1,7 @@
-import {NextFunction, Request, Response} from "express";
-import News from "../model/News";
-import {Error, Types} from "mongoose";
-import {format} from "date-fns/format";
+import { NextFunction, Request, Response } from 'express';
+import News from '../model/News';
+import { Error, Types } from 'mongoose';
+import { format } from 'date-fns/format';
 
 export const createNewPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -14,7 +14,7 @@ export const createNewPost = async (req: Request, res: Response, next: NextFunct
       content,
       newsCover: files['newsCover'] && files['newsCover'][0] ? files['newsCover'][0].filename : '',
       images: files['images'] ? files['images'].map((file) => file.filename) : [],
-    })
+    });
 
     return res.send(news);
   } catch (e) {
@@ -61,4 +61,4 @@ export const getById = async (req: Request, res: Response, next: NextFunction) =
   } catch (e) {
     return next(e);
   }
-}
+};

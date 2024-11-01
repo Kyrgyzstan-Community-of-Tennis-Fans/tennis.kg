@@ -1,5 +1,5 @@
-import nodemailer from "nodemailer";
-import {UserFields} from "../../types";
+import nodemailer from 'nodemailer';
+import { UserFields } from '../../types';
 
 // В этом файле можно удобно хранить утилиты.
 // Например у вас будет много мест с проверкой данных приходящих с фронта

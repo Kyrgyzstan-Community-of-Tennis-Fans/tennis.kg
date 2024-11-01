@@ -1,6 +1,6 @@
-import {Partner} from "../model/Partner";
-import {Request, Response, NextFunction} from "express";
-import mongoose from "mongoose";
+import { Partner } from '../model/Partner';
+import { Request, Response, NextFunction } from 'express';
+import mongoose from 'mongoose';
 
 export const getPartners = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -39,4 +39,4 @@ export const removePartner = async (req: Request, res: Response, next: NextFunct
   } catch (error) {
     return next(error);
   }
-}
+};

@@ -1,5 +1,5 @@
-import {Carousel} from "../model/Carousel";
-import {Request, Response, NextFunction} from "express";
+import { Carousel } from '../model/Carousel';
+import { Request, Response, NextFunction } from 'express';
 
 export const getCarousel = async (req: Request, res: Response, next: NextFunction) => {
   try {

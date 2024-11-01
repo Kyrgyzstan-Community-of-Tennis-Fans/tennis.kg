@@ -1,6 +1,6 @@
-import {Category} from "../model/Category";
-import {Request, Response, NextFunction} from "express";
-import mongoose from "mongoose";
+import { Category } from '../model/Category';
+import { Request, Response, NextFunction } from 'express';
+import mongoose from 'mongoose';
 
 export const getCategories = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -47,17 +47,11 @@ export const updateCategory = async (req: Request, res: Response, next: NextFunc
     const { name } = req.body;
     const { id } = req.params;
 
-    const isExist = await Category
-        .findOne({ name })
-        .select({name: 1})
-        .lean()
-        .exec()
+    const isExist = await Category.findOne({ name }).select({ name: 1 }).lean().exec();
 
     if (isExist) return res.status(400).send({ message: 'Category already exists' });
 
-    const category = await Category
-        .findById(id)
-        .select({ name: 1})
+    const category = await Category.findById(id).select({ name: 1 });
 
     if (!category) return res.status(404).send({ message: 'Category not found' });
 
@@ -80,4 +74,4 @@ export const getCategoryById = async (req: Request, res: Response, next: NextFun
   } catch (error) {
     return next(error);
   }
-}
+};

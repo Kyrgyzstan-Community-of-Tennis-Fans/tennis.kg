@@ -1,6 +1,6 @@
 import express from 'express';
 import { auth } from '../middleware/auth';
-import {forgotPassword, login, logout, register, resetPassword} from "../controllers/users";
+import { forgotPassword, login, logout, register, resetPassword } from '../controllers/users';
 
 export const usersRouter = express.Router();
 

@@ -1,9 +1,9 @@
-import { User } from "../model/User";
-import mongoose from "mongoose";
-import { Request, Response, NextFunction } from "express";
+import { User } from '../model/User';
+import mongoose from 'mongoose';
+import { Request, Response, NextFunction } from 'express';
 import { type RequestWithUser } from '../middleware/auth';
-import {randomBytes} from "crypto";
-import {sendMail} from "../utils/utils";
+import { randomBytes } from 'crypto';
+import { sendMail } from '../utils/utils';
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { permit } from '../middleware/permit';
 import { auth } from '../middleware/auth';
 import { imagesUpload } from '../utils/multer';
-import {createNewPost, getById, getNews} from "../controllers/news";
+import { createNewPost, getById, getNews } from '../controllers/news';
 
 export const newsRouter = Router();
 
