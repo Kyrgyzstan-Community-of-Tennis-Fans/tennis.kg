@@ -1,13 +1,8 @@
-import express from 'express';
 import { Partner } from '../model/Partner';
-import { imagesUpload } from '../multer';
+import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import { auth } from '../middleware/auth';
-import { permit } from '../middleware/permit';
 
-export const partnersRouter = express.Router();
-
-partnersRouter.get('/', async (_, res, next) => {
+export const getPartners = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const partners = await Partner.find();
 
@@ -15,9 +10,9 @@ partnersRouter.get('/', async (_, res, next) => {
   } catch (error) {
     return next(error);
   }
-});
+};
 
-partnersRouter.post('/', auth, permit('admin'), imagesUpload.single('image'), async (req, res, next) => {
+export const createNewPartner = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const partner = await Partner.create({
       name: req.body.name,
@@ -27,27 +22,26 @@ partnersRouter.post('/', auth, permit('admin'), imagesUpload.single('image'), as
 
     return res.send(partner);
   } catch (error) {
-    if (error instanceof mongoose.Error.ValidationError) {
-      return res.status(400).send(error);
-    }
+    if (error instanceof mongoose.Error.ValidationError) return res.status(400).send(error);
     return next(error);
   }
-});
+};
 
-partnersRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
+export const removePartner = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const partner = await Partner.findOne({ _id: req.params.id });
-    if (!partner) {
-      return res.status(404).send({ error: 'Not found' });
-    }
-    await Partner.deleteOne({ _id: req.params.id });
-    return res.status(204).send();
+    const { id: _id } = req.params;
+
+    const partner = await Partner.findOne({ _id });
+    if (!partner) return res.status(404).send({ error: 'Not found' });
+
+    await Partner.deleteOne({ _id });
+    return res.status(204).send({ message: 'Partner removed successfully' });
   } catch (error) {
     return next(error);
   }
-});
+};
 
-partnersRouter.put('/:id', auth, permit('admin'), imagesUpload.single('image'), async (req, res, next) => {
+export const updatePartner = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     const { name, url } = req.body;
@@ -69,9 +63,9 @@ partnersRouter.put('/:id', auth, permit('admin'), imagesUpload.single('image'), 
   } catch (e) {
     next(e);
   }
-});
+};
 
-partnersRouter.get('/:id', async (req, res, next) => {
+export const getOnePartner = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const partner = await Partner.findById(req.params.id);
 
@@ -83,4 +77,4 @@ partnersRouter.get('/:id', async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
-});
+};
