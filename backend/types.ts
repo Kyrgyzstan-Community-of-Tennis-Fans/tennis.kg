@@ -18,6 +18,7 @@ export interface UserFields {
 
 export interface UserMethods {
   checkPassword(password: string): Promise<boolean>;
+
   generateToken(): void;
 }
 
@@ -25,4 +26,14 @@ export type UserModel = Model<UserFields, {}, UserMethods>;
 
 export interface CategoryFields {
   name: string;
+}
+
+export interface NewsFields {
+  title: string;
+  subtitle?: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  newsCover?: string;
+  images?: string[];
 }
