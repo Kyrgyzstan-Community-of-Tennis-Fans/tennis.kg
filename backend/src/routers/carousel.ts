@@ -4,11 +4,11 @@ import { auth } from '../middleware/auth';
 import { permit } from '../middleware/permit';
 import {create, getCarousel, remove, update} from "../controllers/carousel";
 
-export const carousel = express.Router();
+export const carouselRouter = express.Router();
 
-carousel.get('/', getCarousel);
+carouselRouter.get('/', getCarousel);
 
-carousel.post(
+carouselRouter.post(
   '/admin-post-image-carousel',
   auth,
   permit('admin'),
@@ -16,9 +16,9 @@ carousel.post(
   create
 );
 
-carousel.delete('/admin-delete-image-carousel/:id', auth, permit('admin'), remove);
+carouselRouter.delete('/admin-delete-image-carousel/:id', auth, permit('admin'), remove);
 
-carousel.put(
+carouselRouter.put(
   '/admin-update-image-carousel/:id',
   auth,
   permit('admin'),
