@@ -1,11 +1,11 @@
 import { randomUUID } from 'crypto';
 import mongoose from 'mongoose';
 import config from './config';
-import { Category } from './model/Category';
-import { Partner } from './model/Partner';
-import News from './model/News';
-import { User } from './model/User';
-import { Carousel } from './model/Carousel';
+import News from './src/model/News';
+import { Partner } from './src/model/Partner';
+import { Category } from './src/model/Category';
+import { User } from './src/model/User';
+import { Carousel } from './src/model/Carousel';
 
 const run = async () => {
   await mongoose.connect(config.database);

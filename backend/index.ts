@@ -2,11 +2,11 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import config from './config';
-import { categoriesRouter } from './routers/categories';
-import { usersRouter } from './routers/users';
-import newsRouter from './routers/news';
-import { carouselRouter } from './routers/carouselRouter';
-import { partnersRouter } from './routers/partners';
+import { categoriesRouter } from './src/routes/categories';
+import { usersRouter } from './src/routes/users';
+import { newsRouter } from './src/routes/news';
+import { carouselRouter } from './src/routes/carousel';
+import { partnersRouter } from './src/routes/partners';
 
 const app = express();
 const port = 8000;
