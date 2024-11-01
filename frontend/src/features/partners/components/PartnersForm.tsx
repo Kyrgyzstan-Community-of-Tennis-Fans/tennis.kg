@@ -104,7 +104,7 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
             <Label htmlFor='name'>Название Компании Партнера</Label>
             <Input required id='name' name='name' value={state.name} onChange={inputChangeHandler} />
             {isBlocked && <small className={'text-red-600 leading-none'}>Партнер {state.name} уже существует.</small>}
-            {nameError && <p className='text-red-600 text-sm'>{nameError}</p>}
+            {nameError && <small className='text-red-600 leading-none'>{nameError}</small>}
           </div>
 
           <div className='form-group'>
@@ -115,7 +115,7 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
           <div className='form-group'>
             <Label htmlFor='image'>Добавить логотип Компании</Label>
             <Input required type={'file'} id='image' name='image' onChange={handleImageChange} />
-            {imageError && <p className='text-red-600 text-sm'>{imageError}</p>}
+            {imageError && <small className='text-red-600 text-sm'>{imageError}</small>}
           </div>
           <Button disabled={loading || !isFormValid} type='submit' className=' mt-4'>
             Добавить {loading && <Loader size={'sm'} theme={'light'} />}

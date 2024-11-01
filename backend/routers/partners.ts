@@ -58,7 +58,7 @@ partnersRouter.put('/:id', auth, permit('admin'), imagesUpload.single('image'), 
     const partnerData = {
       name: name || partner.name,
       url: url || partner.url,
-      image: req.file?.filename || req.body.image
+      image: req.file?.filename || req.body.image,
     };
 
     const updatedPartner = await Partner.findByIdAndUpdate(id, partnerData, { new: true, runValidators: true });

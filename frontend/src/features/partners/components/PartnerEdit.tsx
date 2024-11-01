@@ -157,7 +157,11 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
                 <Label htmlFor='image'>Логотип Компании</Label>
                 <Input type={'file'} id='image' name='image' placeholder='URL логотипа' onChange={handleImageChange} />
               </div>
-              {previewImage && <img src={previewImage} alt={partnerData.name} className='w-24 h-24 mt-1 mb-1 rounded' />}
+              {previewImage && (
+                <div className=' border mt-2 mb-2 p-5 bg-blue-50'>
+                  <img src={previewImage} alt={partnerData.name} className='w-auto h-40 rounded mx-auto' />
+                </div>
+              )}
               <div className='flex flex-col gap-1'>
                 <Button disabled={partnerUpdating || isNameBlocked} size='sm'>
                   Сохранить {partnerUpdating && <Loader size='sm' theme='light' />}
