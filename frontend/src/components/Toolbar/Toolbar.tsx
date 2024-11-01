@@ -14,10 +14,10 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { NavLink } from 'react-router-dom';
 import styles from './Toolbar.module.css';
-import {useAppDispatch, useAppSelector} from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectUser } from '@/features/users/usersSlice';
 import { DropdownMenuToolbar } from '@/components/Toolbar/DropDownToolbar';
-import {logout} from "@/features/users/usersThunks";
+import { logout } from '@/features/users/usersThunks';
 
 const items = [
   { name: 'Положение КСЛТ', to: '' },
@@ -48,7 +48,7 @@ export const Toolbar = () => {
   const closerForMobile = () => {
     setMobileMenuOpen(false);
     setIsFocused(false);
-  }
+  };
 
   return (
     <div className={'bg-cr-shark'}>
@@ -68,7 +68,7 @@ export const Toolbar = () => {
             </svg>
           </NavLink>
         </div>
-        <div className={'flex md:hidden'}>
+        <div className={'flex lmd:hidden'}>
           <button
             type='button'
             onClick={() => setMobileMenuOpen(true)}
@@ -78,7 +78,7 @@ export const Toolbar = () => {
             <Bars3Icon aria-hidden='true' className={'h-6 w-6'} />
           </button>
         </div>
-        <PopoverGroup className={'hidden md:flex md:gap-x-12 basis-1/2'}>
+        <PopoverGroup className={'hidden lmd:flex lmd:gap-x-12 basis-1/2'}>
           <NavLink
             to='/'
             className={'text-sm leading-6'}
@@ -151,9 +151,9 @@ export const Toolbar = () => {
             </PopoverPanel>
           </Popover>
         </PopoverGroup>
-        <div className={'hidden md:flex md:flex-1 md:justify-end'}>
+        <div className={'hidden lmd:flex lmd:flex-1 lmd:justify-end'}>
           {user ? (
-            <DropdownMenuToolbar handleLogout={handleLogout}/>
+            <DropdownMenuToolbar handleLogout={handleLogout} />
           ) : (
             <NavLink
               to='/login'
@@ -268,24 +268,24 @@ export const Toolbar = () => {
               </div>
               <div className={'py-6'}>
                 {user ? (
-                    <>
-                      <NavLink
-                          to='/my-cabinet'
-                          className={`-mx-3 block rounded-lg font-semibold px-3 py-2 text-base leading-7`}
-                          style={({ isActive }) => (isFocused ? { color: '#FFF' } : mobileColorChanger(isActive))}
-                          onClick={closerForMobile}
-                      >
-                        Личный кабинет
-                      </NavLink>
-                      <NavLink
-                        to='/login'
-                        className={`-mx-3 block rounded-lg font-semibold px-3 py-2 text-base leading-7 ${styles.loginMobile}`}
-                        style={({ isActive }) => (isFocused ? { color: '#FFF' } : mobileColorChanger(isActive))}
-                        onClick={handleLogout}
+                  <>
+                    <NavLink
+                      to='/my-cabinet'
+                      className={`-mx-3 block rounded-lg font-semibold px-3 py-2 text-base leading-7`}
+                      style={({ isActive }) => (isFocused ? { color: '#FFF' } : mobileColorChanger(isActive))}
+                      onClick={closerForMobile}
+                    >
+                      Личный кабинет
+                    </NavLink>
+                    <NavLink
+                      to='/login'
+                      className={`-mx-3 block rounded-lg font-semibold px-3 py-2 text-base leading-7 ${styles.loginMobile}`}
+                      style={({ isActive }) => (isFocused ? { color: '#FFF' } : mobileColorChanger(isActive))}
+                      onClick={handleLogout}
                     >
                       Выйти
                     </NavLink>
-                    </>
+                  </>
                 ) : (
                   <NavLink
                     to='/login'

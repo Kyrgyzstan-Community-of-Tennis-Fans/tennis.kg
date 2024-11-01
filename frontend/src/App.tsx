@@ -7,6 +7,7 @@ import { ResetPassword } from '@/features/users/ResetPassword';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Toolbar } from '@/components/Toolbar/Toolbar';
+import Footer from '@/components/Footer/Footer';
 
 export const App: React.FC = () => {
   return (
@@ -22,6 +23,9 @@ export const App: React.FC = () => {
         <Route path={'/partners'} element={<Partners />} />
       </Routes>
       <Toaster />
+      <footer>
+        <Footer />
+      </footer>
     </>
   );
 };

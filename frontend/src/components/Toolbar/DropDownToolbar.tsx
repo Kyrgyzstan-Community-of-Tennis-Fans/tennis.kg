@@ -1,5 +1,5 @@
+import React from 'react';
 import { LogOut, User } from 'lucide-react';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,18 +10,17 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { NavLink } from 'react-router-dom';
-import {UserCircleIcon} from "@heroicons/react/16/solid";
-import React from "react";
+import { UserCircleIcon } from '@heroicons/react/16/solid';
 
 interface Props {
   handleLogout: () => void;
 }
 
-export const DropdownMenuToolbar: React.FC<Props> = ({handleLogout}) => {
+export const DropdownMenuToolbar: React.FC<Props> = ({ handleLogout }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <UserCircleIcon className={'w-8 h-8'} fill={'green'} style={{cursor: 'pointer'}}/>
+        <UserCircleIcon className={'w-8 h-8'} fill={'green'} style={{ cursor: 'pointer' }} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56'>
         <DropdownMenuLabel>Мой аккаунт</DropdownMenuLabel>
