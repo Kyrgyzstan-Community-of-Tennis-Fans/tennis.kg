@@ -1,9 +1,9 @@
 export interface Carousel {
-    _id:string;
-    image:string | null;
-    createdAt:string;
+  _id: string;
+  image: string | null;
+  createdAt: string;
 }
 
 export interface CarouselMutation {
-    image:string | null;
+  image: string | null;
 }

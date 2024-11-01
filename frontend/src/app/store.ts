@@ -3,7 +3,7 @@ import { usersSlice } from '@/features/users/usersSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import {CarouselReducer} from '@/features/carousel/CarouselSlice';
+import { CarouselReducer } from '@/features/carousel/CarouselSlice';
 import { partnerReducer } from '@/features/partners/partnerSlice';
 import { newsReducer } from '@/features/news/newsSlice';
 
@@ -15,7 +15,7 @@ const usersPersistConfig = {
 
 const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersSlice.reducer),
-  carousel:CarouselReducer,
+  carousel: CarouselReducer,
   partners: partnerReducer,
   news: newsReducer,
   category: categorySlice.reducer,

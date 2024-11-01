@@ -30,6 +30,5 @@ const imageCarousel = multer.diskStorage({
   },
 });
 
-
-export const ImagesCarousel = multer({storage:imageCarousel})
+export const ImagesCarousel = multer({ storage: imageCarousel });
 export const imagesUpload = multer({ storage: imageStorage });

@@ -161,11 +161,14 @@ const run = async () => {
     }
   );
 
-  await Carousel.create([{
-    image:'fixtures/carousel/photo-1.jpg',
-  },{
-    image:'fixtures/carousel/photo-2.jpg',
-  },]);
+  await Carousel.create([
+    {
+      image: 'fixtures/carousel/photo-1.jpg',
+    },
+    {
+      image: 'fixtures/carousel/photo-2.jpg',
+    },
+  ]);
 
   await db.close();
 };
