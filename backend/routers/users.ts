@@ -90,7 +90,7 @@ usersRouter.post('/forgot-password', async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).send({ error: 'Пользователь с таким email не найден!' });
+      return res.status(400).send({ error: 'Пользователь с таким email не найден' });
     }
 
     const token = randomBytes(20).toString('hex');
@@ -105,14 +105,14 @@ usersRouter.post('/forgot-password', async (req, res, next) => {
       from: process.env.EMAIL_USER,
       subject: 'Сброс пароля',
       text:
-        `Вы получили это письмо, потому что вы запросили сброс пароля для вашего аккаунта.\n\n` +
+        `Вы получили это письмо, потому что вы запросили сброс пароля для вашего аккаунта\n\n` +
         `Пожалуйста, перейдите по следующей ссылке, чтобы сбросить ваш пароль:\n\n` +
         `${resetUrl}\n\n` +
-        `Если вы не запрашивали сброс пароля, просто проигнорируйте это письмо.`,
+        `Если вы не запрашивали сброс пароля, просто проигнорируйте это письмо`,
     };
 
     await transporter.sendMail(mailOptions);
-    return res.send({ message: 'Ссылка для сброса пароля отправлена на ваш email.' });
+    return res.send({ message: 'Ссылка для сброса пароля отправлена на ваш email' });
   } catch (error) {
     return next(error);
   }
@@ -129,7 +129,7 @@ usersRouter.post('/reset-password/:token', async (req, res, next) => {
     });
 
     if (!user) {
-      return res.status(400).send({ error: 'Некорректный или истёкший токен.' });
+      return res.status(400).send({ error: 'Некорректный или истёкший токен' });
     }
 
     user.password = password;
@@ -137,7 +137,7 @@ usersRouter.post('/reset-password/:token', async (req, res, next) => {
     user.resetPasswordExpires = null;
 
     await user.save();
-    return res.send({ message: 'Пароль успешно сброшен.' });
+    return res.send({ message: 'Пароль успешно сброшен' });
   } catch (error) {
     return next(error);
   }

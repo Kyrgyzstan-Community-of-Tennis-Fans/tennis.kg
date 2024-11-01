@@ -68,15 +68,13 @@ export const Login: React.FC = () => {
         }}
       >
         <div className={'mb-7'}>
-          <h1 className={'font-bold text-[28px] mb-2'}>Добро пожаловать.</h1>
-          <p className={'text-sm text-black/75'}>
-            Пожалуйста, введите ваш телефон и пароль для входа в личный кабинет.
-          </p>
+          <h1 className={'font-bold text-[28px] mb-2'}>Добро пожаловать</h1>
+          <p className={'text-sm text-black/75'}>Пожалуйста, введите ваш телефон и пароль для входа в личный кабинет</p>
         </div>
 
         <div className={'mb-4'}>
-          <div className={'flex justify-between'}>
-            <Label htmlFor={'telephone'} className={'text-base font-medium block mb-0.5'}>
+          <div className={'flex justify-between flex-col sm:flex-row'}>
+            <Label htmlFor={'telephone'} className={'text-base font-medium block leading-none sm:mb-1'}>
               Номер телефона
             </Label>
             {error && <span className={'text-sm text-red-500'}>{translatedError}</span>}
@@ -92,8 +90,8 @@ export const Login: React.FC = () => {
         </div>
 
         <div className={'mb-8'}>
-          <div className={'flex justify-between'}>
-            <Label htmlFor={'password'} className={'text-base font-medium block mb-0.5'}>
+          <div className={'flex justify-between flex-col sm:flex-row'}>
+            <Label htmlFor={'password'} className={'text-base font-medium block leading-none sm:mb-1'}>
               Пароль
             </Label>
             {error && <span className={'text-sm text-red-500'}>{translatedError}</span>}

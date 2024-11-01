@@ -145,8 +145,8 @@ export const Register: React.FC = () => {
         style={{ boxShadow: '0px 4px 100px 0px #00000017' }}
       >
         <div className='mb-3'>
-          <h1 className='font-bold text-[28px]'>Создать аккаунт.</h1>
-          <p className='text-sm text-black/75'>Пожалуйста, заполните все данные для создания аккаунта.</p>
+          <h1 className='font-bold text-[28px]'>Создать аккаунт</h1>
+          <p className='text-sm text-black/75'>Пожалуйста, заполните все данные для создания аккаунта</p>
         </div>
 
         <div className='space-y-3 mb-8'>

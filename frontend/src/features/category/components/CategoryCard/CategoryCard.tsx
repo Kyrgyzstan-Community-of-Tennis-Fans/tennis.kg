@@ -6,9 +6,9 @@ import { Card } from '@/components/ui/card';
 import { selectCategoryDeleting } from '@/features/category/categorySlice';
 import { deleteCategory } from '@/features/category/categoryThunks';
 import { CategoryEdit } from '@/features/category/components/CategoryEdit/CategoryEdit';
+import { formatDate } from '@/lib/formatDate';
 import type { Category } from '@/types/categoryTypes';
 import { TrashIcon } from '@heroicons/react/24/outline';
-
 import React from 'react';
 import { toast } from 'sonner';
 
@@ -30,9 +30,14 @@ export const CategoryCard: React.FC<Props> = ({ category }) => {
   };
 
   return (
-    <Card className={'p-3 shadow-none relative flex-1'}>
+    <Card className={'p-3 shadow-none relative min-w-72 flex-1'}>
       <div className={'flex items-center gap-2 justify-between flex-col lg:flex-row flex-nowrap'}>
-        <h3 className={'text-sm'}>{category.name}</h3>
+        <div>
+          <h3 className={'text-sm'}>{category.name}</h3>
+          <small className={'text-muted-foreground'}>
+            Добавлено: {formatDate(category.createdAt, 'dd MMM yy, hh:mm')}
+          </small>
+        </div>
 
         <div className={'space-x-1 flex items-center'}>
           <Confirm onOk={handleDelete}>
