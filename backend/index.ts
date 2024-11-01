@@ -5,6 +5,7 @@ import config from './config';
 import { categoriesRouter } from './routers/categories';
 import { usersRouter } from './routers/users';
 import newsRouter from './routers/news';
+import { carouselRouter } from './routers/carouselRouter';
 import { partnersRouter } from './routers/partners';
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cors(config.corsOptions));
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/users', usersRouter);
+app.use('/carousel', carouselRouter);
 app.use('/news', newsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/partners', partnersRouter);

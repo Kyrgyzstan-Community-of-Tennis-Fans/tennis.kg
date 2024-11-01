@@ -5,6 +5,7 @@ import { Category } from './model/Category';
 import { Partner } from './model/Partner';
 import News from './model/News';
 import { User } from './model/User';
+import { Carousel } from './model/Carousel';
 
 const run = async () => {
   await mongoose.connect(config.database);
@@ -14,6 +15,7 @@ const run = async () => {
     await db.dropCollection('categories');
     await db.dropCollection('users');
     await db.dropCollection('partners');
+    await db.dropCollection('carousel');
   } catch (e) {
     console.log('Skipping drop...');
   }
@@ -158,6 +160,15 @@ const run = async () => {
       token: randomUUID(),
     }
   );
+
+  await Carousel.create([
+    {
+      image: 'fixtures/carousel/photo-1.jpg',
+    },
+    {
+      image: 'fixtures/carousel/photo-2.jpg',
+    },
+  ]);
 
   await db.close();
 };
