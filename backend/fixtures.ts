@@ -1,10 +1,11 @@
 import { randomUUID } from 'crypto';
 import mongoose from 'mongoose';
 import config from './config';
-import { Category } from './model/Category';
-import { Partner } from './model/Partner';
-import News from './model/News';
-import { User } from './model/User';
+import { News } from './src/model/News';
+import { Partner } from './src/model/Partner';
+import { Category } from './src/model/Category';
+import { User } from './src/model/User';
+import { Carousel } from './src/model/Carousel';
 
 const run = async () => {
   await mongoose.connect(config.database);
@@ -14,6 +15,7 @@ const run = async () => {
     await db.dropCollection('categories');
     await db.dropCollection('users');
     await db.dropCollection('partners');
+    await db.dropCollection('carousels');
   } catch (e) {
     console.log('Skipping drop...');
   }
@@ -161,6 +163,15 @@ const run = async () => {
       token: randomUUID(),
     }
   );
+
+  await Carousel.create([
+    {
+      image: 'fixtures/carousel/photo-1.jpg',
+    },
+    {
+      image: 'fixtures/carousel/photo-2.jpg',
+    },
+  ]);
 
   await db.close();
 };
