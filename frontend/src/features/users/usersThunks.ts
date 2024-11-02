@@ -1,7 +1,15 @@
 import type { RootState } from '@/app/store';
 import { axiosApi } from '@/axiosApi';
 import { unsetUser } from '@/features/users/usersSlice';
-import type { GlobalError, LoginMutation, RegisterMutation, User, ValidationError } from '@/types/userTypes';
+import type {
+  GlobalError,
+  LoginMutation,
+  RegisterMutation,
+  User,
+  UserInfo,
+  UserInfoMutation,
+  ValidationError,
+} from '@/types/userTypes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 
@@ -68,6 +76,40 @@ export const resetPassword = createAsyncThunk<void, { password: string; token: s
   async ({ password, token }, { rejectWithValue }) => {
     try {
       await axiosApi.post(`/users/reset-password/${token}`, { password });
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data);
+      }
+
+      throw error;
+    }
+  },
+);
+
+export const fetchOneUser = createAsyncThunk<UserInfo, string, { rejectValue: GlobalError }>(
+  'users/fetchOneUser',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const { data: user } = await axiosApi.get<UserInfo>(`/users/${userId}`);
+
+      return user;
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data);
+      }
+
+      throw error;
+    }
+  },
+);
+
+export const updateUserInfo = createAsyncThunk<User, UserInfoMutation, { rejectValue: GlobalError }>(
+  'users/updateUserInfo',
+  async (userInfo, { rejectWithValue }) => {
+    try {
+      const { data: user } = await axiosApi.put<User>('/users/update-info', userInfo);
+
+      return user;
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data);

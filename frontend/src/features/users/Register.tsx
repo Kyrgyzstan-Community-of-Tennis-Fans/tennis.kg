@@ -9,6 +9,8 @@ import { fetchCategories } from '@/features/category/categoryThunks';
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
 import { selectRegisterError, selectRegisterLoading } from '@/features/users/usersSlice';
 import { register } from '@/features/users/usersThunks';
+import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
+import { formatTelephone } from '@/lib/formatTelephone';
 import type { RegisterMutation } from '@/types/userTypes';
 import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
 import React, { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
@@ -52,37 +54,9 @@ export const Register: React.FC = () => {
   }, [dispatch]);
 
   const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value.replace(/\D/g, '');
+    const date = formatDateOfBirth(event.target.value);
 
-    if (value.length > 8) {
-      value = value.slice(0, 8);
-    }
-
-    let formattedDate = '';
-
-    if (value.length > 0) {
-      const day = value.slice(0, 2);
-      if (parseInt(day, 10) > 31) {
-        formattedDate += '31';
-      } else {
-        formattedDate += day;
-      }
-    }
-    if (value.length > 2) {
-      formattedDate += '.';
-      const month = value.slice(2, 4);
-      if (parseInt(month, 10) > 12) {
-        formattedDate += '12';
-      } else {
-        formattedDate += month;
-      }
-    }
-    if (value.length > 4) {
-      formattedDate += '.';
-      formattedDate += value.slice(4);
-    }
-
-    updateRegisterField('dateOfBirth', formattedDate);
+    updateRegisterField('dateOfBirth', date);
   };
 
   const handleRulesChange = (value: boolean, id: string) => {
@@ -93,18 +67,7 @@ export const Register: React.FC = () => {
     const { id, value } = event.target;
 
     if (id === 'telephone') {
-      const digitsOnly = value.replace(/\D/g, '');
-      let formattedPhone = digitsOnly;
-
-      if (digitsOnly.length > 1) {
-        formattedPhone = '0' + digitsOnly.slice(1, 4);
-      }
-      if (digitsOnly.length > 4) {
-        formattedPhone += ' ' + digitsOnly.slice(4, 7);
-      }
-      if (digitsOnly.length > 7) {
-        formattedPhone += ' ' + digitsOnly.slice(7, 10);
-      }
+      const formattedPhone = formatTelephone(value);
 
       setRegisterMutation((prev) => ({ ...prev, telephone: formattedPhone }));
       return;
@@ -124,7 +87,10 @@ export const Register: React.FC = () => {
 
   const isFormValid = () => {
     const isFilled =
-      Object.values(registerMutation).every((value) => value.trim() !== '') && confirmPassword.trim() !== '';
+      Object.values(registerMutation).every((value) => value.trim() !== '') &&
+      confirmPassword.trim() !== '' &&
+      registerMutation.telephone.length === 12 &&
+      registerMutation.dateOfBirth.length === 10;
     const passwordsMatch = registerMutation.password === confirmPassword;
     const isRulesAccepted = Object.values(isRulesChecked).every((value) => value);
 
@@ -209,7 +175,9 @@ export const Register: React.FC = () => {
           />
 
           <div>
-            <Label htmlFor='gender'>Пол</Label>
+            <Label htmlFor='gender' className={'text-base font-medium block'}>
+              Пол
+            </Label>
             <Select value={registerMutation.gender} onValueChange={(value) => handleSelectChange(value, 'gender')}>
               <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='gender'>
                 <SelectValue placeholder='Укажите ваш пол' />
@@ -224,7 +192,9 @@ export const Register: React.FC = () => {
           </div>
 
           <div>
-            <Label htmlFor='category'>Категория</Label>
+            <Label htmlFor='category' className={'text-base font-medium block'}>
+              Категория
+            </Label>
             <Select
               disabled={categoriesFetching || categories.length === 0}
               value={registerMutation.category}

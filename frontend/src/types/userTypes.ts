@@ -1,3 +1,5 @@
+import type { Category } from '@/types/categoryTypes';
+
 export interface LoginMutation {
   telephone: string;
   password: string;
@@ -18,12 +20,13 @@ export interface User {
   telephone: string;
   fullName: string;
   gender: 'male' | 'female';
-  category: string;
+  category: Category;
   dateOfBirth: string;
   email: string;
   token: string;
   role: 'admin' | 'user';
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface ValidationError {

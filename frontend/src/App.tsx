@@ -7,6 +7,7 @@ import { Category } from '@/features/category/category';
 import Partners from '@/features/partners/Partners';
 import { ForgotPassword } from '@/features/users/ForgotPassword';
 import { Login } from '@/features/users/Login';
+import { PersonalAccount } from '@/features/users/PersonalAccount';
 import { Register } from '@/features/users/Register';
 import { ResetPassword } from '@/features/users/ResetPassword';
 import { selectUser } from '@/features/users/usersSlice';
@@ -38,6 +39,14 @@ export const App: React.FC = () => {
           element={
             <ProtectedRoute isAllowed={user && user.role === 'admin'}>
               <Category />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={'/personal-account'}
+          element={
+            <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+              <PersonalAccount />
             </ProtectedRoute>
           }
         />

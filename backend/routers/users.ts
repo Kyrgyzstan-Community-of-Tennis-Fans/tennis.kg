@@ -19,7 +19,7 @@ usersRouter.post('/', async (req, res, next) => {
   try {
     const { email, category, fullName, telephone, dateOfBirth, gender, password } = req.body;
 
-    const user = new User({
+    const user = await User.create({
       category,
       fullName,
       telephone,
@@ -32,7 +32,9 @@ usersRouter.post('/', async (req, res, next) => {
     user.generateToken();
     await user.save();
 
-    return res.send(user);
+    const newUser = await User.findOne({ _id: user.id }).populate('category', 'name');
+
+    return res.send(newUser);
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(error);
@@ -44,7 +46,7 @@ usersRouter.post('/', async (req, res, next) => {
 
 usersRouter.post('/sessions', async (req, res, next) => {
   try {
-    const user = await User.findOne({ telephone: req.body.telephone });
+    const user = await User.findOne({ telephone: req.body.telephone }).populate('category', 'name');
 
     if (!user) {
       return res.status(400).send({ error: 'Username not found!' });
@@ -138,6 +140,50 @@ usersRouter.post('/reset-password/:token', async (req, res, next) => {
 
     await user.save();
     return res.send({ message: 'Пароль успешно сброшен' });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+usersRouter.get('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id).populate('category');
+
+    if (!user) {
+      return res.status(404).send({ error: 'User not found' });
+    }
+
+    return res.send(user);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+usersRouter.put('/update-info', auth, async (req: RequestWithUser, res, next) => {
+  try {
+    const { fullName, telephone, dateOfBirth, category, gender, email } = req.body;
+
+    if (!req.user) {
+      return res.status(401).send({ error: 'Unauthorized!' });
+    }
+
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).send({ error: 'User not found!' });
+    }
+
+    if (fullName) user.fullName = fullName;
+    if (telephone) user.telephone = telephone;
+    if (dateOfBirth) user.dateOfBirth = dateOfBirth;
+    if (category) user.category = category;
+    if (gender) user.gender = gender;
+    if (email) user.email = email;
+
+    await user.save();
+
+    res.send(user);
   } catch (error) {
     return next(error);
   }

@@ -1,4 +1,4 @@
-import { forgotPassword, login, register } from '@/features/users/usersThunks';
+import { forgotPassword, login, register, updateUserInfo } from '@/features/users/usersThunks';
 import type { GlobalError, User, ValidationError } from '@/types/userTypes';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -12,6 +12,8 @@ interface UsersState {
   forgotPasswordError: GlobalError | null;
   resetPasswordLoading: boolean;
   resetPasswordError: GlobalError | null;
+  usersUpdating: boolean;
+  usersUpdatingError: GlobalError | null;
 }
 
 const initialState: UsersState = {
@@ -24,6 +26,8 @@ const initialState: UsersState = {
   forgotPasswordError: null,
   resetPasswordError: null,
   resetPasswordLoading: false,
+  usersUpdating: false,
+  usersUpdatingError: null,
 };
 
 export const usersSlice = createSlice({
@@ -75,6 +79,18 @@ export const usersSlice = createSlice({
         state.forgotPasswordError = error || null;
         state.forgotPasswordLoading = false;
       });
+
+    builder
+      .addCase(updateUserInfo.pending, (state) => {
+        state.usersUpdating = true;
+      })
+      .addCase(updateUserInfo.fulfilled, (state, { payload: user }) => {
+        state.usersUpdating = false;
+        state.user = user;
+      })
+      .addCase(updateUserInfo.rejected, (state) => {
+        state.usersUpdating = false;
+      });
   },
   selectors: {
     selectUser: (state) => state.user,
@@ -86,6 +102,8 @@ export const usersSlice = createSlice({
     selectForgotPasswordError: (state) => state.forgotPasswordError,
     selectResetPasswordLoading: (state) => state.resetPasswordLoading,
     selectResetPasswordError: (state) => state.resetPasswordError,
+    selectUpdating: (state) => state.usersUpdating,
+    selectUpdatingError: (state) => state.usersUpdatingError,
   },
 });
 
@@ -101,4 +119,6 @@ export const {
   selectForgotPasswordError,
   selectResetPasswordLoading,
   selectResetPasswordError,
+  selectUpdating,
+  selectUpdatingError,
 } = usersSlice.selectors;
