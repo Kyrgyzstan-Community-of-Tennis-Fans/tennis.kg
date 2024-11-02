@@ -28,12 +28,7 @@ export const App: React.FC = () => {
         <Route path={'/reset-password/:token'} element={<ResetPassword />} />
         <Route path={'/forgot-password'} element={<ForgotPassword />} />
         <Route path={'/news'} element={<News />} />
-        <Route
-          path={'/partners'}
-          element={
-              <Partners />
-          }
-        />
+        <Route path={'/partners'} element={<Partners />} />
         <Route
           path='/admin/partners'
           element={

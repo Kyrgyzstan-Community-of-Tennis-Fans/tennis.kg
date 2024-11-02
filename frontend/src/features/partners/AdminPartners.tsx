@@ -25,7 +25,6 @@ const AdminPartners = () => {
       setIsDialogOpen(false);
     } catch (error) {
       console.error('Failed to create partner:', error);
-    } finally {
     }
   };
 
