@@ -9,6 +9,7 @@ import { Category } from '@/features/category/category';
 import Partners from '@/features/partners/Partners';
 import { ForgotPassword } from '@/features/users/ForgotPassword';
 import { Login } from '@/features/users/Login';
+import { PersonalAccount } from '@/features/users/PersonalAccount';
 import { Register } from '@/features/users/Register';
 import { ResetPassword } from '@/features/users/ResetPassword';
 import { selectUser } from '@/features/users/usersSlice';
@@ -24,7 +25,7 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <header>
+      <header className={'mb-32'}>
         <Toolbar />
       </header>
       <Layout>
@@ -40,6 +41,14 @@ export const App: React.FC = () => {
             element={
               <ProtectedRoute isAllowed={user && user.role === 'admin'}>
                 <AdminPartners />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={'/personal-account'}
+            element={
+              <ProtectedRoute isAllowed={user ? true : null}>
+                <PersonalAccount />
               </ProtectedRoute>
             }
           />
@@ -64,7 +73,7 @@ export const App: React.FC = () => {
         </Routes>
       </Layout>
 
-      <footer>
+      <footer className={'mt-32'}>
         <Footer />
       </footer>
       <Toaster />
