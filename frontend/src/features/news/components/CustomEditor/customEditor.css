@@ -1,0 +1,8 @@
+.custom-editor {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.ql-editor {
+    word-wrap: anywhere;
+}

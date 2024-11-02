@@ -9,7 +9,7 @@ import { Partner } from '@/types/partnerTypes';
 import { Loader } from '@/components/Loader/Loader';
 import { SquaresPlusIcon } from '@heroicons/react/24/outline';
 
-const AdminPartners = () => {
+export const AdminPartners = () => {
   const dispatch = useAppDispatch();
   const partners = useAppSelector(selectPartners);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -55,4 +55,3 @@ const AdminPartners = () => {
   );
 };
 
-export default AdminPartners;

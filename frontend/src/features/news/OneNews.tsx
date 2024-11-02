@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import useEmblaCarousel from 'embla-carousel-react';
 import { fetchNewsByLimit, fetchOneNews } from '@/features/news/newsThunks';
 import { selectNews, selectOneNews } from '@/features/news/newsSlice';
 import { API_URl } from '@/consts';
-import useEmblaCarousel from 'embla-carousel-react';
 import { NextButton, PrevButton, usePrevNextButtons } from '@/features/news/components/CarouselButtons';
-import './embla.css';
 import NewsCard from '@/features/news/components/NewsCard';
+import './embla.css';
 
-const OneNews: React.FC = () => {
+export const OneNews: React.FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ dragFree: true, loop: true });
   const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(emblaApi);
 
@@ -51,10 +51,10 @@ const OneNews: React.FC = () => {
         </div>
       </section>
       <section className='mb-5'>
-        <p className='text-lg sm:text-xl leading-6 sm:leading-8 mb-5'>{oneNews?.content}</p>
+        <div className='text-lg sm:text-xl leading-6 sm:leading-8 mb-5'>{oneNews?.content}</div>
       </section>
       <section>
-        <h3 className='text-4xl text-center sm:text-start font-semibold mb-8'>Другие новости</h3>
+        <h3 className='text-2xl text-center sm:text-start sm:text-4xl font-semibold mb-8'>Другие новости</h3>
         <div className='grid gap-5 justify-center items-center sm:grid-cols-2 lg:grid-cols-4'>
           {news.map((newsItem) => (
             <NewsCard key={newsItem._id} news={newsItem} />
@@ -64,5 +64,3 @@ const OneNews: React.FC = () => {
     </main>
   );
 };
-
-export default OneNews;

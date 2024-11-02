@@ -1,5 +1,5 @@
-import { randomUUID } from 'crypto';
 import mongoose from 'mongoose';
+import { randomUUID } from 'crypto';
 import config from './config';
 import { News } from './src/model/News';
 import { Partner } from './src/model/Partner';
@@ -16,6 +16,7 @@ const run = async () => {
     await db.dropCollection('users');
     await db.dropCollection('partners');
     await db.dropCollection('carousels');
+    // await db.dropCollection('news');
   } catch (e) {
     console.log('Skipping drop...');
   }
@@ -25,7 +26,7 @@ const run = async () => {
       title: 'Winter Gold Cup 2021',
       subtitle: 'Новогодний турнир',
       content:
-        'Товарищи! консультация с широким активом позволяет выполнять важные задания по разработке дальнейших направлений развития. ' +
+        'Товарищи! консультация с широким активом выполнять важные задания по разработке дальнейших направлений развития. ' +
         'Равным образом консультация с широким активом в значительной степени обуславливает создание системы обучения кадров, соответствует насущным потребностям.\n' +
         'Разнообразный и богатый опыт укрепление и развитие структуры позволяет выполнять важные задания по разработке системы обучения кадров, ' +
         'соответствует насущным потребностям. Задача организации, в особенности же дальнейшее развитие различных форм деятельности позволяет оценить значение новых предложений. ' +
@@ -42,16 +43,16 @@ const run = async () => {
         'Не следует, однако забывать, что начало повседневной работы по формированию позиции позволяет выполнять важные задания по разработке систем массового участия. ' +
         'Товарищи! укрепление и развитие структуры влечет за собой процесс внедрения и модернизации дальнейших направлений развития. ' +
         'Таким образом укрепление и развитие структуры позволяет оценить значение направлений прогрессивного развития.',
-      createdAt: '2024-10-28T16:15:36.700+00:00',
-      updatedAt: '2024-10-28T16:15:36.700+00:00',
-      newsCover: 'public/newsFixtures/first.png',
+      createdAt: '2024-11-02T16:15:36.700+00:00',
+      updatedAt: '2024-11-03T16:15:36.700+00:00',
+      newsCover: 'fixtures/news/first.png',
       images: [
-        'public/newsFixtures/newsInner1.png',
-        'public/newsFixtures/newsInner2.png',
-        'public/newsFixtures/newsInner3.png',
-        'public/newsFixtures/first.png',
-        'public/newsFixtures/second.png',
-        'public/newsFixtures/third.png',
+        'fixtures/news/newsInner1.png',
+        'fixtures/news/newsInner2.png',
+        'fixtures/news/newsInner3.png',
+        'fixtures/news/first.png',
+        'fixtures/news/second.png',
+        'fixtures/news/third.png',
       ],
     },
     {
@@ -64,8 +65,8 @@ const run = async () => {
         'Анализ задач требует внедрения инноваций для роста и развития.',
       createdAt: '2024-10-27T12:30:45.700+00:00',
       updatedAt: '2024-10-27T15:45:30.800+00:00',
-      newsCover: 'public/newsFixtures/second.png',
-      images: ['public/newsFixtures/newsInner1.png', 'public/newsFixtures/newsInner2.png'],
+      newsCover: 'fixtures/news/second.png',
+      images: ['fixtures/news/newsInner1.png', 'fixtures/news/newsInner2.png'],
     },
     {
       title: 'Autumn Bronze Cup 2022',
@@ -75,10 +76,15 @@ const run = async () => {
         'Значение новых предложений оценено и принято на вооружение для будущего роста. ' +
         'Начало работы над новыми проектами способствует реализации поставленных задач. ' +
         'Особое внимание уделяется анализу текущих процессов и их оптимизации.',
-      createdAt: '2024-10-25T09:20:15.500+00:00',
-      updatedAt: '2024-10-26T11:35:40.600+00:00',
-      newsCover: 'public/newsFixtures/third.png',
-      images: [],
+      createdAt: '2024-11-01T09:20:15.500+00:00',
+      updatedAt: '2024-11-02T11:35:40.600+00:00',
+      newsCover: 'fixtures/news/third.png',
+      images: [
+        'fixtures/news/newsInner2.png',
+        'fixtures/news/newsInner3.png',
+        'fixtures/news/first.png',
+        'fixtures/news/second.png',
+      ],
     },
     {
       title: 'Winter Silver Cup 2023',
@@ -88,9 +94,9 @@ const run = async () => {
         'Консультация с активом выявляет направления улучшения качества обучения. ' +
         'Организационная деятельность требует особого внимания для решения новых задач. ' +
         'Практика показывает, что обновление структуры способствует повышению эффективности.',
-      createdAt: '2024-10-20T08:15:22.300+00:00',
-      updatedAt: '2024-10-21T10:50:18.400+00:00',
-      newsCover: 'public/newsFixtures/fourth.png',
+      createdAt: '2024-10-29T08:15:22.300+00:00',
+      updatedAt: '2024-10-30T10:50:18.400+00:00',
+      newsCover: 'fixtures/news/fourth.png',
       images: [],
     }
   );

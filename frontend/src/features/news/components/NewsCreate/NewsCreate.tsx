@@ -7,15 +7,19 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { NewsMutation } from '@/types/news';
 import CustomEditor from '@/features/news/components/CustomEditor/CustomEditor';
+import FileInput from '@/components/FileInput/FilleInput';
+import { createNews } from '@/features/news/newsThunks';
+
+const initialState: NewsMutation = {
+  title: '',
+  subtitle: '',
+  content: '',
+  newsCover: null,
+  images: [],
+};
 
 const NewsCreate: React.FC = () => {
-  const [news, setNews] = useState<NewsMutation>({
-    title: '',
-    subtitle: '',
-    content: '',
-    newsCover: '',
-    images: [],
-  });
+  const [news, setNews] = useState<NewsMutation>(initialState);
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const quillRef = useRef<ReactQuill>(null);
@@ -25,13 +29,50 @@ const NewsCreate: React.FC = () => {
     setNews({ ...news, [name]: value });
   };
 
-  const handleContentChange = (content: string) => {
+  const handleEditorChange = (content: string) => {
     setNews({ ...news, content });
   };
 
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    if (!files) return;
+
+    setNews((prevState) => {
+      if (name === 'images') {
+        const updatedImages = [...prevState.images, ...Array.from(files)];
+        return { ...prevState, [name]: updatedImages };
+      } else {
+        return { ...prevState, [name]: files[0] };
+      }
+    });
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(news);
+    try {
+      event.preventDefault();
+
+      const { toast } = await import('sonner');
+      if (!news.title.trim() || !news.content.trim() || !news.newsCover) {
+        return toast.error('Заполните обязательные поля!');
+      }
+
+      await dispatch(
+        createNews({
+          title: news.title,
+          subtitle: news.subtitle,
+          content: news.content,
+          newsCover: news.newsCover,
+          images: news.images,
+        }),
+      ).unwrap();
+
+      setOpen(false);
+      toast.success('Новость успешно добавлена!');
+    } catch (e) {
+      console.error(e);
+      const { toast } = await import('sonner');
+      toast.error('Ошибка при создании новости!');
+    }
   };
 
   return (
@@ -41,9 +82,9 @@ const NewsCreate: React.FC = () => {
           Добавить новость
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='max-h-svh overflow-y-auto'>
         <DialogHeader>
-          <DialogTitle className='text-2xl font-bold'>Добавить новость</DialogTitle>
+          <DialogTitle className='text-2xl text-center font-bold'>Добавить новость</DialogTitle>
         </DialogHeader>
 
         <form className='space-y-4' onSubmit={handleSubmit}>
@@ -52,6 +93,7 @@ const NewsCreate: React.FC = () => {
               Заголовок новости
             </Label>
             <Input
+              required
               name='title'
               placeholder='Заголовок новости'
               autoComplete='off'
@@ -71,11 +113,45 @@ const NewsCreate: React.FC = () => {
               className='h-12 focus-visible:ring-[#80BC41]'
             />
           </div>
+
           <div className='flex flex-col'>
-            <CustomEditor ref={quillRef} value={news.content} onChange={handleContentChange} />
+            <CustomEditor ref={quillRef} value={news.content} onChange={handleEditorChange} />
           </div>
 
-          <Button type='submit' className='w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5'>
+          <div className='flex flex-col'>
+            <Label htmlFor='newsCover' className='text-lg text-[#80BC41]'>
+              Обложка новости
+            </Label>
+            <FileInput name='newsCover' onChange={handleFileInputChange} />
+            {news.newsCover && (
+              <img
+                src={URL.createObjectURL(news.newsCover)}
+                alt='News Cover Preview'
+                className='mt-2 w-full xs:w-1/2 h-auto'
+              />
+            )}
+          </div>
+
+          <div className='flex flex-col'>
+            <Label htmlFor='images' className='text-lg text-[#80BC41]'>
+              Изображения новости
+            </Label>
+            <FileInput name='images' onChange={handleFileInputChange} multiple />
+            {news.images.length > 0 && (
+              <div className='mt-2 flex flex-wrap gap-2'>
+                {news.images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={URL.createObjectURL(image)}
+                    alt={`News Image ${index + 1}`}
+                    className='w-full xs:w-1/4 h-auto'
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Button type='submit' className='w-full h-12 bg-[#232A2E] px-10 font-bold'>
             Создать
           </Button>
         </form>

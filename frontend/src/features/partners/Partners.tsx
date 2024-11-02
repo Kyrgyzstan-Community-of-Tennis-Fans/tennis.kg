@@ -6,7 +6,7 @@ import { fetchPartner } from '@/features/partners/partnerThunks';
 import { API_URl } from '@/consts';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const Partners = () => {
+export const Partners = () => {
   const dispatch = useAppDispatch();
   const partners = useAppSelector(selectPartners);
   const partnersFetching = useAppSelector(selectPartnersFetching);
@@ -49,4 +49,3 @@ const Partners = () => {
   );
 };
 
-export default Partners;

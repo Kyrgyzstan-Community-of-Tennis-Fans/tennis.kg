@@ -13,8 +13,8 @@ export interface NewsMutation {
   title: string;
   subtitle: string;
   content: string;
-  newsCover: string;
-  images: string[];
+  newsCover: File | null;
+  images: File[] | [];
 }
 
 export interface NewsResponse {

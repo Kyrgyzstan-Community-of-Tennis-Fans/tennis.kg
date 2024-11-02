@@ -13,7 +13,7 @@ const port = 8000;
 
 app.use(cors(config.corsOptions));
 app.use(express.json());
-app.use('/public', express.static('public'));
+app.use(express.static('public'));
 
 app.use('/users', usersRouter);
 app.use('/carousel', carouselRouter);

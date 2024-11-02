@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import News from '../model/News';
+import { News } from '../model/News';
 import { Error, Types } from 'mongoose';
 import { format } from 'date-fns/format';
+import { isValid, parseISO } from 'date-fns';
 
 export const createNewPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -26,16 +27,35 @@ export const createNewPost = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export const getNews = async (_req: Request, res: Response, next: NextFunction) => {
+export const getNews = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const news = await News.find().lean();
+    const dateFormat = 'dd.MM.yyyy';
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = parseInt(req.query.limit as string, 10) || 12;
+    const startIndex = (page - 1) * limit;
+    const dateFilter: { createdAt?: { $gte: Date; $lte: Date } } = {};
+
+    if (req.query.startDate && req.query.endDate) {
+      const startDate = parseISO(req.query.startDate as string);
+      const endDate = parseISO(req.query.endDate as string);
+
+      if (isValid(startDate) && isValid(endDate)) {
+        dateFilter.createdAt = { $gte: startDate, $lte: endDate };
+      }
+    }
+
+    const news = await News.find(dateFilter).sort({ createdAt: -1 }).skip(startIndex).limit(limit).lean();
+
     const formattedNews = news.map((item) => ({
       ...item,
-      createdAt: format(item.createdAt, 'dd.MM.yyyy'),
-      updatedAt: format(item.updatedAt, 'dd.MM.yyyy'),
+      createdAt: format(item.createdAt, dateFormat),
+      updatedAt: format(item.updatedAt, dateFormat),
     }));
 
-    return res.send(formattedNews);
+    const total = await News.countDocuments(dateFilter);
+    const pages = limit > 0 ? Math.ceil(total / limit) : null;
+
+    return res.send({ page, limit, total, pages, data: formattedNews });
   } catch (e) {
     return next(e);
   }

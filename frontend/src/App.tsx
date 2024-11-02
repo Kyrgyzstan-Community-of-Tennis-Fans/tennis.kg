@@ -2,7 +2,7 @@ import React from 'react';
 import { useAppSelector } from '@/app/hooks';
 import { Error404 } from '@/components/Errors/Error404';
 import { Layout } from '@/components/Layout';
-import ProtectedRoute from '@/components/ProtectedRouter/ProtectedRouter';
+import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
 import { Toaster } from '@/components/ui/sonner';
 import { Category } from '@/features/category/category';
 import { ForgotPassword } from '@/features/users/ForgotPassword';
@@ -13,8 +13,10 @@ import { selectUser } from '@/features/users/usersSlice';
 import { Route, Routes } from 'react-router-dom';
 import { BlockCarousel } from '@/features/carousel/BlockCarousel';
 import { AdminPaneBlockCarousel } from '@/features/carousel/AdminPaneBlockCarousel';
+import { Partners } from '@/features/partners/Partners';
+import { AdminPartners } from '@/features/partners/AdminPartners';
 import { News } from '@/features/news/News';
-import AdminPartners from '@/features/partners/AdminPartners';
+import { OneNews } from '@/features/news/OneNews';
 
 export const App: React.FC = () => {
   const user = useAppSelector(selectUser);
