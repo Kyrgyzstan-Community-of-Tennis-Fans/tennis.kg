@@ -1,5 +1,10 @@
+import { cn } from '@/lib/utils';
 import React, { type PropsWithChildren } from 'react';
 
-export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
-  return <div className={'container'}>{children}</div>;
+interface Props extends PropsWithChildren {
+  className?: string;
+}
+
+export const Layout: React.FC<Props> = ({ className, children }) => {
+  return <div className={cn(className, 'container')}>{children}</div>;
 };

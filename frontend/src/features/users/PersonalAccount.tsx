@@ -1,4 +1,5 @@
 import { useAppSelector } from '@/app/hooks';
+import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { UserEdit } from '@/features/users/components/UserEdit/UserEdit';
 import { selectUser } from '@/features/users/usersSlice';
@@ -16,15 +17,15 @@ export const PersonalAccount: React.FC = () => {
   }
 
   return (
-    <section>
+    <Layout>
       <header className={'flex xs:items-center justify-between gap-2 flex-col xs:flex-row border-b pb-1.5'}>
         <div>
-          <h1 className={'text-lg font-medium leading-none'}>Личный кабинет</h1>
-          <small className={'text-muted-foreground'}>Ваша персональная информация и управление данными</small>
+          <h1 className={'text-2xl font-medium leading-none'}>Личный кабинет</h1>
+          <small className={'text-muted-foreground text-base'}>Ваша персональная информация и управление данными</small>
         </div>
 
         <UserEdit>
-          <Button size={'sm'}>
+          <Button>
             Редактировать
             <PencilSquareIcon />
           </Button>
@@ -68,6 +69,6 @@ export const PersonalAccount: React.FC = () => {
           )}
         </div>
       </main>
-    </section>
+    </Layout>
   );
 };

@@ -1,15 +1,14 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { FacebookIcon, Instagram, Mail } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
   return (
     <div className={'bg-cr-shark pt-8 pb-4'}>
       <div
         className={
-          'mx-auto flex flex-col items-center justify-center lmd:items-start lmd:flex-row max-w-7xl p-6 lg:px-8 lmd:justify-evenly gap-10'
+          'mx-auto flex flex-col items-center justify-center lmd:items-start lmd:flex-row p-6 lg:px-8 lmd:justify-evenly gap-10'
         }
       >
         <div className={'basis-1/4 flex flex-col gap-5 lmd:gap-10'}>
@@ -34,7 +33,7 @@ const Footer = () => {
               All rights reserved
             </p>
           </div>
-          <div className={'flex inline-flex text-white gap-5'}>
+          <div className={'inline-flex text-white gap-5'}>
             <a
               href=''
               className={'w-10 h-10 flex justify-center items-center rounded-full'}
