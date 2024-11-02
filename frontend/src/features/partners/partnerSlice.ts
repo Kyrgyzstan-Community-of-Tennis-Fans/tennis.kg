@@ -73,7 +73,7 @@ export const partnerSlice = createSlice({
       })
       .addCase(fetchOnePartner.fulfilled, (state, { payload: partner }) => {
         state.partner = partner;
-      })
+      });
   },
   selectors: {
     selectPartners: (state) => state.partners,

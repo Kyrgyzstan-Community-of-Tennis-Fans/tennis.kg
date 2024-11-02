@@ -19,14 +19,14 @@ const PartnersCard: React.FC<Props> = ({ partner }) => {
     try {
       await dispatch(deletePartner(partner._id));
       toast.success('Успешно Удален');
-    } catch (err) {
-      toast.error('Что-то пошло не так попробуйте еще раз');
+    } catch (error) {
+      toast.error('Что-то пошло не так попробуйте еще раз ' + error);
     }
   };
 
   return (
     <div className='w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg bg-white/0  rounded-lg flex items-center p-2 space-x-2 mx-auto border '>
-      <img alt='Логотип компании' className='w-14 h-14 rounded' src={`${API_URl}/${partner.image}`} />
+      <img alt='Логотип компании' className='w-14 object-contain h-14 rounded' src={`${API_URl}/${partner.image}`} />
       <div className='flex-1'>
         <h3 className='text-sm font-semibold text-gray-800 hidden md:block'>{partner.name}</h3>
       </div>

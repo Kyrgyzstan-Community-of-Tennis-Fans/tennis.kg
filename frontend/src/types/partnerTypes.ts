@@ -5,4 +5,4 @@ export interface Partner {
   url: string;
 }
 
-export type mutationPartner = Omit<Partner, '_id'>
+export type mutationPartner = Omit<Partner, '_id'>;
