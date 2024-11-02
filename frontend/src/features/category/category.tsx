@@ -1,20 +1,13 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Loader } from '@/components/Loader/Loader';
-import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
-import { fetchCategories } from '@/features/category/categoryThunks';
 import { CategoryCard } from '@/features/category/components/CategoryCard/CategoryCard';
 import { CategoryCreate } from '@/features/category/components/CategoryCreate/CategoryCreate';
-import React, { useEffect } from 'react';
+import React from 'react';
+import {useCategory} from '@/features/category/hooks/useCategory';
 
 export const Category: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const categories = useAppSelector(selectCategories);
-  const categoriesFetching = useAppSelector(selectCategoriesFetching);
-
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
+  
+  const { categories, categoriesFetching } = useCategory();
+  
   if (categoriesFetching) {
     return <Loader fixed />;
   }

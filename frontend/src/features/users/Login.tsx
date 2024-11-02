@@ -1,61 +1,15 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { Loader } from '@/components/Loader/Loader';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { selectLoginError, selectLoginLoading } from '@/features/users/usersSlice';
-import { login } from '@/features/users/usersThunks';
-import type { LoginMutation } from '@/types/userTypes';
-import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
-import React, { type ChangeEvent, type FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
-const initialState: LoginMutation = {
-  telephone: '',
-  password: '',
-};
+import {Loader} from '@/components/Loader/Loader';
+import {Button} from '@/components/ui/button';
+import {Input} from '@/components/ui/input';
+import {Label} from '@/components/ui/label';
+import {ArrowLongRightIcon} from '@heroicons/react/24/outline';
+import React from 'react';
+import {Link} from 'react-router-dom';
+import {useLogin} from '@/features/users/hooks/login';
 
 export const Login: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const loading = useAppSelector(selectLoginLoading);
-  const error = useAppSelector(selectLoginError);
-  const navigate = useNavigate();
-  const [loginMutation, setLoginMutation] = useState(initialState);
 
-  const translatedError = error?.error === 'Username not found!' ? 'Неверный номер телефона или пароль' : error?.error;
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = event.target;
-
-    if (id === 'telephone') {
-      const digitsOnly = value.replace(/\D/g, '');
-      let formattedPhone = digitsOnly;
-
-      if (digitsOnly.length > 1) {
-        formattedPhone = '0' + digitsOnly.slice(1, 4);
-      }
-      if (digitsOnly.length > 4) {
-        formattedPhone += ' ' + digitsOnly.slice(4, 7);
-      }
-      if (digitsOnly.length > 7) {
-        formattedPhone += ' ' + digitsOnly.slice(7, 10);
-      }
-
-      setLoginMutation((prev) => ({ ...prev, telephone: formattedPhone }));
-      return;
-    }
-
-    setLoginMutation((prev) => ({ ...prev, [id]: value }));
-  };
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    await dispatch(login(loginMutation)).unwrap();
-    navigate('/');
-  };
-
-  const isButtonDisabled = !loginMutation.telephone || !loginMutation.password;
+  const {loading, error, loginMutation, translatedError, isButtonDisabled, handleChange, handleSubmit} = useLogin();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -115,7 +69,7 @@ export const Login: React.FC = () => {
           type={'submit'}
         >
           Войти
-          {loading ? <Loader /> : <ArrowLongRightIcon style={{ width: '2.5rem', height: '2.5rem' }} />}
+          {loading ? <Loader/> : <ArrowLongRightIcon style={{width: '2.5rem', height: '2.5rem'}}/>}
         </Button>
 
         <Link
