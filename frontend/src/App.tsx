@@ -25,7 +25,7 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <header>
+      <header className={'mb-32'}>
         <Toolbar />
       </header>
       <Layout>
@@ -73,7 +73,7 @@ export const App: React.FC = () => {
         </Routes>
       </Layout>
 
-      <footer>
+      <footer className={'mt-32'}>
         <Footer />
       </footer>
       <Toaster />

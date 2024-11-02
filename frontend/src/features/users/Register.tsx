@@ -9,6 +9,7 @@ import { fetchCategories } from '@/features/category/categoryThunks';
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
 import { selectRegisterError, selectRegisterLoading } from '@/features/users/usersSlice';
 import { register } from '@/features/users/usersThunks';
+import { validateEmail } from '@/lib/emailValidate';
 import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
 import type { RegisterMutation } from '@/types/userTypes';
@@ -243,7 +244,7 @@ export const Register: React.FC = () => {
         <Button
           type='submit'
           className='w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5'
-          disabled={!isFormValid()}
+          disabled={!isFormValid() || !validateEmail(registerMutation.email)}
         >
           Зарегистрироваться
           {loading ? <Loader /> : <ArrowLongRightIcon style={{ width: 40, height: 40 }} strokeWidth={1} />}

@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
 import { selectUpdating, selectUser } from '@/features/users/usersSlice';
 import { updateUserInfo } from '@/features/users/usersThunks';
+import { validateEmail } from '@/lib/emailValidate';
 import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
 import type { RegisterMutationWithoutCoupleFields } from '@/types/userTypes';
@@ -150,7 +151,7 @@ export const UserEdit: React.FC<PropsWithChildren> = ({ children }) => {
             </div>
 
             <div className={'flex flex-col gap-1 mt-1'}>
-              <Button type={'submit'} disabled={updatingUser}>
+              <Button type={'submit'} disabled={updatingUser || !validateEmail(userInfoMutation.email)}>
                 Сохранить {updatingUser && <Loader theme={'light'} />}
               </Button>
 

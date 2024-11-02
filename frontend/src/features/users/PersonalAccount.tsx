@@ -31,7 +31,7 @@ export const PersonalAccount: React.FC = () => {
         </UserEdit>
       </header>
 
-      <main className='mt-2 flex flex-col'>
+      <main className='mt-2 flex flex-col max-w-2xl'>
         <div className='mb-3 flex flex-col'>
           <h2 className='text-xl font-medium'>{user.fullName}</h2>
           <span className='text-[#64B32C]'>{user.category.name}</span>
