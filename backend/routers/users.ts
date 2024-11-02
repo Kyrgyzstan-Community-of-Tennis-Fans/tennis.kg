@@ -1,9 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { auth, type RequestWithUser } from '../middleware/auth';
-import { User } from '../model/User';
 import { randomBytes } from 'crypto';
 import nodemailer from 'nodemailer';
+import { auth, type RequestWithUser } from '../src/middleware/auth';
+import { User } from '../src/model/User';
 
 export const usersRouter = express.Router();
 

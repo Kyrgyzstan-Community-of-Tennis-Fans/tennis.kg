@@ -5,9 +5,14 @@ import { GlobalError } from '@/types/userTypes';
 import { RootState } from '@/app/store';
 import { isAxiosError } from 'axios';
 
-export const fetchPartner = createAsyncThunk<Partner[], void>('partners/fetchRanks', async () => {
+export const fetchPartner = createAsyncThunk<Partner[], void>('partners/fetchPartner', async () => {
   const { data: partners } = await axiosApi.get<Partner[]>('/partners');
   return partners;
+});
+
+export const fetchOnePartner = createAsyncThunk<Partner, string>('partner/fetchOnePartner', async (id) => {
+  const { data: partner } = await axiosApi.get<Partner>(`/partners/${id}`);
+  return partner;
 });
 
 export const createPartner = createAsyncThunk<
@@ -17,7 +22,7 @@ export const createPartner = createAsyncThunk<
     rejectValue: GlobalError;
     state: RootState;
   }
->('album/create', async (partner, { rejectWithValue }) => {
+>('partner/create', async (partner, { rejectWithValue, dispatch }) => {
   try {
     const formData = new FormData();
 
@@ -28,7 +33,8 @@ export const createPartner = createAsyncThunk<
         formData.append(key, value);
       }
     });
-    await axiosApi.post('/artists', formData);
+    await axiosApi.post('/partners', formData);
+    dispatch(fetchPartner());
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data);
@@ -51,6 +57,34 @@ export const deletePartner = createAsyncThunk<
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data);
+    }
+    throw e;
+  }
+});
+
+export const updatePartner = createAsyncThunk<
+  void,
+  { id: string; partnerData: Partial<Partner> },
+  {
+    rejectValue: GlobalError;
+    state: RootState;
+  }
+>('partners/update', async ({ id, partnerData }, { rejectWithValue, dispatch }) => {
+  try {
+    const formData = new FormData();
+    Object.keys(partnerData).forEach((key) => {
+      const value = partnerData[key as keyof Partner];
+      if (value !== null && value !== undefined) {
+        formData.append(key, value);
+      }
+    });
+
+    await axiosApi.put(`/partners/${id}`, formData);
+
+    dispatch(fetchPartner());
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as GlobalError);
     }
     throw e;
   }

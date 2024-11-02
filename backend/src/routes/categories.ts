@@ -1,22 +1,18 @@
 import express from 'express';
+import { auth } from '../middleware/auth';
+import { permit } from '../middleware/permit';
 import {
   createCategory,
-  deleteCategory,
   getCategories,
-  getOneCategory,
+  getCategoryById,
+  removeCategory,
   updateCategory,
-} from '../controllers/categoriesControllers';
-import { auth } from '../src/middleware/auth';
-import { permit } from '../src/middleware/permit';
+} from '../controllers/categories';
 
 export const categoriesRouter = express.Router();
 
 categoriesRouter.get('/', getCategories);
-
 categoriesRouter.post('/', auth, permit('admin'), createCategory);
-
-categoriesRouter.delete('/:id', auth, permit('admin'), deleteCategory);
-
+categoriesRouter.delete('/:id', auth, permit('admin'), removeCategory);
 categoriesRouter.put('/:id', auth, permit('admin'), updateCategory);
-
-categoriesRouter.get('/:id', getOneCategory);
+categoriesRouter.get('/:id', getCategoryById);
