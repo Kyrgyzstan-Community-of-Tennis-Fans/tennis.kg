@@ -5,7 +5,7 @@ import type {
   GlobalError,
   LoginMutation,
   RegisterMutation,
-  RegisterMutationWithPassword,
+  RegisterMutationWithoutCoupleFields,
   User,
   ValidationError,
 } from '@/types/userTypes';
@@ -86,7 +86,7 @@ export const resetPassword = createAsyncThunk<void, { password: string; token: s
   },
 );
 
-export const updateUserInfo = createAsyncThunk<User, RegisterMutationWithPassword, { rejectValue: GlobalError }>(
+export const updateUserInfo = createAsyncThunk<User, RegisterMutationWithoutCoupleFields, { rejectValue: GlobalError }>(
   'users/updateUserInfo',
   async (userInfo) => {
     try {
