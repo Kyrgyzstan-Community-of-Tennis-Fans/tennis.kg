@@ -9,7 +9,7 @@ export const getCarousel = createAsyncThunk<Carousel[]>('carousel/getCarousel', 
   return response.data;
 });
 
-export const postFetchCarousel = createAsyncThunk('carousel/postFetchCarousel', async (newImage:CarouselMutation) => {
+export const postFetchCarousel = createAsyncThunk('carousel/postFetchCarousel', async (newImage: CarouselMutation) => {
   const formData = new FormData();
   const keys = Object.keys(newImage) as (keyof CarouselMutation)[];
 

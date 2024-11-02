@@ -110,7 +110,10 @@ export const AdminPaneBlockCarousel = () => {
       <div className='mt-5'>
         <div className='flex justify-center flex-col'>
           <div className='mb-3 mx-auto md:pb-[16px]'>
-            <h3 className="text-center text-cr-black text-[24px] font-bold  uppercase px-5 pb-[25px] md:text-[40px]">  Админ-панель для главного слайдера  </h3>
+            <h3 className='text-center text-cr-black text-[24px] font-bold  uppercase px-5 pb-[25px] md:text-[40px]'>
+              {' '}
+              Админ-панель для главного слайдера{' '}
+            </h3>
           </div>
 
           <div className='flex justify-center'>

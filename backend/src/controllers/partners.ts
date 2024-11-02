@@ -40,3 +40,41 @@ export const removePartner = async (req: Request, res: Response, next: NextFunct
     return next(error);
   }
 };
+
+export const updatePartner = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+    const { name, url } = req.body;
+
+    const partner = await Partner.findById(id);
+    if (!partner) return res.status(404).send({ error: 'Not found' });
+
+    const partnerData = {
+      name: name || partner.name,
+      url: url || partner.url,
+      image: req.file?.filename || req.body.image,
+    };
+
+    const updatedPartner = await Partner.findByIdAndUpdate(id, partnerData, { new: true, runValidators: true });
+
+    if (!updatedPartner) return res.status(404).send({ error: 'Partner not found or failed to update' });
+
+    return res.send(updatedPartner);
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const getOnePartner = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const partner = await Partner.findById(req.params.id);
+
+    if (!partner) {
+      return res.status(404).send({ message: 'Partner not found' });
+    }
+
+    return res.send(partner);
+  } catch (error) {
+    return next(error);
+  }
+};
