@@ -45,4 +45,4 @@ export interface GlobalError {
   error: string;
 }
 
-export type RegisterMutationWithPassword = Omit<RegisterMutation, 'password'>;
+export type RegisterMutationWithoutCoupleFields = Omit<RegisterMutation, 'password' | 'category'>;

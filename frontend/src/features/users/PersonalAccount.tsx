@@ -31,37 +31,39 @@ export const PersonalAccount: React.FC = () => {
         </UserEdit>
       </header>
 
-      <main className={'mt-2'}>
-        <div className={'mb-3'}>
-          <h2 className={'text-xl font-medium'}>{user.fullName}</h2>
-          <span className={'text-[#64B32C]'}>{user.category.name}</span>
+      <main className='mt-2 flex flex-col'>
+        <div className='mb-3 flex flex-col'>
+          <h2 className='text-xl font-medium'>{user.fullName}</h2>
+          <span className='text-[#64B32C]'>{user.category.name}</span>
         </div>
 
-        <div className={'max-w-sm space-y-2'}>
-          <div className={'grid grid-cols-2'}>
-            <h3 className={'font-medium'}>Почта</h3>
-            <span className={'text-muted-foreground'}>{user.email}</span>
+        <div className='space-y-2 flex flex-col'>
+          <div className='flex flex-wrap'>
+            <h3 className='font-medium w-full sm:w-1/3'>Почта</h3>
+            <span className='text-muted-foreground w-full sm:w-2/3 break-words'>{user.email}</span>
           </div>
 
-          <div className={'grid grid-cols-2'}>
-            <h3 className={'font-medium'}>Телефон</h3>
-            <span className={'text-muted-foreground'}>{user.telephone}</span>
+          <div className='flex flex-wrap'>
+            <h3 className='font-medium w-full sm:w-1/3'>Телефон</h3>
+            <span className='text-muted-foreground w-full sm:w-2/3'>{user.telephone}</span>
           </div>
 
-          <div className={'grid grid-cols-2'}>
-            <h3 className={'font-medium'}>День рождение</h3>
-            <span className={'text-muted-foreground'}>{user.dateOfBirth}</span>
+          <div className='flex flex-wrap'>
+            <h3 className='font-medium w-full sm:w-1/3'>День рождения</h3>
+            <span className='text-muted-foreground w-full sm:w-2/3'>{user.dateOfBirth}</span>
           </div>
 
-          <div className={'grid grid-cols-2'}>
-            <h3 className={'font-medium'}>Пол</h3>
-            <span className={'text-muted-foreground'}>{user.gender === 'male' ? 'Муж.' : 'Жен.'}</span>
+          <div className='flex flex-wrap'>
+            <h3 className='font-medium w-full sm:w-1/3'>Пол</h3>
+            <span className='text-muted-foreground w-full sm:w-2/3'>{user.gender === 'male' ? 'Муж.' : 'Жен.'}</span>
           </div>
 
           {user.role === 'admin' && (
-            <div className={'grid grid-cols-2'}>
-              <h3 className={'font-medium'}>Роль</h3>
-              <span className={'text-muted-foreground'}>{user.role === 'admin' ? 'Админ' : 'Пользователь'}</span>
+            <div className='flex flex-wrap'>
+              <h3 className='font-medium w-full sm:w-1/3'>Роль</h3>
+              <span className='text-muted-foreground w-full sm:w-2/3'>
+                {user.role === 'admin' ? 'Админ' : 'Пользователь'}
+              </span>
             </div>
           )}
         </div>

@@ -12,21 +12,18 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
-import { fetchCategories } from '@/features/category/categoryThunks';
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
 import { selectUpdating, selectUser } from '@/features/users/usersSlice';
 import { updateUserInfo } from '@/features/users/usersThunks';
 import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
-import type { RegisterMutationWithPassword } from '@/types/userTypes';
+import type { RegisterMutationWithoutCoupleFields } from '@/types/userTypes';
 import React, { type ChangeEvent, type FormEvent, type PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-const initialState: RegisterMutationWithPassword = {
+const initialState: RegisterMutationWithoutCoupleFields = {
   telephone: '',
   fullName: '',
-  category: '',
   gender: '',
   email: '',
   dateOfBirth: '',
@@ -35,25 +32,16 @@ const initialState: RegisterMutationWithPassword = {
 export const UserEdit: React.FC<PropsWithChildren> = ({ children }) => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
-  const categories = useAppSelector(selectCategories);
-  const categoriesFetching = useAppSelector(selectCategoriesFetching);
   const updatingUser = useAppSelector(selectUpdating);
   const closeRef = useRef<HTMLButtonElement | null>(null);
-  const [userInfoMutation, setUserInfoMutation] = useState<RegisterMutationWithPassword>(initialState);
+  const [userInfoMutation, setUserInfoMutation] = useState<RegisterMutationWithoutCoupleFields>(initialState);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  useEffect(() => {
-    if (isDialogOpen) {
-      dispatch(fetchCategories());
-    }
-  }, [dispatch, isDialogOpen]);
 
   useEffect(() => {
     if (user) {
       setUserInfoMutation({
         telephone: user.telephone,
         fullName: user.fullName,
-        category: user.category._id,
         email: user.email,
         dateOfBirth: user.dateOfBirth,
         gender: user.gender,
@@ -156,30 +144,6 @@ export const UserEdit: React.FC<PropsWithChildren> = ({ children }) => {
                   <SelectGroup>
                     <SelectItem value='male'>Мужской</SelectItem>
                     <SelectItem value='female'>Женский</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label htmlFor='category' className={'text-base text-left font-medium block'}>
-                Категория
-              </Label>
-              <Select
-                disabled={categoriesFetching || categories.length === 0}
-                value={userInfoMutation.category}
-                onValueChange={(value) => handleSelectChange(value, 'category')}
-              >
-                <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='category'>
-                  <SelectValue placeholder='Выберите вашу категорию' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {categories.map((item) => (
-                      <SelectItem key={item._id} value={item._id}>
-                        {item.name}
-                      </SelectItem>
-                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
