@@ -33,7 +33,7 @@ export const CategoryCard: React.FC<Props> = ({ category }) => {
     <Card className={'p-3 shadow-none relative min-w-72 flex-1'}>
       <div className={'flex items-center gap-2 justify-between flex-col lg:flex-row flex-nowrap'}>
         <div>
-          <h3 className={'text-sm'}>{category.name}</h3>
+          <h3>{category.name}</h3>
           <small className={'text-muted-foreground'}>
             Добавлено: {formatDate(category.createdAt, 'dd MMM yy, hh:mm')}
           </small>

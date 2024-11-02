@@ -37,7 +37,7 @@ const Partners = () => {
                 href={partner.url}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='w-partner py-1.5 h-24 rounded-2xl flex items-center justify-center me-6 shadow-partner bg-white mb-4'
+                className='w-partner py-1.5 h-24 rounded-2xl flex items-center drop-shadow-md justify-center me-6 border bg-white mb-4'
               >
                 <img
                   src={`${API_URl}/${partner.image}`}
