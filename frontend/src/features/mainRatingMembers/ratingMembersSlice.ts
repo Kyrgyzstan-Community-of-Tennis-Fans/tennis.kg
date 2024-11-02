@@ -1,20 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RatingMember } from '@/types/ratingMemberTypes';
-import { createRatingMember, fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
-import { ValidationError } from '@/types/userTypes';
+import {
+  createRatingMember,
+  fetchRatingMembers,
+  updateRatingCategories,
+  updateRatingMember,
+} from '@/features/mainRatingMembers/ratingMembersThunks';
 
 export interface RatingMembersSlice {
   items: RatingMember[];
   itemsFetching: boolean;
   isCreating: boolean;
-  creatingError: ValidationError | null;
+  updateLoading: boolean;
+  categoriesUpdateLoading: boolean;
 }
 
 const initialState: RatingMembersSlice = {
   items: [],
   itemsFetching: false,
   isCreating: false,
-  creatingError: null,
+  updateLoading: false,
+  categoriesUpdateLoading: false,
 };
 
 export const ratingMembersSlice = createSlice({
@@ -37,24 +43,51 @@ export const ratingMembersSlice = createSlice({
     builder
       .addCase(createRatingMember.pending, (state) => {
         state.isCreating = true;
-        state.creatingError = null;
       })
       .addCase(createRatingMember.fulfilled, (state) => {
         state.isCreating = false;
       })
-      .addCase(createRatingMember.rejected, (state, { payload: error }) => {
+      .addCase(createRatingMember.rejected, (state) => {
         state.isCreating = false;
-        state.creatingError = error || null;
+      });
+
+    builder
+      .addCase(updateRatingMember.pending, (state) => {
+        state.updateLoading = true;
+      })
+      .addCase(updateRatingMember.fulfilled, (state) => {
+        state.updateLoading = false;
+      })
+      .addCase(updateRatingMember.rejected, (state) => {
+        state.updateLoading = false;
+      });
+
+    builder
+      .addCase(updateRatingCategories.pending, (state) => {
+        state.categoriesUpdateLoading = true;
+      })
+      .addCase(updateRatingCategories.fulfilled, (state) => {
+        state.categoriesUpdateLoading = false;
+      })
+      .addCase(updateRatingCategories.rejected, (state) => {
+        state.categoriesUpdateLoading = false;
       });
   },
   selectors: {
     selectRatingMembers: (state) => state.items,
     selectRatingMembersFetching: (state) => state.itemsFetching,
     selectRatingMemberCreating: (state) => state.isCreating,
+    selectRatingMemberUpdating: (state) => state.updateLoading,
+    selectRatingMembersCategoriesUpdating: (state) => state.categoriesUpdateLoading,
   },
 });
 
 export const ratingMembersReducer = ratingMembersSlice.reducer;
 
-export const { selectRatingMembers, selectRatingMembersFetching, selectRatingMemberCreating } =
-  ratingMembersSlice.selectors;
+export const {
+  selectRatingMembers,
+  selectRatingMembersFetching,
+  selectRatingMemberCreating,
+  selectRatingMemberUpdating,
+  selectRatingMembersCategoriesUpdating,
+} = ratingMembersSlice.selectors;
