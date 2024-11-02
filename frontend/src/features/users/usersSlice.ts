@@ -88,7 +88,8 @@ export const usersSlice = createSlice({
         state.usersUpdating = false;
         state.user = user;
       })
-      .addCase(updateUserInfo.rejected, (state) => {
+      .addCase(updateUserInfo.rejected, (state, { payload }) => {
+        state.usersUpdatingError = payload || null;
         state.usersUpdating = false;
       });
   },

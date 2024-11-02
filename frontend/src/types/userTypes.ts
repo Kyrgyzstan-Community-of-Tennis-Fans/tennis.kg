@@ -44,3 +44,5 @@ export interface ValidationError {
 export interface GlobalError {
   error: string;
 }
+
+export type RegisterMutationWithPassword = Omit<RegisterMutation, 'password'>;

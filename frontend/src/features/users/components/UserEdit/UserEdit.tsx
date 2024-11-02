@@ -15,15 +15,15 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
 import { fetchCategories } from '@/features/category/categoryThunks';
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
-import { selectUpdating, selectUpdatingError, selectUser } from '@/features/users/usersSlice';
-import { fetchOneUser, updateUserInfo } from '@/features/users/usersThunks';
+import { selectUpdating, selectUser } from '@/features/users/usersSlice';
+import { updateUserInfo } from '@/features/users/usersThunks';
 import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
-import type { RegisterMutation } from '@/types/userTypes';
+import type { RegisterMutationWithPassword } from '@/types/userTypes';
 import React, { type ChangeEvent, type FormEvent, type PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-const initialState: Omit<RegisterMutation, 'password'> = {
+const initialState: RegisterMutationWithPassword = {
   telephone: '',
   fullName: '',
   category: '',
@@ -38,9 +38,8 @@ export const UserEdit: React.FC<PropsWithChildren> = ({ children }) => {
   const categories = useAppSelector(selectCategories);
   const categoriesFetching = useAppSelector(selectCategoriesFetching);
   const updatingUser = useAppSelector(selectUpdating);
-  const updatingError = useAppSelector(selectUpdatingError);
   const closeRef = useRef<HTMLButtonElement | null>(null);
-  const [userInfoMutation, setUserInfoMutation] = useState<Omit<RegisterMutation, 'password'>>(initialState);
+  const [userInfoMutation, setUserInfoMutation] = useState<RegisterMutationWithPassword>(initialState);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -91,22 +90,12 @@ export const UserEdit: React.FC<PropsWithChildren> = ({ children }) => {
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    try {
-      if (user) {
-        event.preventDefault();
+    if (user) {
+      event.preventDefault();
 
-        await dispatch(updateUserInfo(userInfoMutation)).unwrap();
-        await dispatch(fetchOneUser(user._id)).unwrap();
-        toast.success('Профиль успешно обновлен');
-        closeRef.current?.click();
-      }
-    } catch (error) {
-      console.error(error);
-      if (updatingError) {
-        toast.error(updatingError.error);
-      } else {
-        toast.error('Произошла ошибка при обновлении профиля');
-      }
+      await dispatch(updateUserInfo(userInfoMutation)).unwrap();
+      toast.success('Профиль успешно обновлен');
+      closeRef.current?.click();
     }
   };
 
@@ -156,7 +145,7 @@ export const UserEdit: React.FC<PropsWithChildren> = ({ children }) => {
             />
 
             <div>
-              <Label htmlFor='gender' className={'text-base font-medium block'}>
+              <Label htmlFor='gender' className={'text-base text-left font-medium block'}>
                 Пол
               </Label>
               <Select value={userInfoMutation.gender} onValueChange={(value) => handleSelectChange(value, 'gender')}>
@@ -173,7 +162,7 @@ export const UserEdit: React.FC<PropsWithChildren> = ({ children }) => {
             </div>
 
             <div>
-              <Label htmlFor='category' className={'text-base font-medium block'}>
+              <Label htmlFor='category' className={'text-base text-left font-medium block'}>
                 Категория
               </Label>
               <Select

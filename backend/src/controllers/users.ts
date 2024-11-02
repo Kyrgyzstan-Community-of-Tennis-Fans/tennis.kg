@@ -1,8 +1,8 @@
-import { User } from '../model/User';
-import mongoose from 'mongoose';
-import { Request, Response, NextFunction } from 'express';
-import { type RequestWithUser } from '../middleware/auth';
 import { randomBytes } from 'crypto';
+import { NextFunction, Request, Response } from 'express';
+import mongoose from 'mongoose';
+import { type RequestWithUser } from '../middleware/auth';
+import { User } from '../model/User';
 import { sendMail } from '../utils/utils';
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
@@ -22,7 +22,9 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     user.generateToken();
     await user.save();
 
-    return res.send(user);
+    const newUser = await User.findById(user._id).populate('category');
+
+    return res.send(newUser);
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) return res.status(400).send(error);
 
@@ -32,7 +34,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await User.findOne({ telephone: req.body.telephone });
+    const user = await User.findOne({ telephone: req.body.telephone }).populate('category');
 
     if (!user) return res.status(400).send({ error: 'Username not found!' });
 
@@ -105,5 +107,51 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
     return res.send({ message: 'Пароль успешно сброшен.' });
   } catch (error) {
     return next(error);
+  }
+};
+
+export const updateProfile = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  try {
+    const { fullName, telephone, dateOfBirth, category, gender, email } = req.body;
+
+    if (!req.user) {
+      return res.status(401).json({ error: 'Unauthorized!' });
+    }
+
+    const userId = req.user._id;
+
+    const [existingTelephoneUser, existingEmailUser, user] = await Promise.all([
+      User.findOne({ telephone }),
+      User.findOne({ email }),
+      User.findById(userId),
+    ]);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found!' });
+    }
+
+    if (existingTelephoneUser && existingTelephoneUser._id.toString() !== userId.toString()) {
+      return res.status(400).json({ error: 'Пользователь с таким телефоном уже существует!' });
+    }
+
+    if (existingEmailUser && existingEmailUser._id.toString() !== userId.toString()) {
+      return res.status(400).json({ error: 'Пользователь с таким email уже существует!' });
+    }
+
+    Object.assign(user, {
+      ...(fullName && { fullName }),
+      ...(telephone && { telephone }),
+      ...(dateOfBirth && { dateOfBirth }),
+      ...(category && { category }),
+      ...(gender && { gender }),
+      ...(email && { email }),
+    });
+
+    await user.save();
+
+    const updatedUser = await User.findById(userId).populate('category');
+    res.json(updatedUser);
+  } catch (error) {
+    next(error);
   }
 };
