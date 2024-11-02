@@ -28,7 +28,7 @@ export const DropdownMenuToolbar: React.FC<Props> = ({ handleLogout }) => {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User />
-            <NavLink to={'/my-cabinet'}>Личный кабинет</NavLink>
+            <NavLink to='/personal-account'>Личный кабинет</NavLink>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
