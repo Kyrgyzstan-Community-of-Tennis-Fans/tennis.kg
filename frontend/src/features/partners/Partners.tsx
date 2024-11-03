@@ -1,19 +1,10 @@
 import Marquee from 'react-fast-marquee';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { selectPartners, selectPartnersFetching } from '@/features/partners/partnerSlice';
-import { useEffect } from 'react';
-import { fetchPartner } from '@/features/partners/partnerThunks';
 import { API_URl } from '@/consts';
 import { Skeleton } from '@/components/ui/skeleton';
+import {usePartners} from '@/features/partners/hooks/partners';
 
 const Partners = () => {
-  const dispatch = useAppDispatch();
-  const partners = useAppSelector(selectPartners);
-  const partnersFetching = useAppSelector(selectPartnersFetching);
-
-  useEffect(() => {
-    dispatch(fetchPartner());
-  }, [dispatch]);
+  const { partners, partnersFetching } = usePartners();
 
   return (
     <div className='mt-16 pb-10'>
