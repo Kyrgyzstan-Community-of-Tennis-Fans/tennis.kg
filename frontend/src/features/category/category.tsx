@@ -1,26 +1,17 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Layout } from '@/components/Layout';
 import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/components/ui/button';
-import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
-import { fetchCategories } from '@/features/category/categoryThunks';
 import { CategoryCard } from '@/features/category/components/CategoryCard/CategoryCard';
 import { CategoryCreate } from '@/features/category/components/CategoryCreate/CategoryCreate';
 import { SquaresPlusIcon } from '@heroicons/react/24/outline';
-import React, { useEffect } from 'react';
+import React from 'react';
+import {useCategory} from '@/features/category/hooks/useCategory';
 
 export const Category: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const categories = useAppSelector(selectCategories);
-  const categoriesFetching = useAppSelector(selectCategoriesFetching);
+  
+  const { categories, categoriesFetching } = useCategory();
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
-  if (categoriesFetching) {
-    return <Loader fixed />;
-  }
+  if (categoriesFetching) return <Loader fixed />;
 
   return (
     <Layout>

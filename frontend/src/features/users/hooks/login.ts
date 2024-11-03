@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import {type ChangeEvent, type FormEvent, useState} from 'react';
 import {login} from '@/features/users/usersThunks';
 import type {LoginMutation} from '@/types/userTypes';
+import {formatTelephone} from '@/lib/formatTelephone';
 
 const initialState: LoginMutation = {
   telephone: '',
@@ -23,18 +24,7 @@ export const useLogin = () => {
     const { id, value } = event.target;
 
     if (id === 'telephone') {
-      const digitsOnly = value.replace(/\D/g, '');
-      let formattedPhone = digitsOnly;
-
-      if (digitsOnly.length > 1) {
-        formattedPhone = '0' + digitsOnly.slice(1, 4);
-      }
-      if (digitsOnly.length > 4) {
-        formattedPhone += ' ' + digitsOnly.slice(4, 7);
-      }
-      if (digitsOnly.length > 7) {
-        formattedPhone += ' ' + digitsOnly.slice(7, 10);
-      }
+      const formattedPhone = formatTelephone(value);
 
       setLoginMutation((prev) => ({ ...prev, telephone: formattedPhone }));
       return;

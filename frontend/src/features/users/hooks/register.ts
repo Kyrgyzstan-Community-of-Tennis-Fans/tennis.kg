@@ -1,12 +1,14 @@
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {selectRegisterError, selectRegisterLoading} from "@/features/users/usersSlice";
-import {selectCategories, selectCategoriesFetching} from "@/features/category/categorySlice";
-import {useNavigate} from "react-router-dom";
-import {type ChangeEvent, type FormEvent, useEffect, useState} from "react";
-import {toast} from "sonner";
-import {fetchCategories} from "@/features/category/categoryThunks";
-import {register} from "@/features/users/usersThunks";
-import type {RegisterMutation} from "@/types/userTypes";
+import {useAppDispatch, useAppSelector} from '@/app/hooks';
+import {selectRegisterError, selectRegisterLoading} from '@/features/users/usersSlice';
+import {selectCategories, selectCategoriesFetching} from '@/features/category/categorySlice';
+import {useNavigate} from 'react-router-dom';
+import {type ChangeEvent, type FormEvent, useEffect, useState} from 'react';
+import {toast} from 'sonner';
+import {fetchCategories} from '@/features/category/categoryThunks';
+import {register} from '@/features/users/usersThunks';
+import type {RegisterMutation} from '@/types/userTypes';
+import {formatDateOfBirth} from '@/lib/formatDateOfBirth';
+import {formatTelephone} from '@/lib/formatTelephone';
 
 const initialState: RegisterMutation = {
   telephone: '',
@@ -45,37 +47,9 @@ export const useRegister = () => {
   }, [dispatch]);
 
   const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value.replace(/\D/g, '');
+    const date = formatDateOfBirth(event.target.value);
 
-    if (value.length > 8) {
-      value = value.slice(0, 8);
-    }
-
-    let formattedDate = '';
-
-    if (value.length > 0) {
-      const day = value.slice(0, 2);
-      if (parseInt(day, 10) > 31) {
-        formattedDate += '31';
-      } else {
-        formattedDate += day;
-      }
-    }
-    if (value.length > 2) {
-      formattedDate += '.';
-      const month = value.slice(2, 4);
-      if (parseInt(month, 10) > 12) {
-        formattedDate += '12';
-      } else {
-        formattedDate += month;
-      }
-    }
-    if (value.length > 4) {
-      formattedDate += '.';
-      formattedDate += value.slice(4);
-    }
-
-    updateRegisterField('dateOfBirth', formattedDate);
+    updateRegisterField('dateOfBirth', date);
   };
 
   const handleRulesChange = (value: boolean, id: string) => {
@@ -86,18 +60,7 @@ export const useRegister = () => {
     const { id, value } = event.target;
 
     if (id === 'telephone') {
-      const digitsOnly = value.replace(/\D/g, '');
-      let formattedPhone = digitsOnly;
-
-      if (digitsOnly.length > 1) {
-        formattedPhone = '0' + digitsOnly.slice(1, 4);
-      }
-      if (digitsOnly.length > 4) {
-        formattedPhone += ' ' + digitsOnly.slice(4, 7);
-      }
-      if (digitsOnly.length > 7) {
-        formattedPhone += ' ' + digitsOnly.slice(7, 10);
-      }
+      const formattedPhone = formatTelephone(value);
 
       setRegisterMutation((prev) => ({ ...prev, telephone: formattedPhone }));
       return;
@@ -117,7 +80,10 @@ export const useRegister = () => {
 
   const isFormValid = () => {
     const isFilled =
-      Object.values(registerMutation).every((value) => value.trim() !== '') && confirmPassword.trim() !== '';
+      Object.values(registerMutation).every((value) => value.trim() !== '') &&
+      confirmPassword.trim() !== '' &&
+      registerMutation.telephone.length === 12 &&
+      registerMutation.dateOfBirth.length === 10;
     const passwordsMatch = registerMutation.password === confirmPassword;
     const isRulesAccepted = Object.values(isRulesChecked).every((value) => value);
 

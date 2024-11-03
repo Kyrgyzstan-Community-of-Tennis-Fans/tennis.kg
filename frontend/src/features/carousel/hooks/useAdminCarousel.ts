@@ -3,7 +3,6 @@ import {selectUser} from '@/features/users/usersSlice';
 import React, {FormEvent, useEffect, useState} from 'react';
 import {CarouselMutation} from '@/types/carousel';
 import {
-  deleteCarouselState,
   errorImgCarouselState,
   loadingCarouselState,
   photoCarouselState
@@ -26,21 +25,66 @@ export const useAdminCarousel = () => {
   const dispatch = useAppDispatch();
   const carousel = useAppSelector(photoCarouselState);
   const loadingCarousel = useAppSelector(loadingCarouselState);
-  const loadingDeleteCarousel = useAppSelector(deleteCarouselState);
   const errorImgCarousel = useAppSelector(errorImgCarouselState);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (errorImgCarousel) {
+      toast.error(errorImgCarousel.error);
+    }
+  }, [errorImgCarousel]);
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
+    const { files, name } = e.target;
     if (files && files.length > 0) {
       setNewImage((prevState) => ({
         ...prevState,
         [name]: files[0],
       }));
-    } else {
-      setNewImage((prevState) => ({
-        ...prevState,
-        [name]: null,
-      }));
+    }
+  };
+
+  const handleImageUpload = async () => {
+    if (!newImage.image) {
+      toast.warning('Изображение обязательно!');
+      return;
+    }
+    try {
+      await dispatch(postFetchCarousel(newImage)).unwrap();
+      setNewImage(emptyState);
+      await dispatch(getCarousel());
+      toast.success('Изображение успешно выложено');
+    } catch (error) {
+      console.error(error);
+      toast.error('Не удалось загрузить изображение');
+    }
+  };
+
+  const onDelete = async (id: string) => {
+    try {
+      await dispatch(deleteImageCarousel({ id })).unwrap();
+      await dispatch(getCarousel());
+      toast.success('Изображение успешно удалено');
+    } catch (error) {
+      console.error(error);
+      toast.error('Не удалось удалить изображение');
+    }
+  };
+
+  const onUpdateImage = async (id: string, event: FormEvent) => {
+    event.preventDefault();
+    if (!newImage.image) {
+      toast.warning('Изображение обязательно!');
+      return;
+    }
+    try {
+      await dispatch(updateCarouselImage({ id, updatedImage: newImage })).unwrap();
+      setNewImage(emptyState);
+      await dispatch(getCarousel());
+      toast.success('Изображение успешно обновлено');
+    } catch (error) {
+      console.error(error);
+      toast.error('Не удалось обновить изображение');
     }
   };
 
@@ -48,57 +92,14 @@ export const useAdminCarousel = () => {
     dispatch(getCarousel());
   }, [dispatch]);
 
-  const onSend = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!newImage.image) {
-      toast.warning('Изображение обязательно!');
-      return;
-    }
-
-    try {
-      await dispatch(postFetchCarousel(newImage)).unwrap();
-      setNewImage(emptyState);
-      await dispatch(getCarousel());
-      toast.success('Изображение успешно вылажено');
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const onDelete = async (id: string) => {
-    await dispatch(deleteImageCarousel({ id })).unwrap();
-    await dispatch(getCarousel()).unwrap();
-    toast.success('Изображение успешно удалено');
-  };
-
-  const onUpdateImage = async (id: string, event: FormEvent) => {
-    try {
-      event.preventDefault();
-      if (!newImage.image) {
-        toast.warning('Изображение обязательно!');
-        return;
-      }
-
-      await dispatch(updateCarouselImage({ id, updatedImage: newImage })).unwrap();
-      setNewImage(emptyState);
-      await dispatch(getCarousel()).unwrap();
-      toast.success('Изображение успешно обновленно');
-    } catch (error) {
-      if (errorImgCarousel) {
-        toast.error('извините что-то пошло не так, попробуйте еще раз');
-      }
-      console.log(error);
-    }
-  };
-
   return {
     user,
     carousel,
     loadingCarousel,
-    loadingDeleteCarousel,
+    inputRef,
+    newImage,
+    handleImageUpload,
     fileInputChangeHandler,
-    onSend,
     onDelete,
     onUpdateImage
   };
