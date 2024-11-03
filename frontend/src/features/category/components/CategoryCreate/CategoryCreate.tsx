@@ -15,15 +15,14 @@ import { Label } from '@/components/ui/label';
 import { selectCategoryCreating } from '@/features/category/categorySlice';
 import { createCategory } from '@/features/category/categoryThunks';
 import type { Category } from '@/types/categoryTypes';
-import { SquaresPlusIcon } from '@heroicons/react/24/outline';
-import React, { type FormEvent, useRef, useState } from 'react';
+import React, { type FormEvent, type PropsWithChildren, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-interface Props {
+interface Props extends PropsWithChildren {
   categories: Category[];
 }
 
-export const CategoryCreate: React.FC<Props> = ({ categories }) => {
+export const CategoryCreate: React.FC<Props> = ({ categories, children }) => {
   const dispatch = useAppDispatch();
   const categoryCreating = useAppSelector(selectCategoryCreating);
   const [category, setCategory] = useState<string>('');
@@ -42,6 +41,7 @@ export const CategoryCreate: React.FC<Props> = ({ categories }) => {
       event.preventDefault();
       closeRef.current?.click();
       await dispatch(createCategory(category)).unwrap();
+      setCategory('');
       toast.success('Категория успешно добавлена.');
     } catch (error) {
       console.error(error);
@@ -51,11 +51,7 @@ export const CategoryCreate: React.FC<Props> = ({ categories }) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className={'w-full xs:w-max'} size={'sm'}>
-          Добавить категорию <SquaresPlusIcon />
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Добавить категорию</DialogTitle>
