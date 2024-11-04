@@ -8,7 +8,7 @@ interface Props {
   news: News;
 }
 
-const NewsCard: React.FC<Props> = ({ news }) => {
+export const NewsCard: React.FC<Props> = ({ news }) => {
   return (
     <Link to={`/news/${news._id}`} className='no-underline h-full w-fit'>
       <Card className='h-full shadow-none border-none max-w-[320px] flex flex-col rounded-md'>
@@ -24,5 +24,3 @@ const NewsCard: React.FC<Props> = ({ news }) => {
     </Link>
   );
 };
-
-export default NewsCard;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { usePagination } from '@/features/news/hooks/usePagination';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from '@/components/ui/pagination';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from '@/components/ui/select';
@@ -12,23 +13,10 @@ interface Props {
   total: number;
 }
 
-const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
-  const pageNumbers = [];
-
-  const maxVisiblePages = 3;
-  let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
-  const endPage = Math.min(total, startPage + maxVisiblePages - 1);
-
-  if (endPage - startPage < maxVisiblePages - 1) {
-    startPage = Math.max(1, endPage - maxVisiblePages + 1);
-  }
-
-  for (let i = startPage; i <= endPage; i++) {
-    pageNumbers.push(i);
-  }
-  const disableButton = (bound: number): React.CSSProperties => ({
-    pointerEvents: page === bound ? 'none' : 'auto',
-  });
+export const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
+  const { pageNumbers, disableButton, setPageToFirst, setPageToLast, setPageToPrevious, setPageToNext } = usePagination(
+    { page, total, setPage },
+  );
 
   return (
     <Pagination className='py-6'>
@@ -39,7 +27,7 @@ const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
             size='icon'
             className='hover:bg-[#64B32C63]'
             style={disableButton(1)}
-            onClick={() => setPage(1)}
+            onClick={setPageToFirst}
           >
             <ChevronDoubleLeftIcon />
           </Button>
@@ -50,7 +38,7 @@ const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
             size='icon'
             className='hover:bg-[#64B32C63]'
             style={disableButton(1)}
-            onClick={() => setPage(page - 1)}
+            onClick={setPageToPrevious}
           >
             <ChevronLeftIcon />
           </Button>
@@ -74,7 +62,7 @@ const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
             size='icon'
             className='hover:bg-[#64B32C63]'
             style={disableButton(total)}
-            onClick={() => setPage(page + 1)}
+            onClick={setPageToNext}
           >
             <ChevronRightIcon />
           </Button>
@@ -85,7 +73,7 @@ const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
             size='icon'
             className='hover:bg-[#64B32C63]'
             style={disableButton(total)}
-            onClick={() => setPage(total)}
+            onClick={setPageToLast}
           >
             <ChevronDoubleRightIcon />
           </Button>
@@ -107,5 +95,3 @@ const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
     </Pagination>
   );
 };
-
-export default CustomPagination;

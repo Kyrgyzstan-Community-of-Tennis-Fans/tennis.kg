@@ -1,8 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { useState } from 'react';
 import { format } from 'date-fns';
+import { useDatePicker } from '@/features/news/hooks/useDatePicker';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -15,21 +15,7 @@ interface Props {
 }
 
 export const DatePicker: React.FC<Props> = ({ onDateChange }) => {
-  const [selectedDates, setSelectedDates] = useState<{ startDate?: Date; endDate?: Date }>({});
-
-  const handleDateSelect = (date: Date | undefined, type: 'startDate' | 'endDate') => {
-    const newDates = {
-      ...selectedDates,
-      [type === 'startDate' ? 'startDate' : 'endDate']: date,
-    };
-    setSelectedDates(newDates);
-    onDateChange(newDates.startDate, newDates.endDate);
-  };
-
-  const handleResetDates = () => {
-    setSelectedDates({});
-    onDateChange(undefined, undefined);
-  };
+  const { selectedDates, handleDateSelect, handleResetDates } = useDatePicker({ onDateChange });
 
   return (
     <div className='date_picker_block'>

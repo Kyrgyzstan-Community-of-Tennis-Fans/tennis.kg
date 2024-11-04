@@ -2,7 +2,7 @@ import React from 'react';
 import { useAppSelector } from '@/app/hooks';
 import { Error404 } from '@/components/Errors/Error404';
 import Footer from '@/components/Footer/Footer';
-import ProtectedRoute from '@/components/ProtectedRouter/ProtectedRouter';
+import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
 import { Toolbar } from '@/components/Toolbar/Toolbar';
 import { Toaster } from '@/components/ui/sonner';
 import { AdminPaneBlockCarousel } from '@/features/carousel/AdminPaneBlockCarousel';
@@ -16,7 +16,7 @@ import { ResetPassword } from '@/features/users/ResetPassword';
 import { selectUser } from '@/features/users/usersSlice';
 import { Home } from '@/pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { News } from '@/features/news/News';
+import News from '@/features/news/News';
 import { OneNews } from '@/features/news/OneNews';
 
 export const App: React.FC = () => {

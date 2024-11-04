@@ -106,7 +106,7 @@ export const Toolbar = () => {
               Рейтинг
             </NavLink>
             <NavLink
-              to='/blog'
+              to='/news'
               className={'text-sm leading-6'}
               style={({ isActive }) => (isFocused ? { color: '#FFF' } : colorChanger(isActive))}
               onClick={() => setIsFocused(false)}
