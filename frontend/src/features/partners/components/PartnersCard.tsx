@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Partner } from '@/types/partnerTypes';
@@ -26,9 +27,22 @@ const PartnersCard: React.FC<Props> = ({ partner }) => {
 
   return (
     <div className='w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg bg-white/0  rounded-lg flex items-center p-2 space-x-2 mx-auto border '>
-      <img alt='Логотип компании' className='w-14 object-contain h-14 rounded' src={`${API_URl}/${partner.image}`} />
+      <TooltipProvider>
+        <Tooltip delayDuration={200}>
+          <TooltipTrigger asChild>
+            <img
+              alt='Логотип компании'
+              className='size-14 cursor-pointer object-contain rounded'
+              src={`${API_URl}/${partner.image}`}
+            />
+          </TooltipTrigger>
+          <TooltipContent className={'bg-muted w-52 h-36 border drop-shadow-2xl'}>
+            <img alt='Логотип компании' className='w-full h-full rounded' src={`${API_URl}/${partner.image}`} />
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <div className='flex-1'>
-        <h3 className='text-sm font-semibold text-gray-800 hidden md:block'>{partner.name}</h3>
+        <h3 className='font-semibold text-gray-800 hidden md:block'>{partner.name}</h3>
       </div>
       <Confirm onOk={handleDelete}>
         <Button className='text-white sm h-8 w-10'>

@@ -1,142 +1,32 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
-import { fetchCategories } from '@/features/category/categoryThunks';
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
-import { selectRegisterError, selectRegisterLoading } from '@/features/users/usersSlice';
-import { register } from '@/features/users/usersThunks';
-import type { RegisterMutation } from '@/types/userTypes';
+import { validateEmail } from '@/lib/emailValidate';
 import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
-import React, { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import {useRegister} from '@/features/users/hooks/register';
 
-const initialState: RegisterMutation = {
-  telephone: '',
-  password: '',
-  category: '',
-  fullName: '',
-  gender: '',
-  dateOfBirth: '',
-  email: '',
-};
 
 export const Register: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const loading = useAppSelector(selectRegisterLoading);
-  const categories = useAppSelector(selectCategories);
-  const categoriesFetching = useAppSelector(selectCategoriesFetching);
-  const error = useAppSelector(selectRegisterError);
-  const navigate = useNavigate();
-  const [registerMutation, setRegisterMutation] = useState(initialState);
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [isRulesChecked, setIsRulesChecked] = useState({
-    rules: false,
-    personalData: false,
-  });
 
-  useEffect(() => {
-    if (error && error.errors) {
-      Object.values(error.errors).forEach((err) => {
-        toast.error(err.message);
-      });
-    }
-  }, [error]);
-
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
-  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value.replace(/\D/g, '');
-
-    if (value.length > 8) {
-      value = value.slice(0, 8);
-    }
-
-    let formattedDate = '';
-
-    if (value.length > 0) {
-      const day = value.slice(0, 2);
-      if (parseInt(day, 10) > 31) {
-        formattedDate += '31';
-      } else {
-        formattedDate += day;
-      }
-    }
-    if (value.length > 2) {
-      formattedDate += '.';
-      const month = value.slice(2, 4);
-      if (parseInt(month, 10) > 12) {
-        formattedDate += '12';
-      } else {
-        formattedDate += month;
-      }
-    }
-    if (value.length > 4) {
-      formattedDate += '.';
-      formattedDate += value.slice(4);
-    }
-
-    updateRegisterField('dateOfBirth', formattedDate);
-  };
-
-  const handleRulesChange = (value: boolean, id: string) => {
-    setIsRulesChecked((prev) => ({ ...prev, [id]: value }));
-  };
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = event.target;
-
-    if (id === 'telephone') {
-      const digitsOnly = value.replace(/\D/g, '');
-      let formattedPhone = digitsOnly;
-
-      if (digitsOnly.length > 1) {
-        formattedPhone = '0' + digitsOnly.slice(1, 4);
-      }
-      if (digitsOnly.length > 4) {
-        formattedPhone += ' ' + digitsOnly.slice(4, 7);
-      }
-      if (digitsOnly.length > 7) {
-        formattedPhone += ' ' + digitsOnly.slice(7, 10);
-      }
-
-      setRegisterMutation((prev) => ({ ...prev, telephone: formattedPhone }));
-      return;
-    }
-
-    updateRegisterField(id, value);
-  };
-
-  const handleSelectChange = (value: string, id: string) => {
-    const field = id === 'gender' ? 'gender' : 'category';
-    updateRegisterField(field, value);
-  };
-
-  const updateRegisterField = (field: string, value: string) => {
-    setRegisterMutation((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const isFormValid = () => {
-    const isFilled =
-      Object.values(registerMutation).every((value) => value.trim() !== '') && confirmPassword.trim() !== '';
-    const passwordsMatch = registerMutation.password === confirmPassword;
-    const isRulesAccepted = Object.values(isRulesChecked).every((value) => value);
-
-    return isFilled && passwordsMatch && isRulesAccepted;
-  };
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    await dispatch(register(registerMutation)).unwrap();
-    setRegisterMutation(initialState);
-    navigate('/');
-  };
+  const {
+    loading,
+    categories,
+    categoriesFetching,
+    registerMutation,
+    confirmPassword,
+    setConfirmPassword,
+    handleDateChange,
+    handleSelectChange,
+    handleRulesChange,
+    handleChange,
+    isFormValid,
+    handleSubmit
+  } = useRegister();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -145,8 +35,8 @@ export const Register: React.FC = () => {
         style={{ boxShadow: '0px 4px 100px 0px #00000017' }}
       >
         <div className='mb-3'>
-          <h1 className='font-bold text-[28px]'>Создать аккаунт.</h1>
-          <p className='text-sm text-black/75'>Пожалуйста, заполните все данные для создания аккаунта.</p>
+          <h1 className='font-bold text-[28px]'>Создать аккаунт</h1>
+          <p className='text-sm text-black/75'>Пожалуйста, заполните все данные для создания аккаунта</p>
         </div>
 
         <div className='space-y-3 mb-8'>
@@ -209,7 +99,9 @@ export const Register: React.FC = () => {
           />
 
           <div>
-            <Label htmlFor='gender'>Пол</Label>
+            <Label htmlFor='gender' className={'text-base font-medium block'}>
+              Пол
+            </Label>
             <Select value={registerMutation.gender} onValueChange={(value) => handleSelectChange(value, 'gender')}>
               <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='gender'>
                 <SelectValue placeholder='Укажите ваш пол' />
@@ -224,7 +116,9 @@ export const Register: React.FC = () => {
           </div>
 
           <div>
-            <Label htmlFor='category'>Категория</Label>
+            <Label htmlFor='category' className={'text-base font-medium block'}>
+              Категория
+            </Label>
             <Select
               disabled={categoriesFetching || categories.length === 0}
               value={registerMutation.category}
@@ -273,7 +167,7 @@ export const Register: React.FC = () => {
         <Button
           type='submit'
           className='w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5'
-          disabled={!isFormValid()}
+          disabled={!isFormValid() || !validateEmail(registerMutation.email)}
         >
           Зарегистрироваться
           {loading ? <Loader /> : <ArrowLongRightIcon style={{ width: 40, height: 40 }} strokeWidth={1} />}

@@ -158,8 +158,8 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
                 <Input type={'file'} id='image' name='image' placeholder='URL логотипа' onChange={handleImageChange} />
               </div>
               {previewImage && (
-                <div className=' border mt-2 mb-2 p-5 bg-blue-50'>
-                  <img src={previewImage} alt={partnerData.name} className='w-auto h-40 rounded mx-auto' />
+                <div className='border rounded-lg mt-2 mb-2 p-5 bg-muted'>
+                  <img src={previewImage} alt={partnerData.name} className='w-auto h-40 rounded-lg mx-auto' />
                 </div>
               )}
               <div className='flex flex-col gap-1'>

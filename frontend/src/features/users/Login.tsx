@@ -1,82 +1,40 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { selectLoginError, selectLoginLoading } from '@/features/users/usersSlice';
-import { login } from '@/features/users/usersThunks';
-import type { LoginMutation } from '@/types/userTypes';
 import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
-import React, { type ChangeEvent, type FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
-const initialState: LoginMutation = {
-  telephone: '',
-  password: '',
-};
+import React from 'react';
+import { Link } from 'react-router-dom';
+import {useLogin} from '@/features/users/hooks/login';
 
 export const Login: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const loading = useAppSelector(selectLoginLoading);
-  const error = useAppSelector(selectLoginError);
-  const navigate = useNavigate();
-  const [loginMutation, setLoginMutation] = useState(initialState);
 
-  const translatedError = error?.error === 'Username not found!' ? 'Неверный номер телефона или пароль' : error?.error;
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = event.target;
-
-    if (id === 'telephone') {
-      const digitsOnly = value.replace(/\D/g, '');
-      let formattedPhone = digitsOnly;
-
-      if (digitsOnly.length > 1) {
-        formattedPhone = '0' + digitsOnly.slice(1, 4);
-      }
-      if (digitsOnly.length > 4) {
-        formattedPhone += ' ' + digitsOnly.slice(4, 7);
-      }
-      if (digitsOnly.length > 7) {
-        formattedPhone += ' ' + digitsOnly.slice(7, 10);
-      }
-
-      setLoginMutation((prev) => ({ ...prev, telephone: formattedPhone }));
-      return;
-    }
-
-    setLoginMutation((prev) => ({ ...prev, [id]: value }));
-  };
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    await dispatch(login(loginMutation)).unwrap();
-    navigate('/');
-  };
-
-  const isButtonDisabled = !loginMutation.telephone || !loginMutation.password;
+  const {
+    loading,
+    error,
+    loginMutation,
+    translatedError,
+    isButtonDisabled,
+    handleChange,
+    handleSubmit
+  } = useLogin();
 
   return (
     <form onSubmit={handleSubmit}>
       <section
-        className={
-          'w-full py-10 px-6 xs:max-w-[545px] xs:py-12 xs:px-10 absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4 rounded-3xl'
-        }
+        className={'w-full my-14 mx-auto py-10 px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl'}
         style={{
           boxShadow: '0px 4px 100px 0px #00000017',
         }}
       >
         <div className={'mb-7'}>
-          <h1 className={'font-bold text-[28px] mb-2'}>Добро пожаловать.</h1>
-          <p className={'text-sm text-black/75'}>
-            Пожалуйста, введите ваш телефон и пароль для входа в личный кабинет.
-          </p>
+          <h1 className={'font-bold text-[28px] mb-2'}>Добро пожаловать</h1>
+          <p className={'text-sm text-black/75'}>Пожалуйста, введите ваш телефон и пароль для входа в личный кабинет</p>
         </div>
 
         <div className={'mb-4'}>
-          <div className={'flex justify-between'}>
-            <Label htmlFor={'telephone'} className={'text-base font-medium block mb-0.5'}>
+          <div className={'flex justify-between flex-col sm:flex-row'}>
+            <Label htmlFor={'telephone'} className={'text-base font-medium block leading-none sm:mb-1'}>
               Номер телефона
             </Label>
             {error && <span className={'text-sm text-red-500'}>{translatedError}</span>}
@@ -92,8 +50,8 @@ export const Login: React.FC = () => {
         </div>
 
         <div className={'mb-8'}>
-          <div className={'flex justify-between'}>
-            <Label htmlFor={'password'} className={'text-base font-medium block mb-0.5'}>
+          <div className={'flex justify-between flex-col sm:flex-row'}>
+            <Label htmlFor={'password'} className={'text-base font-medium block leading-none sm:mb-1'}>
               Пароль
             </Label>
             {error && <span className={'text-sm text-red-500'}>{translatedError}</span>}

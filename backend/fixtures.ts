@@ -16,7 +16,7 @@ const run = async () => {
     await db.dropCollection('users');
     await db.dropCollection('partners');
     await db.dropCollection('carousels');
-    // await db.dropCollection('news');
+    await db.dropCollection('news');
   } catch (e) {
     console.log('Skipping drop...');
   }
@@ -65,8 +65,8 @@ const run = async () => {
         'Анализ задач требует внедрения инноваций для роста и развития.',
       createdAt: '2024-10-27T12:30:45.700+00:00',
       updatedAt: '2024-10-27T15:45:30.800+00:00',
-      newsCover: 'fixtures/news/second.png',
-      images: ['fixtures/news/newsInner1.png', 'fixtures/news/newsInner2.png'],
+      newsCover: 'public/newsFixtures/second.png',
+      images: ['public/newsFixtures/newsInner1.png', 'public/newsFixtures/newsInner2.png'],
     },
     {
       title: 'Autumn Bronze Cup 2022',
