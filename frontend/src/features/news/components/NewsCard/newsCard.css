@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.news-card {
+    @apply h-full shadow-none border-none xs:max-w-[320px] flex flex-col;
+}
+
+.news-link {
+    @apply no-underline h-full w-fit;
+}
+
+.news-image {
+    @apply w-max h-max object-cover mb-6;
+}
+
+.news-card-content {
+    @apply flex flex-wrap mt-auto items-start p-0;
+}
+
+.news-card-subtitle {
+    @apply text-cr-black text-[16px];
+}
+
+.news-card-title {
+    @apply text-cr-black font-bold text-lg;
+}
+
+.news-card-createdAt {
+    @apply text-cr-green-900 font-medium text-sm;
+}

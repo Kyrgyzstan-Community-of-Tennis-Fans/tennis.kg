@@ -21,7 +21,7 @@ export const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
   return (
     <Pagination className='py-6'>
       <PaginationContent>
-        <PaginationItem className='pagination_item'>
+        <PaginationItem className='pagination-item'>
           <Button
             variant='outline'
             size='icon'
@@ -45,7 +45,7 @@ export const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
         </PaginationItem>
 
         {pageNumbers.map((pageNumber) => (
-          <PaginationItem key={pageNumber} className={pageNumber !== page ? 'pagination_item border rounded-lg' : ''}>
+          <PaginationItem key={pageNumber} className={pageNumber !== page ? 'pagination-item border rounded-lg' : ''}>
             <PaginationLink
               isActive={page === pageNumber}
               className={'cursor-pointer hover:bg-[#64B32C63] ' + (page === pageNumber ? 'bg-[#64B32C63]' : '')}
@@ -67,7 +67,7 @@ export const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
             <ChevronRightIcon />
           </Button>
         </PaginationItem>
-        <PaginationItem className='pagination_item'>
+        <PaginationItem className='pagination-item'>
           <Button
             variant='outline'
             size='icon'
@@ -80,7 +80,7 @@ export const CustomPagination: React.FC<Props> = ({ page, total, setPage }) => {
         </PaginationItem>
 
         <Select onValueChange={(value) => setPage(Number(value))}>
-          <SelectTrigger className='select_trigger' />
+          <SelectTrigger className='select-trigger' />
           <SelectContent>
             <SelectGroup>
               {Array.from({ length: total }, (_, i) => i + 1).map((pageNum) => (

@@ -2,10 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-.date_picker_block {
-    @apply flex flex-wrap justify-center sm:justify-start items-center  gap-2.5 mb-7;
+.date-picker-block {
+    @apply flex flex-wrap justify-center sm:justify-start items-center gap-2.5 mb-7;
 }
 
-.set-date {
+.date-popover-content {
+    @apply w-auto p-0;
+}
+
+.filter-set-date {
     @apply w-full xs:w-[135px] sm:w-[180px] md:w-[200px] text-left font-medium flex justify-center items-center;
 }

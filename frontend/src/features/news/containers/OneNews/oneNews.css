@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.one-news-title-block {
+    @apply text-center mb-5 sm:mb-12;
+}
+
+.one-news-subtitle {
+    @apply font-semibold leading-10 text-3xl sm:text-4xl md:text-5xl sm:mb-6;
+}
+
+.one-news-title {
+    @apply text-cr-gray-500 text-[20px] text-2xl font-medium uppercase;
+}
+
+.one-news-content {
+    @apply text-lg sm:text-xl leading-6 sm:leading-8 mb-5;
+}

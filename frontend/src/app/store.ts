@@ -19,7 +19,6 @@ const rootReducer = combineReducers({
   partners: partnerReducer,
   news: newsReducer,
   category: categorySlice.reducer,
-  news: newsReducer,
 });
 
 export const store = configureStore({

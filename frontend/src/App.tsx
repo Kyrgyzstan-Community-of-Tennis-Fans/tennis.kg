@@ -16,8 +16,8 @@ import { ResetPassword } from '@/features/users/ResetPassword';
 import { selectUser } from '@/features/users/usersSlice';
 import { Home } from '@/pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import News from '@/features/news/News';
-import { OneNews } from '@/features/news/OneNews';
+import News from '@/features/news/containers/News/News';
+import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 
 export const App: React.FC = () => {
   const user = useAppSelector(selectUser);

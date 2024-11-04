@@ -18,10 +18,10 @@ export const DatePicker: React.FC<Props> = ({ onDateChange }) => {
   const { selectedDates, handleDateSelect, handleResetDates } = useDatePicker({ onDateChange });
 
   return (
-    <div className='date_picker_block'>
+    <div className='date-picker-block'>
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant={'outline'} className='set-date h-12'>
+          <Button variant={'outline'} className='filter-set-date h-12'>
             {selectedDates.startDate ? (
               format(selectedDates.startDate, 'PPP')
             ) : (
@@ -30,7 +30,7 @@ export const DatePicker: React.FC<Props> = ({ onDateChange }) => {
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-auto p-0'>
+        <PopoverContent className='date-popover-content'>
           <Calendar
             mode='single'
             selected={selectedDates.startDate}
@@ -42,7 +42,7 @@ export const DatePicker: React.FC<Props> = ({ onDateChange }) => {
 
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant={'outline'} className='set-date h-12'>
+          <Button variant={'outline'} className='filter-set-date h-12'>
             {selectedDates.endDate ? (
               format(selectedDates.endDate, 'PPP')
             ) : (
@@ -51,7 +51,7 @@ export const DatePicker: React.FC<Props> = ({ onDateChange }) => {
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-auto p-0'>
+        <PopoverContent className='date-popover-content'>
           <Calendar
             mode='single'
             selected={selectedDates.endDate}
@@ -63,7 +63,7 @@ export const DatePicker: React.FC<Props> = ({ onDateChange }) => {
       <Button
         variant={'outline'}
         onClick={handleResetDates}
-        className='set-date h-12 text-cr-green-900 hover:text-rose-700'
+        className='filter-set-date h-12 text-cr-green-900 hover:text-rose-700'
       >
         Сбросить
         <XIcon />

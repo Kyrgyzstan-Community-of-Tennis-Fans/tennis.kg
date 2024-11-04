@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.pagination_item {
+.pagination-item {
     @apply hidden min-[380px]:list-item;
 }
 
-.select_trigger {
+.select-trigger {
     @apply flex justify-between items-center w-11 h-9;
 }
