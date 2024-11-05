@@ -26,6 +26,7 @@ const RatingMemberCard: React.FC<Props> = ({ ratingMember }) => {
           md:w-32 md:h-32
           lg:w-44 lg:h-44
           xl:w-48 xl:h-48
+          object-cover
         '
       />
       <div className='flex flex-col text-sm text-center lg:text-lg font-semibold'>

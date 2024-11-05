@@ -25,13 +25,22 @@ const RatingMemberSchema = new Schema<RatingMemberFields>(
       required: true,
       enum: [1, 2, 3, 4, 5, 6, 7, 8],
     },
-    mensRatingCategory: {
+    ratingType: {
       type: String,
-      default: 'Здесь будет мужская категория',
+      required: true,
+      enum: ['mensTop8', 'mensTop3', 'womensTop3'],
     },
-    womensRatingCategory: {
+    mensRatingCategoryTop8: {
       type: String,
-      default: 'Здесь будет женская категорияг',
+      default: 'Здесь будет категория для мужского топ-8',
+    },
+    mensRatingCategoryTop3: {
+      type: String,
+      default: 'Здесь будет категория для мужского топ-3',
+    },
+    womensRatingCategoryTop3: {
+      type: String,
+      default: 'Здесь будет категория для женского топ-3',
     },
   },
   { timestamps: true }

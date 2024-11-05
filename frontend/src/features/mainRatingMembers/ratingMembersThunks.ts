@@ -71,9 +71,9 @@ export const updateRatingMember = createAsyncThunk<void, UpdateRatingMemberArg, 
 
 export const updateRatingCategories = createAsyncThunk<void, UpdateCategoryArg, { rejectValue: GlobalError }>(
   'ratingMembers/updateCategories',
-  async ({ mensRatingCategory, womensRatingCategory }, { rejectWithValue }) => {
+  async ({ mensRatingCategoryTop8, mensRatingCategoryTop3, womensRatingCategoryTop3 }, { rejectWithValue }) => {
     try {
-      const data = { mensRatingCategory, womensRatingCategory };
+      const data = { mensRatingCategoryTop8, mensRatingCategoryTop3, womensRatingCategoryTop3 };
       await axiosApi.patch('/ratingMembers/categories', data);
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 400) {

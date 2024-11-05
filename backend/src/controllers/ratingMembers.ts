@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { RatingMember } from '../model/RatingMember';
 import mongoose from 'mongoose';
+import { findRatingMemberById, isPlaceAllowed } from '../utils/utils';
 
 export const getRatingMembers = async (_req: Request, res: Response, next: NextFunction) => {
   try {
@@ -14,13 +15,12 @@ export const getRatingMembers = async (_req: Request, res: Response, next: NextF
 
 export const createRatingMember = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { name, gender, place } = req.body;
+    const { name, gender, place, ratingType } = req.body;
+    const genderText = gender === 'male' ? 'мужского' : 'женского';
 
-    const existingEntry = await RatingMember.findOne({ place, gender });
-    const genderText = gender === 'male' ? 'мужской' : 'женский';
-
-    if (existingEntry) {
-      return res.status(400).send({ error: `Место ${place} уже занято для пола ${genderText}` });
+    const isAllowed = await isPlaceAllowed(place, gender, ratingType);
+    if (!isAllowed) {
+      return res.status(400).send({ error: `Место ${place} уже занято для ${genderText} рейтинга данного топа` });
     }
 
     const existingMember = await RatingMember.findOne({ name });
@@ -33,7 +33,8 @@ export const createRatingMember = async (req: Request, res: Response, next: Next
       name,
       image: req.file ? req.file.filename : null,
       gender,
-      place: parseFloat(place),
+      place,
+      ratingType,
     });
 
     return res.send(ratingMember);
@@ -41,7 +42,6 @@ export const createRatingMember = async (req: Request, res: Response, next: Next
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(error);
     }
-
     return next(error);
   }
 };
@@ -50,11 +50,8 @@ export const deleteRatingMember = async (req: Request, res: Response, next: Next
   try {
     const { id } = req.params;
 
-    const ratingMember = await RatingMember.findById(id);
-
-    if (!ratingMember) {
-      return res.status(404).send({ error: 'Rating member not found' });
-    }
+    const existingMember = await findRatingMemberById(id, res);
+    if (!existingMember) return;
 
     await RatingMember.findByIdAndDelete(id);
 
@@ -67,16 +64,12 @@ export const deleteRatingMember = async (req: Request, res: Response, next: Next
 export const updateRatingMember = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const { name, place, gender } = req.body;
-
-    const existingMember = await RatingMember.findById(id);
-
-    if (!existingMember) {
-      return res.status(404).send({ error: 'Rating member not found' });
-    }
-
+    const { name, place, gender, ratingType } = req.body;
+    const genderText = gender === 'male' ? 'мужского' : 'женского';
     const newPlace = Number(place);
-    const genderText = gender === 'male' ? 'мужской' : 'женский';
+
+    const existingMember = await findRatingMemberById(id, res);
+    if (!existingMember) return;
 
     if (name && name !== existingMember.name) {
       const existingName = await RatingMember.findOne({ name });
@@ -86,21 +79,13 @@ export const updateRatingMember = async (req: Request, res: Response, next: Next
     }
 
     if (newPlace && newPlace !== existingMember.place) {
-      const existingEntry = await RatingMember.findOne({ place: newPlace, gender });
-      if (existingEntry) {
-        return res.status(400).send({ error: `Место ${place} уже занято для пола ${genderText}` });
-      }
-    }
-
-    if (gender !== existingMember.gender) {
-      const conflictingEntry = await RatingMember.findOne({ place: existingMember.place, gender });
-      if (conflictingEntry) {
-        return res.status(400).send({ error: `Место ${existingMember.place} уже занято для пола ${genderText}` });
+      const allowed = await isPlaceAllowed(newPlace, gender, ratingType);
+      if (!allowed) {
+        return res.status(400).send({ error: `Место ${place} уже занято для ${genderText} рейтинга данного топа` });
       }
     }
 
     const updatedData = { ...req.body };
-
     if (req.file) {
       updatedData.image = req.file.filename;
     }
@@ -120,14 +105,13 @@ export const updateRatingMember = async (req: Request, res: Response, next: Next
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(error);
     }
-
     return next(error);
   }
 };
 
 export const updateRatingMembersCategories = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { mensRatingCategory, womensRatingCategory } = req.body;
+    const { mensRatingCategoryTop8, mensRatingCategoryTop3, womensRatingCategoryTop3 } = req.body;
 
     const hasMale = await RatingMember.exists({ gender: 'male' });
     const hasFemale = await RatingMember.exists({ gender: 'female' });
@@ -141,8 +125,9 @@ export const updateRatingMembersCategories = async (req: Request, res: Response,
     await RatingMember.updateMany(
       {},
       {
-        mensRatingCategory: mensRatingCategory,
-        womensRatingCategory: womensRatingCategory,
+        mensRatingCategoryTop8,
+        mensRatingCategoryTop3,
+        womensRatingCategoryTop3,
       }
     );
 

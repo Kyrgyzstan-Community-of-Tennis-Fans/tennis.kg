@@ -4,8 +4,10 @@ export interface RatingMember {
   image: string | null | File;
   gender: string;
   place: number;
-  mensRatingCategory?: string;
-  womensRatingCategory?: string;
+  ratingType: 'mensTop8' | 'mensTop3' | 'womensTop3';
+  mensRatingCategoryTop8?: string;
+  mensRatingCategoryTop3?: string;
+  womensRatingCategoryTop3?: string;
 }
 
 export interface UpdateRatingMemberArg {
@@ -18,9 +20,11 @@ export interface RatingMemberMutation {
   image: File | null | string;
   gender: string;
   place: string;
+  ratingType: 'mensTop8' | 'mensTop3' | 'womensTop3' | '';
 }
 
 export interface UpdateCategoryArg {
-  mensRatingCategory: string;
-  womensRatingCategory: string;
+  mensRatingCategoryTop8: string;
+  mensRatingCategoryTop3: string;
+  womensRatingCategoryTop3: string;
 }

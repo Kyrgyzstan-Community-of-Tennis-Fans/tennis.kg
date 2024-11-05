@@ -8,7 +8,8 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import { Card } from '@/components/ui/card';
 import { API_URl } from '@/consts';
 import { deleteRatingMember, fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
-import RatingMemberEdit from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingMemberEdit/RatingMemberEdit';
+import RatingWomanEdit from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingWomanEdit/RatingWomanEdit';
+import RatingManEdit from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingManEdit/RatingManEdit';
 
 interface Props {
   ratingMember: RatingMember;
@@ -37,10 +38,11 @@ const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember }) => {
           alt={ratingMember.name}
           className='
           rounded-full
+          object-cover
           w-[50px] h-[50px]
         '
         />
-        <h3 className='text-sm font-bold xs:text-[16px] md:text-[18px] w-2 ml-3 sm:ml-12 xs:w-12 lg:w-14'>
+        <h3 className='text-sm font-bold xs:text-[16px] md:text-[18px] w-9 ml-3 xs:ml-12 xs:w-12 lg:w-14'>
           № {ratingMember.place}
         </h3>
         <h3 className='text-sm font-bold xs:text-[16px] md:text-[18px] ml-4 md:ml-14 mr-3 lg:ml-12 '>
@@ -52,7 +54,11 @@ const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember }) => {
               <TrashIcon />
             </Button>
           </Confirm>
-          <RatingMemberEdit id={ratingMember._id} existingMember={ratingMember} />
+          {ratingMember.ratingType === 'womensTop3' ? (
+            <RatingWomanEdit id={ratingMember._id} existingMember={ratingMember} />
+          ) : (
+            <RatingManEdit id={ratingMember._id} existingMember={ratingMember} />
+          )}
         </div>
       </div>
     </Card>

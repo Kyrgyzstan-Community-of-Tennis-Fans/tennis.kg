@@ -32,7 +32,13 @@ const FileInput: React.FC<Props> = ({ onChange, name, placeholder }) => {
     <>
       <input type='file' name={name} style={{ display: 'none' }} ref={inputRef} onChange={onFileChange} />
       <div className='flex items-center col-span-3'>
-        <Input readOnly value={fileName} onClick={activateInput} placeholder={placeholder} className='mr-2' />
+        <Input
+          readOnly
+          value={fileName}
+          onClick={activateInput}
+          placeholder={placeholder}
+          className='mr-2 focus:ring-[#80BC41]'
+        />
         <Button onClick={activateInput} variant='outline'>
           Выбрать
         </Button>

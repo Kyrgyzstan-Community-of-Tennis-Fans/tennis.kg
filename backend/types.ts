@@ -6,8 +6,10 @@ export interface RatingMemberFields {
   image: string;
   gender: 'male' | 'female';
   place: number;
-  mensRatingCategory?: string;
-  womensRatingCategory?: string;
+  ratingType: 'mensTop8' | 'mensTop3' | 'womensTop3';
+  mensRatingCategoryTop8?: string;
+  mensRatingCategoryTop3?: string;
+  womensRatingCategoryTop3?: string;
 }
 
 export interface UserFields {

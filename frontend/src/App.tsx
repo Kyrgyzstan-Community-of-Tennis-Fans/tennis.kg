@@ -68,7 +68,7 @@ export const App: React.FC = () => {
             }
           />
           <Route
-            path={'/ratingMembers'}
+            path={'/admin/ratingMembers'}
             element={
               <ProtectedRoute isAllowed={user && user.role === 'admin'}>
                 <RatingMembersAdminList />
