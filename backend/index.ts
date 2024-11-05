@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import config from './config';
 import { categoriesRouter } from './src/routes/categories';
+import { ratingsRouter } from './src/routes/ratings';
 import { usersRouter } from './src/routes/users';
 import { newsRouter } from './src/routes/news';
 import { carouselRouter } from './src/routes/carousel';
@@ -19,6 +20,7 @@ app.use('/carousel', carouselRouter);
 app.use('/news', newsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/partners', partnersRouter);
+app.use('/ratings', ratingsRouter);
 
 const run = async () => {
   await mongoose.connect(config.database);
