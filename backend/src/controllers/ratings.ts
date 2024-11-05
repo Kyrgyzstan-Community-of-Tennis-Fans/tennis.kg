@@ -4,13 +4,13 @@ import { Rating } from '../model/Rating';
 
 export const fetchRatings = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const ratings = await Rating.find().lean().exec();
-    
+    const ratings = await Rating.find().populate('category', 'name').lean().exec();
+
     return res.send(ratings);
   } catch (error) {
     return next(error);
   }
-}
+};
 
 export const createRating = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -21,7 +21,7 @@ export const createRating = async (req: Request, res: Response, next: NextFuncti
       gender: req.body.gender,
       link: req.body.link,
     });
-    
+
     return res.status(201).send(rating);
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
@@ -29,4 +29,4 @@ export const createRating = async (req: Request, res: Response, next: NextFuncti
     }
     return next(error);
   }
-}
+};

@@ -7,6 +7,8 @@ import { Toaster } from '@/components/ui/sonner';
 import { AdminPaneBlockCarousel } from '@/features/carousel/AdminPaneBlockCarousel';
 import { Category } from '@/features/category/category';
 import AdminPartners from '@/features/partners/AdminPartners';
+import { AdminRatings } from '@/features/ratings/AdminRatings';
+import { Ratings } from '@/features/ratings/ratings';
 import { ForgotPassword } from '@/features/users/ForgotPassword';
 import { Login } from '@/features/users/Login';
 import { PersonalAccount } from '@/features/users/PersonalAccount';
@@ -32,6 +34,7 @@ export const App: React.FC = () => {
           <Route path={'/'} element={<Home />} />
           <Route path={'/login'} element={<Login />} />
           <Route path={'/register'} element={<Register />} />
+          <Route path={'/rating'} element={<Ratings />} />
           <Route path={'/reset-password/:token'} element={<ResetPassword />} />
           <Route path={'/forgot-password'} element={<ForgotPassword />} />
           <Route
@@ -39,6 +42,14 @@ export const App: React.FC = () => {
             element={
               <ProtectedRoute isAllowed={user && user.role === 'admin'}>
                 <AdminPartners />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/admin/rating'
+            element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <AdminRatings />
               </ProtectedRoute>
             }
           />

@@ -17,6 +17,7 @@ const run = async () => {
     await db.dropCollection('partners');
     await db.dropCollection('carousels');
     await db.dropCollection('news');
+    await db.dropCollection('ratings');
   } catch (e) {
     console.log('Skipping drop...');
   }
