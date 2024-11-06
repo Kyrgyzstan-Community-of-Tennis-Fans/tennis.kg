@@ -1,9 +1,9 @@
-import React, { type FormEvent, useRef } from 'react';
+import React, { type FormEvent, useEffect, useRef } from 'react';
 import ReactQuill from 'react-quill-new';
 import { useAppDispatch } from '@/app/hooks';
 import { useNewsForm } from '@/features/news/hooks/useNewsForm';
 import { useDialogState } from '@/features/news/hooks/useDialogState';
-import { createNews } from '@/features/news/newsThunks';
+import { createNews, fetchOneNews, updateNews } from '@/features/news/newsThunks';
 import {
   Dialog,
   DialogContent,
@@ -17,13 +17,37 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import CustomEditor from '@/features/news/components/CustomEditor/CustomEditor';
 import FileInput from '@/components/FileInput/FilleInput';
-import { SquaresPlusIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon, SquaresPlusIcon } from '@heroicons/react/24/outline';
+import { API_URl } from '@/consts';
 
-export const NewsCreate: React.FC = () => {
+interface Props {
+  newsId?: string;
+  isEdit?: boolean;
+}
+
+export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
   const dispatch = useAppDispatch();
   const quillRef = useRef<ReactQuill>(null);
-  const { news, resetKey, handleChange, handleEditorChange, handleFileInputChange, resetForm } = useNewsForm();
+  const { news, setNews, resetKey, handleChange, handleEditorChange, handleFileInputChange, resetForm } = useNewsForm();
   const { open, toggleOpen } = useDialogState();
+
+  useEffect(() => {
+    if (open && newsId && isEdit) {
+      const newsLoad = async () => {
+        const fetchedNews = await dispatch(fetchOneNews(newsId)).unwrap();
+
+        setNews({
+          title: fetchedNews.title,
+          subtitle: fetchedNews.subtitle,
+          content: fetchedNews.content,
+          newsCover: fetchedNews.newsCover,
+          images: fetchedNews.images,
+        });
+      };
+
+      void newsLoad();
+    }
+  }, [newsId, isEdit, dispatch, open, setNews]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,26 +58,39 @@ export const NewsCreate: React.FC = () => {
     }
 
     try {
-      await dispatch(createNews(news)).unwrap();
-      toast.success('Новость успешно добавлена!');
+      if (isEdit && newsId) {
+        await dispatch(updateNews({ newsId, newsMutation: news })).unwrap();
+        toast.success('Новость успешно обновлена!');
+      } else {
+        await dispatch(createNews(news)).unwrap();
+        toast.success('Новость успешно добавлена!');
+      }
       resetForm();
       toggleOpen();
     } catch (error) {
       console.error(error);
-      toast.error('Ошибка при создании новости!');
+      toast.error('Ошибка при создании/обновлении новости!');
     }
   };
 
   return (
     <Dialog open={open} onOpenChange={toggleOpen}>
       <DialogTrigger asChild>
-        <Button className={'w-full xs:w-max'} size={'sm'}>
-          Добавить новость <SquaresPlusIcon />
-        </Button>
+        {isEdit ? (
+          <Button size='lg'>
+            <PencilSquareIcon />
+          </Button>
+        ) : (
+          <Button className={'w-full xs:w-max'} size={'sm'}>
+            Добавить новость <SquaresPlusIcon />
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className='max-h-svh overflow-y-auto'>
         <DialogHeader>
-          <DialogTitle className='text-2xl font-bold'>Добавить новость</DialogTitle>
+          <DialogTitle className='text-2xl font-bold'>
+            {isEdit ? 'Редактировать новость' : 'Добавить новость'}
+          </DialogTitle>
           <DialogDescription>Заполните форму перед добавлением</DialogDescription>
         </DialogHeader>
 
@@ -95,7 +132,9 @@ export const NewsCreate: React.FC = () => {
             <FileInput name='newsCover' onChange={handleFileInputChange} />
             {news.newsCover && (
               <img
-                src={URL.createObjectURL(news.newsCover)}
+                src={
+                  news.newsCover instanceof File ? URL.createObjectURL(news.newsCover) : API_URl + '/' + news.newsCover
+                }
                 alt='News Cover Preview'
                 className='mt-2 w-full xs:w-1/2 h-auto'
               />
@@ -112,7 +151,7 @@ export const NewsCreate: React.FC = () => {
                 {news.images.map((image, index) => (
                   <img
                     key={index}
-                    src={URL.createObjectURL(image)}
+                    src={image instanceof File ? URL.createObjectURL(image) : API_URl + '/' + image}
                     alt={`News Image ${index + 1}`}
                     className='w-full xs:w-1/4 h-auto'
                   />

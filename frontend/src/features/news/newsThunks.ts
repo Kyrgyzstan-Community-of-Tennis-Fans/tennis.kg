@@ -1,29 +1,39 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AppDispatch } from '@/app/store';
 import { axiosApi } from '@/axiosApi';
 import { News, NewsMutation, NewsResponse } from '@/types/news';
-import { AppDispatch } from '@/app/store';
+
+const createFormData = (newsMutation: NewsMutation): FormData => {
+  const formData = new FormData();
+  const keys = Object.keys(newsMutation) as (keyof NewsMutation)[];
+
+  keys.forEach((key) => {
+    const value = newsMutation[key];
+
+    if (Array.isArray(value)) {
+      if (key === 'images') {
+        (value as File[]).forEach((file) => {
+          if (file instanceof File) {
+            formData.append(key, file);
+          }
+        });
+      }
+    } else if (key === 'newsCover' && value instanceof File) {
+      formData.append(key, value);
+    } else if (value !== null && value !== undefined) {
+      formData.append(key, value);
+    }
+  });
+
+  return formData;
+};
 
 export const createNews = createAsyncThunk<void, NewsMutation, { dispatch: AppDispatch }>(
   'news/createNews',
   async (newsMutation, thunkAPI) => {
-    const formData = new FormData();
-
-    const keys = Object.keys(newsMutation) as (keyof NewsMutation)[];
-    keys.forEach((key) => {
-      const value = newsMutation[key];
-
-      if (Array.isArray(value)) {
-        value.forEach((item) => {
-          formData.append(key, item);
-        });
-      } else if (value !== null) {
-        formData.append(key, value);
-      }
-    });
-
+    const formData = createFormData(newsMutation);
     const response = await axiosApi.post('/news', formData);
     await thunkAPI.dispatch(fetchNews({ page: 1 }));
-
     return response.data;
   },
 );
@@ -48,3 +58,22 @@ export const fetchNewsByLimit = createAsyncThunk<NewsResponse, number>('news/fet
   const response = await axiosApi.get<NewsResponse>(`/news?limit=${limit}`);
   return response.data;
 });
+
+export const updateNews = createAsyncThunk<
+  News | null,
+  { newsId: string; newsMutation: NewsMutation },
+  { dispatch: AppDispatch }
+>('news/updateNews', async ({ newsId, newsMutation }, thunkAPI) => {
+  const formData = createFormData(newsMutation);
+  const { data: response } = await axiosApi.put<News>(`/news/${newsId}`, formData);
+  await thunkAPI.dispatch(fetchNews({ page: 1 }));
+  return response;
+});
+
+export const removeNews = createAsyncThunk<void, string, { dispatch: AppDispatch }>(
+  'news/remove',
+  async (newsId, thunkAPI) => {
+    await axiosApi.delete(`/news/${newsId}`);
+    await thunkAPI.dispatch(fetchNews({ page: 1 }));
+  },
+);

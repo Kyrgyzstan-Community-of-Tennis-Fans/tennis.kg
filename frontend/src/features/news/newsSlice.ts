@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createNews, fetchNews, fetchNewsByLimit, fetchOneNews } from '@/features/news/newsThunks';
+import {
+  createNews,
+  fetchNews,
+  fetchNewsByLimit,
+  fetchOneNews,
+  removeNews,
+  updateNews,
+} from '@/features/news/newsThunks';
 import { News } from '@/types/news';
 
 interface NewsState {
@@ -9,6 +16,8 @@ interface NewsState {
   createNewsLoading: boolean;
   fetchNewsLoading: boolean;
   fetchOneNewsLoading: boolean;
+  updateNewsLoading: boolean;
+  removeNewsLoading: boolean;
 }
 
 const initialState: NewsState = {
@@ -18,6 +27,8 @@ const initialState: NewsState = {
   createNewsLoading: false,
   fetchNewsLoading: false,
   fetchOneNewsLoading: false,
+  updateNewsLoading: false,
+  removeNewsLoading: false,
 };
 
 export const newsSlice = createSlice({
@@ -72,6 +83,28 @@ export const newsSlice = createSlice({
       .addCase(fetchOneNews.rejected, (state) => {
         state.fetchOneNewsLoading = false;
       });
+
+    builder
+      .addCase(updateNews.pending, (state) => {
+        state.updateNewsLoading = true;
+      })
+      .addCase(updateNews.fulfilled, (state) => {
+        state.updateNewsLoading = false;
+      })
+      .addCase(updateNews.rejected, (state) => {
+        state.updateNewsLoading = false;
+      });
+
+    builder
+      .addCase(removeNews.pending, (state) => {
+        state.removeNewsLoading = true;
+      })
+      .addCase(removeNews.fulfilled, (state) => {
+        state.removeNewsLoading = false;
+      })
+      .addCase(removeNews.rejected, (state) => {
+        state.removeNewsLoading = false;
+      });
   },
   selectors: {
     selectNews: (state) => state.news,
@@ -80,6 +113,8 @@ export const newsSlice = createSlice({
     selectCreateNewsLoading: (state) => state.createNewsLoading,
     selectFetchNewsLoading: (state) => state.fetchNewsLoading,
     selectFetchOneNewsLoading: (state) => state.fetchOneNewsLoading,
+    selectUpdateNewsLoading: (state) => state.updateNewsLoading,
+    selectRemoveNewsLoading: (state) => state.removeNewsLoading,
   },
 });
 
@@ -92,4 +127,6 @@ export const {
   selectCreateNewsLoading,
   selectFetchOneNewsLoading,
   selectFetchNewsLoading,
+  selectUpdateNewsLoading,
+  selectRemoveNewsLoading,
 } = newsSlice.selectors;

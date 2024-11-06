@@ -5,7 +5,7 @@ const initialState: NewsMutation = {
   title: '',
   subtitle: '',
   content: '',
-  newsCover: null,
+  newsCover: '',
   images: [],
 };
 
@@ -28,10 +28,10 @@ export const useNewsForm = () => {
 
     setNews((prevState) => {
       if (name === 'images') {
-        const updatedImages = [...prevState.images, ...Array.from(files)];
-        return { ...prevState, [name]: updatedImages };
+        const updatedImages = Array.from(files);
+        return { ...prevState, [name]: [...prevState.images, ...updatedImages] as File[] };
       } else {
-        return { ...prevState, [name]: files[0] };
+        return { ...prevState, [name]: files[0] as File };
       }
     });
   };
@@ -43,6 +43,7 @@ export const useNewsForm = () => {
 
   return {
     news,
+    setNews,
     resetKey,
     handleChange,
     handleEditorChange,

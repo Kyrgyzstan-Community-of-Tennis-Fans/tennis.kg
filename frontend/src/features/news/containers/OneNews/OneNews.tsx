@@ -37,7 +37,7 @@ export const OneNews: React.FC = () => {
       </section>
 
       <section className='mb-5'>
-        <div className='one-news-content'>{oneNews?.content}</div>
+        <div dangerouslySetInnerHTML={{ __html: oneNews?.content || ''}} />
       </section>
       <section>
         <h3 className='one-news-section-title'>Другие новости</h3>
