@@ -17,6 +17,7 @@ const run = async () => {
     await db.dropCollection('partners');
     await db.dropCollection('carousels');
     await db.dropCollection('news');
+    await db.dropCollection('ratingmembers');
   } catch (e) {
     console.log('Skipping drop...');
   }
@@ -45,8 +46,12 @@ const run = async () => {
         'Таким образом укрепление и развитие структуры позволяет оценить значение направлений прогрессивного развития.',
       createdAt: '2024-10-28T16:15:36.700+00:00',
       updatedAt: '2024-10-28T16:15:36.700+00:00',
-      newsCover: 'newsFixtures/first.png',
-      images: ['newsFixtures/newsInner1.png', 'newsFixtures/newsInner2.png', 'newsFixtures/newsInner3.png'],
+      newsCover: 'public/newsFixtures/first.png',
+      images: [
+        'public/newsFixtures/newsInner1.png',
+        'public/newsFixtures/newsInner2.png',
+        'public/newsFixtures/newsInner3.png',
+      ],
     },
     {
       title: 'Spring Silver Cup 2021',
@@ -58,8 +63,8 @@ const run = async () => {
         'Анализ задач требует внедрения инноваций для роста и развития.',
       createdAt: '2024-10-27T12:30:45.700+00:00',
       updatedAt: '2024-10-27T15:45:30.800+00:00',
-      newsCover: 'newsFixtures/second.png',
-      images: ['newsFixtures/newsInner1.png', 'newsFixtures/newsInner2.png'],
+      newsCover: 'public/newsFixtures/second.png',
+      images: ['public/newsFixtures/newsInner1.png', 'public/newsFixtures/newsInner2.png'],
     },
     {
       title: 'Autumn Bronze Cup 2022',
@@ -71,7 +76,7 @@ const run = async () => {
         'Особое внимание уделяется анализу текущих процессов и их оптимизации.',
       createdAt: '2024-10-25T09:20:15.500+00:00',
       updatedAt: '2024-10-26T11:35:40.600+00:00',
-      newsCover: 'newsFixtures/third.png',
+      newsCover: 'public/newsFixtures/third.png',
       images: [],
     },
     {
@@ -84,7 +89,7 @@ const run = async () => {
         'Практика показывает, что обновление структуры способствует повышению эффективности.',
       createdAt: '2024-10-20T08:15:22.300+00:00',
       updatedAt: '2024-10-21T10:50:18.400+00:00',
-      newsCover: 'newsFixtures/fourth.png',
+      newsCover: 'public/newsFixtures/fourth.png',
       images: [],
     }
   );
