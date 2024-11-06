@@ -16,6 +16,7 @@ import { selectUser } from '@/features/users/usersSlice';
 import { Home } from '@/pages/Home';
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import RatingMembersAdminList from '@/features/mainRatingMembers/RatingMembersAdmin/RatingMembersAdminList';
 
 export const App: React.FC = () => {
   const user = useAppSelector(selectUser);
@@ -63,6 +64,14 @@ export const App: React.FC = () => {
             element={
               <ProtectedRoute isAllowed={user && user.role === 'admin'}>
                 <AdminPaneBlockCarousel />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={'/admin/ratingMembers'}
+            element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <RatingMembersAdminList />
               </ProtectedRoute>
             }
           />
