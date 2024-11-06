@@ -3,6 +3,7 @@ import { BlockCarousel } from '@/features/carousel/BlockCarousel';
 import { News } from '@/features/news/containers/News/News';
 import Partners from '@/features/partners/Partners';
 import React from 'react';
+import MainPageRating from '@/features/mainRatingMembers/MainPageRating';
 
 export const Home: React.FC = () => {
   return (
@@ -11,11 +12,14 @@ export const Home: React.FC = () => {
         <BlockCarousel />
       </Layout>
 
-      <section className={'mb-32'}>
+      <section className={'mb-8 lg:mb-28'}>
         <Partners />
       </section>
 
       <Layout>
+        <section className='mb-24'>
+          <MainPageRating />
+        </section>
         <News />
       </Layout>
     </>

@@ -7,6 +7,7 @@ import { usersRouter } from './src/routes/users';
 import { newsRouter } from './src/routes/news';
 import { carouselRouter } from './src/routes/carousel';
 import { partnersRouter } from './src/routes/partners';
+import { ratingMembersRouter } from './src/routes/ratingMembers';
 
 const app = express();
 const port = 8000;
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.use('/users', usersRouter);
+app.use('/ratingMembers', ratingMembersRouter);
 app.use('/carousel', carouselRouter);
 app.use('/news', newsRouter);
 app.use('/categories', categoriesRouter);

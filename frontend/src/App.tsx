@@ -19,6 +19,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { News } from '@/features/news/containers/News/News';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import { AdminNews } from '@/features/news/containers/AdminNews/AdminNews';
+import RatingMembersAdminList from '@/features/mainRatingMembers/RatingMembersAdmin/RatingMembersAdminList';
 
 export const App: React.FC = () => {
   const user = useAppSelector(selectUser);
@@ -66,6 +67,14 @@ export const App: React.FC = () => {
             element={
               <ProtectedRoute isAllowed={user && user.role === 'admin'}>
                 <AdminPaneBlockCarousel />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={'/admin/ratingMembers'}
+            element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <RatingMembersAdminList />
               </ProtectedRoute>
             }
           />
