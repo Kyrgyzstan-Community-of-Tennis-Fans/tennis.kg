@@ -1,26 +1,9 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { selectRatingMembers, selectRatingMembersFetching } from '@/features/mainRatingMembers/ratingMembersSlice';
-import { fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
 import RatingMembersTop8 from '@/features/mainRatingMembers/components/RatingMembersTop8/RatingMembersTop8';
 import RatingMembersTop3 from '@/features/mainRatingMembers/components/RatingMembersTop3/RatingMembersTop3';
+import { useRatingMembers } from '@/features/mainRatingMembers/hooks/useRatingMembers';
 
 const MainPageRating = () => {
-  const dispatch = useAppDispatch();
-  const ratingMembers = useAppSelector(selectRatingMembers);
-  const ratingMembersFetching = useAppSelector(selectRatingMembersFetching);
-
-  const ratingMenMembersTop8 = ratingMembers.filter(
-    (ratingMember) => ratingMember.gender === 'male' && ratingMember.ratingType === 'mensTop8',
-  );
-  const ratingMenMembersTop3 = ratingMembers.filter(
-    (ratingMember) => ratingMember.gender === 'male' && ratingMember.ratingType === 'mensTop3',
-  );
-  const ratingWomenMembers = ratingMembers.filter((ratingMember) => ratingMember.gender === 'female');
-
-  useEffect(() => {
-    dispatch(fetchRatingMembers());
-  }, [dispatch]);
+  const { ratingMembersFetching, ratingMenMembersTop8, ratingMenMembersTop3, ratingWomenMembers } = useRatingMembers();
 
   return (
     <>

@@ -40,7 +40,7 @@ export const createRatingMember = createAsyncThunk<void, RatingMemberMutation, {
   },
 );
 
-export const deleteRatingMember = createAsyncThunk<void, string>('ratingMembers/delete', async (id) => {
+export const deleteRatingMember = createAsyncThunk<void, { id: string }>('ratingMembers/delete', async ({ id }) => {
   await axiosApi.delete(`/ratingMembers/${id}`);
 });
 
