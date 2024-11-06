@@ -10,10 +10,6 @@
     @apply no-underline h-full w-fit;
 }
 
-.news-image {
-    @apply w-max h-max object-cover mb-6;
-}
-
 .news-card-content {
     @apply flex flex-wrap mt-auto items-start p-0;
 }

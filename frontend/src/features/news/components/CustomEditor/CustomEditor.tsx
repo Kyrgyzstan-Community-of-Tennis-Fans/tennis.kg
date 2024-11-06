@@ -1,7 +1,6 @@
-import { forwardRef } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import './customEditor.css';
+import ReactQuill from 'react-quill-new';
+import { forwardRef, useEffect } from 'react';
+import 'react-quill-new/dist/quill.snow.css';
 
 interface Props {
   value: string;
@@ -16,6 +15,14 @@ const CustomEditor = forwardRef<ReactQuill, Props>(({ value, onChange }, ref) =>
     ['link'],
   ];
 
+  useEffect(() => {
+    // bug in quill editor with word-wrap problem(it is solution)
+    const qlEditor = document.querySelector('.ql-editor');
+    if (qlEditor) {
+      (qlEditor as HTMLElement).style.wordWrap = 'anywhere';
+    }
+  }, []);
+
   return (
     <ReactQuill
       ref={ref}
@@ -25,7 +32,7 @@ const CustomEditor = forwardRef<ReactQuill, Props>(({ value, onChange }, ref) =>
         toolbar: toolbarOptions,
       }}
       placeholder='Содержание новости...'
-      className='custom-editor'
+      className='max-h-[300px] overflow-y-auto'
     />
   );
 });

@@ -1,95 +1,65 @@
-import React, { type FormEvent, useRef, useState } from 'react';
-import ReactQuill from 'react-quill';
+import React, { type FormEvent, useRef } from 'react';
+import ReactQuill from 'react-quill-new';
 import { useAppDispatch } from '@/app/hooks';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { useNewsForm } from '@/features/news/hooks/useNewsForm';
+import { useDialogState } from '@/features/news/hooks/useDialogState';
+import { createNews } from '@/features/news/newsThunks';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { NewsMutation } from '@/types/news';
 import CustomEditor from '@/features/news/components/CustomEditor/CustomEditor';
 import FileInput from '@/components/FileInput/FilleInput';
-import { createNews } from '@/features/news/newsThunks';
+import { SquaresPlusIcon } from '@heroicons/react/24/outline';
 
-const initialState: NewsMutation = {
-  title: '',
-  subtitle: '',
-  content: '',
-  newsCover: null,
-  images: [],
-};
-
-const NewsCreate: React.FC = () => {
-  const [news, setNews] = useState<NewsMutation>(initialState);
-  const [open, setOpen] = useState(false);
+export const NewsCreate: React.FC = () => {
   const dispatch = useAppDispatch();
   const quillRef = useRef<ReactQuill>(null);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setNews({ ...news, [name]: value });
-  };
-
-  const handleEditorChange = (content: string) => {
-    setNews({ ...news, content });
-  };
-
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
-    if (!files) return;
-
-    setNews((prevState) => {
-      if (name === 'images') {
-        const updatedImages = [...prevState.images, ...Array.from(files)];
-        return { ...prevState, [name]: updatedImages };
-      } else {
-        return { ...prevState, [name]: files[0] };
-      }
-    });
-  };
+  const { news, resetKey, handleChange, handleEditorChange, handleFileInputChange, resetForm } = useNewsForm();
+  const { open, toggleOpen } = useDialogState();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const { toast } = await import('sonner');
+
+    if (!news.title.trim() || !news.content.trim() || !news.newsCover) {
+      return toast.error('Заполните обязательные поля!');
+    }
+
     try {
-      event.preventDefault();
-
-      const { toast } = await import('sonner');
-      if (!news.title.trim() || !news.content.trim() || !news.newsCover) {
-        return toast.error('Заполните обязательные поля!');
-      }
-
-      await dispatch(
-        createNews({
-          title: news.title,
-          subtitle: news.subtitle,
-          content: news.content,
-          newsCover: news.newsCover,
-          images: news.images,
-        }),
-      ).unwrap();
-
-      setOpen(false);
+      await dispatch(createNews(news)).unwrap();
       toast.success('Новость успешно добавлена!');
-    } catch (e) {
-      console.error(e);
-      const { toast } = await import('sonner');
+      resetForm();
+      toggleOpen();
+    } catch (error) {
+      console.error(error);
       toast.error('Ошибка при создании новости!');
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={toggleOpen}>
       <DialogTrigger asChild>
         <Button className={'w-full xs:w-max'} size={'sm'}>
-          Добавить новость
+          Добавить новость <SquaresPlusIcon />
         </Button>
       </DialogTrigger>
       <DialogContent className='max-h-svh overflow-y-auto'>
         <DialogHeader>
-          <DialogTitle className='text-2xl text-center font-bold'>Добавить новость</DialogTitle>
+          <DialogTitle className='text-2xl font-bold'>Добавить новость</DialogTitle>
+          <DialogDescription>Заполните форму перед добавлением</DialogDescription>
         </DialogHeader>
 
-        <form className='space-y-4' onSubmit={handleSubmit}>
+        <form className='space-y-4' onSubmit={handleSubmit} key={resetKey}>
           <div className='flex flex-col'>
-            <Label htmlFor='title' className='text-lg text-[#80BC41] mb-1'>
+            <Label htmlFor='title' className='text-lg mb-1'>
               Заголовок новости
             </Label>
             <Input
@@ -119,7 +89,7 @@ const NewsCreate: React.FC = () => {
           </div>
 
           <div className='flex flex-col'>
-            <Label htmlFor='newsCover' className='text-lg text-[#80BC41]'>
+            <Label htmlFor='newsCover' className='text-lg'>
               Обложка новости
             </Label>
             <FileInput name='newsCover' onChange={handleFileInputChange} />
@@ -133,7 +103,7 @@ const NewsCreate: React.FC = () => {
           </div>
 
           <div className='flex flex-col'>
-            <Label htmlFor='images' className='text-lg text-[#80BC41]'>
+            <Label htmlFor='images' className='text-lg'>
               Изображения новости
             </Label>
             <FileInput name='images' onChange={handleFileInputChange} multiple />
@@ -159,5 +129,3 @@ const NewsCreate: React.FC = () => {
     </Dialog>
   );
 };
-
-export default NewsCreate;

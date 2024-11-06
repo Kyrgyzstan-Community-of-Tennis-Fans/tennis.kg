@@ -6,7 +6,7 @@ import { CustomPagination } from '@/features/news/components/CustomPagination/Cu
 import { DatePicker } from '@/features/news/components/DatePicker/DatePicker';
 import './news.css';
 
-const News: React.FC = () => {
+export const News: React.FC = () => {
   const { news, totalPages, page, setPage, handleDateChange } = useNews();
 
   return (
@@ -15,7 +15,6 @@ const News: React.FC = () => {
         <h1 className='news-main-title'>Свежие новости</h1>
         <h2 className='news-subtitle'>Наш блог</h2>
       </div>
-      {/*<NewsCreate />*/}
       <DatePicker onDateChange={handleDateChange} />
 
       <div className='news-container'>
@@ -28,5 +27,3 @@ const News: React.FC = () => {
     </Layout>
   );
 };
-
-export default News;
