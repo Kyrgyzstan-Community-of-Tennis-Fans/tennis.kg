@@ -2,15 +2,7 @@ import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectRatingMembersCategoriesUpdating } from '@/features/mainRatingMembers/ratingMembersSlice';
 import { toast } from 'sonner';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { fetchRatingMembers, updateRatingCategories } from '@/features/mainRatingMembers/ratingMembersThunks';
 import { EditIcon } from 'lucide-react';
@@ -102,7 +94,7 @@ const RatingMembersCategoriesEdit: React.FC<Props> = ({
               />
             </div>
           </div>
-          <DialogFooter className='gap-3'>
+          <div className='flex flex-col gap-1'>
             <Button type='submit' disabled={isUpdating}>
               Сохранить
             </Button>
@@ -111,7 +103,7 @@ const RatingMembersCategoriesEdit: React.FC<Props> = ({
                 Отмена
               </Button>
             </DialogClose>
-          </DialogFooter>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

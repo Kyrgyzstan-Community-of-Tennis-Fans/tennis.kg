@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectRatingMemberCreating } from '@/features/mainRatingMembers/ratingMembersSlice';
@@ -122,7 +114,7 @@ const RatingWomanNew = () => {
               <FileInput name='image' onChange={fileInputChangeHandler} />
             </div>
           </div>
-          <DialogFooter className='gap-3'>
+          <div className='flex flex-col gap-1'>
             <Button
               type='submit'
               disabled={
@@ -136,7 +128,7 @@ const RatingWomanNew = () => {
                 Отмена
               </Button>
             </DialogClose>
-          </DialogFooter>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

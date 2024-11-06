@@ -5,15 +5,7 @@ import { selectRatingMemberUpdating } from '@/features/mainRatingMembers/ratingM
 import { fetchRatingMembers, updateRatingMember } from '@/features/mainRatingMembers/ratingMembersThunks';
 import { toast } from 'sonner';
 import { GlobalError } from '@/types/userTypes';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -147,7 +139,7 @@ const RatingManEdit: React.FC<Props> = ({ id, existingMember }) => {
               <FileInput name='image' onChange={fileInputChangeHandler} />
             </div>
           </div>
-          <DialogFooter className='gap-3'>
+          <div className='flex flex-col gap-1'>
             <Button
               type='submit'
               disabled={
@@ -164,7 +156,7 @@ const RatingManEdit: React.FC<Props> = ({ id, existingMember }) => {
                 Отмена
               </Button>
             </DialogClose>
-          </DialogFooter>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

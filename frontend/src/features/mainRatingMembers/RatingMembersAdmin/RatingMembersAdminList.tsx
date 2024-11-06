@@ -7,6 +7,9 @@ import RatingMembersCategoriesEdit from '@/features/mainRatingMembers/RatingMemb
 import RatingManNew from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingManNew/RatingManNew';
 import RatingWomanNew from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingWomanNew/RatingWomanNew';
 import { Loader } from '@/components/Loader/Loader';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { EditIcon } from 'lucide-react';
 
 const RatingMembersAdminList = () => {
   const dispatch = useAppDispatch();
@@ -39,9 +42,16 @@ const RatingMembersAdminList = () => {
             existingWomensCategoryTop3={ratingWomenMembers[0]?.womensRatingCategoryTop3 || ''}
           />
         ) : (
-          <p className='text-red-500'>
-            Для редактирования должно быть минимум по одному участнику в женском и в мужских топах
-          </p>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button size='sm'>
+                Изменить категории <EditIcon />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <small>Для редактирования должно быть минимум по одному участнику в женском и в мужских топах</small>
+            </PopoverContent>
+          </Popover>
         )}
       </div>
       <div className='flex flex-col gap-14 '>
