@@ -9,7 +9,7 @@ import {useAdminPartners} from '@/features/partners/hooks/useAdminPartners';
 const AdminPartners = () => {
 
   const { partners, isDialogOpen, loading, handleSubmit, setIsDialogOpen } = useAdminPartners();
-  
+
   if (loading) return <Loader fixed />;
 
   return (

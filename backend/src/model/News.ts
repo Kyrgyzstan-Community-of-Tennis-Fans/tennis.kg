@@ -30,6 +30,5 @@ const NewsSchema = new Schema<NewsFields>(
     versionKey: false,
   }
 );
-const News = model('News', NewsSchema);
 
-export default News;
+export const News = model('News', NewsSchema);
