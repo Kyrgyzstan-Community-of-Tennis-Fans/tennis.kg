@@ -20,8 +20,6 @@ export const useRatingManNew = () => {
   const isCreating = useAppSelector(selectRatingMemberCreating);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
-  // const placesTop8 = Array.from({ length: 8 }, (_, i) => (i + 1).toString());
-  // const placesTop3 = Array.from({ length: 3 }, (_, i) => (i + 1).toString());
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRatingMemberManMutation((prev) => ({

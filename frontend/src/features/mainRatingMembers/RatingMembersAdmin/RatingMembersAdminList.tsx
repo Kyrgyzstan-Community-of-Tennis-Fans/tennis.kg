@@ -1,7 +1,3 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { selectRatingMembers, selectRatingMembersFetching } from '@/features/mainRatingMembers/ratingMembersSlice';
-import { fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
 import RatingMembersAdmin from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingMembersAdmin/RatingMembersAdmin';
 import RatingMembersCategoriesEdit from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingMemberCategoriesEdit/RatingMembersCategoriesEdit';
 import RatingManNew from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingManNew/RatingManNew';
@@ -10,27 +6,13 @@ import { Loader } from '@/components/Loader/Loader';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { EditIcon } from 'lucide-react';
+import { useRatingMembers } from '@/features/mainRatingMembers/hooks/useRatingMembers';
 
 const RatingMembersAdminList = () => {
-  const dispatch = useAppDispatch();
-  const isFetching = useAppSelector(selectRatingMembersFetching);
-  const ratingMembers = useAppSelector(selectRatingMembers);
+  const { ratingMembersFetching, ratingMenMembersTop8, ratingMenMembersTop3, ratingWomenMembers, existingMembers } =
+    useRatingMembers();
 
-  const ratingMenMembersTop8 = ratingMembers.filter(
-    (ratingMember) => ratingMember.gender === 'male' && ratingMember.ratingType === 'mensTop8',
-  );
-  const ratingMenMembersTop3 = ratingMembers.filter(
-    (ratingMember) => ratingMember.gender === 'male' && ratingMember.ratingType === 'mensTop3',
-  );
-  const ratingWomenMembers = ratingMembers.filter((ratingMember) => ratingMember.gender === 'female');
-  const existingMembers =
-    ratingMenMembersTop8.length > 0 && ratingMenMembersTop3.length > 0 && ratingWomenMembers.length > 0;
-
-  useEffect(() => {
-    dispatch(fetchRatingMembers());
-  }, [dispatch]);
-
-  return isFetching ? (
+  return ratingMembersFetching ? (
     <Loader className='mx-auto my-[10%]' />
   ) : (
     <div className='lg:max-w-[900px] lg:mx-auto mb-7 mt-8'>

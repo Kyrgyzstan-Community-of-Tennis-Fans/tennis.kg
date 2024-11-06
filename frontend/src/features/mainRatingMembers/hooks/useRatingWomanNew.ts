@@ -20,7 +20,6 @@ export const useRatingWomanNew = () => {
   const isCreating = useAppSelector(selectRatingMemberCreating);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
-  // const places = Array.from({ length: 3 }, (_, i) => (i + 1).toString());
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRatingMemberWomanMutation((prev) => ({
