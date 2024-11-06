@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Layout } from '@/components/Layout';
 import { Skeleton } from '@/components/ui/skeleton';
+import { RatingBlock } from '@/features/ratings/components/RatingBlock/RatingBlock';
 import { selectRatings, selectRatingsFetching } from '@/features/ratings/ratingsSlice';
 import { fetchRatings } from '@/features/ratings/ratingsThunks';
-import styles from './ratings.module.css';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import React, { useEffect } from 'react';
+import styles from './ratings.module.css';
 
 export const Ratings: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -37,36 +37,7 @@ export const Ratings: React.FC = () => {
             Не удалось загрузить рейтинги. Пожалуйста, попробуйте обновить страницу
           </span>
         ) : (
-          <Accordion type='single' collapsible>
-            {ratings.map((rating, index) => {
-              const gender = rating.gender === 'male' ? 'Мужской' : 'Женский';
-
-              return (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className={'capitalize text-lg'}>
-                    {rating.month} － {rating.year}
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className={'text-base space-y-2'}>
-                      <div className={'flex gap-2 items-center'}>
-                        <h4 className={'px-2 bg-gray-200 max-w-max rounded-lg'}>
-                          Категория - <span className={'text-[#64B32C]'}>{rating.category.name}</span>
-                        </h4>
-                        <h4 className={'px-2 bg-gray-200 max-w-max rounded-lg capitalize'}>Пол - {gender}</h4>
-                      </div>
-
-                      <span className={'ml-1 block'}>
-                        Рейтинг - {''}
-                        <a href={rating.link} className={'text-[#3F6A11] underline underline-offset-2'}>
-                          {rating.link}
-                        </a>
-                      </span>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              );
-            })}
-          </Accordion>
+          <RatingBlock ratings={ratings} />
         )}
       </section>
     </Layout>

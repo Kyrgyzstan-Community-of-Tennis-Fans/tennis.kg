@@ -1,44 +1,39 @@
 import mongoose from 'mongoose';
-import { Category } from './Category';
 
 const Schema = mongoose.Schema;
 
-const RatingSchema = new Schema({
-  category: {
-    type: String,
-    ref: 'Category',
-    required: true,
-    
-    validate: {
-      validator: async function (value: string) {
-        const category = await Category.findOne({ _id: value });
-        
-        return !!category;
-      },
-      message: 'Category does not exist',
-    }
+const RatingSchema = new Schema(
+  {
+    month: {
+      type: String,
+      enum: [
+        'january',
+        'february',
+        'march',
+        'april',
+        'may',
+        'june',
+        'july',
+        'august',
+        'september',
+        'october',
+        'november',
+        'december',
+      ],
+      required: true,
+    },
+    year: {
+      type: Number,
+      required: true,
+    },
+    events: {
+      type: [Schema.Types.ObjectId],
+      ref: 'Event',
+    },
   },
-  month: {
-    type: String,
-    enum: [
-      'january', 'february', 'march', 'april', 'may', 'june',
-      'july', 'august', 'september', 'october', 'november', 'december'
-    ],
-    required: true,
-  },
-  year: {
-    type: Number,
-    required: true,
-  },
-  gender: {
-    type: String,
-    enum: ['male', 'female'],
-    required: true,
-  },
-  link: {
-    type: String,
-    required: true,
-  }
-});
+  { timestamps: true }
+);
+
+RatingSchema.index({ month: 1, year: 1 }, { unique: true });
 
 export const Rating = mongoose.model('Rating', RatingSchema);

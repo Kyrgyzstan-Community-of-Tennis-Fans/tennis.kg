@@ -1,3 +1,4 @@
+import { useAppDispatch } from '@/app/hooks';
 import {
   Dialog,
   DialogContent,
@@ -7,9 +8,17 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { RatingForm } from '@/features/ratings/components/RatingForm/RatingForm';
+import { createRating } from '@/features/ratings/ratingsThunks';
+import type { RatingMutation } from '@/types/ratingTypes';
 import React, { type PropsWithChildren } from 'react';
 
 export const NewRating: React.FC<PropsWithChildren> = ({ children }) => {
+  const dispatch = useAppDispatch();
+
+  const handleCreateRating = (rating: RatingMutation) => {
+    dispatch(createRating(rating));
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -21,7 +30,7 @@ export const NewRating: React.FC<PropsWithChildren> = ({ children }) => {
             странице "Рейтинг".
           </DialogDescription>
 
-          <RatingForm />
+          <RatingForm onSubmit={handleCreateRating} />
         </DialogHeader>
       </DialogContent>
     </Dialog>

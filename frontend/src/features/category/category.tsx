@@ -3,12 +3,11 @@ import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/components/ui/button';
 import { CategoryCard } from '@/features/category/components/CategoryCard/CategoryCard';
 import { CategoryCreate } from '@/features/category/components/CategoryCreate/CategoryCreate';
+import { useCategory } from '@/features/category/hooks/useCategory';
 import { SquaresPlusIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import {useCategory} from '@/features/category/hooks/useCategory';
 
 export const Category: React.FC = () => {
-  
   const { categories, categoriesFetching } = useCategory();
 
   if (categoriesFetching) return <Loader fixed />;
