@@ -10,7 +10,7 @@ import { GlobalError } from '@/types/userTypes';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import FileInput from '@/features/mainRatingMembers/RatingMembersAdmin/components/FileInput/FileInput';
+import FileInput from '@/components/FileInput/FileInput';
 import { SquaresPlusIcon } from '@heroicons/react/24/outline';
 
 const emptyState: RatingMemberMutation = {

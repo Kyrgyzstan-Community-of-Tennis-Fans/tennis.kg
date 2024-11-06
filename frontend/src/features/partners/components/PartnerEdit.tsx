@@ -25,6 +25,7 @@ import {
 import { fetchOnePartner, fetchPartner, updatePartner } from '@/features/partners/partnerThunks';
 import { API_URl } from '@/consts';
 import { mutationPartner } from '@/types/partnerTypes';
+import FileInput from '@/components/FileInput/FileInput';
 
 interface Props {
   id: string;
@@ -155,7 +156,7 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
 
               <div className='mb-2 text-left'>
                 <Label htmlFor='image'>Логотип Компании</Label>
-                <Input type={'file'} id='image' name='image' placeholder='URL логотипа' onChange={handleImageChange} />
+                <FileInput name='image' placeholder='логотип' onChange={handleImageChange} />
               </div>
               {previewImage && (
                 <div className='border rounded-lg mt-2 mb-2 p-5 bg-muted'>
