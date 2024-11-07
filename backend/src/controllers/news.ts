@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { News } from '../model/News';
 import { Error, Types } from 'mongoose';
-import { format } from 'date-fns/format';
-import { isValid, parseISO } from 'date-fns';
+import { format, isValid, parseISO } from 'date-fns';
 
 export const createNewPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -44,7 +43,12 @@ export const getNews = async (req: Request, res: Response, next: NextFunction) =
       }
     }
 
-    const news = await News.find(dateFilter).sort({ createdAt: -1 }).skip(startIndex).limit(limit).lean();
+    const news = await News.find(dateFilter)
+      .select('title subtitle newsCover createdAt updatedAt')
+      .sort({ createdAt: -1 })
+      .skip(startIndex)
+      .limit(limit)
+      .lean();
 
     const formattedNews = news.map((item) => ({
       ...item,
@@ -67,7 +71,7 @@ export const getById = async (req: Request, res: Response, next: NextFunction) =
     if (!Types.ObjectId.isValid(id)) return res.status(404).send({ error: 'Неправильный тип id!' });
 
     const newsId = new Types.ObjectId(id);
-    const newsById = await News.findById(newsId).lean();
+    const newsById = await News.findById(newsId).select('title subtitle content images createdAt updatedAt').lean();
 
     if (!newsById) return res.status(404).send({ error: 'Новость не найдена!' });
 
