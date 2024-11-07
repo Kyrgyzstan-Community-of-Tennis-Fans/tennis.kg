@@ -5,6 +5,8 @@ import Footer from '@/components/Footer/Footer';
 import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
 import { Toolbar } from '@/components/Toolbar/Toolbar';
 import { Toaster } from '@/components/ui/sonner';
+import { AdminRatings } from '@/features/ratings/AdminRatings';
+import { Ratings } from '@/features/ratings/ratings';
 import { ForgotPassword } from '@/features/users/ForgotPassword';
 import { Login } from '@/features/users/Login';
 import { PersonalAccount } from '@/features/users/PersonalAccount';
@@ -32,8 +34,17 @@ export const App: React.FC = () => {
           <Route path={'/'} element={<Home />} />
           <Route path={'/login'} element={<Login />} />
           <Route path={'/register'} element={<Register />} />
+          <Route path={'/rating'} element={<Ratings />} />
           <Route path={'/reset-password/:token'} element={<ResetPassword />} />
           <Route path={'/forgot-password'} element={<ForgotPassword />} />
+          <Route
+            path='/admin/rating'
+            element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <AdminRatings />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path={'/personal-account'}
             element={

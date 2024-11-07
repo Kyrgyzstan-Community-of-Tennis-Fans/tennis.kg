@@ -1,7 +1,7 @@
+import React from 'react';
 import { Layout } from '@/components/Layout';
 import { BlockCarousel } from '@/features/carousel/BlockCarousel';
 import Partners from '@/features/partners/Partners';
-import React from 'react';
 import MainPageRating from '@/features/mainRatingMembers/MainPageRating';
 
 export const Home: React.FC = () => {
