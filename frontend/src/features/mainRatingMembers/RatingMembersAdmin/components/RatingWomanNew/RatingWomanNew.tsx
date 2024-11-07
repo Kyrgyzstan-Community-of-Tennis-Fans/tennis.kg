@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import FileInput from '@/features/mainRatingMembers/RatingMembersAdmin/components/FileInput/FileInput';
 import { SquaresPlusIcon } from '@heroicons/react/24/outline';
 import { useRatingWomanNew } from '@/features/mainRatingMembers/hooks/useRatingWomanNew';
 import { useAdminRatingMembers } from '@/features/mainRatingMembers/hooks/useAdminRatingMembers';
@@ -63,7 +62,7 @@ const RatingWomanNew = () => {
             </div>
             <div className='flex flex-col gap-1'>
               <Label htmlFor='image'>Фото</Label>
-              <FileInput name='image' onChange={fileInputChangeHandler} />
+              <Input required id='image' name='image' type='file' onChange={fileInputChangeHandler} />
             </div>
           </div>
           <div className='flex flex-col gap-1'>

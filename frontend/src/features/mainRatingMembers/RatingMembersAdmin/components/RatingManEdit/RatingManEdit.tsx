@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { RatingMember, RatingMemberMutation } from '@/types/ratingMemberTypes';
 import { selectRatingMemberUpdating } from '@/features/mainRatingMembers/ratingMembersSlice';
@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import FileInput from '@/features/mainRatingMembers/RatingMembersAdmin/components/FileInput/FileInput';
 import { EditIcon } from 'lucide-react';
 import { useAdminRatingMembers } from '@/features/mainRatingMembers/hooks/useAdminRatingMembers';
 
@@ -20,16 +19,26 @@ export interface Props {
 }
 
 const RatingManEdit: React.FC<Props> = ({ id, existingMember }) => {
-  const initialState: RatingMemberMutation = existingMember && {
-    ...existingMember,
-    place: existingMember.place.toString(),
-  };
+  const initialState = useMemo(
+    () => ({
+      ...existingMember,
+      place: existingMember.place.toString(),
+    }),
+    [existingMember],
+  );
+
   const dispatch = useAppDispatch();
   const [ratingMemberManMutation, setRatingMemberManMutation] = useState<RatingMemberMutation>(initialState);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const isUpdating = useAppSelector(selectRatingMemberUpdating);
   const { placesTop3, placesTop8 } = useAdminRatingMembers();
+
+  useEffect(() => {
+    if (open) {
+      setRatingMemberManMutation(initialState);
+    }
+  }, [initialState, open, setRatingMemberManMutation]);
 
   const fileInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = event.target;
@@ -136,7 +145,7 @@ const RatingManEdit: React.FC<Props> = ({ id, existingMember }) => {
             </div>
             <div className='flex flex-col gap-1'>
               <Label htmlFor='image'>Фото</Label>
-              <FileInput name='image' onChange={fileInputChangeHandler} />
+              <Input id='image' name='image' type='file' onChange={fileInputChangeHandler} />
             </div>
           </div>
           <div className='flex flex-col gap-1'>

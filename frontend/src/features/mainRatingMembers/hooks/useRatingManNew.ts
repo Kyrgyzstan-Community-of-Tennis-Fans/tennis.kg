@@ -1,6 +1,6 @@
 import { RatingMemberMutation } from '@/types/ratingMemberTypes';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { selectRatingMemberCreating } from '@/features/mainRatingMembers/ratingMembersSlice';
 import { createRatingMember, fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
 import { toast } from 'sonner';
@@ -20,6 +20,12 @@ export const useRatingManNew = () => {
   const isCreating = useAppSelector(selectRatingMemberCreating);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    if (open) {
+      setRatingMemberManMutation(emptyState);
+    }
+  }, [open, setRatingMemberManMutation]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRatingMemberManMutation((prev) => ({

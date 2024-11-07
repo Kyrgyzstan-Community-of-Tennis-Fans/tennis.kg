@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RatingMemberMutation } from '@/types/ratingMemberTypes';
 import { selectRatingMemberCreating } from '@/features/mainRatingMembers/ratingMembersSlice';
 import { createRatingMember, fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
@@ -20,6 +20,12 @@ export const useRatingWomanNew = () => {
   const isCreating = useAppSelector(selectRatingMemberCreating);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    if (open) {
+      setRatingMemberWomanMutation(emptyState);
+    }
+  }, [open, setRatingMemberWomanMutation]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRatingMemberWomanMutation((prev) => ({
