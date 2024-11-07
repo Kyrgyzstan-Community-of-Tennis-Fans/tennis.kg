@@ -20,6 +20,7 @@ import { News } from '@/features/news/containers/News/News';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import { AdminNews } from '@/features/news/containers/AdminNews/AdminNews';
 import RatingMembersAdminList from '@/features/mainRatingMembers/RatingMembersAdmin/RatingMembersAdminList';
+import AdminPanel from '@/pages/AdminPanel';
 
 export const App: React.FC = () => {
   const user = useAppSelector(selectUser);
@@ -90,6 +91,7 @@ export const App: React.FC = () => {
           <Route path={'/news'} element={<News />} />
           <Route path={'/news/:id'} element={<OneNews />} />
 
+          <Route path={'admin'} element={<AdminPanel />} />
           <Route path={'*'} element={<Error404 />} />
         </Routes>
       </main>
