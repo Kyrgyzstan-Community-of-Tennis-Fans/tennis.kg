@@ -1,4 +1,4 @@
-import { createRating, deleteEvent, fetchRatings, getEvent } from '@/features/ratings/ratingsThunks';
+import { createRating, deleteEvent, deleteRating, fetchRatings, getEvent } from '@/features/ratings/ratingsThunks';
 import type { Rating } from '@/types/ratingTypes';
 import { createSlice } from '@reduxjs/toolkit';
 import type { Event } from '@/types/eventTypes';
@@ -10,6 +10,7 @@ interface RatingsState {
   ratingsFetching: boolean;
   ratingsCreating: boolean;
   eventsDeleting: string | null;
+  ratingsDeleting: string | null;
 }
 
 const initialState: RatingsState = {
@@ -19,6 +20,7 @@ const initialState: RatingsState = {
   ratingsFetching: false,
   ratingsCreating: false,
   eventsDeleting: null,
+  ratingsDeleting: null,
 };
 
 export const ratingsSlice = createSlice({
@@ -72,6 +74,18 @@ export const ratingsSlice = createSlice({
       .addCase(getEvent.rejected, (state) => {
         state.eventFetching = false;
       });
+
+    builder
+      .addCase(deleteRating.pending, (state, { meta }) => {
+        state.ratingsDeleting = meta.arg;
+      })
+      .addCase(deleteRating.fulfilled, (state) => {
+        state.ratings = state.ratings.filter((rating) => rating._id !== state.ratingsDeleting);
+        state.ratingsDeleting = null;
+      })
+      .addCase(deleteRating.rejected, (state) => {
+        state.ratingsDeleting = null;
+      });
   },
   selectors: {
     selectRatings: (state) => state.ratings,
@@ -79,8 +93,15 @@ export const ratingsSlice = createSlice({
     selectRatingsCreating: (state) => state.ratingsCreating,
     selectEvent: (state) => state.event,
     selectEventFetching: (state) => state.eventFetching,
+    selectRatingsDeleting: (state) => state.ratingsDeleting,
   },
 });
 
-export const { selectRatings, selectRatingsFetching, selectRatingsCreating, selectEventFetching, selectEvent } =
-  ratingsSlice.selectors;
+export const {
+  selectRatings,
+  selectRatingsFetching,
+  selectRatingsCreating,
+  selectEventFetching,
+  selectEvent,
+  selectRatingsDeleting,
+} = ratingsSlice.selectors;
