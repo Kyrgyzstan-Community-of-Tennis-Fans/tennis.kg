@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import FileInput from '@/features/mainRatingMembers/RatingMembersAdmin/components/FileInput/FileInput';
 import { EditIcon } from 'lucide-react';
+import { useAdminRatingMembers } from '@/features/mainRatingMembers/hooks/useAdminRatingMembers';
 
 export interface Props {
   id: string;
@@ -28,8 +29,7 @@ const RatingManEdit: React.FC<Props> = ({ id, existingMember }) => {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const isUpdating = useAppSelector(selectRatingMemberUpdating);
-  const placesTop3 = Array.from({ length: 3 }, (_, i) => (i + 1).toString());
-  const placesTop8 = Array.from({ length: 8 }, (_, i) => (i + 1).toString());
+  const { placesTop3, placesTop8 } = useAdminRatingMembers();
 
   const fileInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = event.target;
