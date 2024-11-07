@@ -10,8 +10,9 @@ const AdminPanel = () => {
   return (
     <>
       <Layout>
+        <h1 className={'text-center text-2xl sm:text-4xl mb-8 font-semibold'}>Панель Администратора</h1>
         <Tabs defaultValue='partners'>
-          <TabsList className='grid w-full md:grid-cols-5 sm:grid-cols-5 xs:grid-cols-5 mb-7'>
+          <TabsList className='grid w-full md:grid-cols-5 sm:grid-cols-5 xs:grid-cols-5 xs:mb-10 mb-36 '>
             <TabsTrigger value='partners'>Партнеры</TabsTrigger>
             <TabsTrigger value='category'>Категории</TabsTrigger>
             <TabsTrigger value='carousel'>Карусель</TabsTrigger>

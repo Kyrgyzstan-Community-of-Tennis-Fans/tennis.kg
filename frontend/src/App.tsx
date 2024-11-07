@@ -5,9 +5,6 @@ import Footer from '@/components/Footer/Footer';
 import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
 import { Toolbar } from '@/components/Toolbar/Toolbar';
 import { Toaster } from '@/components/ui/sonner';
-import { AdminPaneBlockCarousel } from '@/features/carousel/AdminPaneBlockCarousel';
-import { Category } from '@/features/category/category';
-import AdminPartners from '@/features/partners/AdminPartners';
 import { ForgotPassword } from '@/features/users/ForgotPassword';
 import { Login } from '@/features/users/Login';
 import { PersonalAccount } from '@/features/users/PersonalAccount';
@@ -18,8 +15,6 @@ import { Home } from '@/pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { News } from '@/features/news/containers/News/News';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
-import { AdminNews } from '@/features/news/containers/AdminNews/AdminNews';
-import RatingMembersAdminList from '@/features/mainRatingMembers/RatingMembersAdmin/RatingMembersAdminList';
 import AdminPanel from '@/pages/AdminPanel';
 
 export const App: React.FC = () => {
@@ -40,14 +35,6 @@ export const App: React.FC = () => {
           <Route path={'/reset-password/:token'} element={<ResetPassword />} />
           <Route path={'/forgot-password'} element={<ForgotPassword />} />
           <Route
-            path='/admin/partners'
-            element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <AdminPartners />
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path={'/personal-account'}
             element={
               <ProtectedRoute isAllowed={user ? true : null}>
@@ -55,43 +42,17 @@ export const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
-          <Route
-            path={'/admin/category'}
-            element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <Category />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={'/admin/carousel'}
-            element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <AdminPaneBlockCarousel />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={'/admin/ratingMembers'}
-            element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <RatingMembersAdminList />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={'/admin/news'}
-            element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <AdminNews />
-              </ProtectedRoute>
-            }
-          />
 
           <Route path={'/news'} element={<News />} />
           <Route path={'/news/:id'} element={<OneNews />} />
-
-          <Route path={'admin'} element={<AdminPanel />} />
+          <Route
+            path={'admin'}
+            element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <AdminPanel />
+              </ProtectedRoute>
+            }
+          />
           <Route path={'*'} element={<Error404 />} />
         </Routes>
       </main>
