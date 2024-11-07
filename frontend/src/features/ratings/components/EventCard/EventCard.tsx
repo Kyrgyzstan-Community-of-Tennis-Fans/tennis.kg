@@ -57,7 +57,7 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
             </EventEdit>
           </div>
         )}
-        <a href={link} target={'_blank'} className={'block'}>
+        <a href={link} target={'_blank'} className={'block ml-auto'}>
           <Button
             size={'sm'}
             variant={'ghost'}

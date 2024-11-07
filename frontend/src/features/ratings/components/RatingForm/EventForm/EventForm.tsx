@@ -5,14 +5,17 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
 import { fetchCategories } from '@/features/category/categoryThunks';
+import { selectEventFetching } from '@/features/ratings/ratingsSlice';
 import { getMonth } from '@/lib/getMonth';
 import type { EventMutation } from '@/types/eventTypes';
 import type { Rating } from '@/types/ratingTypes';
 import React, { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
+import { Event } from '@/types/eventTypes';
 
 interface Props {
   onSubmit: (eventMutation: EventMutation) => void;
   ratings: Rating[];
+  event?: Event;
 }
 
 const initialState: EventMutation = {
@@ -22,11 +25,23 @@ const initialState: EventMutation = {
   link: '',
 };
 
-export const EventForm: React.FC<Props> = ({ onSubmit, ratings }) => {
+export const EventForm: React.FC<Props> = ({ onSubmit, ratings, event }) => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectCategories);
   const categoriesFetching = useAppSelector(selectCategoriesFetching);
   const [eventMutation, setEventMutation] = useState<EventMutation>(initialState);
+  const eventFetching = useAppSelector(selectEventFetching);
+
+  useEffect(() => {
+    if (event) {
+      setEventMutation({
+        rating: event.rating._id,
+        category: event.category._id,
+        gender: event.gender,
+        link: event.link,
+      });
+    }
+  }, [event]);
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -116,8 +131,8 @@ export const EventForm: React.FC<Props> = ({ onSubmit, ratings }) => {
         />
       </div>
 
-      <Button disabled={!isFormValid} className={'mt-3 w-full'} type={'submit'}>
-        Создать
+      <Button disabled={!isFormValid || eventFetching} className={'mt-3 w-full'} type={'submit'}>
+        {eventFetching ? 'Загрузка…' : 'Сохранить'}
       </Button>
     </form>
   );
