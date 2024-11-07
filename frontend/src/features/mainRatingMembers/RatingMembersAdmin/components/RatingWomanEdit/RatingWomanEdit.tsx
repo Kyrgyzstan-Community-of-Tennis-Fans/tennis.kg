@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import FileInput from '@/features/mainRatingMembers/RatingMembersAdmin/components/FileInput/FileInput';
 import { EditIcon } from 'lucide-react';
+import { useAdminRatingMembers } from '@/features/mainRatingMembers/hooks/useAdminRatingMembers';
 
 export interface Props {
   id: string;
@@ -27,7 +28,7 @@ const RatingWomanEdit: React.FC<Props> = ({ id, existingMember }) => {
   const isUpdating = useAppSelector(selectRatingMemberUpdating);
   const [open, setOpen] = useState(false);
   const [ratingMemberWomanMutation, setRatingMemberWomanMutation] = useState<RatingMemberMutation>(initialState);
-  const places = Array.from({ length: 3 }, (_, i) => (i + 1).toString());
+  const { placesTop3 } = useAdminRatingMembers();
   const handleClose = () => setOpen(false);
 
   const handleChangeSelect = (value: string, name: string) => {
@@ -99,7 +100,7 @@ const RatingWomanEdit: React.FC<Props> = ({ id, existingMember }) => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {places.map((place) => (
+                    {placesTop3.map((place) => (
                       <SelectItem key={place} value={place}>
                         {place}
                       </SelectItem>

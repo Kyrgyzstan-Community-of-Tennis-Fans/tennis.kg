@@ -1,34 +1,21 @@
 import React from 'react';
 import { RatingMember } from '@/types/ratingMemberTypes';
 import { Confirm } from '@/components/Confirm/Confirm';
-import { toast } from 'sonner';
-import { useAppDispatch } from '@/app/hooks';
 import { Button } from '@/components/ui/button';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Card } from '@/components/ui/card';
 import { API_URl } from '@/consts';
-import { deleteRatingMember, fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
 import RatingWomanEdit from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingWomanEdit/RatingWomanEdit';
 import RatingManEdit from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingManEdit/RatingManEdit';
+import { useAdminRatingMembers } from '@/features/mainRatingMembers/hooks/useAdminRatingMembers';
 
 interface Props {
   ratingMember: RatingMember;
 }
 
 const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember }) => {
-  const dispatch = useAppDispatch();
   const image = `${API_URl}/${ratingMember.image}`;
-
-  const handleDelete = async () => {
-    try {
-      await dispatch(deleteRatingMember(ratingMember._id)).unwrap();
-      await dispatch(fetchRatingMembers());
-      toast.success('Удаление прошло успешно!');
-    } catch (error) {
-      console.error(error);
-      toast.error('Что-то пошло не так!');
-    }
-  };
+  const { handleDelete } = useAdminRatingMembers();
 
   return (
     <Card className='p-3 shadow-none flex-1 w-full'>
@@ -49,7 +36,7 @@ const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember }) => {
           {ratingMember.name}
         </h3>
         <div className='space-x-1 flex items-center ml-auto'>
-          <Confirm onOk={handleDelete}>
+          <Confirm onOk={() => handleDelete(ratingMember._id)}>
             <Button size='sm'>
               <TrashIcon />
             </Button>
