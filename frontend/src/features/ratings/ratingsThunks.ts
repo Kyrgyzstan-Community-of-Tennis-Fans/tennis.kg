@@ -87,3 +87,16 @@ export const getEvent = createAsyncThunk('ratings/getEvent', async (id: string) 
     throw error;
   }
 });
+
+export const deleteRating = createAsyncThunk('ratings/deleteRating', async (id: string) => {
+  try {
+    await axiosApi.delete(`/ratings/${id}`);
+  } catch (error) {
+    if (isAxiosError(error) && error.response && error.response.data.code === 404) {
+      toast.error(error.response.data.error);
+    } else {
+      toast.error('Произошла ошибка при удалении рейтинга');
+    }
+    throw error;
+  }
+});

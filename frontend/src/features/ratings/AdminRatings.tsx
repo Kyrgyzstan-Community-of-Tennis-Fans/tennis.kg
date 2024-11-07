@@ -21,20 +21,20 @@ export const AdminRatings: React.FC = () => {
 
   return (
     <Layout>
-      <header className={'flex xs:items-center justify-between gap-2 flex-col xs:flex-row border-b pb-1.5'}>
+      <header className={'flex md:items-center justify-between gap-2 flex-col md:flex-row border-b pb-1.5'}>
         <div>
           <h1 className={'text-2xl font-medium leading-none'}>Рейтинги</h1>
           <small className={'text-muted-foreground text-base'}>Список всех рейтингов и управление рейтингами.</small>
         </div>
 
-        <div className={'flex items-center gap-2'}>
+        <div className={'flex flex-col md:flex-row items-center gap-2'}>
           <NewRating>
-            <Button className={'w-full xs:w-max'}>
+            <Button size={'sm'} className={'w-full font-normal'}>
               Добавить рейтинг <SquaresPlusIcon />
             </Button>
           </NewRating>
           <NewEvent ratings={ratings}>
-            <Button className={'w-full xs:w-max'}>
+            <Button size={'sm'} className={'w-full font-normal'}>
               Добавить событие <CalendarDaysIcon />
             </Button>
           </NewEvent>

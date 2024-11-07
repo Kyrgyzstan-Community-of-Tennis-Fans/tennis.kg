@@ -45,3 +45,17 @@ export const createRating = async (req: Request, res: Response, next: NextFuncti
     return next(error);
   }
 };
+
+export const deleteRating = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const rating = await Rating.findByIdAndDelete(req.params.id);
+
+    if (!rating) {
+      return res.status(404).send({ error: 'Рейтинг не найден' });
+    }
+
+    return res.status(204).send();
+  } catch (error) {
+    return next(error);
+  }
+};
