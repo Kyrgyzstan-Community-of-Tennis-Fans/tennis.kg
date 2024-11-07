@@ -1,15 +1,24 @@
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { API_URl } from '@/consts';
 import { Loader } from '@/components/Loader/Loader';
 import styles from './Carousel.module.css';
 import './Carousel.css';
 import {useBlockCarousel} from '@/features/carousel/hooks/useBlockCorousel';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import * as React from "react"
+import Autoplay from "embla-carousel-autoplay"
 
 export const BlockCarousel = () => {
+  const plugin = React.useRef(
+      Autoplay({ delay: 2000, stopOnInteraction: true })
+  )
   
-  const { loadingCarousel, displayedPhotos, settings } = useBlockCarousel();
+  const { loadingCarousel, displayedPhotos, } = useBlockCarousel();
 
   return (
     <>
@@ -26,19 +35,25 @@ export const BlockCarousel = () => {
         {loadingCarousel ? (
           <Loader />
         ) : (
-          <div className='px-4 lg:px-[50px] mb-5'>
-            <Slider {...settings}>
+          <Carousel  plugins={[plugin.current]}
+                     onMouseEnter={plugin.current.stop}
+                     onMouseLeave={plugin.current.reset}
+                     className='px-4 lg:px-[50px] mb-5'
+          >
+            <CarouselContent>
               {displayedPhotos.map((img) => (
-                <div key={img._id} className={styles.sliderImage}>
+                <CarouselItem key={img._id} className={styles.sliderImage}>
                   <img
                     src={API_URl + '/' + img.image}
                     alt={`${img._id}`}
                     className='w-full h-[244px] sm:h-[400px] md:h-[450px] lg:h-[662px] rounded-lg object-cover'
                   />
-                </div>
+                </CarouselItem>
               ))}
-            </Slider>
-          </div>
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         )}
       </div>
     </>

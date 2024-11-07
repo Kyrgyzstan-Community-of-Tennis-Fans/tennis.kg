@@ -10,7 +10,7 @@ import { partnersRouter } from './src/routes/partners';
 import { ratingMembersRouter } from './src/routes/ratingMembers';
 
 const app = express();
-const port = 8000;
+const port = 8030;
 
 app.use(cors(config.corsOptions));
 app.use(express.json());
