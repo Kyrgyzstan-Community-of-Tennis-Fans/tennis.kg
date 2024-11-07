@@ -1,24 +1,14 @@
 import { API_URl } from '@/consts';
 import { Loader } from '@/components/Loader/Loader';
-import styles from './Carousel.module.css';
-import './Carousel.css';
 import {useBlockCarousel} from '@/features/carousel/hooks/useBlockCorousel';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
-import * as React from "react"
-import Autoplay from "embla-carousel-autoplay"
+import {Carousel, CarouselContent, CarouselItem} from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
+
 
 export const BlockCarousel = () => {
-  const plugin = React.useRef(
-      Autoplay({ delay: 2000, stopOnInteraction: true })
-  )
-  
-  const { loadingCarousel, displayedPhotos, } = useBlockCarousel();
+  const { loadingCarousel, carousel, } = useBlockCarousel();
+
+
 
   return (
     <>
@@ -33,27 +23,26 @@ export const BlockCarousel = () => {
         </div>
 
         {loadingCarousel ? (
-          <Loader />
+            <Loader/>
         ) : (
-          <Carousel  plugins={[plugin.current]}
-                     onMouseEnter={plugin.current.stop}
-                     onMouseLeave={plugin.current.reset}
-                     className='px-4 lg:px-[50px] mb-5'
-          >
-            <CarouselContent>
-              {displayedPhotos.map((img) => (
-                <CarouselItem key={img._id} className={styles.sliderImage}>
-                  <img
-                    src={API_URl + '/' + img.image}
-                    alt={`${img._id}`}
-                    className='w-full h-[244px] sm:h-[400px] md:h-[450px] lg:h-[662px] rounded-lg object-cover'
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
+            <Carousel plugins={[
+              Autoplay({
+                delay: 2000,
+                stopOnInteraction: false,
+              }),
+            ]} className="px-4 lg:px-[50px] mb-5 overflow-hidden">
+              <CarouselContent className='rounded-lg'>
+                {carousel.map((img) => (
+                    <CarouselItem key={img._id} className='overflow-hidden rounded-lg'>
+                      <img
+                          src={API_URl + '/' + img.image}
+                          alt={`${img._id}`}
+                          className='w-full h-[244px] sm:h-[400px] md:h-[450px] lg:h-[662px] object-cover rounded-lg'
+                      />
+                    </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
         )}
       </div>
     </>

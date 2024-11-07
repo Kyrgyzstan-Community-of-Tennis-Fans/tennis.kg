@@ -134,7 +134,7 @@ const Carousel = React.forwardRef<
         <div
           ref={ref}
           onKeyDownCapture={handleKeyDown}
-          className={cn("relative", className)}
+          className={cn("relative rounded-3xl", className)}
           role="region"
           aria-roledescription="carousel"
           {...props}
@@ -154,7 +154,7 @@ const CarouselContent = React.forwardRef<
   const { carouselRef, orientation } = useCarousel()
 
   return (
-    <div ref={carouselRef} className="overflow-hidden">
+    <div ref={carouselRef} className="overflow-hidden rounded-lg">
       <div
         ref={ref}
         className={cn(
