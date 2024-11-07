@@ -15,6 +15,7 @@ import { Loader } from '@/components/Loader/Loader';
 import { useAppSelector } from '@/app/hooks';
 import { selectPartners, selectPartnersCreating } from '@/features/partners/partnerSlice';
 import { toast } from 'sonner';
+import FileInput from '@/components/FileInput/FilleInput';
 
 interface PartnersFormProps {
   isOpen: boolean;
@@ -84,11 +85,11 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
   };
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { id, files } = event.target;
+    const { name, files } = event.target;
     const value = files && files[0] ? files[0] : null;
     setState((prevState) => ({
       ...prevState,
-      [id]: value,
+      [name]: value,
     }));
   };
 
@@ -114,7 +115,7 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
 
           <div className='form-group'>
             <Label htmlFor='image'>Добавить логотип Компании</Label>
-            <Input required type={'file'} id='image' name='image' onChange={handleImageChange} />
+            <FileInput  name='image' onChange={handleImageChange} />
             {imageError && <small className='text-red-600 text-sm'>{imageError}</small>}
           </div>
           <Button disabled={loading || !isFormValid} type='submit' className=' mt-4'>
