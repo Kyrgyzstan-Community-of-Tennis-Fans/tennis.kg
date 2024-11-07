@@ -1,7 +1,8 @@
+import React from 'react';
 import { useAppSelector } from '@/app/hooks';
 import { Error404 } from '@/components/Errors/Error404';
 import Footer from '@/components/Footer/Footer';
-import ProtectedRoute from '@/components/ProtectedRouter/ProtectedRouter';
+import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
 import { Toolbar } from '@/components/Toolbar/Toolbar';
 import { Toaster } from '@/components/ui/sonner';
 import { AdminPaneBlockCarousel } from '@/features/carousel/AdminPaneBlockCarousel';
@@ -16,8 +17,11 @@ import { Register } from '@/features/users/Register';
 import { ResetPassword } from '@/features/users/ResetPassword';
 import { selectUser } from '@/features/users/usersSlice';
 import { Home } from '@/pages/Home';
-import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { News } from '@/features/news/containers/News/News';
+import { OneNews } from '@/features/news/containers/OneNews/OneNews';
+import { AdminNews } from '@/features/news/containers/AdminNews/AdminNews';
+import RatingMembersAdminList from '@/features/mainRatingMembers/RatingMembersAdmin/RatingMembersAdminList';
 
 export const App: React.FC = () => {
   const user = useAppSelector(selectUser);
@@ -77,6 +81,26 @@ export const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path={'/admin/ratingMembers'}
+            element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <RatingMembersAdminList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={'/admin/news'}
+            element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <AdminNews />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path={'/news'} element={<News />} />
+          <Route path={'/news/:id'} element={<OneNews />} />
+
           <Route path={'*'} element={<Error404 />} />
         </Routes>
       </main>

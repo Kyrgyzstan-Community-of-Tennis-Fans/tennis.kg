@@ -2,11 +2,12 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { NewEvent } from '@/features/ratings/components/NewEvent/NewEvent';
 import { NewRating } from '@/features/ratings/components/NewRating/NewRating';
 import { RatingBlock } from '@/features/ratings/components/RatingBlock/RatingBlock';
 import { selectRatings, selectRatingsFetching } from '@/features/ratings/ratingsSlice';
 import { fetchRatings } from '@/features/ratings/ratingsThunks';
-import { SquaresPlusIcon } from '@heroicons/react/24/outline';
+import { CalendarDaysIcon, SquaresPlusIcon } from '@heroicons/react/24/outline';
 import React, { useEffect } from 'react';
 
 export const AdminRatings: React.FC = () => {
@@ -26,11 +27,18 @@ export const AdminRatings: React.FC = () => {
           <small className={'text-muted-foreground text-base'}>Список всех рейтингов и управление рейтингами.</small>
         </div>
 
-        <NewRating>
-          <Button className={'w-full xs:w-max'}>
-            Добавить рейтинг <SquaresPlusIcon />
-          </Button>
-        </NewRating>
+        <div className={'flex items-center gap-2'}>
+          <NewRating>
+            <Button className={'w-full xs:w-max'}>
+              Добавить рейтинг <SquaresPlusIcon />
+            </Button>
+          </NewRating>
+          <NewEvent ratings={ratings}>
+            <Button className={'w-full xs:w-max'}>
+              Добавить событие <CalendarDaysIcon />
+            </Button>
+          </NewEvent>
+        </div>
       </header>
 
       <section>

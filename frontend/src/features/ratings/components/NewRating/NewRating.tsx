@@ -1,6 +1,7 @@
 import { useAppDispatch } from '@/app/hooks';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -10,13 +11,17 @@ import {
 import { RatingForm } from '@/features/ratings/components/RatingForm/RatingForm';
 import { createRating } from '@/features/ratings/ratingsThunks';
 import type { RatingMutation } from '@/types/ratingTypes';
-import React, { type PropsWithChildren } from 'react';
+import React, { type PropsWithChildren, useRef } from 'react';
+import { toast } from 'sonner';
 
 export const NewRating: React.FC<PropsWithChildren> = ({ children }) => {
+  const closeRef = useRef<HTMLButtonElement | null>(null);
   const dispatch = useAppDispatch();
 
-  const handleCreateRating = (rating: RatingMutation) => {
-    dispatch(createRating(rating));
+  const handleCreateRating = async (rating: RatingMutation) => {
+    await dispatch(createRating(rating)).unwrap();
+    closeRef.current?.click();
+    toast.success('Рейтинг успешно добавлен');
   };
 
   return (
@@ -32,6 +37,7 @@ export const NewRating: React.FC<PropsWithChildren> = ({ children }) => {
 
           <RatingForm onSubmit={handleCreateRating} />
         </DialogHeader>
+        <DialogClose ref={closeRef} />
       </DialogContent>
     </Dialog>
   );

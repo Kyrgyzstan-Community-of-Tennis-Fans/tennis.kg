@@ -8,3 +8,19 @@ export interface News {
   newsCover: string;
   images: string[];
 }
+
+export interface NewsMutation {
+  title: string;
+  subtitle: string;
+  content: string;
+  newsCover: string | File;
+  images: string[] | File[];
+}
+
+export interface NewsResponse {
+  page: number;
+  limit: number;
+  total: number;
+  pages: number;
+  data: News[];
+}

@@ -6,6 +6,7 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import storage from 'redux-persist/lib/storage';
 import { CarouselReducer } from '@/features/carousel/CarouselSlice';
 import { partnerReducer } from '@/features/partners/partnerSlice';
+import { ratingMembersReducer } from '@/features/mainRatingMembers/ratingMembersSlice';
 import { newsReducer } from '@/features/news/newsSlice';
 
 const usersPersistConfig = {
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   news: newsReducer,
   category: categorySlice.reducer,
   ratings: ratingsSlice.reducer,
+  ratingMembers: ratingMembersReducer,
 });
 
 export const store = configureStore({

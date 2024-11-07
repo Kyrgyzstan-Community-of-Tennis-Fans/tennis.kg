@@ -7,6 +7,7 @@ import { categoriesRouter } from './src/routes/categories';
 import { eventsRouter } from './src/routes/events';
 import { newsRouter } from './src/routes/news';
 import { partnersRouter } from './src/routes/partners';
+import { ratingMembersRouter } from './src/routes/ratingMembers';
 import { ratingsRouter } from './src/routes/ratings';
 import { usersRouter } from './src/routes/users';
 
@@ -16,10 +17,13 @@ const port = 8000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+
 app.use('/users', usersRouter);
+app.use('/ratingMembers', ratingMembersRouter);
 app.use('/carousel', carouselRouter);
 app.use('/news', newsRouter);
 app.use('/categories', categoriesRouter);
+app.use('/news', newsRouter);
 app.use('/partners', partnersRouter);
 app.use('/ratings', ratingsRouter);
 app.use('/events', eventsRouter);

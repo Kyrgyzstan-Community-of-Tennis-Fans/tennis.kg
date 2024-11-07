@@ -24,7 +24,7 @@ export const RatingBlock: React.FC<Props> = ({ ratings }) => {
             ) : (
               <div className={'grid gap-2 sm:grid-cols-2 lg:grid-cols-3'}>
                 {rating.events.map((event, index) => (
-                  <EventCard key={index} event={event} />
+                  <EventCard key={index} event={event} ratings={ratings} />
                 ))}
               </div>
             )}

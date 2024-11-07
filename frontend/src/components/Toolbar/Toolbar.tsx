@@ -106,7 +106,7 @@ export const Toolbar = () => {
               Рейтинг
             </NavLink>
             <NavLink
-              to='/blog'
+              to='/news'
               className={'text-sm leading-6'}
               style={({ isActive }) => (isFocused ? { color: '#FFF' } : colorChanger(isActive))}
               onClick={() => setIsFocused(false)}
@@ -231,7 +231,7 @@ export const Toolbar = () => {
                   Рейтинг
                 </NavLink>
                 <NavLink
-                  to='/blog'
+                  to='/news'
                   className={'-mx-3 block rounded-lg font-semibold px-3 py-2 text-base leading-7'}
                   style={({ isActive }) => (isFocused ? { color: '#FFF' } : mobileColorChanger(isActive))}
                   onClick={closerForMobile}
