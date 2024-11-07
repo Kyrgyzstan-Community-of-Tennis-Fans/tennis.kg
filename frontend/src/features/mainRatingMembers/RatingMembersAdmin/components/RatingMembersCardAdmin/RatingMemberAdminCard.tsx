@@ -5,9 +5,8 @@ import { Button } from '@/components/ui/button';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Card } from '@/components/ui/card';
 import { API_URl } from '@/consts';
-import RatingWomanEdit from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingWomanEdit/RatingWomanEdit';
-import RatingManEdit from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingManEdit/RatingManEdit';
 import { useAdminRatingMembers } from '@/features/mainRatingMembers/hooks/useAdminRatingMembers';
+import RatingMemberEdit from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingMemberEdit/RatingMemberEdit';
 
 interface Props {
   ratingMember: RatingMember;
@@ -41,11 +40,11 @@ const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember }) => {
               <TrashIcon />
             </Button>
           </Confirm>
-          {ratingMember.ratingType === 'womensTop3' ? (
-            <RatingWomanEdit id={ratingMember._id} existingMember={ratingMember} />
-          ) : (
-            <RatingManEdit id={ratingMember._id} existingMember={ratingMember} />
-          )}
+          <RatingMemberEdit
+            id={ratingMember._id}
+            existingMember={ratingMember}
+            forWhichGender={ratingMember.gender === 'female' ? 'female' : 'male'}
+          />
         </div>
       </div>
     </Card>
