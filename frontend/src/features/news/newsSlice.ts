@@ -17,7 +17,7 @@ interface NewsState {
   fetchNewsLoading: boolean;
   fetchOneNewsLoading: boolean;
   updateNewsLoading: boolean;
-  removeNewsLoading: boolean;
+  removeNewsLoading: boolean | string;
 }
 
 const initialState: NewsState = {
@@ -78,7 +78,7 @@ export const newsSlice = createSlice({
       })
       .addCase(fetchOneNews.fulfilled, (state, { payload: oneNews }) => {
         state.oneNews = oneNews;
-        state.fetchOneNewsLoading = false;
+        state.fetchOneNewsLoading = true;
       })
       .addCase(fetchOneNews.rejected, (state) => {
         state.fetchOneNewsLoading = false;
@@ -96,8 +96,8 @@ export const newsSlice = createSlice({
       });
 
     builder
-      .addCase(removeNews.pending, (state) => {
-        state.removeNewsLoading = true;
+      .addCase(removeNews.pending, (state, { meta }) => {
+        state.removeNewsLoading = meta.arg;
       })
       .addCase(removeNews.fulfilled, (state) => {
         state.removeNewsLoading = false;

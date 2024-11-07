@@ -4,12 +4,23 @@ import { useOneNews } from '@/features/news/hooks/useOneNews';
 import { Layout } from '@/components/Layout';
 import { NextButton, PrevButton } from '@/features/news/components/CustomCarousel/CarouselButtons';
 import { NewsCard } from '@/features/news/components/NewsCard/NewsCard';
+import { Loader } from '@/components/Loader/Loader';
 import './oneNews.css';
 import '../../components/CustomCarousel/embla.css';
 
 export const OneNews: React.FC = () => {
-  const { emblaRef, oneNews, news, prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } =
-    useOneNews();
+  const {
+    emblaRef,
+    oneNews,
+    news,
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick,
+    oneNewsFetching,
+  } = useOneNews();
+
+  if (oneNewsFetching) return <Loader fixed />;
 
   return (
     <Layout className='py-16'>
@@ -37,7 +48,7 @@ export const OneNews: React.FC = () => {
       </section>
 
       <section className='mb-5'>
-        <div dangerouslySetInnerHTML={{ __html: oneNews?.content || ''}} />
+        <div dangerouslySetInnerHTML={{ __html: oneNews?.content || '' }} />
       </section>
       <section>
         <h3 className='one-news-section-title'>Другие новости</h3>

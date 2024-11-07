@@ -8,9 +8,10 @@ import { News } from '@/types/news';
 import './newsCard.css';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Confirm } from '@/components/Confirm/Confirm';
-import { useAppDispatch } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { removeNews } from '@/features/news/newsThunks';
 import { NewsForm } from '@/features/news/components/NewsForm/NewsForm';
+import { selectRemoveNewsLoading } from '@/features/news/newsSlice';
 
 interface Props {
   news: News;
@@ -43,6 +44,7 @@ const arePropsEqual = (prevProps: Props, nextProps: Props) => {
 export const NewsCard: React.FC<Props> = React.memo(({ news, isAdmin = false }) => {
   const { _id, title, subtitle, newsCover, createdAt } = news;
   const dispatch = useAppDispatch();
+  const newsRemoving = useAppSelector(selectRemoveNewsLoading);
 
   const handleDelete = async () => {
     try {
@@ -75,7 +77,7 @@ export const NewsCard: React.FC<Props> = React.memo(({ news, isAdmin = false }) 
           <NewsForm isEdit newsId={_id} />
 
           <Confirm onOk={handleDelete}>
-            <Button size='lg'>
+            <Button size='lg' disabled={newsRemoving === _id}>
               <TrashIcon />
             </Button>
           </Confirm>
