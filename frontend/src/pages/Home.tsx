@@ -1,6 +1,6 @@
 import { Layout } from '@/components/Layout';
 import { BlockCarousel } from '@/features/carousel/BlockCarousel';
-import News from '@/features/news/News';
+import { News } from '@/features/news/containers/News/News';
 import Partners from '@/features/partners/Partners';
 import React from 'react';
 import MainPageRating from '@/features/mainRatingMembers/MainPageRating';

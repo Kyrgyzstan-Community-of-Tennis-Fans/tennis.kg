@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.news-title-block {
+    @apply text-center mb-5 sm:mb-0 sm:py-16;
+}
+
+.news-main-title {
+    @apply font-semibold leading-10 xs:mb-5 text-3xl xs:text-4xl md:text-5xl;
+}
+
+.news-subtitle {
+    @apply text-cr-gray-500 text-[20px] sm:text-2xl font-medium uppercase;
+}
+
+.news-container {
+    @apply grid gap-5 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-6;
+}
+
+.one-news-card-container {
+    @apply grid gap-5 justify-center items-center sm:grid-cols-2 lg:grid-cols-4;
+}
+
+.one-news-section-title {
+    @apply text-2xl text-center sm:text-start sm:text-4xl font-semibold mb-5 sm:mb-8;
+}
