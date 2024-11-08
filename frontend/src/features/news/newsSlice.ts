@@ -78,7 +78,7 @@ export const newsSlice = createSlice({
       })
       .addCase(fetchOneNews.fulfilled, (state, { payload: oneNews }) => {
         state.oneNews = oneNews;
-        state.fetchOneNewsLoading = true;
+        state.fetchOneNewsLoading = false;
       })
       .addCase(fetchOneNews.rejected, (state) => {
         state.fetchOneNewsLoading = false;
