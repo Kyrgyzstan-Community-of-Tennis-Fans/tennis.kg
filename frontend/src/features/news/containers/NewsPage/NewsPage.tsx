@@ -3,7 +3,6 @@ import { useNews } from '@/features/news/hooks/useNews';
 import { Layout } from '@/components/Layout';
 import { CustomPagination } from '@/features/news/components/CustomPagination/CustomPagination';
 import { DatePicker } from '@/features/news/components/DatePicker/DatePicker';
-import { Loader } from '@/components/Loader/Loader';
 import { NewsCard } from '@/features/news/components/NewsCard/NewsCard';
 import { NewsTitle } from '@/features/news/components/NewsTitle/NewsTitle';
 import './newsPage.css';
@@ -15,7 +14,7 @@ interface Props {
 export const NewsPage: React.FC<Props> = ({ isAdmin }) => {
   const { news, newsFetching, totalPages, page, setPage, handleDateChange } = useNews();
 
-  if (newsFetching) return <Loader fixed />;
+  // if (newsFetching) return <Loader fixed />;
   let noDataContent;
 
   switch (true) {
