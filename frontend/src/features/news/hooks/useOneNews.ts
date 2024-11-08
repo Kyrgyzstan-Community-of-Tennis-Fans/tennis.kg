@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { fetchNewsByLimit, fetchOneNews } from '@/features/news/newsThunks';
@@ -10,6 +10,7 @@ export const useOneNews = () => {
   const { id } = useParams<{ id: string }>();
   const [emblaRef, emblaApi] = useEmblaCarousel({ dragFree: true, loop: true });
   const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = useCarouselButtons(emblaApi);
+  const [initialIndex, setInitialIndex] = useState<number>(0);
 
   const dispatch = useAppDispatch();
 
@@ -28,6 +29,8 @@ export const useOneNews = () => {
     emblaRef,
     oneNews,
     news,
+    initialIndex,
+    setInitialIndex,
     prevBtnDisabled,
     nextBtnDisabled,
     onPrevButtonClick,

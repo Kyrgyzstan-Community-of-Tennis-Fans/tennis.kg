@@ -23,7 +23,7 @@ const CardImage = memo(
     <img
       ref={ref}
       alt={alt}
-      className={cn('min-h-[300px] object-cover w-full mb-6 rounded-md', className)}
+      className={cn('h-[300px] max-h-[300px] object-cover w-full mb-6 rounded-md', className)}
       {...props}
     />
   )),
