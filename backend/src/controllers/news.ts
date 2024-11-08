@@ -71,7 +71,7 @@ export const getById = async (req: Request, res: Response, next: NextFunction) =
     if (!Types.ObjectId.isValid(id)) return res.status(404).send({ error: 'Неправильный тип id!' });
 
     const newsId = new Types.ObjectId(id);
-    const newsById = await News.findById(newsId).select('title subtitle content images createdAt updatedAt').lean();
+    const newsById = await News.findById(newsId).lean();
 
     if (!newsById) return res.status(404).send({ error: 'Новость не найдена!' });
 

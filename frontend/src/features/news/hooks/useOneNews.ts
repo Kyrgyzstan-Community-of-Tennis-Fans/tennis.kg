@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { fetchNewsByLimit, fetchOneNews } from '@/features/news/newsThunks';
-import { selectNews, selectOneNews } from '@/features/news/newsSlice';
+import { selectFetchOneNewsLoading, selectNews, selectOneNews } from '@/features/news/newsSlice';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useCarouselButtons } from '@/features/news/hooks/useCarouselButtons';
 
@@ -22,6 +22,7 @@ export const useOneNews = () => {
 
   const oneNews = useAppSelector(selectOneNews);
   const news = useAppSelector(selectNews);
+  const oneNewsFetching = useAppSelector(selectFetchOneNewsLoading);
 
   return {
     emblaRef,
@@ -31,5 +32,6 @@ export const useOneNews = () => {
     nextBtnDisabled,
     onPrevButtonClick,
     onNextButtonClick,
+    oneNewsFetching,
   };
 };
