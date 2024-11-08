@@ -20,6 +20,14 @@ const RatingMembersTop3: React.FC<Props> = ({
   category,
   existingTitle,
 }) => {
+  let content: React.ReactNode = <small>Данные рейтинга отсутствуют</small>;
+
+  if (ratingMembers.length > 0) {
+    content = ratingMembers.map((ratingMember) => (
+      <RatingMemberCard key={ratingMember._id} ratingMember={ratingMember} />
+    ));
+  }
+
   return (
     <>
       {isFetching ? (
@@ -38,9 +46,7 @@ const RatingMembersTop3: React.FC<Props> = ({
             <h1 className='text-lg md:text-[22px] font-bold text-[#64B32C]'>{category}</h1>
           </div>
           <div className='flex flex-wrap items-center justify-center gap-x-7 gap-y-7 xs:gap-x-12 md:gap-x-16 xs:gap-y-9 mt-[34px] sm:mt-10 lg:mt-16'>
-            {ratingMembers.map((ratingMember) => (
-              <RatingMemberCard key={ratingMember._id} ratingMember={ratingMember} />
-            ))}
+            {content}
           </div>
         </>
       )}
