@@ -16,9 +16,6 @@ export const useRatingMembers = () => {
   );
   const ratingWomenMembers = ratingMembers.filter((ratingMember) => ratingMember.gender === 'female');
 
-  const existingMembers =
-    ratingMenMembersTop8.length > 0 && ratingMenMembersTop3.length > 0 && ratingWomenMembers.length > 0;
-
   useEffect(() => {
     dispatch(fetchRatingMembers());
   }, [dispatch]);
@@ -29,6 +26,5 @@ export const useRatingMembers = () => {
     ratingMenMembersTop8,
     ratingMenMembersTop3,
     ratingWomenMembers,
-    existingMembers,
   };
 };
