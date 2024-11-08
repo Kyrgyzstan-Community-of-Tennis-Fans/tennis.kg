@@ -246,6 +246,7 @@ const run = async () => {
     {
       image: 'fixtures/carousel/photo-2.jpg',
     },
+    { image: 'fixtures/carousel/Aq.gif' },
   ]);
 
   await db.close();

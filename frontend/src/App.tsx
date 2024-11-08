@@ -5,8 +5,6 @@ import Footer from '@/components/Footer/Footer';
 import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
 import { Toolbar } from '@/components/Toolbar/Toolbar';
 import { Toaster } from '@/components/ui/sonner';
-import AdminPartners from '@/features/partners/AdminPartners';
-import { AdminRatings } from '@/features/ratings/AdminRatings';
 import { Ratings } from '@/features/ratings/ratings';
 import { ForgotPassword } from '@/features/users/ForgotPassword';
 import { Login } from '@/features/users/Login';
@@ -18,7 +16,6 @@ import { Home } from '@/pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
-import { AdminNews } from '@/features/news/containers/AdminNews/AdminNews';
 import AdminPanel from '@/pages/AdminPanel';
 
 export const App: React.FC = () => {
@@ -39,30 +36,6 @@ export const App: React.FC = () => {
           <Route path={'/rating'} element={<Ratings />} />
           <Route path={'/reset-password/:token'} element={<ResetPassword />} />
           <Route path={'/forgot-password'} element={<ForgotPassword />} />
-          <Route
-            path='/admin/partners'
-            element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <AdminPartners />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/admin/rating'
-            element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <AdminRatings />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/admin/news'
-            element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <AdminNews />
-              </ProtectedRoute>
-            }
-          />
           <Route
             path={'/personal-account'}
             element={
