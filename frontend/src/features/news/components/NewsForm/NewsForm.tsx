@@ -146,7 +146,7 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
                 src={
                   news.newsCover instanceof File ? URL.createObjectURL(news.newsCover) : API_URl + '/' + news.newsCover
                 }
-                alt='News Cover Preview'
+                alt='NewsPage Cover Preview'
                 className='mt-2 w-full xs:w-1/3 h-auto'
               />
             )}
@@ -163,7 +163,7 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
                   <img
                     key={index}
                     src={image instanceof File ? URL.createObjectURL(image) : API_URl + '/' + image}
-                    alt={`News Image ${index + 1}`}
+                    alt={`NewsPage Image ${index + 1}`}
                     className='w-full xs:w-1/5 h-auto'
                   />
                 ))}

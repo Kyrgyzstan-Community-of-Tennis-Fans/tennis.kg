@@ -5,13 +5,13 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { API_URl } from '@/consts';
 import { Button } from '@/components/ui/button';
 import { News } from '@/types/news';
-import './newsCard.css';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Confirm } from '@/components/Confirm/Confirm';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { removeNews } from '@/features/news/newsThunks';
 import { NewsForm } from '@/features/news/components/NewsForm/NewsForm';
 import { selectRemoveNewsLoading } from '@/features/news/newsSlice';
+import './newsCard.css';
 
 interface Props {
   news: News;
@@ -25,7 +25,6 @@ const CardImage = memo(
       alt={alt}
       className={cn('min-h-[300px] object-cover w-full mb-6 rounded-md', className)}
       {...props}
-      loading='lazy'
     />
   )),
 );

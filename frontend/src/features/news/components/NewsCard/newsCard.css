@@ -7,7 +7,7 @@
 }
 
 .news-link {
-    @apply no-underline h-full w-fit;
+    @apply no-underline h-full;
 }
 
 .news-card-content {
@@ -24,4 +24,8 @@
 
 .news-card-createdAt {
     @apply text-cr-green-900 font-medium text-sm;
+}
+
+.news-card-main {
+    @apply relative bg-cover bg-center h-full w-full;
 }

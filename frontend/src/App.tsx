@@ -16,7 +16,7 @@ import { ResetPassword } from '@/features/users/ResetPassword';
 import { selectUser } from '@/features/users/usersSlice';
 import { Home } from '@/pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { News } from '@/features/news/containers/News/News';
+import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import { AdminNews } from '@/features/news/containers/AdminNews/AdminNews';
 import AdminPanel from '@/pages/AdminPanel';
@@ -72,7 +72,7 @@ export const App: React.FC = () => {
             }
           />
 
-          <Route path={'/news'} element={<News />} />
+          <Route path={'/news'} element={<NewsPage />} />
           <Route path={'/news/:id'} element={<OneNews />} />
           <Route
             path={'admin'}

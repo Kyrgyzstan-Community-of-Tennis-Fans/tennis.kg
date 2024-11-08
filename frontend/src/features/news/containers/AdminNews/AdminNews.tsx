@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from '@/components/Layout';
-import { News } from '@/features/news/containers/News/News';
 import { NewsForm } from '@/features/news/components/NewsForm/NewsForm';
+import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 
 export const AdminNews: React.FC = () => {
   return (
@@ -11,7 +11,7 @@ export const AdminNews: React.FC = () => {
 
         <NewsForm />
       </div>
-      <News isAdmin />
+      <NewsPage isAdmin />
     </Layout>
   );
 };

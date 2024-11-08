@@ -5,13 +5,14 @@ import { CustomPagination } from '@/features/news/components/CustomPagination/Cu
 import { DatePicker } from '@/features/news/components/DatePicker/DatePicker';
 import { Loader } from '@/components/Loader/Loader';
 import { NewsCard } from '@/features/news/components/NewsCard/NewsCard';
-import './news.css';
+import { NewsTitle } from '@/features/news/components/NewsTitle/NewsTitle';
+import './newsPage.css';
 
 interface Props {
   isAdmin?: boolean;
 }
 
-export const News: React.FC<Props> = ({ isAdmin }) => {
+export const NewsPage: React.FC<Props> = ({ isAdmin }) => {
   const { news, newsFetching, totalPages, page, setPage, handleDateChange } = useNews();
 
   if (newsFetching) return <Loader fixed />;
@@ -28,12 +29,7 @@ export const News: React.FC<Props> = ({ isAdmin }) => {
 
   return (
     <Layout>
-      {!isAdmin && (
-        <div className='news-title-block'>
-          <h1 className='news-main-title'>Свежие новости</h1>
-          <h2 className='news-subtitle'>Наш блог</h2>
-        </div>
-      )}
+      {!isAdmin && <NewsTitle />}
       {!newsFetching && news.length === 0 ? (
         noDataContent
       ) : (
