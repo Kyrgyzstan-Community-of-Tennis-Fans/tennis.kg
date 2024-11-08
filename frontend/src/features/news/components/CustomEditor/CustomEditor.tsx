@@ -32,7 +32,7 @@ const CustomEditor = forwardRef<ReactQuill, Props>(({ value, onChange }, ref) =>
         toolbar: toolbarOptions,
       }}
       placeholder='Содержание новости...'
-      className='max-h-[300px] overflow-y-auto'
+      className='max-h-[500px] h-[200px] overflow-y-auto'
     />
   );
 });

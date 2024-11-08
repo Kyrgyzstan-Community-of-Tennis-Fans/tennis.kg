@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { fetchNews } from '@/features/news/newsThunks';
-import { selectNews, selectNewsPagesCount } from '@/features/news/newsSlice';
+import { selectFetchNewsLoading, selectNews, selectNewsPagesCount } from '@/features/news/newsSlice';
 
 export const useNews = () => {
   const [query, setQuery] = useState({
@@ -29,9 +29,11 @@ export const useNews = () => {
 
   const news = useAppSelector(selectNews);
   const totalPages = useAppSelector(selectNewsPagesCount);
+  const newsFetching = useAppSelector(selectFetchNewsLoading);
 
   return {
     news,
+    newsFetching,
     totalPages,
     page,
     setPage,

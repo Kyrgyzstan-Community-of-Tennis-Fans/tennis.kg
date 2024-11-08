@@ -3,6 +3,7 @@ import { Layout } from '@/components/Layout';
 import { BlockCarousel } from '@/features/carousel/BlockCarousel';
 import Partners from '@/features/partners/Partners';
 import MainPageRating from '@/features/mainRatingMembers/MainPageRating';
+import { NewsMain } from '@/features/news/containers/NewsMain/NewsMain';
 
 export const Home: React.FC = () => {
   return (
@@ -18,6 +19,9 @@ export const Home: React.FC = () => {
       <Layout>
         <section className='mb-24'>
           <MainPageRating />
+        </section>
+        <section>
+          <NewsMain />
         </section>
       </Layout>
     </>
