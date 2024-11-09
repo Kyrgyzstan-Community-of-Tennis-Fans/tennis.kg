@@ -40,7 +40,7 @@ export interface Props {
   filters: UsersFilter;
 }
 
-export const AdminRedactor: React.FC<Props> = ({ id }) => {
+export const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
   const currentUser = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectCategories);
@@ -104,7 +104,7 @@ export const AdminRedactor: React.FC<Props> = ({ id }) => {
       event.preventDefault();
 
       await dispatch(updateCurrentUserInfo(userInfoMutation)).unwrap();
-      await dispatch(fetchUsers());
+      await dispatch(fetchUsers(filters));
       setIsDialogOpen(false);
       toast.success('Профиль успешно обновлен');
       closeRef.current?.click();
