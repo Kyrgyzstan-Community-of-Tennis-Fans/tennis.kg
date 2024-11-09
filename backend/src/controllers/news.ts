@@ -1,12 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import { News } from '../model/News';
 import { Error, Types } from 'mongoose';
 import { format, isValid, parseISO } from 'date-fns';
+import { News } from '../model/News';
+import { processImages } from '../utils/processNewsImages';
 
 export const createNewPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { title, subtitle, content } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+    await processImages(files);
 
     const news = await News.create({
       title,
@@ -71,7 +74,7 @@ export const getById = async (req: Request, res: Response, next: NextFunction) =
     if (!Types.ObjectId.isValid(id)) return res.status(404).send({ error: 'Неправильный тип id!' });
 
     const newsId = new Types.ObjectId(id);
-    const newsById = await News.findById(newsId).select('title subtitle content images createdAt updatedAt').lean();
+    const newsById = await News.findById(newsId).lean();
 
     if (!newsById) return res.status(404).send({ error: 'Новость не найдена!' });
 
@@ -96,6 +99,8 @@ export const updateNews = async (req: Request, res: Response, next: NextFunction
     const id = new Types.ObjectId(req.params.id);
     const { title, subtitle, content, newsCover } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+    await processImages(files);
 
     const existingNews = await News.findById(id);
     if (!existingNews) {

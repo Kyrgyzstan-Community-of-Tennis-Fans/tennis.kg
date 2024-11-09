@@ -5,8 +5,6 @@ import Footer from '@/components/Footer/Footer';
 import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
 import { Toolbar } from '@/components/Toolbar/Toolbar';
 import { Toaster } from '@/components/ui/sonner';
-import AdminPartners from '@/features/partners/AdminPartners';
-import { AdminRatings } from '@/features/ratings/AdminRatings';
 import { Ratings } from '@/features/ratings/ratings';
 import { ForgotPassword } from '@/features/users/ForgotPassword';
 import { Login } from '@/features/users/Login';
@@ -16,7 +14,7 @@ import { ResetPassword } from '@/features/users/ResetPassword';
 import { selectUser } from '@/features/users/usersSlice';
 import { Home } from '@/pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { News } from '@/features/news/containers/News/News';
+import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import AdminPanel from '@/pages/AdminPanel';
 
@@ -39,22 +37,6 @@ export const App: React.FC = () => {
           <Route path={'/reset-password/:token'} element={<ResetPassword />} />
           <Route path={'/forgot-password'} element={<ForgotPassword />} />
           <Route
-            path='/admin/partners'
-            element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <AdminPartners />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/admin/rating'
-            element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <AdminRatings />
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path={'/personal-account'}
             element={
               <ProtectedRoute isAllowed={user ? true : null}>
@@ -63,7 +45,7 @@ export const App: React.FC = () => {
             }
           />
 
-          <Route path={'/news'} element={<News />} />
+          <Route path={'/news'} element={<NewsPage />} />
           <Route path={'/news/:id'} element={<OneNews />} />
           <Route
             path={'admin'}

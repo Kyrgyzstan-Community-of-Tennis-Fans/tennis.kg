@@ -3,8 +3,6 @@ import * as fs from 'node:fs';
 import nodemailer from 'nodemailer';
 import path from 'path';
 import { UserFields } from '../../types';
-import { RatingMember } from '../model/RatingMember';
-import { Response } from 'express';
 
 // В этом файле можно удобно хранить утилиты.
 // Например у вас будет много мест с проверкой данных приходящих с фронта
@@ -53,18 +51,4 @@ export const sendMail = async (user: UserFields, token: string) => {
   } catch (err) {
     console.log(err);
   }
-};
-
-export const findRatingMemberById = async (id: string, res: Response) => {
-  const member = await RatingMember.findById(id);
-  if (!member) {
-    res.status(404).send({ error: 'Rating member not found' });
-    return null;
-  }
-  return member;
-};
-
-export const isPlaceAllowed = async (place: number, gender: string, ratingType: 'top8' | 'top3') => {
-  const existingEntry = await RatingMember.findOne({ place, gender, ratingType });
-  return !existingEntry;
 };

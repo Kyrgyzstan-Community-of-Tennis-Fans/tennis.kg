@@ -27,7 +27,7 @@ export const BlockCarousel = () => {
         ) : (
             <Carousel plugins={[
               Autoplay({
-                delay: 2000,
+                delay: 4000,
                 stopOnInteraction: false,
               }),
             ]} className="px-4 lg:px-[50px] mb-5 overflow-hidden">

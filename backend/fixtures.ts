@@ -248,6 +248,7 @@ const run = async () => {
     {
       image: 'fixtures/carousel/photo-2.jpg',
     },
+    { image: 'fixtures/carousel/Aq.gif' },
   ]);
 
   const [firstRating, secondRating, thirdRating] = await Rating.create([

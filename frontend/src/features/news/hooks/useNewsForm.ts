@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useAppSelector } from '@/app/hooks';
+import { selectCreateNewsLoading, selectUpdateNewsLoading } from '@/features/news/newsSlice';
 import { NewsMutation } from '@/types/news';
 
 const initialState: NewsMutation = {
@@ -12,6 +14,8 @@ const initialState: NewsMutation = {
 export const useNewsForm = () => {
   const [news, setNews] = useState<NewsMutation>(initialState);
   const [resetKey, setResetKey] = useState(0);
+  const newsCreating = useAppSelector(selectCreateNewsLoading);
+  const newsUpdating = useAppSelector(selectUpdateNewsLoading);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -49,5 +53,7 @@ export const useNewsForm = () => {
     handleEditorChange,
     handleFileInputChange,
     resetForm,
+    newsCreating,
+    newsUpdating,
   };
 };
