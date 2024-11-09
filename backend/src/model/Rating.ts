@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 
 const RatingSchema = new Schema(
   {
+    chapter: {
+      type: String,
+      enum: ['male', 'female', 'mixed'],
+      required: true,
+    },
     month: {
       type: String,
       enum: [

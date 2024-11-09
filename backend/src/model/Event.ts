@@ -32,11 +32,6 @@ const EventSchema = new Schema(
         message: 'Category does not exist',
       },
     },
-    gender: {
-      type: String,
-      enum: ['male', 'female'],
-      required: true,
-    },
     link: {
       type: String,
       required: true,
