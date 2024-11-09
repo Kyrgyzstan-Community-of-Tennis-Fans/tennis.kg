@@ -1,23 +1,15 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NewEvent } from '@/features/ratings/components/NewEvent/NewEvent';
 import { NewRating } from '@/features/ratings/components/NewRating/NewRating';
 import { RatingBlock } from '@/features/ratings/components/RatingBlock/RatingBlock';
-import { selectRatings, selectRatingsFetching } from '@/features/ratings/ratingsSlice';
-import { fetchRatings } from '@/features/ratings/ratingsThunks';
+import { useRating } from '@/features/ratings/hooks/useRating';
 import { CalendarDaysIcon, SquaresPlusIcon } from '@heroicons/react/24/outline';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 export const AdminRatings: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const ratings = useAppSelector(selectRatings);
-  const ratingsFetching = useAppSelector(selectRatingsFetching);
-
-  useEffect(() => {
-    dispatch(fetchRatings());
-  }, [dispatch]);
+  const { maleRatings, ratings, ratingsFetching, femaleRatings, mixedRatings } = useRating();
 
   return (
     <Layout>
@@ -58,8 +50,27 @@ export const AdminRatings: React.FC = () => {
             <Skeleton className={'h-24 flex-1'} />
           </div>
         ) : (
-          <div className={'mt-4'}>
-            <RatingBlock ratings={ratings} />
+          <div className={'mt-4 space-y-10'}>
+            {maleRatings.length > 0 && (
+              <div>
+                <h3 className={'font-bold text-center text-xl mb-3'}>Мужской рейтинг</h3>
+                <RatingBlock ratings={maleRatings} />
+              </div>
+            )}
+
+            {femaleRatings.length > 0 && (
+              <div>
+                <h3 className={'font-bold text-center text-xl mb-3'}>Женский рейтинг</h3>
+                <RatingBlock ratings={femaleRatings} />
+              </div>
+            )}
+
+            {mixedRatings.length > 0 && (
+              <div>
+                <h3 className={'font-bold text-center text-xl mb-3'}>Смешанный рейтинг</h3>
+                <RatingBlock ratings={mixedRatings} />
+              </div>
+            )}
           </div>
         )}
       </section>

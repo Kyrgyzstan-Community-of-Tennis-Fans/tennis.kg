@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { EventForm } from '@/features/ratings/components/RatingForm/EventForm/EventForm';
+import { EventForm } from '@/features/ratings/components/EventForm/EventForm';
 import { selectEvent } from '@/features/ratings/ratingsSlice';
 import { editEvent, fetchRatings, getEvent } from '@/features/ratings/ratingsThunks';
 import type { EventMutation } from '@/types/eventTypes';

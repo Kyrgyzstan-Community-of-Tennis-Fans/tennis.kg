@@ -16,6 +16,7 @@ interface Props {
 const initialState: RatingMutation = {
   year: '',
   month: '',
+  chapter: '',
 };
 
 export const RatingForm: React.FC<Props> = ({ onSubmit }) => {
@@ -41,10 +42,11 @@ export const RatingForm: React.FC<Props> = ({ onSubmit }) => {
     }));
   };
 
-  const handleMonthChange = (value: string) => {
+  const handleSelectChange = (value: string, id: string) => {
+    const name = id === 'month' ? 'month' : 'chapter';
     setRatingMutation((prev) => ({
       ...prev,
-      month: value,
+      [name]: value,
     }));
   };
 
@@ -53,7 +55,7 @@ export const RatingForm: React.FC<Props> = ({ onSubmit }) => {
     onSubmit({ ...ratingMutation });
   };
 
-  const isFormValid = ratingMutation.year.length === 4 && ratingMutation.month !== '';
+  const isFormValid = ratingMutation.year.length === 4 && ratingMutation.month !== '' && ratingMutation.chapter !== '';
 
   const months = [
     {
@@ -110,7 +112,7 @@ export const RatingForm: React.FC<Props> = ({ onSubmit }) => {
     <form onSubmit={handleSubmit}>
       <div>
         <Label htmlFor={'month'}>Месяц</Label>
-        <Select value={ratingMutation.month} onValueChange={handleMonthChange}>
+        <Select value={ratingMutation.month} onValueChange={(v) => handleSelectChange(v, 'month')}>
           <SelectTrigger id={'month'} className={'capitalize'}>
             <SelectValue placeholder={'Выберите месяц'} />
           </SelectTrigger>
@@ -119,6 +121,24 @@ export const RatingForm: React.FC<Props> = ({ onSubmit }) => {
               {months.map((month) => (
                 <SelectItem className={'capitalize'} key={month.value} value={month.value}>
                   {month.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        <Label htmlFor={'chapter'}>Раздел</Label>
+        <Select value={ratingMutation.chapter} onValueChange={(v) => handleSelectChange(v, 'chapter')}>
+          <SelectTrigger id={'chapter'} className={'capitalize'}>
+            <SelectValue placeholder={'Выберите раздел'} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {['male', 'female', 'mixed'].map((chapter) => (
+                <SelectItem className={'capitalize'} key={chapter} value={chapter}>
+                  {chapter === 'mixed' ? 'Смешанный' : chapter === 'male' ? 'Мужской' : 'Женский'}
                 </SelectItem>
               ))}
             </SelectGroup>

@@ -1,12 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import { News } from '../model/News';
 import { Error, Types } from 'mongoose';
 import { format, isValid, parseISO } from 'date-fns';
+import { News } from '../model/News';
+import { processImages } from '../utils/processNewsImages';
 
 export const createNewPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { title, subtitle, content } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+    await processImages(files);
 
     const news = await News.create({
       title,
@@ -96,6 +99,8 @@ export const updateNews = async (req: Request, res: Response, next: NextFunction
     const id = new Types.ObjectId(req.params.id);
     const { title, subtitle, content, newsCover } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+    await processImages(files);
 
     const existingNews = await News.findById(id);
     if (!existingNews) {
