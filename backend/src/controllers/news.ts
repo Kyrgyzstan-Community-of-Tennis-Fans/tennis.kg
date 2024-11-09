@@ -1,12 +1,28 @@
 import { NextFunction, Request, Response } from 'express';
-import { News } from '../model/News';
 import { Error, Types } from 'mongoose';
 import { format, isValid, parseISO } from 'date-fns';
+import path from 'path';
+import config from '../../config';
+import compressImage from '../utils/compressImage';
+import { News } from '../model/News';
 
 export const createNewPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { title, subtitle, content } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+    if (files['newsCover'] && files['newsCover'][0]) {
+      const newsCoverPath = path.join(config.publicPath, files['newsCover'][0].filename);
+      await compressImage(newsCoverPath);
+    }
+
+    if (files['images']) {
+      for (let file of files['images']) {
+        const imagePath = path.join(config.publicPath, file.filename);
+
+        await compressImage(imagePath);
+      }
+    }
 
     const news = await News.create({
       title,

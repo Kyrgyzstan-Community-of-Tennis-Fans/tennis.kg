@@ -23,7 +23,6 @@ app.use('/ratingMembers', ratingMembersRouter);
 app.use('/carousel', carouselRouter);
 app.use('/news', newsRouter);
 app.use('/categories', categoriesRouter);
-app.use('/news', newsRouter);
 app.use('/partners', partnersRouter);
 app.use('/ratings', ratingsRouter);
 app.use('/events', eventsRouter);
