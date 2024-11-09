@@ -19,6 +19,10 @@ export const AdminRatings: React.FC = () => {
     dispatch(fetchRatings());
   }, [dispatch]);
 
+  const maleRatings = ratings.filter((rating) => rating.chapter === 'male');
+  const femaleRatings = ratings.filter((rating) => rating.chapter === 'female');
+  const mixedRatings = ratings.filter((rating) => rating.chapter === 'mixed');
+
   return (
     <Layout>
       <header className={'flex md:items-center justify-between gap-2 flex-col md:flex-row border-b pb-1.5'}>
@@ -58,8 +62,27 @@ export const AdminRatings: React.FC = () => {
             <Skeleton className={'h-24 flex-1'} />
           </div>
         ) : (
-          <div className={'mt-4'}>
-            <RatingBlock ratings={ratings} />
+          <div className={'mt-4 space-y-10'}>
+            {maleRatings.length > 0 && (
+              <div>
+                <h3 className={'font-bold text-center text-xl mb-3'}>Мужской рейтинг</h3>
+                <RatingBlock ratings={maleRatings} />
+              </div>
+            )}
+
+            {femaleRatings.length > 0 && (
+              <div>
+                <h3 className={'font-bold text-center text-xl mb-3'}>Женский рейтинг</h3>
+                <RatingBlock ratings={femaleRatings} />
+              </div>
+            )}
+
+            {mixedRatings.length > 0 && (
+              <div>
+                <h3 className={'font-bold text-center text-xl mb-3'}>Смешанный рейтинг</h3>
+                <RatingBlock ratings={mixedRatings} />
+              </div>
+            )}
           </div>
         )}
       </section>

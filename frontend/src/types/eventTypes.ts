@@ -12,6 +12,5 @@ export interface Event {
 export interface EventMutation {
   rating: string;
   category: string;
-  gender: 'male' | 'female';
   link: string;
 }

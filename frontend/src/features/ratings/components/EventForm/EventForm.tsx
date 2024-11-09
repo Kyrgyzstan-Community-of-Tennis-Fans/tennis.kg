@@ -21,7 +21,6 @@ interface Props {
 const initialState: EventMutation = {
   rating: '',
   category: '',
-  gender: 'male',
   link: '',
 };
 
@@ -37,7 +36,6 @@ export const EventForm: React.FC<Props> = ({ onSubmit, ratings, event }) => {
       setEventMutation({
         rating: event.rating._id,
         category: event.category._id,
-        gender: event.gender,
         link: event.link,
       });
     }
@@ -62,7 +60,7 @@ export const EventForm: React.FC<Props> = ({ onSubmit, ratings, event }) => {
     setEventMutation({ ...eventMutation, [id]: v });
   };
 
-  const isFormValid = eventMutation.rating && eventMutation.category && eventMutation.link && eventMutation.gender;
+  const isFormValid = eventMutation.rating && eventMutation.category && eventMutation.link;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -98,22 +96,6 @@ export const EventForm: React.FC<Props> = ({ onSubmit, ratings, event }) => {
             {ratings.map((rating) => (
               <SelectItem key={rating._id} value={rating._id}>
                 {getMonth(rating.month)} {rating.year}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div>
-        <Label htmlFor={'gender'}>Пол</Label>
-        <Select value={eventMutation.gender} onValueChange={(v) => handleSelectChange(v, 'gender')}>
-          <SelectTrigger id={'gender'}>
-            <SelectValue placeholder={'Выберите пол'} />
-          </SelectTrigger>
-          <SelectContent>
-            {['male', 'female'].map((item) => (
-              <SelectItem key={item} value={item}>
-                {item === 'male' ? 'Мужской' : 'Женский'}
               </SelectItem>
             ))}
           </SelectContent>

@@ -4,7 +4,9 @@ import config from './config';
 import { News } from './src/model/News';
 import { Partner } from './src/model/Partner';
 import { Category } from './src/model/Category';
+import { Rating } from './src/model/Rating';
 import { User } from './src/model/User';
+import { Event } from './src/model/Event';
 import { Carousel } from './src/model/Carousel';
 import { newsFixtures } from './src/utils/newsFixtures';
 import { RatingMember } from './src/model/RatingMember';
@@ -247,6 +249,95 @@ const run = async () => {
       image: 'fixtures/carousel/photo-2.jpg',
     },
   ]);
+
+  const [firstRating, secondRating, thirdRating] = await Rating.create([
+    {
+      chapter: 'male',
+      month: 'january',
+      year: 2024,
+    },
+    {
+      chapter: 'female',
+      month: 'november',
+      year: 2022,
+    },
+    {
+      chapter: 'mixed',
+      month: 'april',
+      year: 2023,
+    },
+  ]);
+
+  const events = await Event.create([
+    {
+      rating: firstRating._id,
+      category: masters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: firstRating._id,
+      category: proMasters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: firstRating._id,
+      category: proMasters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: firstRating._id,
+      category: futures._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: firstRating._id,
+      category: masters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: secondRating._id,
+      category: masters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: secondRating._id,
+      category: proMasters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: secondRating._id,
+      category: futures._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: secondRating._id,
+      category: masters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: thirdRating._id,
+      category: masters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: thirdRating._id,
+      category: proMasters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: thirdRating._id,
+      category: futures._id,
+      link: 'https://www.google.com',
+    },
+  ]);
+
+  for (const rating of [firstRating, secondRating, thirdRating]) {
+    const ratingEvents = events.filter((event) => event.rating.equals(rating._id));
+
+    await Rating.findByIdAndUpdate(rating._id, {
+      $push: { events: { $each: ratingEvents.map((event) => event._id) } },
+    });
+  }
 
   await db.close();
 };

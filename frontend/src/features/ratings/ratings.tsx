@@ -16,6 +16,10 @@ export const Ratings: React.FC = () => {
     dispatch(fetchRatings());
   }, [dispatch]);
 
+  const maleRatings = ratings.filter((rating) => rating.chapter === 'male');
+  const femaleRatings = ratings.filter((rating) => rating.chapter === 'female');
+  const mixedRatings = ratings.filter((rating) => rating.chapter === 'mixed');
+
   return (
     <Layout>
       <header className={'text-center mb-32'}>
@@ -31,13 +35,34 @@ export const Ratings: React.FC = () => {
 
       <section>
         {ratingsFetching ? (
-          Array.from({ length: 10 }).map((_, index) => <Skeleton key={index} className={'w-full h-10 mb-2'} />)
+          Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} className={'w-full h-16 mb-8'} />)
         ) : !ratingsFetching && ratings.length === 0 ? (
           <span className={'block text-center text-muted-foreground'}>
             Не удалось загрузить рейтинги. Пожалуйста, попробуйте обновить страницу
           </span>
         ) : (
-          <RatingBlock ratings={ratings} />
+          <div className={'space-y-10'}>
+            {maleRatings.length > 0 && (
+              <div>
+                <h3 className={'font-bold text-center text-xl mb-3'}>Мужской рейтинг</h3>
+                <RatingBlock ratings={maleRatings} />
+              </div>
+            )}
+
+            {femaleRatings.length > 0 && (
+              <div>
+                <h3 className={'font-bold text-center text-xl mb-3'}>Женский рейтинг</h3>
+                <RatingBlock ratings={femaleRatings} />
+              </div>
+            )}
+
+            {mixedRatings.length > 0 && (
+              <div>
+                <h3 className={'font-bold text-center text-xl mb-3'}>Смешанный рейтинг</h3>
+                <RatingBlock ratings={mixedRatings} />
+              </div>
+            )}
+          </div>
         )}
       </section>
     </Layout>
