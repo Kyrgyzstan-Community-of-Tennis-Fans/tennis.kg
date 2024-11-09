@@ -1,11 +1,13 @@
-import { randomUUID } from 'crypto';
 import mongoose from 'mongoose';
+import { randomUUID } from 'crypto';
 import config from './config';
-import News from './src/model/News';
+import { News } from './src/model/News';
 import { Partner } from './src/model/Partner';
 import { Category } from './src/model/Category';
 import { User } from './src/model/User';
 import { Carousel } from './src/model/Carousel';
+import { newsFixtures } from './src/utils/newsFixtures';
+import { RatingMember } from './src/model/RatingMember';
 
 const run = async () => {
   await mongoose.connect(config.database);
@@ -17,77 +19,13 @@ const run = async () => {
     await db.dropCollection('partners');
     await db.dropCollection('carousels');
     await db.dropCollection('news');
+    await db.dropCollection('ratings');
+    await db.dropCollection('ratingmembers');
   } catch (e) {
     console.log('Skipping drop...');
   }
 
-  await News.create(
-    {
-      title: 'Winter Gold Cup 2021',
-      subtitle: 'Новогодний турнир',
-      content:
-        'Товарищи! консультация с широким активом позволяет выполнять важные задания по разработке дальнейших направлений развития. ' +
-        'Равным образом консультация с широким активом в значительной степени обуславливает создание системы обучения кадров, соответствует насущным потребностям.\n' +
-        'Разнообразный и богатый опыт укрепление и развитие структуры позволяет выполнять важные задания по разработке системы обучения кадров, ' +
-        'соответствует насущным потребностям. Задача организации, в особенности же дальнейшее развитие различных форм деятельности позволяет оценить значение новых предложений. ' +
-        'Идейные соображения высшего порядка, а также укрепление и развитие структуры способствует подготовки и реализации модели развития.\n' +
-        'Повседневная практика показывает, что укрепление и развитие структуры позволяет выполнять важные задания по разработке новых предложений. ' +
-        'Таким образом реализация намеченных плановых заданий способствует подготовки и реализации новых предложений. ' +
-        'Разнообразный и богатый опыт начало повседневной работы по формированию позиции способствует подготовки и реализации форм развития. ' +
-        'Товарищи! рамки и место обучения кадров требуют от нас анализа дальнейших направлений развития.\n' +
-        'Задача организации, в особенности же консультация с широким активом требуют от нас анализа позиций, занимаемых участниками в отношении поставленных задач. ' +
-        'Не следует, однако забывать, что новая модель организационной деятельности представляет собой интересный эксперимент проверки системы обучения кадров, ' +
-        'соответствует насущным потребностям. Товарищи! рамки и место обучения кадров требуют определения и уточнения существенных финансовых и административных условий. С другой стороны начало повседневной работы по формированию позиции позволяет оценить значение существенных финансовых и административных условий. С другой стороны постоянное информационно-пропагандистское обеспечение нашей деятельности требуют определения и уточнения форм развития. Товарищи! рамки и место обучения кадров способствует подготовки и реализации форм развития.\n' +
-        'Таким образом консультация с широким активом в значительной степени обуславливает создание соответствующий условий активизации. ' +
-        'Задача организации, в особенности же начало повседневной работы по формированию позиции позволяет оценить значение соответствующий условий активизации. ' +
-        'Не следует, однако забывать, что начало повседневной работы по формированию позиции позволяет выполнять важные задания по разработке систем массового участия. ' +
-        'Товарищи! укрепление и развитие структуры влечет за собой процесс внедрения и модернизации дальнейших направлений развития. ' +
-        'Таким образом укрепление и развитие структуры позволяет оценить значение направлений прогрессивного развития.',
-      createdAt: '2024-10-28T16:15:36.700+00:00',
-      updatedAt: '2024-10-28T16:15:36.700+00:00',
-      newsCover: 'newsFixtures/first.png',
-      images: ['newsFixtures/newsInner1.png', 'newsFixtures/newsInner2.png', 'newsFixtures/newsInner3.png'],
-    },
-    {
-      title: 'Spring Silver Cup 2021',
-      subtitle: 'Весенний турнир',
-      content:
-        'Дорогие товарищи! Важные задания по разработке системы обучения позволяют выполнять актуальные задачи. ' +
-        'Практика показывает, что укрепление структуры способствует достижению поставленных целей. ' +
-        'Консультация с активом дает возможность для определения новых путей развития. ' +
-        'Анализ задач требует внедрения инноваций для роста и развития.',
-      createdAt: '2024-10-27T12:30:45.700+00:00',
-      updatedAt: '2024-10-27T15:45:30.800+00:00',
-      newsCover: 'newsFixtures/second.png',
-      images: ['newsFixtures/newsInner1.png', 'newsFixtures/newsInner2.png'],
-    },
-    {
-      title: 'Autumn Bronze Cup 2022',
-      subtitle: 'Осенний турнир',
-      content:
-        'Приветствую, товарищи! Консультации с активом помогают определить пути совершенствования структуры. ' +
-        'Значение новых предложений оценено и принято на вооружение для будущего роста. ' +
-        'Начало работы над новыми проектами способствует реализации поставленных задач. ' +
-        'Особое внимание уделяется анализу текущих процессов и их оптимизации.',
-      createdAt: '2024-10-25T09:20:15.500+00:00',
-      updatedAt: '2024-10-26T11:35:40.600+00:00',
-      newsCover: 'newsFixtures/third.png',
-      images: [],
-    },
-    {
-      title: 'Winter Silver Cup 2023',
-      subtitle: 'Новогодний чемпионат',
-      content:
-        'Коллеги! Начало новой программы позволяет достигать поставленных целей и задач. ' +
-        'Консультация с активом выявляет направления улучшения качества обучения. ' +
-        'Организационная деятельность требует особого внимания для решения новых задач. ' +
-        'Практика показывает, что обновление структуры способствует повышению эффективности.',
-      createdAt: '2024-10-20T08:15:22.300+00:00',
-      updatedAt: '2024-10-21T10:50:18.400+00:00',
-      newsCover: 'newsFixtures/fourth.png',
-      images: [],
-    }
-  );
+  await News.create(newsFixtures);
 
   await Partner.create(
     {
@@ -158,6 +96,149 @@ const run = async () => {
     }
   );
 
+  await RatingMember.create(
+    {
+      name: 'Leslie Alexander',
+      image: 'fixtures/mainRating/man1.jpg',
+      gender: 'male',
+      place: 1,
+      ratingType: 'mensTop8',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Wade Warren',
+      image: 'fixtures/mainRating/man2.png',
+      gender: 'male',
+      place: 2,
+      ratingType: 'mensTop8',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Darrell Steward',
+      image: 'fixtures/mainRating/man3.png',
+      gender: 'male',
+      place: 3,
+      ratingType: 'mensTop8',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Savannah Nguyen',
+      image: 'fixtures/mainRating/man4.png',
+      gender: 'male',
+      place: 4,
+      ratingType: 'mensTop8',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Courtney Henry',
+      image: 'fixtures/mainRating/man5.png',
+      gender: 'male',
+      place: 5,
+      ratingType: 'mensTop8',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Potter Harry',
+      image: 'fixtures/mainRating/man6.jpg',
+      gender: 'male',
+      place: 6,
+      ratingType: 'mensTop8',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Lucer Gianni',
+      image: 'fixtures/mainRating/man7.jpg',
+      gender: 'male',
+      place: 7,
+      ratingType: 'mensTop8',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Collis Bishe',
+      image: 'fixtures/mainRating/man8.jpg',
+      gender: 'male',
+      place: 8,
+      ratingType: 'mensTop8',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Ivaan Kashyap',
+      image: 'fixtures/mainRating/top3man1.jpg',
+      gender: 'male',
+      place: 1,
+      ratingType: 'mensTop3',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Ariti Rylan',
+      image: 'fixtures/mainRating/top3man2.jpg',
+      gender: 'male',
+      place: 2,
+      ratingType: 'mensTop3',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Roberts Henry',
+      image: 'fixtures/mainRating/top3man3.jpg',
+      gender: 'male',
+      place: 3,
+      ratingType: 'mensTop3',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Brooklyn Simmons',
+      image: 'fixtures/mainRating/woman1.png',
+      gender: 'female',
+      place: 1,
+      ratingType: 'womensTop3',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Jenny Wilson',
+      image: 'fixtures/mainRating/woman2.png',
+      gender: 'female',
+      place: 2,
+      ratingType: 'womensTop3',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    },
+    {
+      name: 'Arlene McCoy',
+      image: 'fixtures/mainRating/woman3.png',
+      gender: 'female',
+      place: 3,
+      ratingType: 'womensTop3',
+      mensRatingCategoryTop8: 'Masters',
+      mensRatingCategoryTop3: 'ProMasters',
+      womensRatingCategoryTop3: 'Masters',
+    }
+  );
+
   await Carousel.create([
     {
       image: 'fixtures/carousel/photo-1.jpg',
@@ -165,9 +246,12 @@ const run = async () => {
     {
       image: 'fixtures/carousel/photo-2.jpg',
     },
+    { image: 'fixtures/carousel/Aq.gif' },
   ]);
 
   await db.close();
 };
 
-run().catch(console.error);
+run().catch((err) => {
+  console.log(err);
+});

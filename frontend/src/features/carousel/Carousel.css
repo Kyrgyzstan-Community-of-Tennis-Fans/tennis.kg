@@ -1,9 +1,0 @@
-.custom-dots li button:before {
-  color: #c4c4c4 !important;
-  font-size: 10px;
-}
-
-.custom-dots li.slick-active button:before {
-  color: #64b32c !important;
-  font-size: 10px;
-}
