@@ -1,27 +1,15 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NewEvent } from '@/features/ratings/components/NewEvent/NewEvent';
 import { NewRating } from '@/features/ratings/components/NewRating/NewRating';
 import { RatingBlock } from '@/features/ratings/components/RatingBlock/RatingBlock';
-import { selectRatings, selectRatingsFetching } from '@/features/ratings/ratingsSlice';
-import { fetchRatings } from '@/features/ratings/ratingsThunks';
+import { useRating } from '@/features/ratings/hooks/useRating';
 import { CalendarDaysIcon, SquaresPlusIcon } from '@heroicons/react/24/outline';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 export const AdminRatings: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const ratings = useAppSelector(selectRatings);
-  const ratingsFetching = useAppSelector(selectRatingsFetching);
-
-  useEffect(() => {
-    dispatch(fetchRatings());
-  }, [dispatch]);
-
-  const maleRatings = ratings.filter((rating) => rating.chapter === 'male');
-  const femaleRatings = ratings.filter((rating) => rating.chapter === 'female');
-  const mixedRatings = ratings.filter((rating) => rating.chapter === 'mixed');
+  const { maleRatings, ratings, ratingsFetching, femaleRatings, mixedRatings } = useRating();
 
   return (
     <Layout>

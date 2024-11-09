@@ -1,32 +1,20 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Layout } from '@/components/Layout';
 import { Skeleton } from '@/components/ui/skeleton';
 import { RatingBlock } from '@/features/ratings/components/RatingBlock/RatingBlock';
-import { selectRatings, selectRatingsFetching } from '@/features/ratings/ratingsSlice';
-import { fetchRatings } from '@/features/ratings/ratingsThunks';
-import React, { useEffect } from 'react';
+import { useRating } from '@/features/ratings/hooks/useRating';
+import React from 'react';
 import styles from './ratings.module.css';
 
 export const Ratings: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const ratings = useAppSelector(selectRatings);
-  const ratingsFetching = useAppSelector(selectRatingsFetching);
-
-  useEffect(() => {
-    dispatch(fetchRatings());
-  }, [dispatch]);
-
-  const maleRatings = ratings.filter((rating) => rating.chapter === 'male');
-  const femaleRatings = ratings.filter((rating) => rating.chapter === 'female');
-  const mixedRatings = ratings.filter((rating) => rating.chapter === 'mixed');
+  const { maleRatings, ratings, ratingsFetching, femaleRatings, mixedRatings } = useRating();
 
   return (
     <Layout>
-      <header className={'text-center mb-32'}>
-        <h1 className={'text-6xl font-bold mb-12'}>
+      <header className={'text-center mb-10'}>
+        <h1 className={'text-3xl sm:text-4xl font-bold mb-3'}>
           Рейтинг членов <span className={styles.title}>КСЛТ</span>
         </h1>
-        <p className={'max-w-screen-xl mx-auto text-2xl text-[#808080]'}>
+        <p className={'max-w-screen-xl sm:text-xl text-pretty mx-auto text-[#808080]'}>
           На этой странице вы можете ознакомиться с текущим рейтингом. Рейтинговая система обновляется с каждым
           рейтинговым турниром. С более подробной информацией о начислении очков, вы можете ознакомиться в разделе
           "Положение. Таблица начисления рейтинговых очков".
@@ -44,21 +32,21 @@ export const Ratings: React.FC = () => {
           <div className={'space-y-10'}>
             {maleRatings.length > 0 && (
               <div>
-                <h3 className={'font-bold text-center text-xl mb-3'}>Мужской рейтинг</h3>
+                <h3 className={'font-bold text-center text-lg sm:text-xl mb-3'}>Мужской рейтинг</h3>
                 <RatingBlock ratings={maleRatings} />
               </div>
             )}
 
             {femaleRatings.length > 0 && (
               <div>
-                <h3 className={'font-bold text-center text-xl mb-3'}>Женский рейтинг</h3>
+                <h3 className={'font-bold text-center text-lg sm:text-xl mb-3'}>Женский рейтинг</h3>
                 <RatingBlock ratings={femaleRatings} />
               </div>
             )}
 
             {mixedRatings.length > 0 && (
               <div>
-                <h3 className={'font-bold text-center text-xl mb-3'}>Смешанный рейтинг</h3>
+                <h3 className={'font-bold text-center text-lg sm:text-xl mb-3'}>Смешанный рейтинг</h3>
                 <RatingBlock ratings={mixedRatings} />
               </div>
             )}
