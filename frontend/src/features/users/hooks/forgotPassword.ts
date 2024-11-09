@@ -1,8 +1,8 @@
-import {useAppDispatch, useAppSelector} from '@/app/hooks';
-import {selectForgotPasswordError, selectForgotPasswordLoading} from '@/features/users/usersSlice';
-import {type ChangeEvent, type FormEvent, useState} from 'react';
-import {forgotPassword} from '@/features/users/usersThunks';
-import {toast} from 'sonner';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { selectForgotPasswordError, selectForgotPasswordLoading } from '@/features/users/usersSlice';
+import { type ChangeEvent, type FormEvent, useState } from 'react';
+import { forgotPassword } from '@/features/users/usersThunks';
+import { toast } from 'sonner';
 
 export const useForgotPassword = () => {
   const dispatch = useAppDispatch();
@@ -26,12 +26,12 @@ export const useForgotPassword = () => {
       toast.error(forgotError?.error || 'Что-то пошло не так.');
     }
   };
-  
+
   return {
     forgotError,
     forgotPasswordLoading,
     email,
     handleChange,
-    handleSubmit
+    handleSubmit,
   };
 };

@@ -3,17 +3,10 @@ import { Button } from '@/components/ui/button';
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import {useResetPassword} from '@/features/users/hooks/resetPassword';
+import { useResetPassword } from '@/features/users/hooks/resetPassword';
 
 export const ResetPassword: React.FC = () => {
-
-  const {
-    resetPasswordLoading,
-    passwords,
-    passwordMatch,
-    handleChange,
-    handleSubmit 
-  } = useResetPassword();
+  const { resetPasswordLoading, passwords, passwordMatch, handleChange, handleSubmit } = useResetPassword();
 
   return (
     <form onSubmit={handleSubmit}>

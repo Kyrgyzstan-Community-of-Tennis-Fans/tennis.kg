@@ -23,6 +23,7 @@ export interface UserFields {
   token: string;
   role: 'user' | 'admin';
   email: string;
+  isActive: boolean;
   createdAt: Date;
   resetPasswordToken: string | null;
   resetPasswordExpires: number | null;

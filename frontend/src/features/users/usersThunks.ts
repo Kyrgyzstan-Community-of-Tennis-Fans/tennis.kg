@@ -4,6 +4,7 @@ import { unsetUser } from '@/features/users/usersSlice';
 import type {
   GlobalError,
   LoginMutation,
+  RedactorForAdmin,
   RegisterMutation,
   RegisterMutationWithoutCoupleFields,
   User,
@@ -12,6 +13,16 @@ import type {
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';
+
+export const fetchUsers = createAsyncThunk<User[], void>('users/fetchUsers', async () => {
+  const { data: users } = await axiosApi.get<User[]>('/users/get-users');
+  return users;
+});
+
+export const fetchOneUser = createAsyncThunk<User, string>('users/fetchOneUser', async (id) => {
+  const { data: user } = await axiosApi.get<User>(`/users/${id}`);
+  return user;
+});
 
 export const register = createAsyncThunk<User, RegisterMutation, { rejectValue: ValidationError }>(
   'users/register',
@@ -104,3 +115,25 @@ export const updateUserInfo = createAsyncThunk<User, RegisterMutationWithoutCoup
     }
   },
 );
+
+export const updateCurrentUserInfo = createAsyncThunk<User, RedactorForAdmin, { rejectValue: GlobalError }>(
+  'users/updateCurrentUserInfo',
+  async (userInfo) => {
+    try {
+      const { data: user } = await axiosApi.put<User>(`/users/${userInfo.id}/update-info`, userInfo);
+      return user;
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 400) {
+        if (error.response.data.error) {
+          toast.error(error.response.data.error);
+        }
+      }
+
+      throw error;
+    }
+  },
+);
+
+export const updateIsActive = createAsyncThunk<void, string>('users/toggle-active', async (id: string) => {
+  await axiosApi.patch(`/users/${id}/toggleActive`);
+});

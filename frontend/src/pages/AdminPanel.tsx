@@ -7,6 +7,7 @@ import RatingMembersAdminList from '@/features/mainRatingMembers/RatingMembersAd
 import { AdminNews } from '@/features/news/containers/AdminNews/AdminNews';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { AdminRatings } from '@/features/ratings/AdminRatings';
+import { AdminUserList } from '@/features/users/AdminUserList';
 
 const AdminPanel = () => {
   return (
@@ -14,7 +15,7 @@ const AdminPanel = () => {
       <Layout>
         <h1 className={'text-center text-2xl sm:text-4xl mb-8 font-semibold'}>Панель Администратора</h1>
         <Tabs defaultValue='partners' orientation={'vertical'}>
-          <ScrollArea className={'max-w-max pb-3'}>
+          <ScrollArea className={'max-w-max pb-3 mx-auto'}>
             <TabsList className='flex items-center gap-1'>
               <TabsTrigger value='partners'>Партнеры</TabsTrigger>
               <TabsTrigger value='category'>Категории</TabsTrigger>
@@ -22,6 +23,7 @@ const AdminPanel = () => {
               <TabsTrigger value='top'>Топ Игроки</TabsTrigger>
               <TabsTrigger value='rating'>Рейтинги</TabsTrigger>
               <TabsTrigger value='news'>Новости</TabsTrigger>
+              <TabsTrigger value='users'>Список пользователей</TabsTrigger>
             </TabsList>
             <ScrollBar orientation={'horizontal'} />
           </ScrollArea>
@@ -38,10 +40,13 @@ const AdminPanel = () => {
             <RatingMembersAdminList />
           </TabsContent>
           <TabsContent value={'rating'}>
-            <AdminRatings/>
+            <AdminRatings />
           </TabsContent>
           <TabsContent value={'news'}>
             <AdminNews />
+          </TabsContent>
+          <TabsContent value={'users'}>
+            <AdminUserList />
           </TabsContent>
         </Tabs>
       </Layout>

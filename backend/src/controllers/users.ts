@@ -155,3 +155,88 @@ export const updateProfile = async (req: RequestWithUser, res: Response, next: N
     next(error);
   }
 };
+
+
+export const getAllUsers = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  try {
+    const users = await User.find().populate('category');
+    return res.status(200).send(users);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const getOneUser = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  try {
+    const user = await User.findById(req.params.id).populate('category');
+    return res.status(200).send(user);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const updateCurrentProfile = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  try {
+    const id = req.params.id;
+    const { fullName, telephone, dateOfBirth, category, gender, email } = req.body;
+    const [existingTelephoneUser, existingEmailUser, user] = await Promise.all([
+      User.findOne({ telephone }),
+      User.findOne({ email }),
+      User.findById(id),
+    ]);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found!' });
+    }
+
+    if (existingTelephoneUser && existingTelephoneUser._id.toString() !== id.toString()) {
+      return res.status(400).json({ error: 'Пользователь с таким телефоном уже существует!' });
+    }
+
+    if (existingEmailUser && existingEmailUser._id.toString() !== id.toString()) {
+      return res.status(400).json({ error: 'Пользователь с таким email уже существует!' });
+    }
+
+    Object.assign(user, {
+      ...(fullName && { fullName }),
+      ...(telephone && { telephone }),
+      ...(dateOfBirth && { dateOfBirth }),
+      ...(category && { category }),
+      ...(gender && { gender }),
+      ...(email && { email }),
+    });
+
+    await user.save();
+
+    const updatedUser = await User.findById(id).populate('category');
+    res.json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateActiveStatus = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  try {
+    if (!req.params.id) {
+      res.status(400).send({ error: 'Id items params must be in url' });
+    }
+
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+      if (user.isActive === true) {
+        await User.findByIdAndUpdate(req.params.id, {
+          isActive: false,
+        });
+      } else {
+        await User.findByIdAndUpdate(req.params.id, {
+          isActive: true,
+        });
+      }
+    }
+
+    return res.send('Статус пользователя был обновлен');
+  } catch (error) {
+    next(error);
+  }
+}

@@ -23,6 +23,7 @@ export interface User {
   category: Category;
   dateOfBirth: string;
   email: string;
+  isActive: boolean;
   token: string;
   role: 'admin' | 'user';
   createdAt: string;
@@ -43,6 +44,16 @@ export interface ValidationError {
 
 export interface GlobalError {
   error: string;
+}
+
+export interface RedactorForAdmin {
+  id: string;
+  telephone: string;
+  fullName: string;
+  gender: string;
+  category: string;
+  dateOfBirth: string;
+  email: string;
 }
 
 export type RegisterMutationWithoutCoupleFields = Omit<RegisterMutation, 'password' | 'category'>;
