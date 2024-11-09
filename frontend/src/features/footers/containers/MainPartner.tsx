@@ -17,13 +17,13 @@ const MainPartner = () => {
       <div className='flex justify-end'>
         <MainPartnerEditForm>
           <Button className={'w-full xs:w-max'}>
-            Изменить изображение главного партнера <EditIcon />
+            Изменить главного партнера <EditIcon />
           </Button>
         </MainPartnerEditForm>
       </div>
 
       {!mainPartnerFetching && mainPartnerData.length > 0 && mainPartnerData[0].mainPartnerImage === '' ? (
-        <small className={'fixed top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4 text-muted-foreground'}>
+        <small className='flex justify-center items-center flex-col mt-[50px]'>
           Изображение главного партнера не найдено.
         </small>
       ) : (

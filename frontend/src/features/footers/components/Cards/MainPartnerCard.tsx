@@ -18,7 +18,7 @@ export const MainPartnerCard: React.FC<Props> = ({ image }) => {
                 <img
                   src={`${API_URl}/${image}`}
                   alt='Логотип партнера'
-                  className='rounded-[5px] object-cover h-[55px] w-[55px] mr-2 cursor-pointer'
+                  className='rounded-[5px] object-cover h-[30px] w-[30px] mr-2 cursor-pointer'
                 />
               </TooltipTrigger>
               <TooltipContent className='bg-muted w-30 h-36 border drop-shadow-2xl'>

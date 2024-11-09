@@ -4,17 +4,8 @@ import SocialNetwork from '@/features/footers/containers/SocialNetwork';
 import MenuPosition from '@/features/footers/containers/MenuPosition';
 import PublicOffer from '@/features/footers/containers/PublicOffer';
 import MainPartner from '@/features/footers/containers/MainPartner';
-import { useEffect } from 'react';
-import { getFooterItems } from '@/features/footers/footersThunks';
-import { useAppDispatch } from '@/app/hooks';
 
 const AdminPanelBlockFooter = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getFooterItems());
-  }, [dispatch]);
-
   return (
     <Layout>
       <header className={'flex xs:items-center justify-between gap-2 flex-col xs:flex-row border-b pb-1.5 mb-5'}>

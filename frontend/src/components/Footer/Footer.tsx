@@ -1,9 +1,14 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { FacebookIcon, Instagram, Mail } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+import { useAppSelector } from '@/app/hooks';
+import { selectItemsData } from '@/features/footers/footersSlice';
+import { SocialIcon } from 'react-social-icons';
+import { API_URl } from '@/consts';
 
 const Footer = () => {
+  const footerItemsData = useAppSelector(selectItemsData);
+
   return (
     <div className={'bg-cr-shark pt-8 pb-4'}>
       <div
@@ -33,28 +38,21 @@ const Footer = () => {
               All rights reserved
             </p>
           </div>
-          <div className={'inline-flex text-white gap-5'}>
-            <a
-              href=''
-              className={'w-10 h-10 flex justify-center items-center rounded-full'}
-              style={{ background: '#373A40', cursor: 'pointer' }}
-            >
-              <Instagram className={'w-5 h-5'} />
-            </a>
-            <a
-              href=''
-              className={'w-10 h-10 flex justify-center items-center rounded-full'}
-              style={{ background: '#373A40', cursor: 'pointer' }}
-            >
-              <FacebookIcon className={'w-5 h-5'} fill={'white'} />
-            </a>
-            <a
-              href=''
-              className={'w-10 h-10 flex justify-center items-center rounded-full'}
-              style={{ background: '#373A40', cursor: 'pointer' }}
-            >
-              <Mail className={'w-5 h-5'} fill={'gray'} />
-            </a>
+          <div className='flex flex-row justify-center md:justify-start gap-[16px]'>
+            {footerItemsData.length > 0 &&
+              footerItemsData[0].socialNetwork.map((item) => (
+                <div key={item._id} className={'inline-flex text-white gap-5'}>
+                  <SocialIcon
+                    key={item._id}
+                    bgColor='#373A40'
+                    target='_blank'
+                    url={item.value}
+                    fgColor='#fff'
+                    style={{ height: '32px', width: '32px' }}
+                    network={item.name}
+                  />
+                </div>
+              ))}
           </div>
         </div>
         <div
@@ -75,71 +73,71 @@ const Footer = () => {
                   Рейтинг
                 </NavLink>
               </li>
+              {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && (
+                <>
+                  <Menu as='li' className='relative inline-block'>
+                    <div>
+                      <MenuButton className='inline-flex justify-center hover:text-white'>
+                        Положение
+                        <ChevronDownIcon aria-hidden='true' className='-mr-1 h-5 w-5 text-gray-400' />
+                      </MenuButton>
+                    </div>
+
+                    <MenuItems
+                      transition
+                      className='absolute -left-8 top-full z-10 mt-3 w-screen max-w-xs overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in'
+                    >
+                      <div className='py-5'>
+                        {footerItemsData.length > 0 &&
+                          footerItemsData[0].menuPosition.map((item) => (
+                            <MenuItem key={item._id}>
+                              <a
+                                key={item._id}
+                                href={item.value}
+                                target='_blank'
+                                className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:forced-color-adjust-none data-[focus]:forced-colors:bg-[Highlight] data-[focus]:forced-colors:text-[HighlightText]'
+                              >
+                                {item.name}
+                              </a>
+                            </MenuItem>
+                          ))}
+                      </div>
+                    </MenuItems>
+                  </Menu>
+                </>
+              )}
               <li>
-                <NavLink to={'/blog'} className={'hover:text-white'}>
+                <NavLink to={'/news'} className={'hover:text-white'}>
                   Блог
                 </NavLink>
               </li>
-              <Menu as='li' className='relative inline-block'>
-                <div>
-                  <MenuButton className='inline-flex justify-center hover:text-white'>
-                    Положение
-                    <ChevronDownIcon aria-hidden='true' className='-mr-1 h-5 w-5 text-gray-400' />
-                  </MenuButton>
-                </div>
-
-                <MenuItems
-                  transition
-                  className='absolute -left-8 top-full z-10 mt-3 w-screen max-w-xs overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in'
-                >
-                  <div className='py-5'>
-                    <MenuItem>
-                      <a
-                        href='#'
-                        className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:forced-color-adjust-none data-[focus]:forced-colors:bg-[Highlight] data-[focus]:forced-colors:text-[HighlightText]'
-                      >
-                        Положение КСЛТ
-                      </a>
-                    </MenuItem>
-                    <MenuItem>
-                      <a
-                        href='#'
-                        className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:forced-color-adjust-none data-[focus]:forced-colors:bg-[Highlight] data-[focus]:forced-colors:text-[HighlightText]'
-                      >
-                        Форма заявки на проведение турнира
-                      </a>
-                    </MenuItem>
-                    <MenuItem>
-                      <a
-                        href='#'
-                        className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:forced-color-adjust-none data-[focus]:forced-colors:bg-[Highlight] data-[focus]:forced-colors:text-[HighlightText]'
-                      >
-                        Таблица начисления рейтинговых очков
-                      </a>
-                    </MenuItem>
-                    <MenuItem>
-                      <a
-                        href='#'
-                        className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:forced-color-adjust-none data-[focus]:forced-colors:bg-[Highlight] data-[focus]:forced-colors:text-[HighlightText]'
-                      >
-                        Таблица начисления рейтинговых очков
-                      </a>
-                    </MenuItem>
-                  </div>
-                </MenuItems>
-              </Menu>
             </ul>
           </div>
           <div className={'basis-1/3'}>
             <h1 className={'pb-7 text-lg xs:text-xl'}>Условия</h1>
             <ul style={{ color: '#D9DBE1' }} className={'gap-4 text-sm xs:text-base'}>
               <li>
-                <p className={'hover:text-white'}>Публичная оферта</p>
+                <a
+                  target='_blank'
+                  href={footerItemsData.length > 0 ? footerItemsData[0].publicOffer : ''}
+                  className={'hover:text-white cursor-pointer'}
+                >
+                  Публичная оферта
+                </a>
               </li>
             </ul>
           </div>
-          <div className={'basis-1/3'}>
+          <div className={'flex flex-col items-center basis-1/3'}>
             <h1 className={'pb-7 text-xl'}>Главный партнер</h1>
+            <img
+              src={
+                footerItemsData.length > 0 && footerItemsData[0].mainPartnerImage
+                  ? `${API_URl}/${footerItemsData[0].mainPartnerImage}`
+                  : ''
+              }
+              alt='Главный партнер'
+              className='w-[100px] h-[100px] block'
+            />
           </div>
         </div>
       </div>

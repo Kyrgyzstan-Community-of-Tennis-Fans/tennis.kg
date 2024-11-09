@@ -31,10 +31,10 @@ export const MenuPositionCard: React.FC<Props> = ({ item }) => {
 
   return (
     <Card className={'p-3 shadow-none relative min-w-72 flex-1'}>
-      <div className={'flex items-center gap-2 justify-between lg:flex-row flex-nowrap'}>
+      <div className={'flex items-center gap-2 h-[100%] justify-between lg:flex-row flex-nowrap'}>
         <div className='flex items-center'>
-          <LinkIcon className='h-6 w-6 mr-2' />
-          <h3>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</h3>
+          <LinkIcon className='h-[30px] w-[30px] mr-2 flex-shrink-0' />
+          <h3 className='text-xs'>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</h3>
         </div>
 
         <div className={'space-x-1 flex items-center'}>

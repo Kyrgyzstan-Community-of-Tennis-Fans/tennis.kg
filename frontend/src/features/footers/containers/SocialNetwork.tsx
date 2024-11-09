@@ -2,9 +2,9 @@ import { Button } from '@/components/ui/button';
 import { SquaresPlusIcon } from '@heroicons/react/24/outline';
 import SocialNetworkCreateForm from '@/features/footers/components/SocialNetworkForms/SocialNetworkCreateForm';
 import { useAppSelector } from '@/app/hooks';
-import { selectItemsData, selectItemsFetching } from '@/features/footers/footersSlice';
 import { SocialNetworkCard } from '@/features/footers/components/Cards/SocialNetworkCard';
 import { Loader } from '@/components/Loader/Loader';
+import { selectItemsData, selectItemsFetching } from '@/features/footers/footersSlice';
 
 const SocialNetwork = () => {
   const socialNetworkData = useAppSelector(selectItemsData);
@@ -23,7 +23,7 @@ const SocialNetwork = () => {
       </div>
 
       {!socialNetworkFetching && socialNetworkData.length > 0 && socialNetworkData[0].socialNetwork.length === 0 ? (
-        <small className={'fixed top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4 text-muted-foreground'}>
+        <small className='flex justify-center items-center flex-col mt-[50px]'>
           Социальные сети не найдены.
           <SocialNetworkCreateForm>
             <button className={'mx-1 underline underline-offset-2 hover:text-black'}>Добавить социальную сеть</button>
