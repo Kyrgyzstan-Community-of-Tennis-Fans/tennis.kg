@@ -1,0 +1,65 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { axiosApi } from '@/axiosApi';
+import { isAxiosError } from 'axios';
+import { GlobalError } from '@/types/userTypes';
+import { TournamentMutation, Tournaments, UpdateTournamentArg } from '@/types/tournamentTypes';
+
+export const fetchTournaments = createAsyncThunk<Tournaments>('tournaments/fetchAll', async () => {
+  const { data: tournaments } = await axiosApi.get<Tournaments>('/tournaments');
+
+  return tournaments;
+});
+
+export const createTournament = createAsyncThunk<void, TournamentMutation, { rejectValue: GlobalError }>(
+  'tournaments/create',
+  async (tournamentMutation, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+
+      const keys = Object.keys(tournamentMutation) as (keyof TournamentMutation)[];
+      keys.forEach((key) => {
+        const value = tournamentMutation[key];
+        if (value !== null) {
+          formData.append(key, value);
+        }
+      });
+
+      await axiosApi.post('/tournaments', formData);
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data);
+      }
+
+      throw error;
+    }
+  },
+);
+
+export const deleteTournament = createAsyncThunk<void, string>('tournaments/delete', async (id) => {
+  await axiosApi.delete(`/tournaments/${id}`);
+});
+
+export const updateTournament = createAsyncThunk<void, UpdateTournamentArg, { rejectValue: GlobalError }>(
+  'tournaments/update',
+  async ({ id, tournamentMutation }, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+
+      const keys = Object.keys(tournamentMutation) as (keyof TournamentMutation)[];
+      keys.forEach((key) => {
+        const value = tournamentMutation[key];
+        if (value !== null) {
+          formData.append(key, value);
+        }
+      });
+
+      await axiosApi.put(`/tournaments/${id}`, formData);
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data);
+      }
+
+      throw error;
+    }
+  },
+);
