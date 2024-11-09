@@ -55,8 +55,6 @@ export const AdminUserList = () => {
     }));
   };
 
-  console.log(filters);
-
   return (
     <Layout>
       <div className={'flex gap-4 mb-4'}>
