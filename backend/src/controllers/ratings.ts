@@ -24,7 +24,7 @@ export const fetchRatings = async (req: Request, res: Response, next: NextFuncti
 export const createRating = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rating = await Rating.create({
-      category: req.body.category,
+      chapter: req.body.chapter,
       month: req.body.month,
       year: req.body.year,
     });

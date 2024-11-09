@@ -19,7 +19,6 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { category, link } = event;
-  const gender = event.gender === 'male' ? 'Мужчины' : 'Женщины';
   const idAdminPage = pathname.includes('admin');
 
   const handleDelete = async () => {
@@ -33,11 +32,6 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
       <div className={'bg-[#64B32C42] px-2 rounded-md'}>
         <h3 className={'text-sm'}>
           Категория - <span className={'font-medium'}>{category.name}</span>
-        </h3>
-      </div>
-      <div className={'bg-[#64B32C42] px-2 rounded-md'}>
-        <h3 className={'text-sm'}>
-          Пол - <span className={'font-medium'}>{gender}</span>
         </h3>
       </div>
 
