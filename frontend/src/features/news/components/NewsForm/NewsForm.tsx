@@ -19,6 +19,7 @@ import CustomEditor from '@/features/news/components/CustomEditor/CustomEditor';
 import FileInput from '@/components/FileInput/FilleInput';
 import { PencilSquareIcon, SquaresPlusIcon } from '@heroicons/react/24/outline';
 import { API_URl } from '@/consts';
+import { Loader } from '@/components/Loader/Loader';
 
 interface Props {
   newsId?: string;
@@ -28,7 +29,17 @@ interface Props {
 export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
   const dispatch = useAppDispatch();
   const quillRef = useRef<ReactQuill>(null);
-  const { news, setNews, resetKey, handleChange, handleEditorChange, handleFileInputChange, resetForm } = useNewsForm();
+  const {
+    news,
+    setNews,
+    resetKey,
+    handleChange,
+    handleEditorChange,
+    handleFileInputChange,
+    resetForm,
+    newsCreating,
+    newsUpdating,
+  } = useNewsForm();
   const { open, toggleOpen } = useDialogState();
 
   useEffect(() => {
@@ -86,7 +97,7 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className='max-h-svh overflow-y-auto'>
+      <DialogContent className='max-h-svh overflow-y-auto max-w-7xl'>
         <DialogHeader>
           <DialogTitle className='text-2xl font-bold'>
             {isEdit ? 'Редактировать новость' : 'Добавить новость'}
@@ -135,8 +146,8 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
                 src={
                   news.newsCover instanceof File ? URL.createObjectURL(news.newsCover) : API_URl + '/' + news.newsCover
                 }
-                alt='News Cover Preview'
-                className='mt-2 w-full xs:w-1/2 h-auto'
+                alt='NewsPage Cover Preview'
+                className='mt-2 w-full xs:w-1/3 h-auto'
               />
             )}
           </div>
@@ -152,16 +163,21 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
                   <img
                     key={index}
                     src={image instanceof File ? URL.createObjectURL(image) : API_URl + '/' + image}
-                    alt={`News Image ${index + 1}`}
-                    className='w-full xs:w-1/4 h-auto'
+                    alt={`NewsPage Image ${index + 1}`}
+                    className='w-full xs:w-1/5 h-auto'
                   />
                 ))}
               </div>
             )}
           </div>
 
-          <Button type='submit' className='w-full h-12 bg-[#232A2E] px-10 font-bold'>
-            Создать
+          <Button
+            type='submit'
+            className='w-full h-12 bg-[#232A2E] px-10 font-bold'
+            disabled={newsCreating || newsUpdating}
+          >
+            {isEdit ? 'Редактировать' : 'Создать'}
+            {(newsCreating || newsUpdating) && <Loader size={'sm'} theme={'light'} />}
           </Button>
         </form>
       </DialogContent>

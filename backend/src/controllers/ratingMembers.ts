@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { RatingMember } from '../model/RatingMember';
 import mongoose from 'mongoose';
-import { findRatingMemberById, isPlaceAllowed } from '../utils/utils';
 
 export const getRatingMembers = async (_req: Request, res: Response, next: NextFunction) => {
   try {
@@ -16,15 +15,20 @@ export const getRatingMembers = async (_req: Request, res: Response, next: NextF
 export const createRatingMember = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, gender, place, ratingType } = req.body;
-    const genderText = gender === 'male' ? 'мужского' : 'женского';
 
-    const isAllowed = await isPlaceAllowed(place, gender, ratingType);
-    if (!isAllowed) {
-      return res.status(400).send({ error: `Место ${place} уже занято для ${genderText} рейтинга данного топа` });
+    const maxParticipants = getMaxParticipants(ratingType);
+    if (maxParticipants === null) {
+      return res.status(400).send({ error: 'Неверный тип рейтинга' });
+    }
+
+    const participantCount = await RatingMember.countDocuments({ ratingType });
+    if (participantCount >= maxParticipants) {
+      return res
+        .status(400)
+        .send({ error: `В данном топе уже максимальное количество участников (${maxParticipants})` });
     }
 
     const existingMember = await RatingMember.findOne({ name });
-
     if (existingMember) {
       return res.status(400).send({ error: 'Данное имя уже занято!' });
     }
@@ -64,24 +68,27 @@ export const deleteRatingMember = async (req: Request, res: Response, next: Next
 export const updateRatingMember = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const { name, place, gender, ratingType } = req.body;
-    const genderText = gender === 'male' ? 'мужского' : 'женского';
-    const newPlace = Number(place);
+    const { name, ratingType } = req.body;
 
     const existingMember = await findRatingMemberById(id, res);
     if (!existingMember) return;
+
+    const maxParticipants = getMaxParticipants(ratingType);
+    if (maxParticipants === null) {
+      return res.status(400).send({ error: 'Неверный тип рейтинга' });
+    }
+
+    const participantCount = await RatingMember.countDocuments({ ratingType });
+    if (participantCount >= maxParticipants && ratingType !== existingMember.ratingType) {
+      return res
+        .status(400)
+        .send({ error: `В данном топе уже максимальное количество участников (${maxParticipants})` });
+    }
 
     if (name && name !== existingMember.name) {
       const existingName = await RatingMember.findOne({ name });
       if (existingName) {
         return res.status(400).send({ error: 'Данное имя уже занято!' });
-      }
-    }
-
-    if (newPlace && newPlace !== existingMember.place) {
-      const allowed = await isPlaceAllowed(newPlace, gender, ratingType);
-      if (!allowed) {
-        return res.status(400).send({ error: `Место ${place} уже занято для ${genderText} рейтинга данного топа` });
       }
     }
 
@@ -113,13 +120,10 @@ export const updateRatingMembersCategories = async (req: Request, res: Response,
   try {
     const { mensRatingCategoryTop8, mensRatingCategoryTop3, womensRatingCategoryTop3 } = req.body;
 
-    const hasMale = await RatingMember.exists({ gender: 'male' });
-    const hasFemale = await RatingMember.exists({ gender: 'female' });
+    const hasAnyMember = await RatingMember.exists({});
 
-    if (!hasMale || !hasFemale) {
-      return res
-        .status(400)
-        .send({ error: 'Добавьте хотя бы одного мужчину и одну женщину в рейтинг перед изменением категорий' });
+    if (!hasAnyMember) {
+      return res.status(400).send({ error: 'Добавьте хотя бы одного участника в рейтинг перед изменением категорий' });
     }
 
     await RatingMember.updateMany(
@@ -136,3 +140,24 @@ export const updateRatingMembersCategories = async (req: Request, res: Response,
     next(error);
   }
 };
+
+const findRatingMemberById = async (id: string, res: Response) => {
+  const member = await RatingMember.findById(id);
+  if (!member) {
+    res.status(404).send({ error: 'Rating member not found' });
+    return null;
+  }
+  return member;
+};
+
+function getMaxParticipants(ratingType: string): number | null {
+  switch (ratingType) {
+    case 'mensTop8':
+      return 8;
+    case 'mensTop3':
+    case 'womensTop3':
+      return 3;
+    default:
+      return null;
+  }
+}

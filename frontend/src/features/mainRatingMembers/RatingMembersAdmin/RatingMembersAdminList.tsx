@@ -8,7 +8,7 @@ import { useRatingMembers } from '@/features/mainRatingMembers/hooks/useRatingMe
 import RatingMemberNew from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingMemberNew/RatingMemberNew';
 
 const RatingMembersAdminList = () => {
-  const { ratingMembersFetching, ratingMenMembersTop8, ratingMenMembersTop3, ratingWomenMembers, existingMembers } =
+  const { ratingMembers, ratingMembersFetching, ratingMenMembersTop8, ratingMenMembersTop3, ratingWomenMembers } =
     useRatingMembers();
 
   return ratingMembersFetching ? (
@@ -16,11 +16,11 @@ const RatingMembersAdminList = () => {
   ) : (
     <div className='lg:max-w-[900px] lg:mx-auto mb-7 mt-8'>
       <div className='text-center sm:text-right mb-2 sm:mb-3'>
-        {existingMembers ? (
+        {ratingMembers.length > 0 ? (
           <RatingMembersCategoriesEdit
-            existingMensCategoryTop8={ratingMenMembersTop8[0]?.mensRatingCategoryTop8 || ''}
-            existingMensCategoryTop3={ratingMenMembersTop3[0]?.mensRatingCategoryTop3 || ''}
-            existingWomensCategoryTop3={ratingWomenMembers[0]?.womensRatingCategoryTop3 || ''}
+            existingMensCategoryTop8={ratingMembers[0]?.mensRatingCategoryTop8 || ''}
+            existingMensCategoryTop3={ratingMembers[0]?.mensRatingCategoryTop3 || ''}
+            existingWomensCategoryTop3={ratingMembers[0]?.womensRatingCategoryTop3 || ''}
           />
         ) : (
           <Popover>
@@ -30,7 +30,7 @@ const RatingMembersAdminList = () => {
               </Button>
             </PopoverTrigger>
             <PopoverContent>
-              <small>Для редактирования должно быть минимум по одному участнику в женском и в мужских топах</small>
+              <small>Для редактирования добавьте хотя бы одного участника рейтинга</small>
             </PopoverContent>
           </Popover>
         )}
@@ -44,14 +44,14 @@ const RatingMembersAdminList = () => {
             <RatingMembersAdmin
               ratingMembers={ratingMenMembersTop8}
               title='Топ-8 мужского'
-              category={ratingMenMembersTop8[0]?.mensRatingCategoryTop8 || 'Здесь будет категория'}
+              category={ratingMembers[0]?.mensRatingCategoryTop8 || 'Здесь будет категория'}
             />
           </div>
           <div>
             <RatingMembersAdmin
               ratingMembers={ratingMenMembersTop3}
               title='Топ-3 мужского'
-              category={ratingMenMembersTop3[0]?.mensRatingCategoryTop3 || 'Здесь будет категория'}
+              category={ratingMembers[0]?.mensRatingCategoryTop3 || 'Здесь будет категория'}
             />
           </div>
         </div>
@@ -62,7 +62,7 @@ const RatingMembersAdminList = () => {
           <RatingMembersAdmin
             ratingMembers={ratingWomenMembers}
             title='Топ-3 женского'
-            category={ratingWomenMembers[0]?.womensRatingCategoryTop3 || 'Здесь будет категория'}
+            category={ratingMembers[0]?.womensRatingCategoryTop3 || 'Здесь будет категория'}
           />
         </div>
       </div>

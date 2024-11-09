@@ -3,7 +3,8 @@ import RatingMembersTop3 from '@/features/mainRatingMembers/components/RatingMem
 import { useRatingMembers } from '@/features/mainRatingMembers/hooks/useRatingMembers';
 
 const MainPageRating = () => {
-  const { ratingMembersFetching, ratingMenMembersTop8, ratingMenMembersTop3, ratingWomenMembers } = useRatingMembers();
+  const { ratingMembers, ratingMembersFetching, ratingMenMembersTop8, ratingMenMembersTop3, ratingWomenMembers } =
+    useRatingMembers();
 
   return (
     <>
@@ -11,7 +12,7 @@ const MainPageRating = () => {
         <RatingMembersTop8
           ratingMembers={ratingMenMembersTop8}
           isFetching={ratingMembersFetching}
-          category={ratingMenMembersTop8[0]?.mensRatingCategoryTop8 || 'Мужская категория'}
+          category={ratingMembers[0]?.mensRatingCategoryTop8 || 'Мужская категория'}
           title={'Мужской'}
         />
       </div>
@@ -19,7 +20,7 @@ const MainPageRating = () => {
         <RatingMembersTop3
           ratingMembers={ratingMenMembersTop3}
           isFetching={ratingMembersFetching}
-          category={ratingMenMembersTop3[0]?.mensRatingCategoryTop3 || 'Мужская категория'}
+          category={ratingMembers[0]?.mensRatingCategoryTop3 || 'Мужская категория'}
           subtitle={'участника'}
           existingTitle={false}
         />
@@ -28,7 +29,7 @@ const MainPageRating = () => {
         <RatingMembersTop3
           ratingMembers={ratingWomenMembers}
           isFetching={ratingMembersFetching}
-          category={ratingWomenMembers[0]?.womensRatingCategoryTop3 || 'Женская категория'}
+          category={ratingMembers[0]?.womensRatingCategoryTop3 || 'Женская категория'}
           title={'Женский'}
           subtitle={'участницы'}
           existingTitle={true}
