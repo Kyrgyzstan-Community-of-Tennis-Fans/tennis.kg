@@ -113,7 +113,7 @@ export const AdminUserList = () => {
                 <TableHead>Статус</TableHead>
                 <TableHead>Почта</TableHead>
                 <TableHead>Номер телефона</TableHead>
-                <TableHead>Имя</TableHead>
+                <TableHead>ФИО</TableHead>
                 <TableHead>Пол</TableHead>
                 <TableHead>Год рождения</TableHead>
                 <TableHead>Категория</TableHead>
