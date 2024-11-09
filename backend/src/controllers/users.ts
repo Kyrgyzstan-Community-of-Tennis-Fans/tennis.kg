@@ -156,15 +156,28 @@ export const updateProfile = async (req: RequestWithUser, res: Response, next: N
   }
 };
 
-
 export const getAllUsers = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const users = await User.find().populate('category');
+    const { category, telephone, fullName } = req.query;
+
+    const filter: any = {};
+
+    if (category && category !== 'all') {
+      filter.category = category;
+    }
+    if (telephone) {
+      filter.telephone = { $regex: telephone, $options: 'i' };
+    }
+    if (fullName) {
+      filter.fullName = { $regex: fullName, $options: 'i' };
+    }
+
+    const users = await User.find(filter).populate('category');
     return res.status(200).send(users);
   } catch (error) {
     next(error);
   }
-}
+};
 
 export const getOneUser = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
@@ -173,7 +186,7 @@ export const getOneUser = async (req: RequestWithUser, res: Response, next: Next
   } catch (error) {
     next(error);
   }
-}
+};
 
 export const updateCurrentProfile = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
@@ -239,4 +252,4 @@ export const updateActiveStatus = async (req: RequestWithUser, res: Response, ne
   } catch (error) {
     next(error);
   }
-}
+};

@@ -14,16 +14,16 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
 import { selectCurrentUser, selectUpdating } from '@/features/users/usersSlice';
-import {fetchOneUser, fetchUsers, updateCurrentUserInfo} from '@/features/users/usersThunks';
+import { fetchOneUser, fetchUsers, updateCurrentUserInfo } from '@/features/users/usersThunks';
 import { validateEmail } from '@/lib/emailValidate';
 import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
-import type { RedactorForAdmin } from '@/types/userTypes';
+import type { RedactorForAdmin, UsersFilter } from '@/types/userTypes';
 import React, { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
 import { fetchCategories } from '@/features/category/categoryThunks';
-import {PencilSquareIcon} from "@heroicons/react/24/outline";
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 const initialState: RedactorForAdmin = {
   id: '',
@@ -37,6 +37,7 @@ const initialState: RedactorForAdmin = {
 
 export interface Props {
   id: string;
+  filters: UsersFilter;
 }
 
 export const AdminRedactor: React.FC<Props> = ({ id }) => {
@@ -104,7 +105,7 @@ export const AdminRedactor: React.FC<Props> = ({ id }) => {
 
       await dispatch(updateCurrentUserInfo(userInfoMutation)).unwrap();
       await dispatch(fetchUsers());
-      setIsDialogOpen(false)
+      setIsDialogOpen(false);
       toast.success('Профиль успешно обновлен');
       closeRef.current?.click();
     }
@@ -113,10 +114,9 @@ export const AdminRedactor: React.FC<Props> = ({ id }) => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button>
-        Редактировать
-        <PencilSquareIcon />
-      </Button>
+        <Button className={'font-normal'} size={'icon'}>
+          <PencilSquareIcon />
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

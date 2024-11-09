@@ -14,7 +14,7 @@ import { createSlice } from '@reduxjs/toolkit';
 interface UsersState {
   user: User | null;
   currentUser: User | null;
-  users: User[] | null;
+  users: User[];
   usersFetching: boolean;
   registerLoading: boolean;
   registerError: ValidationError | null;
@@ -32,7 +32,7 @@ interface UsersState {
 const initialState: UsersState = {
   user: null,
   currentUser: null,
-  users: null,
+  users: [],
   usersFetching: false,
   registerLoading: false,
   registerError: null,
@@ -58,7 +58,7 @@ export const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsers.pending, (state) => {
-        state.currentUser = null
+        state.currentUser = null;
         state.usersFetching = true;
       })
       .addCase(fetchUsers.fulfilled, (state, { payload: users }) => {
@@ -156,7 +156,7 @@ export const usersSlice = createSlice({
       .addCase(updateIsActive.fulfilled, (state) => {
         state.updatingActive = false;
       })
-      .addCase(updateIsActive.rejected, (state, { payload }) => {
+      .addCase(updateIsActive.rejected, (state) => {
         state.updatingActive = false;
       });
   },

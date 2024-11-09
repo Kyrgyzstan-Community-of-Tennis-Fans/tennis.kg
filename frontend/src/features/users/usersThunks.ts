@@ -8,15 +8,32 @@ import type {
   RegisterMutation,
   RegisterMutationWithoutCoupleFields,
   User,
+  UsersFilter,
   ValidationError,
 } from '@/types/userTypes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';
 
-export const fetchUsers = createAsyncThunk<User[], void>('users/fetchUsers', async () => {
-  const { data: users } = await axiosApi.get<User[]>('/users/get-users');
-  return users;
+export const fetchUsers = createAsyncThunk<User[], UsersFilter>('users/fetchUsers', async (filters) => {
+  try {
+    const { fullName, telephone, category } = filters;
+    const filterUrl = [
+      category && `category=${category}`,
+      fullName && `fullName=${fullName}`,
+      telephone && `telephone=${telephone}`,
+    ]
+      .filter(Boolean)
+      .join('&');
+
+    const url = `/users/get-users${filterUrl ? `?${filterUrl}` : ''}`;
+
+    const { data: users } = await axiosApi.get<User[]>(url);
+    return users;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 });
 
 export const fetchOneUser = createAsyncThunk<User, string>('users/fetchOneUser', async (id) => {

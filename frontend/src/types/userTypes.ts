@@ -57,3 +57,9 @@ export interface RedactorForAdmin {
 }
 
 export type RegisterMutationWithoutCoupleFields = Omit<RegisterMutation, 'password' | 'category'>;
+
+export interface UsersFilter {
+  category?: string;
+  telephone?: string;
+  fullName?: string;
+}
