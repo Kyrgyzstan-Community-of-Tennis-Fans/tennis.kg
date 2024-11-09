@@ -1,28 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 import { Error, Types } from 'mongoose';
 import { format, isValid, parseISO } from 'date-fns';
-import path from 'path';
-import config from '../../config';
-import compressImage from '../utils/compressImage';
 import { News } from '../model/News';
+import { processImages } from '../utils/processNewsImages';
 
 export const createNewPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { title, subtitle, content } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
-    if (files['newsCover'] && files['newsCover'][0]) {
-      const newsCoverPath = path.join(config.publicPath, files['newsCover'][0].filename);
-      await compressImage(newsCoverPath);
-    }
-
-    if (files['images']) {
-      for (let file of files['images']) {
-        const imagePath = path.join(config.publicPath, file.filename);
-
-        await compressImage(imagePath);
-      }
-    }
+    await processImages(files);
 
     const news = await News.create({
       title,
@@ -112,6 +99,8 @@ export const updateNews = async (req: Request, res: Response, next: NextFunction
     const id = new Types.ObjectId(req.params.id);
     const { title, subtitle, content, newsCover } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+    await processImages(files);
 
     const existingNews = await News.findById(id);
     if (!existingNews) {
