@@ -4,12 +4,11 @@ import { Button } from '@/components/ui/button';
 import PartnersForm from '@/features/partners/components/PartnersForm';
 import { Loader } from '@/components/Loader/Loader';
 import { SquaresPlusIcon } from '@heroicons/react/24/outline';
-import {useAdminPartners} from '@/features/partners/hooks/useAdminPartners';
+import { useAdminPartners } from '@/features/partners/hooks/useAdminPartners';
 
 const AdminPartners = () => {
-
   const { partners, isDialogOpen, loading, handleSubmit, setIsDialogOpen } = useAdminPartners();
-  
+
   if (loading) return <Loader fixed />;
 
   return (

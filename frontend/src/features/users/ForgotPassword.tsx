@@ -3,16 +3,10 @@ import { Button } from '@/components/ui/button';
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import {useForgotPassword} from '@/features/users/hooks/forgotPassword';
+import { useForgotPassword } from '@/features/users/hooks/forgotPassword';
 
 export const ForgotPassword: React.FC = () => {
-
-  const {
-    forgotPasswordLoading,
-    email,
-    handleChange,
-    handleSubmit
-  } = useForgotPassword();
+  const { forgotPasswordLoading, email, handleChange, handleSubmit } = useForgotPassword();
 
   return (
     <form onSubmit={handleSubmit}>

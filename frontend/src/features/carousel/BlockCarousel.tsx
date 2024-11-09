@@ -5,10 +5,9 @@ import { API_URl } from '@/consts';
 import { Loader } from '@/components/Loader/Loader';
 import styles from './Carousel.module.css';
 import './Carousel.css';
-import {useBlockCarousel} from '@/features/carousel/hooks/useBlockCorousel';
+import { useBlockCarousel } from '@/features/carousel/hooks/useBlockCorousel';
 
 export const BlockCarousel = () => {
-  
   const { loadingCarousel, displayedPhotos, settings } = useBlockCarousel();
 
   return (

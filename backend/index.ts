@@ -7,6 +7,7 @@ import { usersRouter } from './src/routes/users';
 import { newsRouter } from './src/routes/news';
 import { carouselRouter } from './src/routes/carousel';
 import { partnersRouter } from './src/routes/partners';
+import { footersRouter } from './src/routes/footers';
 
 const app = express();
 const port = 8000;
@@ -19,6 +20,7 @@ app.use('/carousel', carouselRouter);
 app.use('/news', newsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/partners', partnersRouter);
+app.use('/footers', footersRouter);
 
 const run = async () => {
   await mongoose.connect(config.database);

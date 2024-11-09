@@ -6,6 +6,7 @@ import storage from 'redux-persist/lib/storage';
 import { CarouselReducer } from '@/features/carousel/CarouselSlice';
 import { partnerReducer } from '@/features/partners/partnerSlice';
 import { newsReducer } from '@/features/news/newsSlice';
+import { footersReducer } from '@/features/footers/footersSlice';
 
 const usersPersistConfig = {
   key: 'tennis:users',
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   partners: partnerReducer,
   news: newsReducer,
   category: categorySlice.reducer,
+  footers: footersReducer,
 });
 
 export const store = configureStore({

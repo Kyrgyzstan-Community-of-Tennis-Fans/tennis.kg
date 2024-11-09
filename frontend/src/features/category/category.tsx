@@ -5,10 +5,9 @@ import { CategoryCard } from '@/features/category/components/CategoryCard/Catego
 import { CategoryCreate } from '@/features/category/components/CategoryCreate/CategoryCreate';
 import { SquaresPlusIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import {useCategory} from '@/features/category/hooks/useCategory';
+import { useCategory } from '@/features/category/hooks/useCategory';
 
 export const Category: React.FC = () => {
-  
   const { categories, categoriesFetching } = useCategory();
 
   if (categoriesFetching) return <Loader fixed />;
