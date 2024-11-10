@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Error404 } from '@/components/Errors/Error404';
 import Footer from '@/components/Footer/Footer';
 import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
-import { Toolbar } from '@/components/Toolbar/Toolbar';
 import { Toaster } from '@/components/ui/sonner';
 import { Ratings } from '@/features/ratings/ratings';
 import { ForgotPassword } from '@/features/users/ForgotPassword';
@@ -18,6 +17,7 @@ import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import AdminPanel from '@/pages/AdminPanel';
 import { getFooterItems } from '@/features/footers/footersThunks';
+import Toolbar from '@/components/Toolbar/Toolbar';
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,9 +30,7 @@ export const App: React.FC = () => {
 
   return (
     <div className='flex flex-col min-h-dvh'>
-      <header className={page === 'home' ? 'mb-32' : 'mb-10'}>
-        <Toolbar />
-      </header>
+      <Toolbar />
 
       <main className='grow'>
         <Routes>

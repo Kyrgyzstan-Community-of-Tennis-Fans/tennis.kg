@@ -1,4 +1,3 @@
-import { Layout } from '@/components/Layout';
 import PartnersCard from '@/features/partners/components/PartnersCard';
 import { Button } from '@/components/ui/button';
 import PartnersForm from '@/features/partners/components/PartnersForm';
@@ -12,7 +11,7 @@ const AdminPartners = () => {
   if (loading) return <Loader fixed />;
 
   return (
-    <Layout>
+    <>
       <header className={'flex xs:items-center justify-between gap-2 flex-col xs:flex-row border-b pb-1.5'}>
         <div>
           <h1 className={'text-2xl font-medium leading-none'}>Партнеры</h1>
@@ -30,7 +29,7 @@ const AdminPartners = () => {
         )}
         <PartnersForm isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} onSubmit={handleSubmit} />
       </div>
-    </Layout>
+    </>
   );
 };
 

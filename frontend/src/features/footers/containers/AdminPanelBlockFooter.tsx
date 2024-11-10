@@ -1,4 +1,3 @@
-import { Layout } from '@/components/Layout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import SocialNetwork from '@/features/footers/containers/SocialNetwork';
 import MenuPosition from '@/features/footers/containers/MenuPosition';
@@ -7,7 +6,7 @@ import MainPartner from '@/features/footers/containers/MainPartner';
 
 const AdminPanelBlockFooter = () => {
   return (
-    <Layout>
+    <>
       <header className={'flex xs:items-center justify-between gap-2 flex-col xs:flex-row border-b pb-1.5 mb-5'}>
         <div>
           <h1 className={'text-2xl font-medium leading-none'}>Подвал сайта</h1>
@@ -42,7 +41,7 @@ const AdminPanelBlockFooter = () => {
           <MainPartner />
         </TabsContent>
       </Tabs>
-    </Layout>
+    </>
   );
 };
 

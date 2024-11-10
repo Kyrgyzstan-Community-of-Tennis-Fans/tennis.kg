@@ -22,8 +22,9 @@ const MainPartner = () => {
         </MainPartnerEditForm>
       </div>
 
-      {!mainPartnerFetching && mainPartnerData.length > 0 && mainPartnerData[0].mainPartnerImage === '' ? (
-        <small className='flex justify-center items-center flex-col mt-[50px]'>
+      {(!mainPartnerFetching && mainPartnerData.length === 0) ||
+      (mainPartnerData.length > 0 && mainPartnerData[0].mainPartnerImage === '') ? (
+        <small className='flex justify-center items-center flex-col mt-[30px]'>
           Изображение главного партнера не найдено.
         </small>
       ) : (
