@@ -115,7 +115,7 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
 
           <div className='form-group'>
             <Label htmlFor='image'>Добавить логотип Компании</Label>
-            <FileInput  name='image' onChange={handleImageChange} />
+            <FileInput name='image' onChange={handleImageChange} />
             {imageError && <small className='text-red-600 text-sm'>{imageError}</small>}
           </div>
           <Button disabled={loading || !isFormValid} type='submit' className=' mt-4'>

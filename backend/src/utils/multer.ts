@@ -3,6 +3,8 @@ import path from 'path';
 import { promises as fs } from 'fs';
 import config from '../../config';
 import { randomUUID } from 'crypto';
+import { unlink } from 'node:fs';
+import { resolve } from 'node:path';
 
 const imageStorage = multer.diskStorage({
   destination: async (_, __, callback) => {
@@ -29,6 +31,17 @@ const imageCarousel = multer.diskStorage({
     callback(null, newFilename);
   },
 });
+
+export const clearImages = (imageName: string) => {
+  unlink(resolve(config.publicPath, imageName), (err) => {
+    if (err) {
+      console.log("File doesn't exist");
+      throw err;
+    } else {
+      console.log('Deleted file!');
+    }
+  });
+};
 
 export const ImagesCarousel = multer({ storage: imageCarousel });
 export const imagesUpload = multer({ storage: imageStorage });

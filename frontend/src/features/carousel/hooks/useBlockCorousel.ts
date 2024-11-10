@@ -1,7 +1,7 @@
-import {useAppDispatch, useAppSelector} from '@/app/hooks';
-import {loadingCarouselState, photoCarouselState} from '@/features/carousel/CarouselSlice';
-import {useEffect} from 'react';
-import {getCarousel} from '@/features/carousel/CarouselThunk';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { loadingCarouselState, photoCarouselState } from '@/features/carousel/CarouselSlice';
+import { useEffect } from 'react';
+import { getCarousel } from '@/features/carousel/CarouselThunk';
 
 export const useBlockCarousel = () => {
   const dispatch = useAppDispatch();

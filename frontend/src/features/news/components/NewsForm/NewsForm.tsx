@@ -20,6 +20,8 @@ import FileInput from '@/components/FileInput/FilleInput';
 import { PencilSquareIcon, SquaresPlusIcon } from '@heroicons/react/24/outline';
 import { API_URl } from '@/consts';
 import { Loader } from '@/components/Loader/Loader';
+import { XIcon } from 'lucide-react';
+import { Confirm } from '@/components/Confirm/Confirm';
 
 interface Props {
   newsId?: string;
@@ -36,6 +38,7 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
     handleChange,
     handleEditorChange,
     handleFileInputChange,
+    handleRemoveMedia,
     resetForm,
     newsCreating,
     newsUpdating,
@@ -142,13 +145,22 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
             </Label>
             <FileInput name='newsCover' onChange={handleFileInputChange} />
             {news.newsCover && (
-              <img
-                src={
-                  news.newsCover instanceof File ? URL.createObjectURL(news.newsCover) : API_URl + '/' + news.newsCover
-                }
-                alt='NewsPage Cover Preview'
-                className='mt-2 w-full xs:w-1/3 h-auto'
-              />
+              <div className='mt-2 relative w-full sm:w-1/3 h-auto'>
+                <img
+                  src={
+                    news.newsCover instanceof File
+                      ? URL.createObjectURL(news.newsCover)
+                      : API_URl + '/' + news.newsCover
+                  }
+                  alt='NewsPage Cover Preview'
+                  className='w-full h-full object-cover'
+                />
+                <Confirm onOk={() => handleRemoveMedia()}>
+                  <Button className='absolute top-1 right-1 bg-transparent border text-white rounded-md p-2 hover:bg-red-500'>
+                    <XIcon />
+                  </Button>
+                </Confirm>
+              </div>
             )}
           </div>
 
@@ -160,12 +172,18 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
             {news.images.length > 0 && (
               <div className='mt-2 flex flex-wrap gap-2'>
                 {news.images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image instanceof File ? URL.createObjectURL(image) : API_URl + '/' + image}
-                    alt={`NewsPage Image ${index + 1}`}
-                    className='w-full xs:w-1/5 h-auto'
-                  />
+                  <div className='relative h-auto w-full sm:w-[49%] md:w-1/5' key={index}>
+                    <img
+                      src={image instanceof File ? URL.createObjectURL(image) : `${API_URl}/${image}`}
+                      alt={`NewsPage Image ${index + 1}`}
+                      className='w-full h-full object-cover'
+                    />
+                    <Confirm onOk={() => handleRemoveMedia(index)}>
+                      <Button className='absolute top-1 right-1 bg-transparent border text-white rounded-md p-2 hover:bg-red-500'>
+                        <XIcon />
+                      </Button>
+                    </Confirm>
+                  </div>
                 ))}
               </div>
             )}
