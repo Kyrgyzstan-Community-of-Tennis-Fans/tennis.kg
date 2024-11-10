@@ -21,7 +21,7 @@ const Toolbar = () => {
             <NavigationMenu>
               <NavigationMenuList className='text-white items-center gap-[55px]'>
                 <NavigationMenuItem>
-                  <NavLink to='/'>Главная</NavLink>
+                  <NavLink to='/'>Главна</NavLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavLink to='/calendar'>Календарь</NavLink>
