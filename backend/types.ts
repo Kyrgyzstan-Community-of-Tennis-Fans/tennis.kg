@@ -28,6 +28,18 @@ export interface UserFields {
   resetPasswordExpires: number | null;
 }
 
+export interface LinksMediaFields {
+  name: string;
+  value: string;
+}
+
+export interface FooterFields {
+  socialNetwork: LinksMediaFields[];
+  menuPosition: LinksMediaFields[];
+  publicOffer: string;
+  mainPartnerImage: string | null;
+}
+
 export interface UserMethods {
   checkPassword(password: string): Promise<boolean>;
 
