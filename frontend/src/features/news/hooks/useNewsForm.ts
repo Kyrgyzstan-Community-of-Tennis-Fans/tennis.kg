@@ -40,6 +40,22 @@ export const useNewsForm = () => {
     });
   };
 
+  const handleRemoveMedia = (index?: number) => {
+    setNews((prevState) => {
+      if (index !== undefined) {
+        return {
+          ...prevState,
+          images: prevState.images.filter((_, i) => i !== index) as File[],
+        };
+      } else {
+        return {
+          ...prevState,
+          newsCover: '',
+        };
+      }
+    });
+  };
+
   const resetForm = () => {
     setNews({ ...initialState });
     setResetKey((prevKey) => prevKey + 1);
@@ -52,6 +68,7 @@ export const useNewsForm = () => {
     handleChange,
     handleEditorChange,
     handleFileInputChange,
+    handleRemoveMedia,
     resetForm,
     newsCreating,
     newsUpdating,
