@@ -3,14 +3,16 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 interface Props extends PropsWithChildren {
   text: string;
+  delay?: number;
+  className?: string;
 }
 
-export const InfoTip: React.FC<Props> = ({ text, children }) => {
+export const InfoTip: React.FC<Props> = ({ text, delay, className, children }) => {
   return (
     <TooltipProvider>
-      <Tooltip>
+      <Tooltip delayDuration={delay}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent className={className}>
           <p>{text}</p>
         </TooltipContent>
       </Tooltip>

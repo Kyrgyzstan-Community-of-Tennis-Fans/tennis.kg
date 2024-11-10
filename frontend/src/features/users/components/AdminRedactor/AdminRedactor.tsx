@@ -13,16 +13,21 @@ import {
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
-import { selectUpdating } from '@/features/users/usersSlice';
-import { fetchOneUser, updateUserInfo } from '@/features/users/usersThunks';
+import { selectCurrentUser, selectUpdating } from '@/features/users/usersSlice';
+import { fetchOneUser, fetchUsers, updateCurrentUserInfo } from '@/features/users/usersThunks';
 import { validateEmail } from '@/lib/emailValidate';
 import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
-import type { RegisterMutationWithoutCoupleFields, User } from '@/types/userTypes';
-import React, { type ChangeEvent, type FormEvent, type PropsWithChildren, useEffect, useRef, useState } from 'react';
+import type { RedactorForAdmin, UsersFilter } from '@/types/userTypes';
+import React, { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
+import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
+import { fetchCategories } from '@/features/category/categoryThunks';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
-const initialState: RegisterMutationWithoutCoupleFields = {
+const initialState: RedactorForAdmin = {
+  id: '',
+  category: '',
   telephone: '',
   fullName: '',
   gender: '',
@@ -30,28 +35,41 @@ const initialState: RegisterMutationWithoutCoupleFields = {
   dateOfBirth: '',
 };
 
-interface Props {
-  user: User;
+export interface Props {
+  id: string;
+  filters: UsersFilter;
 }
 
-export const UserEdit: React.FC<PropsWithChildren | Props> = ({ children, user }) => {
+export const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
+  const currentUser = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
+  const categories = useAppSelector(selectCategories);
+  const categoriesFetching = useAppSelector(selectCategoriesFetching);
   const updatingUser = useAppSelector(selectUpdating);
   const closeRef = useRef<HTMLButtonElement | null>(null);
-  const [userInfoMutation, setUserInfoMutation] = useState<RegisterMutationWithoutCoupleFields>(initialState);
+  const [userInfoMutation, setUserInfoMutation] = useState<RedactorForAdmin>(initialState);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    if (isDialogOpen) {
+      dispatch(fetchCategories());
+      dispatch(fetchOneUser(id));
+    }
+  }, [dispatch, isDialogOpen, id]);
+
+  useEffect(() => {
+    if (currentUser) {
       setUserInfoMutation({
-        telephone: user.telephone,
-        fullName: user.fullName,
-        email: user.email,
-        dateOfBirth: user.dateOfBirth,
-        gender: user.gender,
+        id: currentUser._id,
+        telephone: currentUser.telephone,
+        fullName: currentUser.fullName,
+        email: currentUser.email,
+        category: currentUser.category._id,
+        dateOfBirth: currentUser.dateOfBirth,
+        gender: currentUser.gender,
       });
     }
-  }, [user]);
+  }, [currentUser]);
 
   const updateRegisterField = (field: string, value: string) => {
     setUserInfoMutation((prev) => ({ ...prev, [field]: value }));
@@ -82,11 +100,12 @@ export const UserEdit: React.FC<PropsWithChildren | Props> = ({ children, user }
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    if (user) {
+    if (currentUser) {
       event.preventDefault();
 
-      await dispatch(updateUserInfo(userInfoMutation)).unwrap();
-      await dispatch(fetchOneUser(user._id));
+      await dispatch(updateCurrentUserInfo(userInfoMutation)).unwrap();
+      await dispatch(fetchUsers(filters));
+      setIsDialogOpen(false);
       toast.success('Профиль успешно обновлен');
       closeRef.current?.click();
     }
@@ -94,7 +113,11 @@ export const UserEdit: React.FC<PropsWithChildren | Props> = ({ children, user }
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button className={'font-normal'} size={'icon'}>
+          <PencilSquareIcon />
+        </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Редактирование профиля</DialogTitle>
@@ -149,6 +172,30 @@ export const UserEdit: React.FC<PropsWithChildren | Props> = ({ children, user }
                   <SelectGroup>
                     <SelectItem value='male'>Мужской</SelectItem>
                     <SelectItem value='female'>Женский</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor='category' className={'text-base font-medium block'}>
+                Категория
+              </Label>
+              <Select
+                disabled={categoriesFetching || categories.length === 0}
+                value={userInfoMutation.category}
+                onValueChange={(value) => handleSelectChange(value, 'category')}
+              >
+                <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='category'>
+                  <SelectValue placeholder='Выберите вашу категорию' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {categories.map((item) => (
+                      <SelectItem key={item._id} value={item._id}>
+                        {item.name}
+                      </SelectItem>
+                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>

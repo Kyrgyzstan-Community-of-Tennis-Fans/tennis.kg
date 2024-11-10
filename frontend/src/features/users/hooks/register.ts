@@ -1,14 +1,14 @@
-import {useAppDispatch, useAppSelector} from '@/app/hooks';
-import {selectRegisterError, selectRegisterLoading} from '@/features/users/usersSlice';
-import {selectCategories, selectCategoriesFetching} from '@/features/category/categorySlice';
-import {useNavigate} from 'react-router-dom';
-import {type ChangeEvent, type FormEvent, useEffect, useState} from 'react';
-import {toast} from 'sonner';
-import {fetchCategories} from '@/features/category/categoryThunks';
-import {register} from '@/features/users/usersThunks';
-import type {RegisterMutation} from '@/types/userTypes';
-import {formatDateOfBirth} from '@/lib/formatDateOfBirth';
-import {formatTelephone} from '@/lib/formatTelephone';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { selectRegisterError, selectRegisterLoading } from '@/features/users/usersSlice';
+import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
+import { useNavigate } from 'react-router-dom';
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import { fetchCategories } from '@/features/category/categoryThunks';
+import { register } from '@/features/users/usersThunks';
+import type { RegisterMutation } from '@/types/userTypes';
+import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
+import { formatTelephone } from '@/lib/formatTelephone';
 
 const initialState: RegisterMutation = {
   telephone: '',
@@ -109,6 +109,6 @@ export const useRegister = () => {
     handleRulesChange,
     handleChange,
     isFormValid,
-    handleSubmit
+    handleSubmit,
   };
 };

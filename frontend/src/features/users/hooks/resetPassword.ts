@@ -1,9 +1,9 @@
-import {useNavigate, useParams} from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from '@/app/hooks';
-import {selectResetPasswordError, selectResetPasswordLoading} from '@/features/users/usersSlice';
-import {type ChangeEvent, type FormEvent, useState} from 'react';
-import {resetPassword} from '@/features/users/usersThunks';
-import {toast} from 'sonner';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { selectResetPasswordError, selectResetPasswordLoading } from '@/features/users/usersSlice';
+import { type ChangeEvent, type FormEvent, useState } from 'react';
+import { resetPassword } from '@/features/users/usersThunks';
+import { toast } from 'sonner';
 
 export const useResetPassword = () => {
   const navigate = useNavigate();
@@ -43,6 +43,6 @@ export const useResetPassword = () => {
     passwordMatch,
     setPasswords,
     handleChange,
-    handleSubmit
+    handleSubmit,
   };
 };

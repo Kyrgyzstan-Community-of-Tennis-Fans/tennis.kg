@@ -8,11 +8,9 @@ import { validateEmail } from '@/lib/emailValidate';
 import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {useRegister} from '@/features/users/hooks/register';
-
+import { useRegister } from '@/features/users/hooks/register';
 
 export const Register: React.FC = () => {
-
   const {
     loading,
     categories,
@@ -25,7 +23,7 @@ export const Register: React.FC = () => {
     handleRulesChange,
     handleChange,
     isFormValid,
-    handleSubmit
+    handleSubmit,
   } = useRegister();
 
   return (

@@ -1,10 +1,10 @@
-import {useAppDispatch, useAppSelector} from '@/app/hooks';
-import {selectLoginError, selectLoginLoading} from '@/features/users/usersSlice';
-import {useNavigate} from 'react-router-dom';
-import {type ChangeEvent, type FormEvent, useState} from 'react';
-import {login} from '@/features/users/usersThunks';
-import type {LoginMutation} from '@/types/userTypes';
-import {formatTelephone} from '@/lib/formatTelephone';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { selectLoginError, selectLoginLoading } from '@/features/users/usersSlice';
+import { useNavigate } from 'react-router-dom';
+import { type ChangeEvent, type FormEvent, useState } from 'react';
+import { login } from '@/features/users/usersThunks';
+import type { LoginMutation } from '@/types/userTypes';
+import { formatTelephone } from '@/lib/formatTelephone';
 
 const initialState: LoginMutation = {
   telephone: '',
@@ -51,6 +51,6 @@ export const useLogin = () => {
     isButtonDisabled,
     setLoginMutation,
     handleChange,
-    handleSubmit
+    handleSubmit,
   };
 };
