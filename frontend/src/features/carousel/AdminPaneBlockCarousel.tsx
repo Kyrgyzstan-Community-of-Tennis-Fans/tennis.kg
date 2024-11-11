@@ -13,10 +13,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { API_URl } from '@/consts';
 import { ArrowPathIcon, PaperAirplaneIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
-import {useAdminCarousel} from '@/features/carousel/hooks/useAdminCarousel';
+import { useAdminCarousel } from '@/features/carousel/hooks/useAdminCarousel';
 
 export const AdminPaneBlockCarousel = () => {
-  
   const {
     user,
     carousel,
@@ -26,9 +25,9 @@ export const AdminPaneBlockCarousel = () => {
     handleImageUpload,
     fileInputChangeHandler,
     onDelete,
-    onUpdateImage
+    onUpdateImage,
   } = useAdminCarousel();
-  
+
   return (
     <Layout>
       <div className='flex justify-center flex-col'>

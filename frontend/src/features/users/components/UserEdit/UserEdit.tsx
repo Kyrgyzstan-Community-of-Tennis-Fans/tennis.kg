@@ -13,12 +13,12 @@ import {
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
-import { selectUpdating, selectUser } from '@/features/users/usersSlice';
-import { updateUserInfo } from '@/features/users/usersThunks';
+import { selectUpdating } from '@/features/users/usersSlice';
+import { fetchOneUser, updateUserInfo } from '@/features/users/usersThunks';
 import { validateEmail } from '@/lib/emailValidate';
 import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
-import type { RegisterMutationWithoutCoupleFields } from '@/types/userTypes';
+import type { RegisterMutationWithoutCoupleFields, User } from '@/types/userTypes';
 import React, { type ChangeEvent, type FormEvent, type PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -30,8 +30,11 @@ const initialState: RegisterMutationWithoutCoupleFields = {
   dateOfBirth: '',
 };
 
-export const UserEdit: React.FC<PropsWithChildren> = ({ children }) => {
-  const user = useAppSelector(selectUser);
+interface Props {
+  user: User;
+}
+
+export const UserEdit: React.FC<PropsWithChildren | Props> = ({ children, user }) => {
   const dispatch = useAppDispatch();
   const updatingUser = useAppSelector(selectUpdating);
   const closeRef = useRef<HTMLButtonElement | null>(null);
@@ -83,6 +86,7 @@ export const UserEdit: React.FC<PropsWithChildren> = ({ children }) => {
       event.preventDefault();
 
       await dispatch(updateUserInfo(userInfoMutation)).unwrap();
+      await dispatch(fetchOneUser(user._id));
       toast.success('Профиль успешно обновлен');
       closeRef.current?.click();
     }

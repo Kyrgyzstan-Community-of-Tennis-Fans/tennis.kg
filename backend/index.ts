@@ -10,6 +10,7 @@ import { partnersRouter } from './src/routes/partners';
 import { ratingMembersRouter } from './src/routes/ratingMembers';
 import { ratingsRouter } from './src/routes/ratings';
 import { usersRouter } from './src/routes/users';
+import { footersRouter } from './src/routes/footers';
 
 const app = express();
 const port = 8000;
@@ -26,6 +27,7 @@ app.use('/categories', categoriesRouter);
 app.use('/partners', partnersRouter);
 app.use('/ratings', ratingsRouter);
 app.use('/events', eventsRouter);
+app.use('/footers', footersRouter);
 
 const run = async () => {
   await mongoose.connect(config.database);

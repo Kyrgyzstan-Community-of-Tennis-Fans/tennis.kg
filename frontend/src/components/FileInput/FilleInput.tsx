@@ -38,13 +38,7 @@ const FileInput: React.FC<Props> = ({ onChange, name, label, multiple = false })
   return (
     <div className='flex flex-col space-y-2'>
       <Label htmlFor={name}>{label}</Label>
-      <input
-        style={{ display: 'none' }}
-        type='file'
-        name={name}
-        onChange={onFileChange}
-        ref={inputRef}
-      />
+      <input style={{ display: 'none' }} type='file' name={name} onChange={onFileChange} ref={inputRef} />
       <div className='flex items-center space-x-2'>
         <Input
           disabled
@@ -53,7 +47,9 @@ const FileInput: React.FC<Props> = ({ onChange, name, label, multiple = false })
           onClick={activateInput}
           className='cursor-pointer'
         />
-        <Button onClick={activateInput} type='button'>Выбрать</Button>
+        <Button onClick={activateInput} type='button'>
+          Выбрать
+        </Button>
       </div>
     </div>
   );
