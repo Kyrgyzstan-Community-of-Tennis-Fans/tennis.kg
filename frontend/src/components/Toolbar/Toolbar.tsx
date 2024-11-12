@@ -19,16 +19,11 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Toolbar.module.css';
-
-const items = [
-  { name: 'Положение КСЛТ', to: '' },
-  { name: 'Форма заявки на проведение турнира', to: '' },
-  { name: 'Таблица начисления рейтинговых очков', to: '' },
-  { name: 'Дисциплинарное положение КСЛТ', to: '' },
-];
+import { selectItemsData } from '@/features/footers/footersSlice';
 
 export const Toolbar = () => {
   const dispatch = useAppDispatch();
+  const footerItemsData = useAppSelector(selectItemsData);
   const user = useAppSelector(selectUser);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -80,7 +75,7 @@ export const Toolbar = () => {
               <Bars3Icon aria-hidden='true' className={'h-6 w-6'} />
             </button>
           </div>
-          <PopoverGroup className={'hidden lmd:flex lmd:gap-x-12 basis-1/2'}>
+          <PopoverGroup className={'hidden justify-center lmd:flex lmd:gap-x-12 basis-1/2'}>
             <NavLink
               to='/'
               className={'text-sm leading-6'}
@@ -120,12 +115,16 @@ export const Toolbar = () => {
                 onClick={() => setIsFocused((prev) => !prev)}
                 onBlur={() => setIsFocused(false)}
               >
-                Положение
-                <ChevronDownIcon
-                  aria-hidden='true'
-                  className={'h-5 w-5 flex-none text-white'}
-                  style={colorChanger(isFocused)}
-                />
+                {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && (
+                  <>
+                    Положение
+                    <ChevronDownIcon
+                      aria-hidden='true'
+                      className={'h-5 w-5 flex-none text-white'}
+                      style={colorChanger(isFocused)}
+                    />
+                  </>
+                )}
               </PopoverButton>
               <PopoverPanel
                 transition
@@ -134,21 +133,22 @@ export const Toolbar = () => {
                 }
               >
                 <div className={'p-4'}>
-                  {items.map((item) => (
-                    <div
-                      key={item.name}
-                      className={
-                        'group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50'
-                      }
-                    >
-                      <div className={'flex-auto'}>
-                        <a href={item.to} className={'block font-semibold text-gray-900'}>
-                          {item.name}
-                          <span className={'absolute inset-0'} />
-                        </a>
+                  {footerItemsData.length > 0 &&
+                    footerItemsData[0].menuPosition.map((item) => (
+                      <div
+                        key={item.name}
+                        className={
+                          'group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50'
+                        }
+                      >
+                        <div className={'flex-auto'}>
+                          <a href={item.value} target='_blank' className={'block font-semibold text-gray-900'}>
+                            {item.name}
+                            <span className={'absolute inset-0'} />
+                          </a>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </PopoverPanel>
             </Popover>
@@ -239,34 +239,41 @@ export const Toolbar = () => {
                   Блог
                 </NavLink>
                 <Disclosure as='div' className={'-mx-3'}>
-                  <DisclosureButton
-                    className={
-                      'group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7'
-                    }
-                    style={mobileColorChanger(isFocused)}
-                    onClick={() => setIsFocused((prev) => !prev)}
-                    onBlur={() => setIsFocused(false)}
-                  >
-                    Положение
-                    <ChevronDownIcon
-                      aria-hidden='true'
-                      className={'h-5 w-5 flex-none'}
-                      style={mobileColorChanger(isFocused)}
-                    />
-                  </DisclosureButton>
-                  <DisclosurePanel className={'mt-2 space-y-2'}>
-                    {items.map((item) => (
+                  {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && (
+                    <>
                       <DisclosureButton
-                        key={item.name}
-                        as='a'
                         className={
-                          'block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-white hover:text-cr-green-700 hover:bg-white'
+                          'group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7'
                         }
+                        style={mobileColorChanger(isFocused)}
+                        onClick={() => setIsFocused((prev) => !prev)}
+                        onBlur={() => setIsFocused(false)}
                       >
-                        {item.name}
+                        Положение
+                        <ChevronDownIcon
+                          aria-hidden='true'
+                          className={'h-5 w-5 flex-none'}
+                          style={mobileColorChanger(isFocused)}
+                        />
                       </DisclosureButton>
-                    ))}
-                  </DisclosurePanel>
+                      <DisclosurePanel className={'mt-2 space-y-2'}>
+                        {footerItemsData.length > 0 &&
+                          footerItemsData[0].menuPosition.map((item) => (
+                            <DisclosureButton
+                              key={item.name}
+                              as='div'
+                              className={
+                                'block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-white hover:text-cr-green-700 hover:bg-white'
+                              }
+                            >
+                              <a href={item.value} target='_blank' rel='noopener noreferrer' className='block w-full'>
+                                {item.name}
+                              </a>
+                            </DisclosureButton>
+                          ))}
+                      </DisclosurePanel>
+                    </>
+                  )}
                 </Disclosure>
               </div>
               <div className={'py-6'}>

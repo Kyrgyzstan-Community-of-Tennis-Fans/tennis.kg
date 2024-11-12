@@ -4,10 +4,13 @@ import config from './config';
 import { News } from './src/model/News';
 import { Partner } from './src/model/Partner';
 import { Category } from './src/model/Category';
+import { Rating } from './src/model/Rating';
 import { User } from './src/model/User';
+import { Event } from './src/model/Event';
 import { Carousel } from './src/model/Carousel';
 import { newsFixtures } from './src/utils/newsFixtures';
 import { RatingMember } from './src/model/RatingMember';
+import Footer from './src/model/Footer';
 
 const run = async () => {
   await mongoose.connect(config.database);
@@ -21,6 +24,7 @@ const run = async () => {
     await db.dropCollection('news');
     await db.dropCollection('ratings');
     await db.dropCollection('ratingmembers');
+    await db.dropCollection('footers');
   } catch (e) {
     console.log('Skipping drop...');
   }
@@ -249,6 +253,133 @@ const run = async () => {
     { image: 'fixtures/carousel/Aq.gif' },
   ]);
 
+  const [firstRating, secondRating, thirdRating] = await Rating.create([
+    {
+      chapter: 'male',
+      month: 'january',
+      year: 2024,
+    },
+    {
+      chapter: 'female',
+      month: 'november',
+      year: 2022,
+    },
+    {
+      chapter: 'mixed',
+      month: 'april',
+      year: 2023,
+    },
+  ]);
+
+  await Footer.create([
+    {
+      mainPartnerImage: 'footer/kslt.svg',
+      menuPosition: [
+        {
+          name: 'Положение КСЛТ',
+          value: 'https://drive.google.com/file/d/1Cs_4fFbt9JAUV6BhOUJiDR9XjKcIp-Rd/view?usp=drive_link',
+        },
+        {
+          name: 'Форма заявки на проведение турнира',
+          value: 'https://drive.google.com/file/d/18SSA8xr6-jXdWBCI7uQoA3qogLaCQx4b/view?usp=drive_link',
+        },
+        {
+          name: 'Таблица начисления рейтинговых очков',
+          value: 'https://drive.google.com/file/d/1MtoEFnFjIZdN2eLrQES5B4JfPQiVvH7t/view?usp=drive_link',
+        },
+        {
+          name: 'Дисциплинарное положение КСЛТ',
+          value: 'https://drive.google.com/file/d/1l4xQFlxKnawHOTd3vxImCkvS34-kB3Nb/view?usp=drive_link',
+        },
+      ],
+      publicOffer: 'https://drive.google.com/file/d/1VCqx0TwsHZxmjlSo0Qwp9DDEwVJfSUU7/view?usp=drive_link',
+      socialNetwork: [
+        {
+          name: 'instagram',
+          value: 'https://www.instagram.com/kslt_tennis.kg?igsh=M21wNXlxMmcwcDF0',
+        },
+        {
+          name: 'facebook',
+          value: 'https://www.facebook.com/share/g/KPktZiWihRcqiFHh/',
+        },
+        {
+          name: 'telegram',
+          value: 'https://t.me/+OAAcVaEu2oozNGZi',
+        },
+      ],
+    },
+  ]);
+
+  const events = await Event.create([
+    {
+      rating: firstRating._id,
+      category: masters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: firstRating._id,
+      category: proMasters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: firstRating._id,
+      category: proMasters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: firstRating._id,
+      category: futures._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: firstRating._id,
+      category: masters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: secondRating._id,
+      category: masters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: secondRating._id,
+      category: proMasters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: secondRating._id,
+      category: futures._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: secondRating._id,
+      category: masters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: thirdRating._id,
+      category: masters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: thirdRating._id,
+      category: proMasters._id,
+      link: 'https://www.google.com',
+    },
+    {
+      rating: thirdRating._id,
+      category: futures._id,
+      link: 'https://www.google.com',
+    },
+  ]);
+
+  for (const rating of [firstRating, secondRating, thirdRating]) {
+    const ratingEvents = events.filter((event) => event.rating.equals(rating._id));
+
+    await Rating.findByIdAndUpdate(rating._id, {
+      $push: { events: { $each: ratingEvents.map((event) => event._id) } },
+    });
+  }
   await db.close();
 };
 

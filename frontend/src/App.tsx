@@ -1,5 +1,5 @@
-import React from 'react';
-import { useAppSelector } from '@/app/hooks';
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Error404 } from '@/components/Errors/Error404';
 import Footer from '@/components/Footer/Footer';
 import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
@@ -17,11 +17,17 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import AdminPanel from '@/pages/AdminPanel';
+import { getFooterItems } from '@/features/footers/footersThunks';
 import Calendar from '@/pages/Calendar';
 
 export const App: React.FC = () => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const page = useLocation().pathname.slice(1);
+
+  useEffect(() => {
+    dispatch(getFooterItems());
+  }, [dispatch]);
 
   return (
     <div className='flex flex-col min-h-dvh'>

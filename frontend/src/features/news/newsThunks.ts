@@ -10,18 +10,32 @@ const createFormData = (newsMutation: NewsMutation): FormData => {
   keys.forEach((key) => {
     const value = newsMutation[key];
 
-    if (Array.isArray(value)) {
-      if (key === 'images') {
-        (value as File[]).forEach((file) => {
-          if (file instanceof File) {
-            formData.append(key, file);
+    switch (true) {
+      case Array.isArray(value): {
+        if (key === 'images') {
+          if (value as File[]) {
+            value.forEach((file) => {
+              formData.append(key, file);
+            });
+          } else if (value as string[]) {
+            value.forEach((image) => {
+              formData.append(key, image);
+            });
           }
-        });
+        }
+        break;
       }
-    } else if (key === 'newsCover' && value instanceof File) {
-      formData.append(key, value);
-    } else if (value !== null && value !== undefined) {
-      formData.append(key, value);
+      case key === 'images' && Array.isArray(value) && value.length === 0: {
+        formData.append(key, JSON.stringify([]));
+        break;
+      }
+      case key === 'newsCover' && value instanceof File: {
+        formData.append(key, value);
+        break;
+      }
+      default: {
+        formData.append(key, value as string);
+      }
     }
   });
 

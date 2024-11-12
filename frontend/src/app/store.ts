@@ -9,6 +9,7 @@ import { partnerReducer } from '@/features/partners/partnerSlice';
 import { ratingMembersReducer } from '@/features/mainRatingMembers/ratingMembersSlice';
 import { newsReducer } from '@/features/news/newsSlice';
 import { tournamentsReducer } from '@/features/tournaments/tournamentsSlice';
+import { footersReducer } from '@/features/footers/footersSlice';
 
 const usersPersistConfig = {
   key: 'tennis:users',
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   ratings: ratingsSlice.reducer,
   ratingMembers: ratingMembersReducer,
   tournaments: tournamentsReducer,
+  footers: footersReducer,
 });
 
 export const store = configureStore({

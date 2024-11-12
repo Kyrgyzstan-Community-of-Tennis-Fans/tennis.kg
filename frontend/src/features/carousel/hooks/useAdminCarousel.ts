@@ -1,19 +1,15 @@
-import {useAppDispatch, useAppSelector} from '@/app/hooks';
-import {selectUser} from '@/features/users/usersSlice';
-import React, {FormEvent, useEffect, useState} from 'react';
-import {CarouselMutation} from '@/types/carousel';
-import {
-  errorImgCarouselState,
-  loadingCarouselState,
-  photoCarouselState
-} from '@/features/carousel/CarouselSlice';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { selectUser } from '@/features/users/usersSlice';
+import React, { FormEvent, useEffect, useState } from 'react';
+import { CarouselMutation } from '@/types/carousel';
+import { errorImgCarouselState, loadingCarouselState, photoCarouselState } from '@/features/carousel/CarouselSlice';
 import {
   deleteImageCarousel,
   getCarousel,
   postFetchCarousel,
-  updateCarouselImage
+  updateCarouselImage,
 } from '@/features/carousel/CarouselThunk';
-import {toast} from 'sonner';
+import { toast } from 'sonner';
 
 const emptyState: CarouselMutation = {
   image: null,
@@ -101,6 +97,6 @@ export const useAdminCarousel = () => {
     handleImageUpload,
     fileInputChangeHandler,
     onDelete,
-    onUpdateImage
+    onUpdateImage,
   };
 };
