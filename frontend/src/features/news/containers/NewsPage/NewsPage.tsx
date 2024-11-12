@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNews } from '@/features/news/hooks/useNews';
 import { Layout } from '@/components/Layout';
-import { CustomPagination } from '@/features/news/components/CustomPagination/CustomPagination';
+import { CustomPagination } from '@/components/CustomPagination/CustomPagination';
 import { DatePicker } from '@/features/news/components/DatePicker/DatePicker';
 import { NewsCard } from '@/features/news/components/NewsCard/NewsCard';
 import { NewsTitle } from '@/features/news/components/NewsTitle/NewsTitle';
@@ -26,24 +26,35 @@ export const NewsPage: React.FC<Props> = ({ isAdmin }) => {
       break;
   }
 
+	const renderNewsContent = () =>
+    !newsFetching && news.length === 0 ? (
+      noDataContent
+    ) : (
+      <>
+        <div className='news-container'>
+          {news.map((newsItem) => (
+            <NewsCard key={newsItem._id} news={newsItem} isAdmin={isAdmin} />
+          ))}
+        </div>
+        <CustomPagination page={page} total={totalPages} setPage={(page) => setPage(page)} />
+      </>
+    );
+
   return (
-    <Layout>
-      {!isAdmin && <NewsTitle />}
-      {!newsFetching && news.length === 0 ? (
-        noDataContent
-      ) : (
+    <>
+      {!isAdmin && (
+        <Layout>
+          <NewsTitle />
+          <DatePicker onDateChange={handleDateChange} />
+          {renderNewsContent()}
+        </Layout>
+      )}
+      {isAdmin && (
         <>
           <DatePicker onDateChange={handleDateChange} />
-
-          <div className='news-container'>
-            {news.map((newsItem) => (
-              <NewsCard key={newsItem._id} news={newsItem} isAdmin={isAdmin} />
-            ))}
-          </div>
-
-          <CustomPagination page={page} total={totalPages} setPage={(page) => setPage(page)} />
+          {renderNewsContent()}
         </>
       )}
-    </Layout>
+    </>
   );
 };

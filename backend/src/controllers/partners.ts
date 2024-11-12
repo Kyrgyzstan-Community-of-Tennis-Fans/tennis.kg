@@ -1,8 +1,12 @@
 import { Partner } from '../model/Partner';
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
+import path from 'path';
+import config from '../../config';
+import compressImage from '../utils/compressImage';
+import { clearImages } from '../utils/multer';
 
-export const getPartners = async (req: Request, res: Response, next: NextFunction) => {
+export const getPartners = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const partners = await Partner.find();
 
@@ -14,9 +18,16 @@ export const getPartners = async (req: Request, res: Response, next: NextFunctio
 
 export const createNewPartner = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const { name, url } = req.body;
+
+    if (req.file) {
+      const imagePath = path.join(config.publicPath, req.file.filename);
+      await compressImage(imagePath);
+    }
+
     const partner = await Partner.create({
-      name: req.body.name,
-      url: req.body.url,
+      name,
+      url,
       image: req.file ? req.file.filename : null,
     });
 
@@ -32,9 +43,14 @@ export const removePartner = async (req: Request, res: Response, next: NextFunct
     const { id: _id } = req.params;
 
     const partner = await Partner.findOne({ _id });
-    if (!partner) return res.status(404).send({ error: 'Not found' });
+    if (!partner) return res.status(404).send({ error: 'Partner not found!' });
 
-    await Partner.deleteOne({ _id });
+    const result = await Partner.deleteOne({ _id });
+
+    if (result.deletedCount === 1) {
+      clearImages(partner.image);
+    }
+
     return res.status(204).send({ message: 'Partner removed successfully' });
   } catch (error) {
     return next(error);
@@ -49,6 +65,11 @@ export const updatePartner = async (req: Request, res: Response, next: NextFunct
     const partner = await Partner.findById(id);
     if (!partner) return res.status(404).send({ error: 'Not found' });
 
+    if (req.file) {
+      const imagePath = path.join(config.publicPath, req.file.filename);
+      await compressImage(imagePath);
+    }
+
     const partnerData = {
       name: name || partner.name,
       url: url || partner.url,
@@ -58,6 +79,10 @@ export const updatePartner = async (req: Request, res: Response, next: NextFunct
     const updatedPartner = await Partner.findByIdAndUpdate(id, partnerData, { new: true, runValidators: true });
 
     if (!updatedPartner) return res.status(404).send({ error: 'Partner not found or failed to update' });
+
+    if (partner.image !== partnerData.image) {
+      clearImages(partner.image);
+    }
 
     return res.send(updatedPartner);
   } catch (e) {
