@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { Error404 } from '@/components/Errors/Error404';
 import Footer from '@/components/Footer/Footer';
 import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
 import { Toolbar } from '@/components/Toolbar/Toolbar';
@@ -18,6 +17,7 @@ import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import AdminPanel from '@/pages/AdminPanel';
 import { getFooterItems } from '@/features/footers/footersThunks';
+import { ErrorPage } from '@/components/Errors/ErrorPage';
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
-          <Route path={'*'} element={<Error404 />} />
+          <Route path={'*'} element={<ErrorPage errorCode={404} />} />
         </Routes>
       </main>
 
