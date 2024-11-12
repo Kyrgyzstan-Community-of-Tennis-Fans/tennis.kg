@@ -12,6 +12,7 @@ export const fetchRatings = async (req: Request, res: Response, next: NextFuncti
           path: 'category',
         },
       })
+      .sort({ year: -1, month: 1 })
       .lean()
       .exec();
 
