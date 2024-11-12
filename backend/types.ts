@@ -67,3 +67,9 @@ export interface NewsFields {
   newsCover?: string;
   images?: string[];
 }
+
+export interface PartnerFields {
+  name: string;
+  image: string;
+  url: string;
+}

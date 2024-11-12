@@ -19,14 +19,14 @@ const PartnersCard: React.FC<Props> = ({ partner }) => {
   const handleDelete = async () => {
     try {
       await dispatch(deletePartner(partner._id));
-      toast.success('Успешно Удален');
+      toast.success('Партнер успешно удален!');
     } catch (error) {
       toast.error('Что-то пошло не так попробуйте еще раз ' + error);
     }
   };
 
   return (
-    <div className='w-full max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg bg-white/0  rounded-lg flex items-center p-2 space-x-2 mx-auto border '>
+    <div className='w-full md:max-w-sm lg:max-w-md xl:max-w-lg bg-white/0 rounded-lg flex items-center p-2 space-x-2 mx-auto border'>
       <TooltipProvider>
         <Tooltip delayDuration={200}>
           <TooltipTrigger asChild>

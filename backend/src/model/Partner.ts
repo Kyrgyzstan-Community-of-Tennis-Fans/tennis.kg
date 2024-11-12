@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+import { PartnerFields } from '../../types';
 
 const Schema = mongoose.Schema;
 
-const PartnerSchema = new Schema(
+const PartnerSchema = new Schema<PartnerFields>(
   {
     name: {
       type: String,

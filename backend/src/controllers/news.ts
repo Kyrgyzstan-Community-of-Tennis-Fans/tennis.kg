@@ -169,7 +169,7 @@ export const removeNews = async (req: Request, res: Response, next: NextFunction
     const news = await News.findById(id);
 
     if (!news) {
-      return res.status(404).send({ error: 'Новость не найдено!' });
+      return res.status(404).send({ error: 'Новость не найдена!' });
     }
 
     const result = await News.deleteOne({ _id: id });
