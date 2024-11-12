@@ -17,6 +17,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import AdminPanel from '@/pages/AdminPanel';
+import Calendar from '@/pages/Calendar';
 
 export const App: React.FC = () => {
   const user = useAppSelector(selectUser);
@@ -36,6 +37,7 @@ export const App: React.FC = () => {
           <Route path={'/rating'} element={<Ratings />} />
           <Route path={'/reset-password/:token'} element={<ResetPassword />} />
           <Route path={'/forgot-password'} element={<ForgotPassword />} />
+          <Route path={'/calendar'} element={<Calendar />} />
           <Route
             path={'/personal-account'}
             element={

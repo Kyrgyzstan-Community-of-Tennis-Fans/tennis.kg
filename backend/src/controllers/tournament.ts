@@ -12,8 +12,12 @@ export const getTournaments = async (req: Request, res: Response, next: NextFunc
       filter.rank = req.query.rank;
     }
 
-    const tournaments = await Tournament.find(filter).lean();
+    const tournaments = await Tournament.find(filter).sort({ eventDate: 1 }).lean();
     const tournamentsByMonth: Record<number, Array<Record<string, any>>> = {};
+
+    for (let month = 1; month <= 12; month++) {
+      tournamentsByMonth[month] = [];
+    }
 
     tournaments.forEach((tournament) => {
       const month = tournament.eventDate.getMonth() + 1;
