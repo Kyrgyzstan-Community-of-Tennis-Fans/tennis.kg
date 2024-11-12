@@ -52,6 +52,12 @@ export interface CategoryFields {
   name: string;
 }
 
+export interface CarouselFields {
+  image: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface NewsFields {
   title: string;
   subtitle?: string;
