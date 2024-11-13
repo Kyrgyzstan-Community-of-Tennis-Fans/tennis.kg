@@ -24,11 +24,11 @@ const Footer = () => {
               <img className='block w-full h-full' src='/kslt.svg' alt='КСЛТ' />
             </NavLink>
           </div>
-          <div className='text-center lg:text-left'>
+          <div className='text-center lmd:text-left'>
             <p className='text-[#D9DBE1] mb-[8px]'>Copyright © 2022 KSLT</p>
             <p className='text-[#D9DBE1]'>All rights reserved</p>
           </div>
-          <div className='flex flex-row justify-center md:justify-start gap-[16px]'>
+          <div className='flex flex-row justify-center lmd:justify-start gap-[16px]'>
             {footerItemsData.length > 0 &&
               footerItemsData[0].socialNetwork.map((item) => (
                 <div key={item._id} className='inline-flex text-white gap-5'>
