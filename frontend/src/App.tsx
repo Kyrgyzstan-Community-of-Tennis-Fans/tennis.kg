@@ -65,7 +65,7 @@ export const App: React.FC = () => {
         </Routes>
       </main>
 
-      <footer className={`mt-auto ${page !== '/' && 'mt-[218px]'}`}>
+      <footer className={`mt-auto ${page !== 'home' && 'pt-[218px]'}`}>
         <Footer />
       </footer>
       <Toaster />

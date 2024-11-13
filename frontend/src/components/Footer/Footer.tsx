@@ -28,13 +28,11 @@ const Footer = () => {
             <p className='text-[#D9DBE1] mb-[8px]'>Copyright © 2022 KSLT</p>
             <p className='text-[#D9DBE1]'>All rights reserved</p>
           </div>
-
           <div className='flex flex-row justify-center md:justify-start gap-[16px]'>
             {footerItemsData.length > 0 &&
               footerItemsData[0].socialNetwork.map((item) => (
-                <div key={item._id} className={'inline-flex text-white gap-5'}>
+                <div key={item._id} className='inline-flex text-white gap-5'>
                   <SocialIcon
-                    key={item._id}
                     bgColor='#373A40'
                     target='_blank'
                     url={item.value}
@@ -47,13 +45,13 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className='flex flex-col text-center xs:text-left xs:flex-row xs:justify-between xs: basis-1 lmd:basis-1/2 text-cr-white gap-10 xs:gap-0'>
+        <div className='flex flex-col text-center xs:text-left xs:flex-row xs:justify-between basis-1 lmd:basis-1/2 text-cr-white gap-10 xs:gap-0'>
           <div className='basis-1/3'>
             <h1 className='pb-7 text-lg xs:text-xl'>О нас</h1>
             <ul className='flex items-center xs:items-start flex-col gap-4 text-sm xs:text-base text-[#D9DBE1]'>
               {NavigationItems.map((itemMenu, id) => (
                 <li key={id}>
-                  <NavLink to={itemMenu.link} className={'hover:text-white'}>
+                  <NavLink to={itemMenu.link} className='hover:text-white'>
                     {itemMenu.name}
                   </NavLink>
                 </li>
@@ -66,14 +64,14 @@ const Footer = () => {
                       <ChevronUpIcon className='w-4 h-4' />
                     </DropdownMenuTrigger>
                   )}
-                  <DropdownMenuContent className='p-0 w-[310px]'>
+                  <DropdownMenuContent className='p-0 w-[302px]'>
                     {footerItemsData.length > 0 &&
                       footerItemsData[0].menuPosition.map((menuItem) => (
                         <DropdownMenuItem
                           key={menuItem._id}
                           className='p-[25px] hover:bg-gray-50 cursor-pointer transition-colors duration-200'
                         >
-                          <a className='block text-[16px]' href={menuItem.value} target='_blank'>
+                          <a href={menuItem.value} target='_blank' className='block text-[16px]'>
                             {menuItem.name}
                           </a>
                         </DropdownMenuItem>
@@ -86,12 +84,12 @@ const Footer = () => {
 
           <div className='basis-1/3'>
             <h1 className='pb-7 text-lg xs:text-xl'>Условия</h1>
-            <ul className='gap-4 text-[#D9DBE1] hover:text-white text-sm xs:text-base'>
+            <ul className='gap-4 text-sm xs:text-base text-[#D9DBE1]'>
               <li>
                 <a
                   target='_blank'
                   href={footerItemsData.length > 0 ? footerItemsData[0].publicOffer : ''}
-                  className='hover:text-white cursor-pointer'
+                  className='hover:text-white'
                 >
                   Публичная оферта
                 </a>
