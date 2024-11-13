@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { Error404 } from '@/components/Errors/Error404';
-import Footer from '@/components/Footer/Footer';
 import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
 import { Toaster } from '@/components/ui/sonner';
 import { Ratings } from '@/features/ratings/ratings';
