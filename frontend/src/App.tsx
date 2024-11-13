@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Error404 } from '@/components/Errors/Error404';
-import Footer from '@/components/Footer/Footer';
 import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
 import { Toaster } from '@/components/ui/sonner';
 import { Ratings } from '@/features/ratings/ratings';
@@ -17,7 +16,8 @@ import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import AdminPanel from '@/pages/AdminPanel';
 import { getFooterItems } from '@/features/footers/footersThunks';
-import Toolbar from '@/components/Toolbar/Toolbar';
+import Navbar from '@/components/Navbar/Navbar';
+import Footer from '@/components/Footer/Footer';
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +30,9 @@ export const App: React.FC = () => {
 
   return (
     <div className='flex flex-col min-h-dvh'>
-      <Toolbar />
+      <header className={page === 'home' ? 'mb-32' : 'mb-10'}>
+        <Navbar />
+      </header>
 
       <main className='grow'>
         <Routes>
@@ -63,7 +65,7 @@ export const App: React.FC = () => {
         </Routes>
       </main>
 
-      <footer className={`mt-auto ${page !== 'home' && 'pt-14'}`}>
+      <footer className={`mt-auto ${page !== '/' && 'mt-[218px]'}`}>
         <Footer />
       </footer>
       <Toaster />
