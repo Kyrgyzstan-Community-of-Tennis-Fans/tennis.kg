@@ -69,9 +69,9 @@ const Footer = () => {
                       footerItemsData[0].menuPosition.map((menuItem) => (
                         <DropdownMenuItem
                           key={menuItem._id}
-                          className='p-[25px] hover:bg-gray-50 cursor-pointer transition-colors duration-200'
+                          className='hover:bg-gray-50 cursor-pointer p-0 transition-colors duration-200'
                         >
-                          <a href={menuItem.value} target='_blank' className='block text-[16px]'>
+                          <a href={menuItem.value} target='_blank' className='p-[25px] w-full block text-[16px]'>
                             {menuItem.name}
                           </a>
                         </DropdownMenuItem>

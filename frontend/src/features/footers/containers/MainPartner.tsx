@@ -17,7 +17,7 @@ const MainPartner = () => {
       <div className='flex justify-end'>
         <MainPartnerEditForm>
           <Button className={'w-full xs:w-max'}>
-            Изменить главного партнера <EditIcon />
+            Изменить ген.партнера <EditIcon />
           </Button>
         </MainPartnerEditForm>
       </div>
@@ -25,7 +25,7 @@ const MainPartner = () => {
       {(!mainPartnerFetching && mainPartnerData.length === 0) ||
       (mainPartnerData.length > 0 && mainPartnerData[0].mainPartnerImage === '') ? (
         <small className='flex justify-center items-center flex-col mt-[30px]'>
-          Изображение главного партнера не найдено.
+          Изображение ген.партнера не найдено.
         </small>
       ) : (
         <div className={'flex items-center gap-2 mt-3 flex-wrap'}>

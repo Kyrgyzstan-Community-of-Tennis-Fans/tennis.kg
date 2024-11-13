@@ -25,7 +25,7 @@ const AdminPanelBlockFooter = () => {
             Публичная оферта
           </TabsTrigger>
           <TabsTrigger className='h-9 md:h-8' value='main-partner'>
-            Главный партнер
+            Ген.партнер
           </TabsTrigger>
         </TabsList>
         <TabsContent value='social-network'>

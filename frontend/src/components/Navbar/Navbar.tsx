@@ -55,9 +55,9 @@ const Navbar = () => {
                             footerItemsData[0].menuPosition.map((menuItem) => (
                               <li
                                 key={menuItem._id}
-                                className='p-[25px] hover:bg-gray-50 cursor-pointer transition-colors duration-200'
+                                className='hover:bg-gray-50 cursor-pointer transition-colors duration-200'
                               >
-                                <NavigationMenuLink className='block' href={menuItem.value} target='_blank'>
+                                <NavigationMenuLink className='block p-[25px]' href={menuItem.value} target='_blank'>
                                   {menuItem.name}
                                 </NavigationMenuLink>
                               </li>
