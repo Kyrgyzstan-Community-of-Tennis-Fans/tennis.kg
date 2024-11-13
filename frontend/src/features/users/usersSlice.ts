@@ -1,9 +1,21 @@
-import { forgotPassword, login, register, updateUserInfo } from '@/features/users/usersThunks';
+import {
+  fetchOneUser,
+  fetchUsers,
+  forgotPassword,
+  login,
+  register,
+  updateCurrentUserInfo,
+  updateIsActive,
+  updateUserInfo,
+} from '@/features/users/usersThunks';
 import type { GlobalError, User, ValidationError } from '@/types/userTypes';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface UsersState {
   user: User | null;
+  currentUser: User | null;
+  users: User[];
+  usersFetching: boolean;
   registerLoading: boolean;
   registerError: ValidationError | null;
   loginLoading: boolean;
@@ -14,10 +26,14 @@ interface UsersState {
   resetPasswordError: GlobalError | null;
   usersUpdating: boolean;
   usersUpdatingError: GlobalError | null;
+  updatingActive: boolean;
 }
 
 const initialState: UsersState = {
   user: null,
+  currentUser: null,
+  users: [],
+  usersFetching: false,
   registerLoading: false,
   registerError: null,
   loginLoading: false,
@@ -28,6 +44,7 @@ const initialState: UsersState = {
   resetPasswordLoading: false,
   usersUpdating: false,
   usersUpdatingError: null,
+  updatingActive: false,
 };
 
 export const usersSlice = createSlice({
@@ -39,6 +56,32 @@ export const usersSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder
+      .addCase(fetchUsers.pending, (state) => {
+        state.currentUser = null;
+        state.usersFetching = true;
+      })
+      .addCase(fetchUsers.fulfilled, (state, { payload: users }) => {
+        state.usersFetching = false;
+        state.users = users;
+      })
+      .addCase(fetchUsers.rejected, (state) => {
+        state.usersFetching = false;
+      });
+
+    builder
+      .addCase(fetchOneUser.pending, (state) => {
+        state.currentUser = null;
+        state.usersFetching = true;
+      })
+      .addCase(fetchOneUser.fulfilled, (state, { payload: user }) => {
+        state.usersFetching = false;
+        state.currentUser = user;
+      })
+      .addCase(fetchOneUser.rejected, (state) => {
+        state.usersFetching = false;
+      });
+
     builder
       .addCase(register.pending, (state) => {
         state.registerLoading = true;
@@ -92,9 +135,36 @@ export const usersSlice = createSlice({
         state.usersUpdatingError = payload || null;
         state.usersUpdating = false;
       });
+
+    builder
+      .addCase(updateCurrentUserInfo.pending, (state) => {
+        state.usersUpdating = true;
+      })
+      .addCase(updateCurrentUserInfo.fulfilled, (state, { payload: user }) => {
+        state.usersUpdating = false;
+        state.currentUser = user;
+      })
+      .addCase(updateCurrentUserInfo.rejected, (state, { payload }) => {
+        state.usersUpdatingError = payload || null;
+        state.usersUpdating = false;
+      });
+
+    builder
+      .addCase(updateIsActive.pending, (state) => {
+        state.updatingActive = true;
+      })
+      .addCase(updateIsActive.fulfilled, (state) => {
+        state.updatingActive = false;
+      })
+      .addCase(updateIsActive.rejected, (state) => {
+        state.updatingActive = false;
+      });
   },
   selectors: {
     selectUser: (state) => state.user,
+    selectCurrentUser: (state) => state.currentUser,
+    selectUsersList: (state) => state.users,
+    selectUserFetching: (state) => state.usersFetching,
     selectRegisterLoading: (state) => state.registerLoading,
     selectRegisterError: (state) => state.registerError,
     selectLoginLoading: (state) => state.loginLoading,
@@ -112,6 +182,9 @@ export const { unsetUser } = usersSlice.actions;
 
 export const {
   selectUser,
+  selectCurrentUser,
+  selectUsersList,
+  selectUserFetching,
   selectRegisterLoading,
   selectRegisterError,
   selectLoginLoading,

@@ -90,10 +90,10 @@ export const newsFixtures = [
       'В этом году соревнования обещают быть особо захватывающими благодаря большому количеству неожиданных результатов и драматичных матчей.</b></p>',
     createdAt: '2024-11-10T14:35:12.300000',
     updatedAt: '2024-11-10T16:20:40.300000',
-    newsCover: 'fixtures/news/close-up-tennis-player.jpg',
+    newsCover: 'fixtures/news/third.png',
     images: [
       'fixtures/news/paddle-tennis-ball-hitting-net.jpg',
-      'fixtures/news/ready-tennis-game.jpg',
+      'fixtures/news/close-up-tennis-player.jpg',
       'fixtures/news/young-woman-tennis-player-court.jpg',
     ],
   },
@@ -120,12 +120,13 @@ export const newsFixtures = [
       'Это уникальная возможность для начинающих игроков понять, как тренируются мировые звезды тенниса.</p>',
     createdAt: '2024-11-07T09:15:30.300000',
     updatedAt: '2024-11-07T11:30:10.300000',
-    newsCover: 'fixtures/news/paddle-tennis-ball-hitting-net.jpg',
+    newsCover: 'fixtures/news/ready-tennis-game.jpg',
     images: [
       'fixtures/news/paddle-tennis-ball-hitting-net.jpg',
       'fixtures/news/close-up-tennis-player.jpg',
       'fixtures/news/young-couple-playing-tennis-court.jpg',
       'fixtures/news/ready-tennis-game.jpg',
+      'fixtures/news/happy-young-woman-playing-tennis-court.jpg',
     ],
   },
   {
@@ -136,7 +137,7 @@ export const newsFixtures = [
       'Кто же станет лучшим игроком года, кто получит шанс на победу в этом важнейшем турнире? Всё это и многое другое - в нашем обзоре.</b></p>',
     createdAt: '2024-11-07T12:20:45.700+00:00',
     updatedAt: '2024-11-07T15:40:50.800+00:00',
-    newsCover: 'fixtures/news/happy-young-woman-playing-tennis-court.jpg',
+    newsCover: 'fixtures/news/close-up-tennis-player.jpg',
     images: [
       'fixtures/news/newsInner1.png',
       'fixtures/news/newsInner2.png',
@@ -156,7 +157,7 @@ export const newsFixtures = [
     newsCover: 'fixtures/news/ready-tennis-game.jpg',
     images: [
       'fixtures/news/ready-tennis-game.jpg',
-      'fixtures/news/',
+      'fixtures/news/happy-young-woman-playing-tennis-court.jpg',
       'fixtures/news/newsInner1.png',
       'fixtures/news/paddle-tennis-ball-hitting-net.jpg',
     ],

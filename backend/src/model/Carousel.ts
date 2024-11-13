@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+import { CarouselFields } from '../../types';
 
 const Schema = mongoose.Schema;
 
-const CarouselSchema = new Schema(
+const CarouselSchema = new Schema<CarouselFields>(
   {
     image: {
       type: String,

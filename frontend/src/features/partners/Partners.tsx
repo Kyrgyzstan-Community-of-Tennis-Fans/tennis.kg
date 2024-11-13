@@ -1,7 +1,7 @@
 import Marquee from 'react-fast-marquee';
 import { API_URl } from '@/consts';
 import { Skeleton } from '@/components/ui/skeleton';
-import {usePartners} from '@/features/partners/hooks/partners';
+import { usePartners } from '@/features/partners/hooks/partners';
 
 const Partners = () => {
   const { partners, partnersFetching } = usePartners();

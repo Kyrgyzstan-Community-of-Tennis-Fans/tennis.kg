@@ -3,6 +3,7 @@ import { Error, Types } from 'mongoose';
 import { format, isValid, parseISO } from 'date-fns';
 import { News } from '../model/News';
 import { processImages } from '../utils/processNewsImages';
+import { clearImages } from '../utils/multer';
 
 export const createNewPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -97,38 +98,57 @@ export const updateNews = async (req: Request, res: Response, next: NextFunction
     }
 
     const id = new Types.ObjectId(req.params.id);
-    const { title, subtitle, content, newsCover } = req.body;
+    const { title, subtitle, content, newsCover, images } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-
-    await processImages(files);
-
     const existingNews = await News.findById(id);
+
     if (!existingNews) {
       return res.status(404).send({ error: 'Новость не найдена!' });
     }
 
-    const updatedNewsCover =
-      files['newsCover'] && files['newsCover'][0]
-        ? files['newsCover'][0].filename
-        : newsCover || existingNews.newsCover;
+    await processImages(files);
 
-    const updatedImages = [
-      ...(existingNews.images || []),
-      ...(files['images'] ? files['images'].map((file) => file.filename) : []),
-    ];
+    const updatedNewsCover = files['newsCover'] && files['newsCover'][0] ? files['newsCover'][0].filename : newsCover;
+
+    const existingImages = existingNews.images || [];
+    const newImages = files['images'] ? files['images'].map((file) => file.filename) : [];
+    const removedImages = images ? existingImages.filter((image) => !images.includes(image)) : [];
+    let finalImages: string[];
+
+    (images ? removedImages : existingImages).forEach(clearImages);
+    if (updatedNewsCover) {
+      clearImages(existingNews.newsCover as string);
+    }
+    // images are data that already exists
+    switch (true) {
+      case removedImages.length > 0 && newImages.length === 0: {
+        finalImages = existingImages.filter((image) => !removedImages.includes(image));
+        break;
+      }
+      case removedImages.length > 0 && newImages.length > 0: {
+        finalImages = [...existingImages.filter((image) => !removedImages.includes(image)), ...newImages];
+        break;
+      }
+      case !images && newImages.length > 0: {
+        finalImages = [...newImages];
+        break;
+      }
+      default: {
+        finalImages = [...existingImages, ...newImages];
+      }
+    }
 
     const newsData = {
       title: title || existingNews.title,
       subtitle: subtitle || existingNews.subtitle,
       content: content || existingNews.content,
       newsCover: updatedNewsCover,
-      images: updatedImages,
+      images: finalImages,
     };
 
     const updatedNews = await News.findByIdAndUpdate(id, newsData, { new: true, runValidators: true });
 
     if (!updatedNews) return res.status(404).send({ error: 'News not found or failed to update!' });
-
     return res.send(updatedNews);
   } catch (e) {
     if (e instanceof Error.ValidationError) {
@@ -145,10 +165,20 @@ export const removeNews = async (req: Request, res: Response, next: NextFunction
       return res.status(404).send({ error: 'Неправильный тип id!' });
     }
 
-    const result = await News.deleteOne({ _id: req.params.id });
-    if (result.deletedCount === 0) {
+    const id = req.params.id;
+    const news = await News.findById(id);
+
+    if (!news) {
       return res.status(404).send({ error: 'Новость не найдена!' });
     }
+
+    const result = await News.deleteOne({ _id: id });
+
+    if (result.deletedCount === 1) {
+      clearImages(news.newsCover as string);
+      news.images?.length && news.images.forEach(clearImages);
+    }
+
     return res.send({ message: 'Новость успешно удалена!' });
   } catch (e) {
     return next(e);

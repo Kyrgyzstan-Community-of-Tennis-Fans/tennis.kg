@@ -5,19 +5,10 @@ import { Label } from '@/components/ui/label';
 import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {useLogin} from '@/features/users/hooks/login';
+import { useLogin } from '@/features/users/hooks/login';
 
 export const Login: React.FC = () => {
-
-  const {
-    loading,
-    error,
-    loginMutation,
-    translatedError,
-    isButtonDisabled,
-    handleChange,
-    handleSubmit
-  } = useLogin();
+  const { loading, error, loginMutation, translatedError, isButtonDisabled, handleChange, handleSubmit } = useLogin();
 
   return (
     <form onSubmit={handleSubmit}>
