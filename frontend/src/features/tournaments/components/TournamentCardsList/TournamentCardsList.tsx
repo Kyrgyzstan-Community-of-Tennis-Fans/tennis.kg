@@ -6,15 +6,18 @@ import { Loader } from '@/components/Loader/Loader';
 interface Props {
   tournaments: Tournament[];
   isFetching: boolean;
+  isAdmin?: boolean;
 }
 
-const TournamentCardsList: React.FC<Props> = ({ tournaments, isFetching }) => {
+const TournamentCardsList: React.FC<Props> = ({ tournaments, isFetching, isAdmin }) => {
   let content: React.ReactNode = <p className='my-3 text-center text-sm'>Турниры отсутствуют</p>;
 
   if (isFetching) {
     content = <Loader className='my-3 mx-auto' />;
   } else if (tournaments.length > 0) {
-    content = tournaments.map((tournament) => <TournamentCard key={tournament._id} tournament={tournament} />);
+    content = tournaments.map((tournament) => (
+      <TournamentCard key={tournament._id} tournament={tournament} isAdmin={isAdmin} />
+    ));
   }
 
   return <div className='flex flex-col gap-1 pb-1'>{content}</div>;

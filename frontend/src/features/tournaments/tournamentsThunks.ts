@@ -4,11 +4,14 @@ import { isAxiosError } from 'axios';
 import { GlobalError } from '@/types/userTypes';
 import { TournamentMutation, Tournaments, UpdateTournamentArg } from '@/types/tournamentTypes';
 
-export const fetchTournaments = createAsyncThunk<Tournaments>('tournaments/fetchAll', async () => {
-  const { data: tournaments } = await axiosApi.get<Tournaments>('/tournaments');
+export const fetchTournaments = createAsyncThunk<Tournaments, string | undefined>(
+  'tournaments/fetchAll',
+  async (rank) => {
+    const { data: tournaments } = await axiosApi.get<Tournaments>('/tournaments', { params: { rank: rank } });
 
-  return tournaments;
-});
+    return tournaments;
+  },
+);
 
 export const createTournament = createAsyncThunk<void, TournamentMutation, { rejectValue: GlobalError }>(
   'tournaments/create',

@@ -1,14 +1,3 @@
-export interface TournamentMutation {
-  name: string;
-  participants: string;
-  eventDate: string;
-  category: string;
-  rank: 'male' | 'female' | 'mixed';
-  regulationsDoc: File | null;
-  resultsLink: string;
-  registrationLink: string;
-}
-
 export interface Tournament {
   _id: string;
   name: string;
@@ -16,7 +5,18 @@ export interface Tournament {
   eventDate: string;
   category: string;
   rank: 'male' | 'female' | 'mixed';
-  regulationsDoc: string | null;
+  regulationsDoc: string | null | File;
+  resultsLink: string;
+  registrationLink: string;
+}
+
+export interface TournamentMutation {
+  name: string;
+  participants: string;
+  eventDate: string;
+  category: string;
+  rank: 'male' | 'female' | 'mixed' | '';
+  regulationsDoc: File | null | string;
   resultsLink: string;
   registrationLink: string;
 }

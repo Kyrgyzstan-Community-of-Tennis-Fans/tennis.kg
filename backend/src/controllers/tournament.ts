@@ -8,7 +8,7 @@ export const getTournaments = async (req: Request, res: Response, next: NextFunc
     const filter: Record<string, unknown> = {};
     const dateFormat = 'dd.MM.yy';
 
-    if (req.query.rank) {
+    if (req.query.rank && req.query.rank !== 'all') {
       filter.rank = req.query.rank;
     }
 
