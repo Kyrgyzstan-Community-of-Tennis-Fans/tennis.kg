@@ -7,7 +7,7 @@ const ThemeSwitcher: React.FC = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-md bg-transparent text-secondary text-3xl"
+      className="p-2 rounded-md bg-transparent text-secondary"
     >
       {theme === 'dark' ? '🌞' : '🌙'}
     </button>

@@ -71,6 +71,7 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
+          <ThemeSwitcher />
 
           <div className='hidden md:block'>
             {user ? (
@@ -81,7 +82,6 @@ const Navbar = () => {
               </Link>
             )}
           </div>
-          <ThemeSwitcher/>
         </div>
       </div>
     </div>
