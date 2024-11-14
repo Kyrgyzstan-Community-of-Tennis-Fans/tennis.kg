@@ -12,6 +12,11 @@ export interface SocialNetworkFields {
   value: string;
 }
 
+export interface NavigationItemsTypes {
+  name: string;
+  link: string;
+}
+
 export interface MainPartnerForm {
   image: string | null;
 }
