@@ -20,7 +20,7 @@ const Navbar = () => {
   const footerItemsData = useAppSelector(selectItemsData);
 
   return (
-    <div className='py-[20px] md:py-[27px] mb-[70px] bg-cr-shark'>
+    <div className='py-[20px] md:py-[27px] mb-[70px] bg-cr-shark dark:bg-gray-900'>
       <div className='max-w-[1335px] px-[16px] mx-auto'>
         <div className='flex justify-between items-center'>
           <NavLink to='/' className='w-[76px] h-[28px] md:w-[98px] md:h-[36px]'>
