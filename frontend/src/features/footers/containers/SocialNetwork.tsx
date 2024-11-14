@@ -22,8 +22,9 @@ const SocialNetwork = () => {
         </SocialNetworkCreateForm>
       </div>
 
-      {!socialNetworkFetching && socialNetworkData.length > 0 && socialNetworkData[0].socialNetwork.length === 0 ? (
-        <small className='flex justify-center items-center flex-col mt-[50px]'>
+      {(!socialNetworkFetching && socialNetworkData.length === 0) ||
+      (socialNetworkData.length > 0 && socialNetworkData[0].socialNetwork.length === 0) ? (
+        <small className='flex justify-center items-center flex-col mt-[30px]'>
           Социальные сети не найдены.
           <SocialNetworkCreateForm>
             <button className={'mx-1 underline underline-offset-2 hover:text-black'}>Добавить социальную сеть</button>

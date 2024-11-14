@@ -38,7 +38,7 @@ export const clearImages = (imageName: string) => {
       console.log("File doesn't exist");
       throw err;
     } else {
-      console.log('Deleted file!');
+      console.log(`Deleted file: ${imageName}`);
     }
   });
 };

@@ -17,13 +17,15 @@ const MenuPosition = () => {
       <div className='flex justify-end'>
         <MenuPositionCreateForm>
           <Button className={'w-full xs:w-max'}>
-            Добавить пункт в меню положения <SquaresPlusIcon />
+            Добавить пункт в положение
+            <SquaresPlusIcon />
           </Button>
         </MenuPositionCreateForm>
       </div>
 
-      {!menuPositionFetching && menuPositionData.length > 0 && menuPositionData[0].menuPosition.length === 0 ? (
-        <small className='flex justify-center items-center flex-col mt-[50px]'>
+      {(!menuPositionFetching && menuPositionData.length === 0) ||
+      (menuPositionData.length > 0 && menuPositionData[0].menuPosition.length === 0) ? (
+        <small className='flex justify-center items-center flex-col mt-[30px]'>
           Пунктов в меню не найдено.
           <MenuPositionCreateForm>
             <button className={'mx-1 underline underline-offset-2 hover:text-black'}>Добавить пункт в меню.</button>

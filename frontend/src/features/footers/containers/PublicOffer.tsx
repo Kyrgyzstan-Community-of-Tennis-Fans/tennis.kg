@@ -16,14 +16,15 @@ const PublicOffer = () => {
     <>
       <div className='flex justify-end'>
         <PublicOfferEditForm>
-          <Button className={'w-full xs:w-max'}>
+          <Button disabled={publicOfferData.length === 0} className={'w-full xs:w-max'}>
             Изменить публичную оферту <EditIcon />
           </Button>
         </PublicOfferEditForm>
       </div>
 
-      {!publicOfferFetching && publicOfferData.length > 0 && publicOfferData[0].publicOffer === '' ? (
-        <small className='flex justify-center items-center flex-col mt-[50px]'>Публичная оферта не найдена.</small>
+      {(!publicOfferFetching && publicOfferData.length === 0) ||
+      (publicOfferData.length > 0 && publicOfferData[0].publicOffer === '') ? (
+        <small className='flex justify-center items-center flex-col mt-[30px]'>Публичная оферта не найдена.</small>
       ) : (
         <div className={'flex items-center gap-2 mt-3 flex-wrap'}>
           {publicOfferData.length > 0 && <PublicOfferCard publicOfferText={publicOfferData[0]?.publicOffer} />}

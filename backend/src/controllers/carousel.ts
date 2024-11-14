@@ -1,7 +1,11 @@
 import { Carousel } from '../model/Carousel';
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import path from 'path';
+import config from '../../config';
+import compressImage from '../utils/compressImage';
+import { clearImages } from '../utils/multer';
 
-export const getCarousel = async (req: Request, res: Response, next: NextFunction) => {
+export const getCarousel = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const photos = await Carousel.find();
     return res.send(photos);
@@ -13,6 +17,9 @@ export const getCarousel = async (req: Request, res: Response, next: NextFunctio
 export const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.file) return res.status(400).send({ error: 'Image field is required' });
+
+    const imagePath = path.join(config.publicPath, 'images', 'imgCarousel', req.file.filename);
+    await compressImage(imagePath);
 
     const carousel = await Carousel.create({
       image: req.file ? 'images/imgCarousel/' + req.file.filename : null,
@@ -35,7 +42,18 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
     }
 
     const id = req.params.id;
-    await Carousel.deleteOne({ _id: id });
+    const carouselImage = await Carousel.findById(id);
+
+    if (!carouselImage) {
+      return res.status(404).send({ error: 'Изображение не найдено!' });
+    }
+
+    const result = await Carousel.deleteOne({ _id: id });
+
+    if (result.deletedCount === 1) {
+      clearImages(carouselImage.image);
+    }
+
     return res.status(200).send({ message: 'Image deleted successfully' });
   } catch (error) {
     return next(error);
@@ -52,8 +70,17 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
     if (!carouselItem) return res.status(404).send({ error: 'Image not found' });
 
+    const imagePath = path.join(config.publicPath, 'images', 'imgCarousel', req.file.filename);
+    await compressImage(imagePath);
+
+    const oldImagePath = carouselItem.image;
+
     carouselItem.image = 'images/imgCarousel/' + req.file.filename;
     await carouselItem.save();
+
+    if (carouselItem.image !== oldImagePath) {
+      clearImages(oldImagePath);
+    }
 
     return res.status(200).send({ message: 'Image updated successfully', carouselItem });
   } catch (error) {

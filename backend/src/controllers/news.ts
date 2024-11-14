@@ -165,10 +165,20 @@ export const removeNews = async (req: Request, res: Response, next: NextFunction
       return res.status(404).send({ error: 'Неправильный тип id!' });
     }
 
-    const result = await News.deleteOne({ _id: req.params.id });
-    if (result.deletedCount === 0) {
+    const id = req.params.id;
+    const news = await News.findById(id);
+
+    if (!news) {
       return res.status(404).send({ error: 'Новость не найдена!' });
     }
+
+    const result = await News.deleteOne({ _id: id });
+
+    if (result.deletedCount === 1) {
+      clearImages(news.newsCover as string);
+      news.images?.length && news.images.forEach(clearImages);
+    }
+
     return res.send({ message: 'Новость успешно удалена!' });
   } catch (e) {
     return next(e);
