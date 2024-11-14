@@ -1,5 +1,6 @@
 import React from 'react';
 import { TournamentMutation } from '@/types/tournamentTypes';
+import { validateEventDate } from '@/lib/validateEventDate';
 
 export const useFormHandlers = (setState: React.Dispatch<React.SetStateAction<TournamentMutation>>) => {
   const handleChangeSelect = (value: string, name: string) => {
@@ -26,5 +27,15 @@ export const useFormHandlers = (setState: React.Dispatch<React.SetStateAction<To
     }));
   };
 
-  return { handleChange, handleChangeSelect, fileInputChangeHandler };
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    const formattedDate = validateEventDate(value);
+
+    setState((prevState) => ({
+      ...prevState,
+      [name]: formattedDate,
+    }));
+  };
+
+  return { handleChange, handleChangeSelect, fileInputChangeHandler, handleDateChange };
 };

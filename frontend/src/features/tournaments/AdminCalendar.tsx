@@ -2,25 +2,10 @@ import { useTournaments } from '@/features/tournaments/hooks/useTournaments';
 import RankFilter from '@/features/tournaments/components/RankFilter/RankFilter';
 import TournamentAccordion from '@/features/tournaments/components/TournamentAccordion/TournamentAccordion';
 import TournamentNew from '@/features/tournaments/components/TournamentNew/TournamentNew';
+import { CURRENT_YEAR_FULL } from '@/consts';
 
 const AdminCalendar = () => {
   const { tournaments, tournamentsFetching } = useTournaments();
-  const currentYear = new Date().getFullYear();
-
-  const monthNames = [
-    'Январь',
-    'Февраль',
-    'Март',
-    'Апрель',
-    'Май',
-    'Июнь',
-    'Июль',
-    'Август',
-    'Сентябрь',
-    'Октябрь',
-    'Ноябрь',
-    'Декабрь',
-  ];
 
   return (
     <div className='max-w-[900px] mx-auto mt-3'>
@@ -39,8 +24,7 @@ const AdminCalendar = () => {
         <TournamentAccordion
           tournaments={tournaments}
           isFetching={tournamentsFetching}
-          currentYear={currentYear}
-          monthNames={monthNames}
+          currentYear={CURRENT_YEAR_FULL}
           isAdmin={true}
         />
       </div>

@@ -1,25 +1,10 @@
 import { useTournaments } from '@/features/tournaments/hooks/useTournaments';
 import RankFilter from '@/features/tournaments/components/RankFilter/RankFilter';
 import TournamentAccordion from '@/features/tournaments/components/TournamentAccordion/TournamentAccordion';
+import { CURRENT_YEAR_FULL } from '@/consts';
 
 const CalendarPage = () => {
   const { tournaments, tournamentsFetching } = useTournaments();
-  const currentYear = new Date().getFullYear();
-
-  const monthNames = [
-    'Январь',
-    'Февраль',
-    'Март',
-    'Апрель',
-    'Май',
-    'Июнь',
-    'Июль',
-    'Август',
-    'Сентябрь',
-    'Октябрь',
-    'Ноябрь',
-    'Декабрь',
-  ];
 
   return (
     <div className='max-w-[900px] mx-auto'>
@@ -27,12 +12,7 @@ const CalendarPage = () => {
       <div className='mb-8'>
         <RankFilter />
       </div>
-      <TournamentAccordion
-        tournaments={tournaments}
-        isFetching={tournamentsFetching}
-        currentYear={currentYear}
-        monthNames={monthNames}
-      />
+      <TournamentAccordion tournaments={tournaments} isFetching={tournamentsFetching} currentYear={CURRENT_YEAR_FULL} />
     </div>
   );
 };

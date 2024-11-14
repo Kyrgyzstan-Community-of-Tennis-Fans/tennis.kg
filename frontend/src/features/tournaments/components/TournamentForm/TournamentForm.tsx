@@ -32,7 +32,7 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
     : emptyState;
 
   const [state, setState] = useState<TournamentMutation>(initialState);
-  const { handleChange, handleChangeSelect, fileInputChangeHandler } = useFormHandlers(setState);
+  const { handleChange, handleChangeSelect, fileInputChangeHandler, handleDateChange } = useFormHandlers(setState);
 
   useEffect(() => {
     if (open) {
@@ -57,7 +57,14 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
       <div className='flex flex-col gap-3 pt-3 pb-5'>
         <div className='flex flex-col gap-1'>
           <Label htmlFor='name'>Название турнира</Label>
-          <Input required id='name' name='name' value={state.name} onChange={handleChange} />
+          <Input
+            required
+            id='name'
+            name='name'
+            placeholder='Введите название турнира'
+            value={state.name}
+            onChange={handleChange}
+          />
         </div>
         <div className='flex flex-col gap-1'>
           <Label htmlFor='participants'>Количество участников</Label>
@@ -66,6 +73,7 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
             id='participants'
             name='participants'
             type='number'
+            placeholder='Введите кол-во участиников'
             value={state.participants}
             onChange={handleChange}
           />
@@ -77,13 +85,20 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
             id='eventDate'
             name='eventDate'
             value={state.eventDate}
-            placeholder='18.11.24'
-            onChange={handleChange}
+            placeholder='Формат: дд.мм.гг (например, 18.11.24)'
+            onChange={handleDateChange}
           />
         </div>
         <div className='flex flex-col gap-1'>
           <Label htmlFor='category'>Категория турнира</Label>
-          <Input required id='category' name='category' value={state.category} onChange={handleChange} />
+          <Input
+            required
+            id='category'
+            name='category'
+            placeholder='Введите категорию турнира'
+            value={state.category}
+            onChange={handleChange}
+          />
         </div>
         <div className='flex flex-col gap-1'>
           <Label htmlFor='rank'>Разряд</Label>
@@ -110,6 +125,17 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
           <Label htmlFor='regulationsDoc'>Регламент турнира</Label>
           <Input id='regulationsDoc' name='regulationsDoc' type='file' onChange={fileInputChangeHandler} />
         </div>
+        {state.regulationsDoc && (
+          <div className='mt-2'>
+            <button
+              type='button'
+              onClick={() => setState({ ...state, regulationsDoc: null })}
+              className='text-red-500 hover:text-red-700'
+            >
+              Очистить файл
+            </button>
+          </div>
+        )}
         <div className='flex flex-col gap-1'>
           <Label htmlFor='resultsLink'>Результаты турнира</Label>
           <Input
@@ -117,7 +143,7 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
             id='resultsLink'
             name='resultsLink'
             type='url'
-            placeholder='https://www.tournamentresult.com'
+            placeholder='Добавьте ссылку на результаты'
             value={state.resultsLink}
             onChange={handleChange}
           />
@@ -129,7 +155,7 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
             id='registrationLink'
             name='registrationLink'
             type='url'
-            placeholder='https://www.tournamentregister.com'
+            placeholder='Добавьте ссылку на регистрацию'
             value={state.registrationLink}
             onChange={handleChange}
           />
@@ -144,6 +170,7 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
             state.rank === '' ||
             state.participants === '' ||
             state.eventDate === '' ||
+            state.eventDate.length < 8 ||
             state.category === '' ||
             state.resultsLink === '' ||
             state.registrationLink === ''
