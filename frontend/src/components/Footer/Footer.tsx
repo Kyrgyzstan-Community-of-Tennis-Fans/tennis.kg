@@ -17,7 +17,7 @@ const Footer = () => {
 
   return (
     <div className='bg-cr-shark pt-8 pb-4'>
-      <div className='mx-auto flex flex-col items-center justify-center lmd:items-start lmd:flex-row p-6 lg:px-8 lmd:justify-evenly gap-10'>
+      <div className='mx-auto max-w-[1335px] px-[16px] flex flex-col items-center justify-center lmd:items-start lmd:flex-row p-6 lg:px-8 lmd:justify-evenly gap-10'>
         <div className='basis-1/4 flex flex-col gap-5 lmd:gap-10'>
           <div className='flex lg:flex-1 justify-evenly lmd:justify-start'>
             <NavLink to='/' className='w-[98px] h-[36px]'>
@@ -45,7 +45,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className='flex flex-col text-center xs:text-left xs:flex-row xs:justify-between basis-1 lmd:basis-1/2 text-cr-white gap-10 xs:gap-0'>
+        <div className='flex flex-col text-center xs:text-left xs:flex-row xs:justify-between basis-1 lmd:basis-[55%] text-cr-white gap-10 xs:gap-0'>
           <div className='basis-1/3'>
             <h1 className='pb-7 text-lg xs:text-xl'>О нас</h1>
             <ul className='flex items-center xs:items-start flex-col gap-4 text-sm xs:text-base text-[#D9DBE1]'>

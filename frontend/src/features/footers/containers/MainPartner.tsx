@@ -14,15 +14,13 @@ const MainPartner = () => {
 
   return (
     <>
-      {mainPartnerData.length === 0 ? null : (
-        <div className='flex justify-end'>
-          <MainPartnerEditForm>
-            <Button className={'w-full xs:w-max'}>
-              Изменить ген.партнера <EditIcon />
-            </Button>
-          </MainPartnerEditForm>
-        </div>
-      )}
+      <div className='flex justify-end'>
+        <MainPartnerEditForm>
+          <Button disabled={mainPartnerData.length === 0} className={'w-full xs:w-max'}>
+            Изменить ген.партнера <EditIcon />
+          </Button>
+        </MainPartnerEditForm>
+      </div>
 
       {(!mainPartnerFetching && mainPartnerData.length === 0) ||
       (mainPartnerData.length > 0 && mainPartnerData[0].mainPartnerImage === '') ? (

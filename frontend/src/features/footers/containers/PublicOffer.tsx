@@ -14,15 +14,13 @@ const PublicOffer = () => {
 
   return (
     <>
-      {publicOfferData.length === 0 ? null : (
-        <div className='flex justify-end'>
-          <PublicOfferEditForm>
-            <Button className={'w-full xs:w-max'}>
-              Изменить публичную оферту <EditIcon />
-            </Button>
-          </PublicOfferEditForm>
-        </div>
-      )}
+      <div className='flex justify-end'>
+        <PublicOfferEditForm>
+          <Button disabled={publicOfferData.length === 0} className={'w-full xs:w-max'}>
+            Изменить публичную оферту <EditIcon />
+          </Button>
+        </PublicOfferEditForm>
+      </div>
 
       {(!publicOfferFetching && publicOfferData.length === 0) ||
       (publicOfferData.length > 0 && publicOfferData[0].publicOffer === '') ? (
