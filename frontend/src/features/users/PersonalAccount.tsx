@@ -14,14 +14,14 @@ export const PersonalAccount: React.FC = () => {
   const currentUser = useAppSelector(selectCurrentUser);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(fetchOneUser(user._id));
-  }, [dispatch]);
-
   if (!user) {
     navigate('/login');
     return;
   }
+
+  useEffect(() => {
+    dispatch(fetchOneUser(user._id));
+  }, [dispatch]);
 
   return (
     currentUser && (
