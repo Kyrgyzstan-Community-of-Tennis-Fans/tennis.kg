@@ -7,7 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useCategory } from '@/features/category/hooks/useCategory';
-import { AdminRedactor } from '@/features/users/components/AdminRedactor/AdminRedactor';
+import AdminRedactor from '@/features/users/components/AdminRedactor/AdminRedactor';
 import { selectUsersList } from '@/features/users/usersSlice';
 import { fetchUsers, updateIsActive } from '@/features/users/usersThunks';
 import { formatTelephone } from '@/lib/formatTelephone';

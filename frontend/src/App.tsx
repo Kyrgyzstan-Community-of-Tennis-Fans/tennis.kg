@@ -18,6 +18,7 @@ import { getFooterItems } from '@/features/footers/footersThunks';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import { ErrorPage } from '@/components/Errors/ErrorPage';
+import { ThemeProvider } from '@/ThemeProvider';
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -29,7 +30,8 @@ export const App: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className='flex flex-col min-h-dvh'>
+    <ThemeProvider>
+      <div className='flex flex-col min-h-dvh'>
       <header className={page === 'home' ? 'mb-32' : 'mb-10'}>
         <Navbar />
       </header>
@@ -70,5 +72,6 @@ export const App: React.FC = () => {
       </footer>
       <Toaster />
     </div>
+    </ThemeProvider>
   );
 };

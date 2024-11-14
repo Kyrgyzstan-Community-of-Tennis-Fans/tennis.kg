@@ -40,7 +40,7 @@ export const ErrorPage = ({ errorCode = 404 }: { errorCode: ErrorCodes }) => {
 
   return (
     <div className='flex items-center justify-center'>
-      <div className='p-8 bg-white rounded-lg   w-full max-w-5xl mt-10'>
+      <div className='p-8 bg-white rounded-lg   w-full max-w-5xl mt-10 dark:bg-transparent '>
         <div className='flex flex-col items-center'>
           <h1 className='text-5xl font-bold text-red-500 '>{error.title}</h1>
           <h2 className='mt-6 text-3xl font-bold text-gray-800 dark:text-gray-200'>{error.message}</h2>
@@ -49,7 +49,7 @@ export const ErrorPage = ({ errorCode = 404 }: { errorCode: ErrorCodes }) => {
         <div className='mt-8 flex justify-center space-x-4'>
           <Link
             to={error.buttonLink}
-            className='inline-flex items-center px-6 py-3 text-base font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:bg-gray-600 dark:hover:bg-gray-500 dark:focus:ring-gray-400'
+            className='inline-flex items-center px-6 py-3 text-base font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700 dark:bg-gray-600 dark:hover:bg-gray-500 dark:focus:ring-gray-400'
           >
             {error.buttonLabel}
           </Link>
