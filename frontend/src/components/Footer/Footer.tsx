@@ -68,7 +68,7 @@ const Footer = () => {
               ))}
               <li>
                 <DropdownMenu>
-                  {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && currentUser && (
+                  {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && currentUser?.isActive && (
                     <DropdownMenuTrigger className='flex cursor-pointer items-center gap-1 hover:text-white'>
                       Положение
                       <ChevronUpIcon className='w-4 h-4' />

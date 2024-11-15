@@ -40,7 +40,7 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
   }, [dispatch, user]);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!currentUser) {
+    if (!currentUser?.isActive) {
       e.preventDefault();
       toggleOpen();
     }
