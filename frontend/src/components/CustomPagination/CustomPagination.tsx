@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePagination } from '@/features/news/hooks/usePagination';
+import { usePagination } from '@/lib/usePagination';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from '@/components/ui/pagination';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from '@/components/ui/select';

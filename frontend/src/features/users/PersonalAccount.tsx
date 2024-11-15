@@ -15,13 +15,10 @@ export const PersonalAccount: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchOneUser(user._id));
-  }, [dispatch]);
+    if (!user) return navigate('/login');
 
-  if (!user) {
-    navigate('/login');
-    return;
-  }
+    dispatch(fetchOneUser(user._id));
+  }, [dispatch, user, navigate]);
 
   return (
     currentUser && (

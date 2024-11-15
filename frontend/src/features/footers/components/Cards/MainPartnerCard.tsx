@@ -26,7 +26,7 @@ export const MainPartnerCard: React.FC<Props> = ({ image }) => {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <span>Предпросмотр изображения главного партнера</span>
+          <span className='text-[14px] sm:text-[16px]'>Предпросмотр изображения ген.партнера</span>
         </div>
       </div>
     </Card>
