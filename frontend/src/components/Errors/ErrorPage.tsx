@@ -14,23 +14,23 @@ const errorMessages: Record<
 > = {
   404: {
     title: '404',
-    message: 'Страница не Найдена',
+    message: 'Страница не найдена',
     description: ' Страница, которую вы ищете, не существует или была перемещена',
-    buttonLabel: 'Вернуться На Главную',
+    buttonLabel: 'Вернуться На главную',
     buttonLink: '/',
   },
   403: {
     title: '403',
-    message: 'Доступ Запрещен',
+    message: 'Доступ запрещен',
     description: 'У вас нет разрешения на доступ к этому ресурсу',
-    buttonLabel: 'Вернуться на Главную',
+    buttonLabel: 'Вернуться на главную',
     buttonLink: '/',
   },
   401: {
     title: '401',
     message: 'Не авторизован',
     description: 'Вам необходимо войти в систему, чтобы получить доступ к этой странице.',
-    buttonLabel: 'Войти в Аккаунт',
+    buttonLabel: 'Войти в аккаунт',
     buttonLink: '/login',
   },
 };
