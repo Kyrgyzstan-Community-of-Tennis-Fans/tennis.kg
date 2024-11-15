@@ -10,7 +10,7 @@ export const BlockCarousel = () => {
   return (
     <>
       <div>
-        <div className='mt-[52px] text-center md:mt-[157px]'>
+        <div className='text-center'>
           <h1 className='text-[20px] font-bold uppercase mb-[25px] md:text-[64px] md:mb-[16px]'>
             Кыргызстанское сообщество любителей тенниса
           </h1>

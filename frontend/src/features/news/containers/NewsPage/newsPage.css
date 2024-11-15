@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .news-title-block {
-	@apply text-center mb-5 sm:mb-0 sm:py-16;
+	@apply text-center mb-5 sm:mb-0 sm:pb-16;
 }
 
 .news-main-title {

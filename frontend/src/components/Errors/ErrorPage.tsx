@@ -5,7 +5,6 @@ type ErrorCodes = 404 | 403 | 401;
 const errorMessages: Record<
   ErrorCodes,
   {
-    title: string;
     message: string;
     description: string;
     buttonLabel: string;
@@ -13,21 +12,18 @@ const errorMessages: Record<
   }
 > = {
   404: {
-    title: '404',
     message: 'Страница не найдена',
     description: ' Страница, которую вы ищете, не существует или была перемещена',
     buttonLabel: 'Вернуться На главную',
     buttonLink: '/',
   },
   403: {
-    title: '403',
     message: 'Доступ запрещен',
     description: 'У вас нет разрешения на доступ к этому ресурсу',
     buttonLabel: 'Вернуться на главную',
     buttonLink: '/',
   },
   401: {
-    title: '401',
     message: 'Не авторизован',
     description: 'Вам необходимо войти в систему, чтобы получить доступ к этой странице.',
     buttonLabel: 'Войти в аккаунт',
@@ -42,7 +38,6 @@ export const ErrorPage = ({ errorCode = 404 }: { errorCode: ErrorCodes }) => {
     <div className='flex items-center justify-center'>
       <div className='p-8 bg-white rounded-lg   w-full max-w-5xl mt-10 dark:bg-transparent '>
         <div className='flex flex-col items-center'>
-          <h1 className='text-5xl font-bold text-red-500 '>{error.title}</h1>
           <h2 className='mt-6 text-3xl font-bold text-gray-800 dark:text-gray-200'>{error.message}</h2>
           <p className='mt-4 text-lg text-gray-600 dark:text-gray-400'>{error.description}</p>
         </div>

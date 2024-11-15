@@ -32,7 +32,7 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider>
       <div className='flex flex-col min-h-dvh'>
-      <header className={page === 'home' ? 'mb-32' : 'mb-10'}>
+      <header className='max-h-24 mb-16 sm:mb-24'>
         <Navbar />
       </header>
 
