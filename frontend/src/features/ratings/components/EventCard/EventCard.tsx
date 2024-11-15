@@ -28,7 +28,7 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
   };
 
   return (
-    <div className={'space-y-2 p-3 border bg-gray-200 mb-3 rounded-lg flex-1 min-w-56'}>
+    <div id={'eventItem'} className={'space-y-2 .event-item p-3 border bg-gray-200 mb-3 rounded-lg flex-1 min-w-56'}>
       <div className={'bg-[#64B32C42] px-2 rounded-md'}>
         <h3 className={'text-sm'}>
           Категория - <span className={'font-medium'}>{category.name}</span>
@@ -51,11 +51,13 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
             </EventEdit>
           </div>
         )}
-        <a href={link} target={'_blank'} className={'block ml-auto'}>
+        <a id={'openRatingButton'} href={link} target={'_blank'} className={'block ml-auto'}>
           <Button
             size={'sm'}
             variant={'ghost'}
-            className={'text-cr-green-700 flex items-center ml-auto hover:bg-gray-200 hover:text-cr-green-900'}
+            className={
+              'text-cr-green-700 .open-rating-button flex items-center ml-auto hover:bg-gray-200 hover:text-cr-green-900'
+            }
           >
             Открыть рейтинг <ArrowRightIcon />
           </Button>
