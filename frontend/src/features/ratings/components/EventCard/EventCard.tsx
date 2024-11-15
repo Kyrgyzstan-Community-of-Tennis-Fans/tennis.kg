@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Confirm } from '@/components/Confirm/Confirm';
 import { Button } from '@/components/ui/button';
 import { EventEdit } from '@/features/ratings/components/EventEdit/EventEdit';
@@ -6,9 +6,14 @@ import { deleteEvent, fetchRatings } from '@/features/ratings/ratingsThunks';
 import { Event } from '@/types/eventTypes';
 import type { Rating } from '@/types/ratingTypes';
 import { ArrowRightIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
+import { useDialogState } from '@/features/news/hooks/useDialogState';
+import { selectCurrentUser, selectUser } from '@/features/users/usersSlice';
+import { fetchOneUser } from '@/features/users/usersThunks';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ErrorPage } from '@/components/Errors/ErrorPage';
 
 interface Props {
   event: Event;
@@ -20,11 +25,25 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
   const { pathname } = useLocation();
   const { category, link } = event;
   const idAdminPage = pathname.includes('admin');
+  const user = useAppSelector(selectUser);
+  const currentUser = useAppSelector(selectCurrentUser);
+  const { open, toggleOpen } = useDialogState();
 
   const handleDelete = async () => {
     await dispatch(deleteEvent(event._id)).unwrap();
     await dispatch(fetchRatings()).unwrap();
     toast.success('Событие успешно удалено');
+  };
+
+  useEffect(() => {
+    if (user) dispatch(fetchOneUser(user._id));
+  }, [dispatch, user]);
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!currentUser?.isActive) {
+      e.preventDefault();
+      toggleOpen();
+    }
   };
 
   return (
@@ -51,7 +70,7 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
             </EventEdit>
           </div>
         )}
-        <a href={link} target={'_blank'} className={'block ml-auto'}>
+        <a href={link} target={'_blank'} className={'block ml-auto'} onClick={handleLinkClick}>
           <Button
             size={'sm'}
             variant={'ghost'}
@@ -61,6 +80,19 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
           </Button>
         </a>
       </div>
+
+      {open && (
+        <Dialog open={open} onOpenChange={toggleOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className='text-2xl font-bold'>Внимание!</DialogTitle>
+              <DialogDescription>
+                <ErrorPage errorCode={401} />
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };

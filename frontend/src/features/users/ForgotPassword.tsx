@@ -6,12 +6,12 @@ import React from 'react';
 import { useForgotPassword } from '@/features/users/hooks/forgotPassword';
 
 export const ForgotPassword: React.FC = () => {
-  const { forgotPasswordLoading, email, handleChange, handleSubmit } = useForgotPassword();
+  const { forgotPasswordLoading, email, handleChange, handleSubmit, disabled, timer } = useForgotPassword();
 
   return (
     <form onSubmit={handleSubmit}>
       <section
-        className='absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4 w-full py-10 mx-auto px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl'
+        className='w-full py-10 mx-auto px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl'
         style={{ boxShadow: '0px 4px 100px 0px #00000017' }}
       >
         <div className='mb-3'>
@@ -32,11 +32,11 @@ export const ForgotPassword: React.FC = () => {
         </div>
 
         <Button
-          disabled={email.length === 0 || forgotPasswordLoading}
+          disabled={email.length === 0 || forgotPasswordLoading || disabled}
           type={'submit'}
-          className={'w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5'}
+          className={`w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5 ${disabled && 'pointer-events-none'}`}
         >
-          Отправить ссылку на сброс пароля
+          {timer > 0 ? `Запросить код заново (${timer})` : 'Отправить ссылку на сброс пароля'}
           {forgotPasswordLoading ? (
             <Loader className={'text-muted'} />
           ) : (

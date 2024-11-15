@@ -159,6 +159,9 @@ export const updateProfile = async (req: RequestWithUser, res: Response, next: N
 export const getAllUsers = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
     const { category, telephone, fullName } = req.query;
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = parseInt(req.query.limit as string, 10) || 6;
+    const startIndex = (page - 1) * limit;
 
     const filter: any = {};
 
@@ -172,8 +175,15 @@ export const getAllUsers = async (req: RequestWithUser, res: Response, next: Nex
       filter.fullName = { $regex: fullName, $options: 'i' };
     }
 
-    const users = await User.find(filter).populate('category');
-    return res.status(200).send(users);
+    const users = await User.find(filter).populate('category')
+        .skip(startIndex)
+        .limit(limit)
+        .lean();
+
+    const total = await User.countDocuments(filter);
+    const pages = limit > 0 ? Math.ceil(total / limit) : null;
+
+    return res.status(200).send({ page, limit, total, pages, data: users });
   } catch (error) {
     next(error);
   }

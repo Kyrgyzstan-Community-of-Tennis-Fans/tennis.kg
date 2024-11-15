@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 type ErrorCodes = 404 | 403 | 401;
 

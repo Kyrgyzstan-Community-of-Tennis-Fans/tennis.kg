@@ -62,4 +62,13 @@ export interface UsersFilter {
   category?: string;
   telephone?: string;
   fullName?: string;
+  page: number;
+}
+
+export interface UsersResponse {
+  page: number;
+  limit: number;
+  total: number;
+  pages: number;
+  data: User[];
 }

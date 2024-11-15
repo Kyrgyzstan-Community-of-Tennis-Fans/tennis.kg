@@ -3,27 +3,29 @@ import { InfoTip } from '@/components/Confirm/InfoTip/InfoTip';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useCategory } from '@/features/category/hooks/useCategory';
 import AdminRedactor from '@/features/users/components/AdminRedactor/AdminRedactor';
-import { selectUsersList } from '@/features/users/usersSlice';
+import {selectUsersList, selectUsersListPages} from '@/features/users/usersSlice';
 import { fetchUsers, updateIsActive } from '@/features/users/usersThunks';
 import { formatTelephone } from '@/lib/formatTelephone';
 import type { UsersFilter } from '@/types/userTypes';
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { type ChangeEvent, useEffect, useState } from 'react';
+import {CustomPagination} from "@/components/CustomPagination/CustomPagination";
 
 export const AdminUserList = () => {
   const [filters, setFilters] = useState<UsersFilter>({
     telephone: '',
     fullName: '',
-    category: '',
+    category: 'all',
+    page: 1
   });
   const { categories, categoriesFetching } = useCategory();
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsersList);
+  const totalPages = useAppSelector(selectUsersListPages)
 
   useEffect(() => {
     dispatch(fetchUsers(filters));
@@ -45,6 +47,7 @@ export const AdminUserList = () => {
     setFilters((prevState) => ({
       ...prevState,
       [name]: value,
+      page: 1,
     }));
   };
 
@@ -52,6 +55,7 @@ export const AdminUserList = () => {
     setFilters((prevState) => ({
       ...prevState,
       category,
+      page: 1,
     }));
   };
 
@@ -101,7 +105,6 @@ export const AdminUserList = () => {
         </Select>
       </div>
 
-      <ScrollArea className={'h-[500px]'}>
         {users.length === 0 ? (
           <p className={'text-center text-muted-foreground mt-10'}>Список пользователей пуст…</p>
         ) : (
@@ -156,7 +159,7 @@ export const AdminUserList = () => {
             </TableBody>
           </Table>
         )}
-      </ScrollArea>
+      <CustomPagination page={filters.page} total={totalPages} setPage={(page = filters.page) => setFilters(prevState => ({ ...prevState, page}))} />
     </Layout>
   );
 };

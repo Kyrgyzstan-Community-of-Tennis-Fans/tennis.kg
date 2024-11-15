@@ -34,7 +34,7 @@ interface Props {
   user: User;
 }
 
-export const UserEdit: React.FC<PropsWithChildren | Props> = ({ children, user }) => {
+export const UserEdit: React.FC<PropsWithChildren & Props> = ({ children, user }) => {
   const dispatch = useAppDispatch();
   const updatingUser = useAppSelector(selectUpdating);
   const closeRef = useRef<HTMLButtonElement | null>(null);
