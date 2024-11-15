@@ -11,7 +11,7 @@ export const PublicOfferCard: React.FC<Props> = ({ publicOfferText }) => {
     <Card className='p-3 shadow-none relative min-w-72 flex-1'>
       <div className='flex items-center gap-2 justify-between lg:flex-row flex-wrap'>
         <div className='flex items-center gap-2 whitespace-normal max-w-full'>
-          <DocumentTextIcon className='h-[30px] w-[30px] mr-2 shrink-0' />
+          <DocumentTextIcon className='h-[30px] w-[30px] shrink-0' />
           <span className='truncate'>{publicOfferText}</span>
         </div>
       </div>

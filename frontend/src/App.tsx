@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { Error404 } from '@/components/Errors/Error404';
-import Footer from '@/components/Footer/Footer';
 import { ProtectedRoute } from '@/components/ProtectedRouter/ProtectedRouter';
-import { Toolbar } from '@/components/Toolbar/Toolbar';
 import { Toaster } from '@/components/ui/sonner';
 import { Ratings } from '@/features/ratings/ratings';
 import { ForgotPassword } from '@/features/users/ForgotPassword';
@@ -18,6 +15,9 @@ import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import AdminPanel from '@/pages/AdminPanel';
 import { getFooterItems } from '@/features/footers/footersThunks';
+import Navbar from '@/components/Navbar/Navbar';
+import Footer from '@/components/Footer/Footer';
+import { ErrorPage } from '@/components/Errors/ErrorPage';
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ export const App: React.FC = () => {
   return (
     <div className='flex flex-col min-h-dvh'>
       <header className={page === 'home' ? 'mb-32' : 'mb-10'}>
-        <Toolbar />
+        <Navbar />
       </header>
 
       <main className='grow'>
@@ -61,11 +61,11 @@ export const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
-          <Route path={'*'} element={<Error404 />} />
+          <Route path={'*'} element={<ErrorPage errorCode={404} />} />
         </Routes>
       </main>
 
-      <footer className={`mt-auto ${page !== 'home' && 'pt-14'}`}>
+      <footer className={`mt-auto ${page !== 'home' && 'pt-[218px]'}`}>
         <Footer />
       </footer>
       <Toaster />
