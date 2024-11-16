@@ -8,13 +8,14 @@ import {
   updateIsActive,
   updateUserInfo,
 } from '@/features/users/usersThunks';
-import type { GlobalError, User, ValidationError } from '@/types/userTypes';
+import type {GlobalError, User, ValidationError} from '@/types/userTypes';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface UsersState {
   user: User | null;
   currentUser: User | null;
   users: User[];
+  usersPages: number;
   usersFetching: boolean;
   registerLoading: boolean;
   registerError: ValidationError | null;
@@ -33,6 +34,7 @@ const initialState: UsersState = {
   user: null,
   currentUser: null,
   users: [],
+  usersPages: 0,
   usersFetching: false,
   registerLoading: false,
   registerError: null,
@@ -63,7 +65,8 @@ export const usersSlice = createSlice({
       })
       .addCase(fetchUsers.fulfilled, (state, { payload: users }) => {
         state.usersFetching = false;
-        state.users = users;
+        state.users = users.data;
+        state.usersPages = users.pages;
       })
       .addCase(fetchUsers.rejected, (state) => {
         state.usersFetching = false;
@@ -164,6 +167,7 @@ export const usersSlice = createSlice({
     selectUser: (state) => state.user,
     selectCurrentUser: (state) => state.currentUser,
     selectUsersList: (state) => state.users,
+    selectUsersListPages: (state) => state.usersPages,
     selectUserFetching: (state) => state.usersFetching,
     selectRegisterLoading: (state) => state.registerLoading,
     selectRegisterError: (state) => state.registerError,
@@ -184,6 +188,7 @@ export const {
   selectUser,
   selectCurrentUser,
   selectUsersList,
+    selectUsersListPages,
   selectUserFetching,
   selectRegisterLoading,
   selectRegisterError,
