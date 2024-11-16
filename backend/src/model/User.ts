@@ -62,10 +62,10 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>(
       type: String,
       required: true,
     },
-      isActive: {
-          type: Boolean,
-          default: true,
-      },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
     resetPasswordToken: { type: String, default: null },
     resetPasswordExpires: { type: Date, default: null },
   },

@@ -68,6 +68,7 @@ const PublicOfferEditForm: React.FC<PropsWithChildren> = ({ children }) => {
             <div className={'flex flex-col justify-between gap-2 mb-3'}>
               <Label htmlFor={'public-offer'}>Ссылка на оферту</Label>
               <Input
+                type='url'
                 name='publicOffer'
                 value={publicOffer}
                 onChange={inputChangeHandler}

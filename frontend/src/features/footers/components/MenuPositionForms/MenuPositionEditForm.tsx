@@ -118,6 +118,7 @@ const MenuPositionEditForm: React.FC<Props> = ({ id }) => {
               />
               <Label htmlFor={'menu-position-link'}>Ссылка на страницу</Label>
               <Input
+                type='url'
                 name='value'
                 value={menuPosition.value}
                 onChange={inputChangeHandler}

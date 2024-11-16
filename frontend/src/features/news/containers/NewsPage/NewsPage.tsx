@@ -26,7 +26,7 @@ export const NewsPage: React.FC<Props> = ({ isAdmin }) => {
       break;
   }
 
-	const renderNewsContent = () =>
+  const renderNewsContent = () =>
     !newsFetching && news.length === 0 ? (
       noDataContent
     ) : (
