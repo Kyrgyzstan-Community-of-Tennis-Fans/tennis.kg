@@ -8,7 +8,7 @@ import {
   updateIsActive,
   updateUserInfo,
 } from '@/features/users/usersThunks';
-import type {GlobalError, User, ValidationError} from '@/types/userTypes';
+import type { GlobalError, User, ValidationError } from '@/types/userTypes';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface UsersState {
@@ -188,7 +188,7 @@ export const {
   selectUser,
   selectCurrentUser,
   selectUsersList,
-    selectUsersListPages,
+  selectUsersListPages,
   selectUserFetching,
   selectRegisterLoading,
   selectRegisterError,

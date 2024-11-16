@@ -115,6 +115,7 @@ const SocialNetworkCreateForm: React.FC<PropsWithChildren> = ({ children }) => {
               <Label htmlFor={'social-network'}>Адрес социальной сети</Label>
               <Input
                 name='value'
+                type='url'
                 value={socialNetwork.value}
                 onChange={inputChangeHandler}
                 placeholder={'Введите URL социальной сети'}
