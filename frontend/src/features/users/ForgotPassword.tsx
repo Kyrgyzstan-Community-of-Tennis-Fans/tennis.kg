@@ -11,12 +11,12 @@ export const ForgotPassword: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <section
-        className='w-full py-10 mx-auto px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl'
+        className='w-full py-10 mx-auto px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl dark:border dark:border-green-400'
         style={{ boxShadow: '0px 4px 100px 0px #00000017' }}
       >
         <div className='mb-3'>
           <h1 className='font-bold text-[28px]'>Сброс пароля.</h1>
-          <p className='text-sm text-black/75'>Пожалуйста, введите вашу почту для сброса пароля.</p>
+          <p className='text-sm text-black/75 dark:text-white'>Пожалуйста, введите вашу почту для сброса пароля.</p>
         </div>
 
         <div className={'space-y-3 mb-5'}>
@@ -34,7 +34,7 @@ export const ForgotPassword: React.FC = () => {
         <Button
           disabled={email.length === 0 || forgotPasswordLoading || disabled}
           type={'submit'}
-          className={`w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5 ${disabled && 'pointer-events-none'}`}
+          className={`dark:bg-white w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5 ${disabled && 'pointer-events-none'}`}
         >
           {timer > 0 ? `Запросить код заново (${timer})` : 'Отправить ссылку на сброс пароля'}
           {forgotPasswordLoading ? (
