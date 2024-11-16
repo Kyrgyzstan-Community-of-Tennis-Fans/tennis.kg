@@ -175,10 +175,7 @@ export const getAllUsers = async (req: RequestWithUser, res: Response, next: Nex
       filter.fullName = { $regex: fullName, $options: 'i' };
     }
 
-    const users = await User.find(filter).populate('category')
-        .skip(startIndex)
-        .limit(limit)
-        .lean();
+    const users = await User.find(filter).populate('category').skip(startIndex).limit(limit).lean();
 
     const total = await User.countDocuments(filter);
     const pages = limit > 0 ? Math.ceil(total / limit) : null;

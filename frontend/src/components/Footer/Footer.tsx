@@ -68,12 +68,14 @@ const Footer = () => {
               ))}
               <li>
                 <DropdownMenu>
-                  {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && currentUser?.isActive && (
-                    <DropdownMenuTrigger className='flex cursor-pointer items-center gap-1 hover:text-white'>
-                      Положение
-                      <ChevronUpIcon className='w-4 h-4' />
-                    </DropdownMenuTrigger>
-                  )}
+                  {footerItemsData.length > 0 &&
+                    footerItemsData[0].menuPosition.length > 0 &&
+                    currentUser?.isActive && (
+                      <DropdownMenuTrigger className='flex cursor-pointer items-center gap-1 hover:text-white'>
+                        Положение
+                        <ChevronUpIcon className='w-4 h-4' />
+                      </DropdownMenuTrigger>
+                    )}
                   <DropdownMenuContent className='p-0 w-[302px]'>
                     {footerItemsData.length > 0 &&
                       footerItemsData[0].menuPosition.map((menuItem) => (
@@ -108,7 +110,7 @@ const Footer = () => {
           </div>
 
           <div className='flex flex-col items-center basis-1/3'>
-            <h1 className='pb-7 text-center text-xl'>Генеральный партнер</h1>
+            <h1 className='pb-[34px] text-center text-xl'>Генеральный партнер</h1>
             <img
               src={
                 footerItemsData.length > 0 && footerItemsData[0].mainPartnerImage

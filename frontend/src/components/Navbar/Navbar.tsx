@@ -12,7 +12,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectItemsData } from '@/features/footers/footersSlice';
 import { NavigationItems } from '@/components/Navbar/MenuItems';
-import { selectUser } from '@/features/users/usersSlice';
+import { selectCurrentUser, selectUser } from '@/features/users/usersSlice';
 import { useEffect } from 'react';
 import { fetchOneUser } from '@/features/users/usersThunks';
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher';
@@ -20,6 +20,7 @@ import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher';
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const currentUser = useAppSelector(selectCurrentUser);
   const footerItemsData = useAppSelector(selectItemsData);
 
   useEffect(() => {
@@ -54,9 +55,11 @@ const Navbar = () => {
                 <NavigationMenu>
                   <NavigationMenuList>
                     <NavigationMenuItem>
-                      {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && (
-                        <NavigationMenuTrigger className='text-white'>Положение</NavigationMenuTrigger>
-                      )}
+                      {footerItemsData.length > 0 &&
+                        footerItemsData[0].menuPosition.length > 0 &&
+                        currentUser?.isActive && (
+                          <NavigationMenuTrigger className='text-white'>Положение</NavigationMenuTrigger>
+                        )}
                       <NavigationMenuContent>
                         <ul className='w-[300px]'>
                           {footerItemsData.length > 0 &&

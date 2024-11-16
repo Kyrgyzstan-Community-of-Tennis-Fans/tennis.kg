@@ -91,6 +91,7 @@ const MenuPositionCreateForm: React.FC<PropsWithChildren> = ({ children }) => {
               />
               <Label htmlFor={'menu-position-link'}>Ссылка на страницу</Label>
               <Input
+                type='url'
                 name='value'
                 value={menuPosition.value}
                 onChange={inputChangeHandler}
