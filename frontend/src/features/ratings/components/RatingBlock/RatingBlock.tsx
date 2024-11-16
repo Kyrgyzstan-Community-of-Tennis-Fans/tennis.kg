@@ -47,7 +47,7 @@ export const RatingBlock: React.FC<Props> = ({ ratings }) => {
               </span>
             </AccordionTrigger>
 
-            <AccordionContent>
+            <AccordionContent id={'accordion'}>
               {rating.events.length === 0 ? (
                 <span className={'block text-center text-muted-foreground'}>
                   В {getMonth(rating.month, 'ending')} {rating.year} года нет событий
