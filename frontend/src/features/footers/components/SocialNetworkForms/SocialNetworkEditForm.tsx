@@ -102,6 +102,7 @@ const SocialNetworkCreateForm: React.FC<Props> = ({ id }) => {
             <div className={'flex flex-col justify-between gap-2 mb-3'}>
               <Label htmlFor={'social-network'}>Адрес социальной сети</Label>
               <Input
+                type='url'
                 name='value'
                 value={socialNetwork.value}
                 onChange={inputChangeHandler}

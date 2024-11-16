@@ -9,14 +9,22 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectItemsData } from '@/features/footers/footersSlice';
 import { NavigationItems } from '@/components/Navbar/MenuItems';
-import { selectUser } from '@/features/users/usersSlice';
+import { selectCurrentUser, selectUser } from '@/features/users/usersSlice';
+import { useEffect } from 'react';
+import { fetchOneUser } from '@/features/users/usersThunks';
 
 const Navbar = () => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const currentUser = useAppSelector(selectCurrentUser);
   const footerItemsData = useAppSelector(selectItemsData);
+
+  useEffect(() => {
+    if (user) dispatch(fetchOneUser(user._id));
+  }, [dispatch, user]);
 
   return (
     <div className='py-[20px] md:py-[27px] mb-[70px] bg-cr-shark'>
@@ -46,9 +54,11 @@ const Navbar = () => {
                 <NavigationMenu>
                   <NavigationMenuList>
                     <NavigationMenuItem>
-                      {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && (
-                        <NavigationMenuTrigger className='text-white'>Положение</NavigationMenuTrigger>
-                      )}
+                      {footerItemsData.length > 0 &&
+                        footerItemsData[0].menuPosition.length > 0 &&
+                        currentUser?.isActive && (
+                          <NavigationMenuTrigger className='text-white'>Положение</NavigationMenuTrigger>
+                        )}
                       <NavigationMenuContent>
                         <ul className='w-[300px]'>
                           {footerItemsData.length > 0 &&
