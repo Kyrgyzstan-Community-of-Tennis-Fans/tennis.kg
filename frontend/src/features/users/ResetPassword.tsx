@@ -11,7 +11,7 @@ export const ResetPassword: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <section
-        className='absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4 w-full py-10 mx-auto px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl'
+        className='w-full py-10 mx-auto px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl'
         style={{ boxShadow: '0px 4px 100px 0px #00000017' }}
       >
         <div className='mb-3'>

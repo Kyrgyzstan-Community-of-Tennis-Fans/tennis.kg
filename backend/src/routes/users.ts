@@ -1,13 +1,16 @@
 import express from 'express';
 import { auth } from '../middleware/auth';
 import {
-    forgotPassword, getAllUsers, getOneUser,
-    login,
-    logout,
-    register,
-    resetPassword,
-    updateActiveStatus, updateCurrentProfile,
-    updateProfile
+  forgotPassword,
+  getAllUsers,
+  getOneUser,
+  login,
+  logout,
+  register,
+  resetPassword,
+  updateActiveStatus,
+  updateCurrentProfile,
+  updateProfile,
 } from '../controllers/users';
 
 export const usersRouter = express.Router();

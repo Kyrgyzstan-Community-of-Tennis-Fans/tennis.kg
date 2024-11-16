@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectItemsData } from '@/features/footers/footersSlice';
 import { SocialIcon } from 'react-social-icons';
 import { API_URl } from '@/consts';
@@ -11,9 +11,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ChevronUpIcon } from '@radix-ui/react-icons';
+import { selectCurrentUser, selectUser } from '@/features/users/usersSlice';
+import { useEffect } from 'react';
+import { fetchOneUser } from '@/features/users/usersThunks';
 
 const Footer = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
+  const currentUser = useAppSelector(selectCurrentUser);
   const footerItemsData = useAppSelector(selectItemsData);
+
+  useEffect(() => {
+    if (user) dispatch(fetchOneUser(user._id));
+  }, [dispatch, user]);
 
   return (
     <div className='bg-cr-shark pt-8 pb-4'>
@@ -58,12 +68,14 @@ const Footer = () => {
               ))}
               <li>
                 <DropdownMenu>
-                  {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && (
-                    <DropdownMenuTrigger className='flex cursor-pointer items-center gap-1 hover:text-white'>
-                      Положение
-                      <ChevronUpIcon className='w-4 h-4' />
-                    </DropdownMenuTrigger>
-                  )}
+                  {footerItemsData.length > 0 &&
+                    footerItemsData[0].menuPosition.length > 0 &&
+                    currentUser?.isActive && (
+                      <DropdownMenuTrigger className='flex cursor-pointer items-center gap-1 hover:text-white'>
+                        Положение
+                        <ChevronUpIcon className='w-4 h-4' />
+                      </DropdownMenuTrigger>
+                    )}
                   <DropdownMenuContent className='p-0 w-[302px]'>
                     {footerItemsData.length > 0 &&
                       footerItemsData[0].menuPosition.map((menuItem) => (
@@ -98,7 +110,7 @@ const Footer = () => {
           </div>
 
           <div className='flex flex-col items-center basis-1/3'>
-            <h1 className='pb-7 text-center text-xl'>Генеральный партнер</h1>
+            <h1 className='pb-[34px] text-center text-xl'>Генеральный партнер</h1>
             <img
               src={
                 footerItemsData.length > 0 && footerItemsData[0].mainPartnerImage
