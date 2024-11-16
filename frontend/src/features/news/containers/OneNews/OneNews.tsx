@@ -35,8 +35,8 @@ export const OneNews: React.FC = () => {
   return (
     <Layout className='py-16'>
       <div className='one-news-title-block'>
-        <h1 className='one-news-subtitle'>{oneNews?.subtitle}</h1>
-        <h2 className='one-news-title'>{oneNews?.title}</h2>
+        <h1 className='one-news-title'>{oneNews?.title}</h1>
+        <h2 className='one-news-subtitle'>{oneNews?.subtitle}</h2>
       </div>
 
       <section className={oneNews && oneNews.images.length > 0 ? 'embla' : 'hidden'}>

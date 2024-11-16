@@ -1,7 +1,13 @@
-import { useState } from 'react';
-import { useAppSelector } from '@/app/hooks';
-import { selectCreateNewsLoading, selectUpdateNewsLoading } from '@/features/news/newsSlice';
+import { useCallback, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import {
+  selectCreateNewsLoading,
+  selectFetchOneNewsLoading,
+  selectOneNews,
+  selectUpdateNewsLoading,
+} from '@/features/news/newsSlice';
 import { NewsMutation } from '@/types/news';
+import { fetchOneNews } from '@/features/news/newsThunks';
 
 const initialState: NewsMutation = {
   title: '',
@@ -14,8 +20,12 @@ const initialState: NewsMutation = {
 export const useNewsForm = () => {
   const [news, setNews] = useState<NewsMutation>(initialState);
   const [resetKey, setResetKey] = useState(0);
+  const [lastFetchedNewsId, setLastFetchedNewsId] = useState<string | null>(null);
+  const oneNews = useAppSelector(selectOneNews);
   const newsCreating = useAppSelector(selectCreateNewsLoading);
+  const oneNewsFetching = useAppSelector(selectFetchOneNewsLoading);
   const newsUpdating = useAppSelector(selectUpdateNewsLoading);
+  const dispatch = useAppDispatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -56,7 +66,25 @@ export const useNewsForm = () => {
     });
   };
 
-  const resetForm = () => {
+  const fetchNewsAndSetData = useCallback((newsId: string) => {
+    if (newsId && newsId !== lastFetchedNewsId) {
+      dispatch(fetchOneNews(newsId));
+      setLastFetchedNewsId(newsId);
+    }
+
+    if (oneNews) {
+      setNews({
+        title: oneNews.title,
+        subtitle: oneNews.subtitle,
+        content: oneNews.content,
+        newsCover: oneNews.newsCover,
+        images: oneNews.images,
+      });
+      setLastFetchedNewsId(oneNews._id);
+    }
+  }, [lastFetchedNewsId, dispatch, oneNews, setNews]);
+
+    const resetForm = () => {
     setNews({ ...initialState });
     setResetKey((prevKey) => prevKey + 1);
   };
@@ -69,8 +97,10 @@ export const useNewsForm = () => {
     handleEditorChange,
     handleFileInputChange,
     handleRemoveMedia,
+    fetchNewsAndSetData,
     resetForm,
     newsCreating,
+    oneNewsFetching,
     newsUpdating,
   };
 };
