@@ -99,7 +99,7 @@ export const updateTournament = async (req: Request, res: Response, next: NextFu
       registrationLink,
     };
 
-    if (regulationsDoc === null) {
+    if (regulationsDoc === 'null') {
       updatedData.regulationsDoc = null;
     } else if (req.file) {
       updatedData.regulationsDoc = req.file.filename;

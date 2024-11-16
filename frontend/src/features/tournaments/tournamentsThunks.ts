@@ -53,6 +53,8 @@ export const updateTournament = createAsyncThunk<void, UpdateTournamentArg, { re
         const value = tournamentMutation[key];
         if (value !== null) {
           formData.append(key, value);
+        } else if (key === 'regulationsDoc') {
+          formData.append(key, 'null');
         }
       });
 

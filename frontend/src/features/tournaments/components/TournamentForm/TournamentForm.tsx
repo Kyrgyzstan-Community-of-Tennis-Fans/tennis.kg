@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DialogClose } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Confirm } from '@/components/Confirm/Confirm';
 
 interface Props {
   onSubmit: (tournament: TournamentMutation) => void;
@@ -124,22 +125,20 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
         <div className='flex flex-col gap-1'>
           <Label htmlFor='regulationsDoc'>Регламент турнира</Label>
           <Input id='regulationsDoc' name='regulationsDoc' type='file' onChange={fileInputChangeHandler} />
+          {state.regulationsDoc && (
+            <div className='mt-1'>
+              <Confirm onOk={() => setState({ ...state, regulationsDoc: null })} onOkText='Очистить'>
+                <Button size='sm' variant='destructive'>
+                  Очистить файл
+                </Button>
+              </Confirm>
+            </div>
+          )}
         </div>
-        {state.regulationsDoc && (
-          <div className='mt-2'>
-            <button
-              type='button'
-              onClick={() => setState({ ...state, regulationsDoc: null })}
-              className='text-red-500 hover:text-red-700'
-            >
-              Очистить файл
-            </button>
-          </div>
-        )}
+
         <div className='flex flex-col gap-1'>
           <Label htmlFor='resultsLink'>Результаты турнира</Label>
           <Input
-            required
             id='resultsLink'
             name='resultsLink'
             type='url'
@@ -172,7 +171,6 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
             state.eventDate === '' ||
             state.eventDate.length < 8 ||
             state.category === '' ||
-            state.resultsLink === '' ||
             state.registrationLink === ''
           }
         >

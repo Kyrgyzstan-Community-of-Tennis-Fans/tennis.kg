@@ -23,7 +23,7 @@ const initialState: tournamentSlice = {
   isCreating: false,
   isUpdating: false,
   isDeleting: false,
-  selectedRank: undefined,
+  selectedRank: 'all',
 };
 
 export const tournamentsSlice = createSlice({
@@ -31,7 +31,7 @@ export const tournamentsSlice = createSlice({
   initialState,
   reducers: {
     setRank(state, action: PayloadAction<string | undefined>) {
-      state.selectedRank = action.payload;
+      state.selectedRank = action.payload || 'all';
     },
   },
   extraReducers: (builder) => {
