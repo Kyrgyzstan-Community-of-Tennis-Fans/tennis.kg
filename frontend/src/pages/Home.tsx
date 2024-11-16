@@ -13,7 +13,7 @@ const gradientCircles = [
   { width: '660px', height: '675px', top: '1110px', left: '-200px' },
   { width: '660px', height: '675px', top: '1480px', right: '-195px' },
   { width: '516px', height: '528px', top: '2000px', left: '-20px' },
-  { width: '630px', height: '654px', bottom: '1500px', left: '-20px' },
+  { width: '630px', height: '654px', bottom: '1500px', left: '-100px' },
   { width: '630px', height: '654px', bottom: '1800px', right: '-200px' },
   { width: '516px', height: '528px', bottom: '700px', right: '-20px' },
 ];
