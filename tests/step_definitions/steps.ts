@@ -22,7 +22,7 @@ Then(
   () => {
     I.see("Открыть рейтинг", "#openRatingButton");
     I.seeElement({
-      css: '#openRatingButton[href*="https://headlessui.com/react/fieldset"]',
+      css: '#openRatingButton[href*="https://www.google.com"]',
     });
   },
 );
