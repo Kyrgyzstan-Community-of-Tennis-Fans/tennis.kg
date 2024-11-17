@@ -1,13 +1,13 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { CupIcon } from '@/assets/icons/CupIcon';
+import { RewardCard } from '@/components/FileInput/RewardCard/RewardCard';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { UserEdit } from '@/features/users/components/UserEdit/UserEdit';
 import { selectCurrentUser, selectUser } from '@/features/users/usersSlice';
+import { fetchOneUser } from '@/features/users/usersThunks';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchOneUser } from '@/features/users/usersThunks';
 
 interface UserInfoProps {
   label: string;
@@ -73,18 +73,10 @@ export const PersonalAccount: React.FC = () => {
             <span className={'text-muted-foreground text-sm'}>Список ваших наград</span>
           </div>
 
-          <div className='space-y-2 flex flex-col'>
-            <div className='flex items-center gap-2'>
-              <CupIcon className='size-9 text-[#64B32C]' />
-              <span>
-                {currentUser.rewards.map((item) => (
-                  <div className={'flex flex-col'} key={item._id}>
-                    <span>{item.title}</span>
-                    <small>{item.description}</small>
-                  </div>
-                ))}
-              </span>
-            </div>
+          <div className='grid grid-cols-2 gap-3'>
+            {currentUser.rewards.map((item) => (
+              <RewardCard key={item._id} item={item} />
+            ))}
           </div>
         </section>
       </main>
