@@ -18,6 +18,7 @@ import { getFooterItems } from '@/features/footers/footersThunks';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import { ErrorPage } from '@/components/Errors/ErrorPage';
+import { getPermission } from '@/features/users/usersThunks';
 import { ThemeProvider } from '@/ThemeProvider';
 
 export const App: React.FC = () => {
@@ -27,6 +28,9 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     dispatch(getFooterItems());
+    if (user) {
+      dispatch(getPermission(user._id));
+    }
   }, [dispatch]);
 
   return (

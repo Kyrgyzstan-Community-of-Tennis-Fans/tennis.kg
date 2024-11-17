@@ -5,6 +5,9 @@ exports.config = {
       url: "http://localhost:5173",
       show: true,
       windowSize: "1200x900",
+      chrome: {
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      },
     },
   },
   include: {
@@ -17,10 +20,7 @@ exports.config = {
   hooks: [],
   gherkin: {
     features: "./features/*.feature",
-    steps: [
-        "./step_definitions/steps.ts",
-        "./step_definitions/usersSteps.ts",
-    ],
+    steps: ["./step_definitions/steps.ts", "./step_definitions/usersSteps.ts"],
   },
   plugins: {
     screenshotOnFail: {

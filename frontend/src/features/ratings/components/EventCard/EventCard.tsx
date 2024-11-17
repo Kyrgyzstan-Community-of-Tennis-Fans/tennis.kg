@@ -10,7 +10,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useDialogState } from '@/features/news/hooks/useDialogState';
-import { selectCurrentUser, selectUser } from '@/features/users/usersSlice';
+import { selectUser } from '@/features/users/usersSlice';
 import { fetchOneUser } from '@/features/users/usersThunks';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ErrorPage } from '@/components/Errors/ErrorPage';
@@ -26,7 +26,7 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
   const { category, link } = event;
   const idAdminPage = pathname.includes('admin');
   const user = useAppSelector(selectUser);
-  const currentUser = useAppSelector(selectCurrentUser);
+  // const currentUser = useAppSelector(selectCurrentUser);
   const { open, toggleOpen } = useDialogState();
 
   const handleDelete = async () => {
@@ -39,15 +39,20 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
     if (user) dispatch(fetchOneUser(user._id));
   }, [dispatch, user]);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!currentUser?.isActive) {
-      e.preventDefault();
-      toggleOpen();
-    }
-  };
+  // const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  //   if (!currentUser?.isActive) {
+  //     e.preventDefault();
+  //     toggleOpen();
+  //   }
+  // };
 
   return (
-    <div id={'eventItem'} className={'space-y-2 .event-item p-3 border bg-gray-200 mb-3 rounded-lg flex-1 min-w-56 dark:bg-transparent dark:border-gray-200'}>
+    <div
+      id={'eventItem'}
+      className={
+        'space-y-2 .event-item p-3 border bg-gray-200 mb-3 rounded-lg flex-1 min-w-56 dark:bg-transparent dark:border-gray-200'
+      }
+    >
       <div className={'bg-[#64B32C42] px-2 rounded-md'}>
         <h3 className={'text-sm'}>
           Категория - <span className={'font-medium'}>{category.name}</span>
