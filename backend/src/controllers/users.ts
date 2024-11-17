@@ -22,7 +22,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     user.generateToken();
     await user.save();
 
-    const newUser = await User.findById(user._id).populate('category');
+    const newUser = await User.findById(user._id).populate('category').populate('rewards');
 
     return res.send(newUser);
   } catch (error) {
@@ -34,7 +34,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await User.findOne({ telephone: req.body.telephone }).populate('category');
+    const user = await User.findOne({ telephone: req.body.telephone }).populate('category').populate('rewards');
 
     if (!user) return res.status(400).send({ error: 'Username not found!' });
 
@@ -149,7 +149,7 @@ export const updateProfile = async (req: RequestWithUser, res: Response, next: N
 
     await user.save();
 
-    const updatedUser = await User.findById(userId).populate('category');
+    const updatedUser = await User.findById(userId).populate('rewards').populate('category');
     res.json(updatedUser);
   } catch (error) {
     next(error);
@@ -175,7 +175,7 @@ export const getAllUsers = async (req: RequestWithUser, res: Response, next: Nex
       filter.fullName = { $regex: fullName, $options: 'i' };
     }
 
-    const users = await User.find(filter).populate('category').skip(startIndex).limit(limit).lean();
+    const users = await User.find(filter).populate('category').populate('rewards').skip(startIndex).limit(limit).lean();
 
     const total = await User.countDocuments(filter);
     const pages = limit > 0 ? Math.ceil(total / limit) : null;
@@ -188,7 +188,7 @@ export const getAllUsers = async (req: RequestWithUser, res: Response, next: Nex
 
 export const getOneUser = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const user = await User.findById(req.params.id).populate('category');
+    const user = await User.findById(req.params.id).populate('category').populate('rewards');
     return res.status(200).send(user);
   } catch (error) {
     next(error);
@@ -228,7 +228,7 @@ export const updateCurrentProfile = async (req: RequestWithUser, res: Response, 
 
     await user.save();
 
-    const updatedUser = await User.findById(id).populate('category');
+    const updatedUser = await User.findById(id).populate('category').populate('rewards');
     res.json(updatedUser);
   } catch (error) {
     next(error);
