@@ -47,7 +47,7 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
   };
 
   return (
-    <div className={'space-y-2 p-3 border bg-gray-200 mb-3 rounded-lg flex-1 min-w-56 dark:bg-transparent dark:border-gray-200'}>
+    <div id={'eventItem'} className={'space-y-2 .event-item p-3 border bg-gray-200 mb-3 rounded-lg flex-1 min-w-56 dark:bg-transparent dark:border-gray-200'}>
       <div className={'bg-[#64B32C42] px-2 rounded-md'}>
         <h3 className={'text-sm'}>
           Категория - <span className={'font-medium'}>{category.name}</span>
@@ -58,23 +58,25 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
         {idAdminPage && (
           <div className={'flex gap-1'}>
             <Confirm onOk={handleDelete}>
-              <button className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent '}>
+              <button className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent'}>
                 <TrashIcon className={'size-5 stroke-[1.2]'} />
               </button>
             </Confirm>
 
             <EventEdit ratings={ratings} id={event._id}>
-              <button className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent '}>
+              <button className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent'}>
                 <PencilSquareIcon className={'size-5 stroke-[1.2]'} />
               </button>
             </EventEdit>
           </div>
         )}
-        <a href={link} target={'_blank'} className={'block ml-auto'} onClick={handleLinkClick}>
+        <a id={'openRatingButton'} href={link} target={'_blank'} className={'block ml-auto'}>
           <Button
             size={'sm'}
             variant={'ghost'}
-            className={'text-cr-green-700 flex items-center ml-auto hover:bg-gray-200 hover:text-cr-green-900'}
+            className={
+              'text-cr-green-700 .open-rating-button flex items-center ml-auto hover:bg-gray-200 hover:text-cr-green-900'
+            }
           >
             Открыть рейтинг <ArrowRightIcon />
           </Button>
