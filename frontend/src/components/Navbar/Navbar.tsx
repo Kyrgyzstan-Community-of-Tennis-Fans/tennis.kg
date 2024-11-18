@@ -73,7 +73,8 @@ const Navbar = () => {
             </ul>
           </div>
 
-          <div className='hidden md:flex'>
+          <div className='hidden md:flex items-center gap-10'>
+            <ThemeSwitcher/>
             {user ? (
               <NavBarDropDown />
             ) : (
@@ -82,7 +83,6 @@ const Navbar = () => {
               </Link>
             )}
           </div>
-          <ThemeSwitcher />
         </div>
       </div>
     </div>
