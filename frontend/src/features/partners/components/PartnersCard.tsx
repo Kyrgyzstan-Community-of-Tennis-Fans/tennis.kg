@@ -42,10 +42,10 @@ const PartnersCard: React.FC<Props> = ({ partner }) => {
         </Tooltip>
       </TooltipProvider>
       <div className='flex-1'>
-        <h3 className='font-semibold text-gray-800 hidden md:block'>{partner.name}</h3>
+        <h3 className='font-semibold text-gray-800 hidden md:block dark:text-white'>{partner.name}</h3>
       </div>
       <Confirm onOk={handleDelete}>
-        <Button className='text-white sm h-8 w-10'>
+        <Button className='sm h-8 w-10'>
           <TrashIcon />
         </Button>
       </Confirm>
