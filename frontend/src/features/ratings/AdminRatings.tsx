@@ -21,12 +21,12 @@ export const AdminRatings: React.FC = () => {
 
         <div className={'flex flex-col md:flex-row items-center gap-2'}>
           <NewRating>
-            <Button size={'sm'} className={'w-full font-normal'}>
+            <Button className={'w-full  xs:w-max'}>
               Добавить рейтинг <SquaresPlusIcon />
             </Button>
           </NewRating>
           <NewEvent ratings={ratings}>
-            <Button size={'sm'} className={'w-full font-normal'}>
+            <Button className={'w-full xs:w-max '}>
               Добавить событие <CalendarDaysIcon />
             </Button>
           </NewEvent>

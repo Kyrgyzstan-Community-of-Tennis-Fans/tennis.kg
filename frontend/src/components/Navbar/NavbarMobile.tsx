@@ -9,6 +9,7 @@ import { selectItemsData } from '@/features/footers/footersSlice';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import './auth.css';
 import { logout } from '@/features/users/usersThunks';
+import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher';
 
 export const NavbarMobile = () => {
   const location = useLocation();
@@ -154,6 +155,7 @@ export const NavbarMobile = () => {
               <span className='auth font-bold text-white '>Выйти</span>
             </li>
           )}
+          <li className={'mt-5'}><ThemeSwitcher/></li>
         </ul>
       </SheetContent>
     </Sheet>
