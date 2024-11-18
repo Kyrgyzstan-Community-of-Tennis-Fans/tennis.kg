@@ -17,6 +17,7 @@ import { selectPermission, selectUser } from '@/features/users/usersSlice';
 const Navbar = () => {
   const user = useAppSelector(selectUser);
   const permission = useAppSelector(selectPermission);
+  console.log(permission)
   const footerItemsData = useAppSelector(selectItemsData);
 
   return (
