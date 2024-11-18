@@ -8,6 +8,7 @@ import { AdminNews } from '@/features/news/containers/AdminNews/AdminNews';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { AdminRatings } from '@/features/ratings/AdminRatings';
 import AdminPanelBlockFooter from '@/features/footers/containers/AdminPanelBlockFooter';
+import { Rewards } from '@/features/rewards/rewards';
 import { AdminUserList } from '@/features/users/AdminUserList';
 
 const AdminPanel = () => {
@@ -26,6 +27,7 @@ const AdminPanel = () => {
               <TabsTrigger value='news'>Новости</TabsTrigger>
               <TabsTrigger value='footer'>Подвал сайта</TabsTrigger>
               <TabsTrigger value='users'>Список пользователей</TabsTrigger>
+              <TabsTrigger value='rewards'>Награды</TabsTrigger>
             </TabsList>
             <ScrollBar orientation={'horizontal'} />
           </ScrollArea>
@@ -52,6 +54,9 @@ const AdminPanel = () => {
           </TabsContent>
           <TabsContent value={'users'}>
             <AdminUserList />
+          </TabsContent>
+          <TabsContent value={'rewards'}>
+            <Rewards />
           </TabsContent>
         </Tabs>
       </Layout>

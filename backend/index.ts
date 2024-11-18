@@ -9,6 +9,7 @@ import { newsRouter } from './src/routes/news';
 import { partnersRouter } from './src/routes/partners';
 import { ratingMembersRouter } from './src/routes/ratingMembers';
 import { ratingsRouter } from './src/routes/ratings';
+import { rewardsRouter } from './src/routes/rewards';
 import { usersRouter } from './src/routes/users';
 import { footersRouter } from './src/routes/footers';
 
@@ -28,6 +29,7 @@ app.use('/partners', partnersRouter);
 app.use('/ratings', ratingsRouter);
 app.use('/events', eventsRouter);
 app.use('/footers', footersRouter);
+app.use('/rewards', rewardsRouter);
 
 const run = async () => {
   await mongoose.connect(config.database);

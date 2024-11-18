@@ -15,6 +15,14 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>(
       ref: 'Category',
       required: true,
     },
+    rewards: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Reward',
+        },
+      ],
+    },
     fullName: {
       type: String,
       required: true,

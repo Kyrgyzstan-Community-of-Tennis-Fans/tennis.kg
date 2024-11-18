@@ -1,4 +1,5 @@
 import type { Category } from '@/types/categoryTypes';
+import type { Reward } from '@/types/reward';
 
 export interface LoginMutation {
   telephone: string;
@@ -18,6 +19,7 @@ export interface RegisterMutation {
 export interface User {
   _id: string;
   telephone: string;
+  rewards: Reward[];
   fullName: string;
   gender: 'male' | 'female';
   category: Category;

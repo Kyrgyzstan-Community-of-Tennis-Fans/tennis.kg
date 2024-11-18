@@ -1,4 +1,4 @@
-import type { Model } from 'mongoose';
+import { type Model, Types } from 'mongoose';
 
 export interface RatingMemberFields {
   name: string;
@@ -14,6 +14,7 @@ export interface RatingMemberFields {
 export interface UserFields {
   fullName: string;
   telephone: string;
+  rewards: Types.ObjectId[];
   dateOfBirth: string;
   gender: 'male' | 'female';
   category: string;
@@ -72,4 +73,12 @@ export interface PartnerFields {
   name: string;
   image: string;
   url: string;
+}
+
+export interface RewardFields {
+  user: string;
+  title: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

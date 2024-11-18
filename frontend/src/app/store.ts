@@ -1,5 +1,6 @@
 import { categorySlice } from '@/features/category/categorySlice';
 import { ratingsSlice } from '@/features/ratings/ratingsSlice';
+import { rewardsSlice } from '@/features/rewards/rewardsSlice';
 import { usersSlice } from '@/features/users/usersSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   ratings: ratingsSlice.reducer,
   ratingMembers: ratingMembersReducer,
   footers: footersReducer,
+  rewards: rewardsSlice.reducer,
 });
 
 export const store = configureStore({

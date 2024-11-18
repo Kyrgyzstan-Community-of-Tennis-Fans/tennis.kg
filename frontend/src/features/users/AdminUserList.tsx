@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { InfoTip } from '@/components/Confirm/InfoTip/InfoTip';
+import { CustomPagination } from '@/components/CustomPagination/CustomPagination';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,9 +12,8 @@ import { selectUsersList, selectUsersListPages } from '@/features/users/usersSli
 import { fetchUsers, updateIsActive } from '@/features/users/usersThunks';
 import { formatTelephone } from '@/lib/formatTelephone';
 import type { UsersFilter } from '@/types/userTypes';
-import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
-import React, { type ChangeEvent, useEffect, useState } from 'react';
-import { CustomPagination } from '@/components/CustomPagination/CustomPagination';
+import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { type ChangeEvent, useEffect, useState } from 'react';
 
 export const AdminUserList = () => {
   const [filters, setFilters] = useState<UsersFilter>({

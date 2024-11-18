@@ -16,26 +16,28 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';
 
-export const fetchUsers = createAsyncThunk<UsersResponse[], UsersFilter>('users/fetchUsers', async (filters) => {
-  try {
-    const { fullName, telephone, category, page } = filters;
-    const filterUrl = [
-      category && `category=${category}`,
-      fullName && `fullName=${fullName}`,
-      telephone && `telephone=${telephone}`,
-      page && `page=${page}`,
-    ]
-      .filter(Boolean)
-      .join('&');
+export const fetchUsers = createAsyncThunk<UsersResponse[], UsersFilter | undefined>(
+  'users/fetchUsers',
+  async (filters) => {
+    try {
+      const filterUrl = [
+        filters?.category && `category=${filters?.category}`,
+        filters?.fullName && `fullName=${filters?.fullName}`,
+        filters?.telephone && `telephone=${filters?.telephone}`,
+        filters?.page && `page=${filters?.page}`,
+      ]
+        .filter(Boolean)
+        .join('&');
 
-    const url = `/users/get-users${filterUrl ? `?${filterUrl}` : ''}`;
-    const response = await axiosApi.get<UsersResponse[]>(url);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-});
+      const url = `/users/get-users${filterUrl ? `?${filterUrl}` : ''}`;
+      const response = await axiosApi.get<UsersResponse[]>(url);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  },
+);
 
 export const fetchOneUser = createAsyncThunk<User, string>('users/fetchOneUser', async (id) => {
   const { data: user } = await axiosApi.get<User>(`/users/${id}`);
@@ -47,12 +49,10 @@ export const getPermission = createAsyncThunk<boolean, string>('users/get-permis
   if (user) {
     if (user.isActive) {
       return true;
-    } else if (user.role === 'admin') {
-      return true;
-    } else {
-      return false;
-    }
+    } else return user.role === 'admin';
   }
+
+  return false;
 });
 
 export const register = createAsyncThunk<User, RegisterMutation, { rejectValue: ValidationError }>(
