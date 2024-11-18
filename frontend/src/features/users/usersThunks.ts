@@ -52,6 +52,8 @@ export const getPermission = createAsyncThunk<boolean, string>('users/get-permis
     } else {
       return false;
     }
+  } else {
+    return false;
   }
 });
 
