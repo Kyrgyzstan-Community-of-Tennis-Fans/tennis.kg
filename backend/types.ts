@@ -20,6 +20,7 @@ export interface TournamentFields {
   regulationsDoc: string | null;
   resultsLink: string;
   registrationLink: string;
+  tournamentYear: number;
 }
 
 export interface UserFields {

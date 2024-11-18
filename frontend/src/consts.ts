@@ -1,5 +1,8 @@
 export const API_URl = 'http://localhost:8000/';
+
 export const CURRENT_YEAR_FULL = new Date().getFullYear();
+export const NEXT_YEAR = CURRENT_YEAR_FULL + 1;
+export const PREVIOUS_YEAR = CURRENT_YEAR_FULL - 1;
 export const MONTH_NAMES = [
   'Январь',
   'Февраль',

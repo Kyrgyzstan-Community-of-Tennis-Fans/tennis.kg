@@ -10,7 +10,9 @@ interface Props {
 }
 
 const TournamentCardsList: React.FC<Props> = ({ tournaments, isFetching, isAdmin }) => {
-  let content: React.ReactNode = <p className='my-3 text-center text-sm'>Турниры отсутствуют</p>;
+  let content: React.ReactNode = (
+    <p className='my-3 text-center text-xs md:text-sm'>На данный момент турниры отсутствуют</p>
+  );
 
   if (isFetching) {
     content = <Loader className='my-3 mx-auto' />;

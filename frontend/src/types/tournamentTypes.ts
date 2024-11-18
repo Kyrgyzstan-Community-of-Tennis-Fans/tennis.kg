@@ -8,6 +8,7 @@ export interface Tournament {
   regulationsDoc: string | null | File;
   resultsLink: string;
   registrationLink: string;
+  tournamentYear: number;
 }
 
 export interface TournamentMutation {
@@ -19,11 +20,14 @@ export interface TournamentMutation {
   regulationsDoc: File | null | string;
   resultsLink: string;
   registrationLink: string;
+  tournamentYear: string;
 }
 
-export interface Tournaments {
-  [month: string]: Tournament[];
-}
+export type Tournaments = {
+  [year in 'previousYear' | 'currentYear' | 'nextYear']: {
+    [month: string]: Tournament[];
+  };
+};
 
 export interface UpdateTournamentArg {
   id: string;

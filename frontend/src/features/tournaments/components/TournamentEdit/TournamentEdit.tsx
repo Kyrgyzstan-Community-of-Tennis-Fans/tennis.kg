@@ -41,7 +41,7 @@ const TournamentEdit: React.FC<Props> = ({ id, existingTournament }) => {
           <EditIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent aria-describedby={undefined}>
+      <DialogContent aria-describedby={undefined} className='max-h-[90vh] overflow-y-auto'>
         <DialogHeader>
           <DialogTitle>Редактировать турнир</DialogTitle>
         </DialogHeader>

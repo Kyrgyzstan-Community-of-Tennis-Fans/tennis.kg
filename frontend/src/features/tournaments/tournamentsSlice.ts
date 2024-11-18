@@ -18,7 +18,11 @@ export interface tournamentSlice {
 }
 
 const initialState: tournamentSlice = {
-  items: {},
+  items: {
+    previousYear: {},
+    currentYear: {},
+    nextYear: {},
+  },
   itemsFetching: false,
   isCreating: false,
   isUpdating: false,

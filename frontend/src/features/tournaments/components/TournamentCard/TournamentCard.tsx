@@ -8,7 +8,8 @@ import TournamentEdit from '@/features/tournaments/components/TournamentEdit/Tou
 import { useAdminTournaments } from '@/features/tournaments/hooks/useAdminTournaments';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useAppSelector } from '@/app/hooks';
-import { selectUser } from '@/features/users/usersSlice';
+import { selectPermission } from '@/features/users/usersSlice';
+import { isTournamentUpcoming } from '@/features/tournaments/utils/tournamentDateUtils';
 
 interface Props {
   tournament: Tournament;
@@ -18,7 +19,7 @@ interface Props {
 const TournamentCard: React.FC<Props> = ({ tournament, isAdmin }) => {
   const translatedRank = tournament.rank === 'mixed' ? 'Микст' : tournament.rank === 'female' ? 'Женский' : 'Мужской';
   const { handleDelete, isDeleting } = useAdminTournaments();
-  const user = useAppSelector(selectUser);
+  const permission = useAppSelector(selectPermission);
 
   return (
     <div className='rounded-[22px] bg-gradient-135 from-[#f5f5f5] from-30% sm:from-25% md:from-10% to-[#64B32C] p-1'>
@@ -46,22 +47,24 @@ const TournamentCard: React.FC<Props> = ({ tournament, isAdmin }) => {
           </div>
           <div className='flex flex-col gap-3 sm:mt-auto'>
             <div className='flex flex-col text-[13px] text-[#8c8c8c] underline underline-offset-2'>
-              {user && user.isActive ? (
+              {permission ? (
                 <>
-                  <a
-                    href={tournament.resultsLink}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='hover:text-[#4d4d4d]'
-                  >
-                    Результаты Турнира
-                  </a>
+                  {tournament.resultsLink !== '' && (
+                    <a
+                      href={tournament.resultsLink || '#'}
+                      target={tournament.resultsLink ? '_blank' : '_self'}
+                      rel={tournament.resultsLink ? 'noopener noreferrer' : undefined}
+                      className={`hover:text-[#4d4d4d] ${!tournament.resultsLink ? 'cursor-not-allowed text-gray-400' : ''}`}
+                    >
+                      Результаты Турнира
+                    </a>
+                  )}
                   {tournament.regulationsDoc !== null && (
                     <a
-                      href={`${API_URl}/${tournament.regulationsDoc}`}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='hover:text-[#4d4d4d] mt-1'
+                      href={tournament.regulationsDoc ? `${API_URl}/${tournament.regulationsDoc}` : '#'}
+                      target={tournament.regulationsDoc ? '_blank' : '_self'}
+                      rel={tournament.regulationsDoc ? 'noopener noreferrer' : undefined}
+                      className={`hover:text-[#4d4d4d] mt-1 ${!tournament.regulationsDoc ? 'cursor-not-allowed text-gray-400' : ''}`}
                     >
                       Регламент Турнира
                     </a>
@@ -71,7 +74,9 @@ const TournamentCard: React.FC<Props> = ({ tournament, isAdmin }) => {
                 <Popover>
                   <PopoverTrigger asChild>
                     <div className='flex flex-col text-[13px] text-[#8c8c8c] underline underline-offset-2'>
-                      <span className='text-[#8c8c8c] hover:text-[#4d4d4d] cursor-pointer'>Результаты Турнира</span>
+                      {tournament.resultsLink !== null && (
+                        <span className='text-[#8c8c8c] hover:text-[#4d4d4d] cursor-pointer'>Результаты Турнира</span>
+                      )}
                       {tournament.regulationsDoc !== null && (
                         <span className='text-[#8c8c8c] hover:text-[#4d4d4d] cursor-pointer mt-1'>
                           Регламент Турнира
@@ -86,17 +91,21 @@ const TournamentCard: React.FC<Props> = ({ tournament, isAdmin }) => {
               )}
             </div>
             <div className='text-[#64B32C] font-semibold ml-auto sm:ml-0'>
-              <a
-                href={tournament.registrationLink}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='flex items-center gap-2 hover:underline hover:underline-offset-2 text-sm'
-              >
-                <span>Принять участие</span>
-                <span>
-                  <ArrowRightIcon className='w-4 h-4' />
-                </span>
-              </a>
+              {isTournamentUpcoming(tournament.eventDate) ? (
+                <a
+                  href={tournament.registrationLink}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='flex items-center gap-2 hover:underline hover:underline-offset-2 text-sm'
+                >
+                  <span>Принять участие</span>
+                  <span>
+                    <ArrowRightIcon className='w-4 h-4' />
+                  </span>
+                </a>
+              ) : (
+                <span className='text-gray-500 italic text-sm'>Турнир завершен</span>
+              )}
             </div>
           </div>
         </div>

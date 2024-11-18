@@ -15,7 +15,7 @@ import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import AdminPanel from '@/pages/AdminPanel';
 import { getFooterItems } from '@/features/footers/footersThunks';
-import Calendar from '@/pages/Calendar';
+import Calendar from '@/features/tournaments/Calendar';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import { ErrorPage } from '@/components/Errors/ErrorPage';

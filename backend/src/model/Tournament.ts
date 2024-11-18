@@ -34,10 +34,13 @@ const TournamentSchema = new Schema<TournamentFields>(
     },
     resultsLink: {
       type: String,
-      required: true,
     },
     registrationLink: {
       type: String,
+      required: true,
+    },
+    tournamentYear: {
+      type: Number,
       required: true,
     },
   },

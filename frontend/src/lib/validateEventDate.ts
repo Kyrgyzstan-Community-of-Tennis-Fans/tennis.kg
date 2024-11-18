@@ -1,6 +1,4 @@
-const CURRENT_YEAR = new Date().getFullYear() % 100;
-
-export const validateEventDate = (date: string) => {
+export const validateEventDate = (date: string, selectedYear: number | null) => {
   let value = date.replace(/\D/g, '');
 
   if (value.length > 6) {
@@ -25,9 +23,9 @@ export const validateEventDate = (date: string) => {
     const year = value.slice(4);
 
     if (year.length === 2) {
-      let fullYear = parseInt(year, 10);
-      fullYear = fullYear < CURRENT_YEAR ? CURRENT_YEAR : fullYear;
-      formattedDate += fullYear.toString().padStart(2, '0');
+      let fullYear: number | null = parseInt(year, 10);
+      fullYear = fullYear !== selectedYear ? selectedYear : fullYear;
+      formattedDate += fullYear?.toString().slice(-2);
     } else {
       formattedDate += year;
     }
