@@ -2,13 +2,14 @@ import {
   fetchOneUser,
   fetchUsers,
   forgotPassword,
+  getPermission,
   login,
   register,
   updateCurrentUserInfo,
   updateIsActive,
   updateUserInfo,
 } from '@/features/users/usersThunks';
-import type {GlobalError, User, ValidationError} from '@/types/userTypes';
+import type { GlobalError, User, ValidationError } from '@/types/userTypes';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface UsersState {
@@ -17,6 +18,7 @@ interface UsersState {
   users: User[];
   usersPages: number;
   usersFetching: boolean;
+  permission: boolean;
   registerLoading: boolean;
   registerError: ValidationError | null;
   loginLoading: boolean;
@@ -36,6 +38,7 @@ const initialState: UsersState = {
   users: [],
   usersPages: 0,
   usersFetching: false,
+  permission: false,
   registerLoading: false,
   registerError: null,
   loginLoading: false,
@@ -55,6 +58,7 @@ export const usersSlice = createSlice({
   reducers: {
     unsetUser: (state) => {
       state.user = null;
+      state.permission = false;
     },
   },
   extraReducers: (builder) => {
@@ -86,6 +90,17 @@ export const usersSlice = createSlice({
       });
 
     builder
+      .addCase(getPermission.pending, (state) => {
+        state.permission = false;
+      })
+      .addCase(getPermission.fulfilled, (state, { payload: permission }) => {
+        state.permission = permission;
+      })
+      .addCase(getPermission.rejected, (state) => {
+        state.permission = false;
+      });
+
+    builder
       .addCase(register.pending, (state) => {
         state.registerLoading = true;
         state.registerError = null;
@@ -93,6 +108,7 @@ export const usersSlice = createSlice({
       .addCase(register.fulfilled, (state, { payload: user }) => {
         state.registerLoading = false;
         state.user = user;
+        state.permission = true;
       })
       .addCase(register.rejected, (state, { payload: error }) => {
         state.registerError = error || null;
@@ -107,6 +123,11 @@ export const usersSlice = createSlice({
       .addCase(login.fulfilled, (state, { payload: user }) => {
         state.loginLoading = false;
         state.user = user;
+        if (user.isActive) {
+          state.permission = true;
+        } else {
+          state.permission = false;
+        }
       })
       .addCase(login.rejected, (state, { payload: error }) => {
         state.loginError = error || null;
@@ -169,6 +190,7 @@ export const usersSlice = createSlice({
     selectUsersList: (state) => state.users,
     selectUsersListPages: (state) => state.usersPages,
     selectUserFetching: (state) => state.usersFetching,
+    selectPermission: (state) => state.permission,
     selectRegisterLoading: (state) => state.registerLoading,
     selectRegisterError: (state) => state.registerError,
     selectLoginLoading: (state) => state.loginLoading,
@@ -188,8 +210,9 @@ export const {
   selectUser,
   selectCurrentUser,
   selectUsersList,
-    selectUsersListPages,
+  selectUsersListPages,
   selectUserFetching,
+  selectPermission,
   selectRegisterLoading,
   selectRegisterError,
   selectLoginLoading,

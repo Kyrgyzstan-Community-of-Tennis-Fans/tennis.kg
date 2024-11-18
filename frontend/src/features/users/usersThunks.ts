@@ -1,35 +1,35 @@
-import type {RootState} from '@/app/store';
-import {axiosApi} from '@/axiosApi';
-import {unsetUser} from '@/features/users/usersSlice';
+import type { RootState } from '@/app/store';
+import { axiosApi } from '@/axiosApi';
+import { unsetUser } from '@/features/users/usersSlice';
 import type {
-    GlobalError,
-    LoginMutation,
-    RedactorForAdmin,
-    RegisterMutation,
-    RegisterMutationWithoutCoupleFields,
-    User,
-    UsersFilter,
-    UsersResponse,
-    ValidationError,
+  GlobalError,
+  LoginMutation,
+  RedactorForAdmin,
+  RegisterMutation,
+  RegisterMutationWithoutCoupleFields,
+  User,
+  UsersFilter,
+  UsersResponse,
+  ValidationError,
 } from '@/types/userTypes';
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {isAxiosError} from 'axios';
-import {toast} from 'sonner';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { isAxiosError } from 'axios';
+import { toast } from 'sonner';
 
 export const fetchUsers = createAsyncThunk<UsersResponse[], UsersFilter>('users/fetchUsers', async (filters) => {
   try {
     const { fullName, telephone, category, page } = filters;
-      const filterUrl = [
+    const filterUrl = [
       category && `category=${category}`,
       fullName && `fullName=${fullName}`,
       telephone && `telephone=${telephone}`,
-          page && `page=${page}`,
+      page && `page=${page}`,
     ]
       .filter(Boolean)
       .join('&');
 
-      const url = `/users/get-users${filterUrl ? `?${filterUrl}` : ''}`;
-      const response =  await axiosApi.get<UsersResponse[]>(url);
+    const url = `/users/get-users${filterUrl ? `?${filterUrl}` : ''}`;
+    const response = await axiosApi.get<UsersResponse[]>(url);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -40,6 +40,19 @@ export const fetchUsers = createAsyncThunk<UsersResponse[], UsersFilter>('users/
 export const fetchOneUser = createAsyncThunk<User, string>('users/fetchOneUser', async (id) => {
   const { data: user } = await axiosApi.get<User>(`/users/${id}`);
   return user;
+});
+
+export const getPermission = createAsyncThunk<boolean, string>('users/get-permission', async (id) => {
+  const { data: user } = await axiosApi.get<User>(`/users/${id}`);
+  if (user) {
+    if (user.isActive) {
+      return true;
+    } else if (user.role === 'admin') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 });
 
 export const register = createAsyncThunk<User, RegisterMutation, { rejectValue: ValidationError }>(
@@ -120,7 +133,6 @@ export const updateUserInfo = createAsyncThunk<User, RegisterMutationWithoutCoup
   async (userInfo) => {
     try {
       const { data: user } = await axiosApi.put<User>('/users/update-info', userInfo);
-
       return user;
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 400) {
@@ -153,5 +165,5 @@ export const updateCurrentUserInfo = createAsyncThunk<User, RedactorForAdmin, { 
 );
 
 export const updateIsActive = createAsyncThunk<void, string>('users/toggle-active', async (id: string) => {
-  await axiosApi.patch(`/users/${id}/toggleActive`);
+    await axiosApi.patch(`/users/${id}/toggleActive`);
 });
