@@ -41,7 +41,7 @@ export const PersonalAccount: React.FC = () => {
           >
             <header className={'flex xs:items-center justify-between gap-2 flex-col xs:flex-row border-b pb-1.5'}>
               <div>
-                <h1 className={'text-2xl font-medium leading-none'}>Личный кабинет</h1>
+                <h1 className={'text-2xl font-medium dark:text-black leading-none'}>Личный кабинет</h1>
                 <small className={'text-muted-foreground text-base'}>
                   Ваша персональная информация и управление данными
                 </small>
@@ -57,28 +57,28 @@ export const PersonalAccount: React.FC = () => {
 
             <main className='mt-2 flex flex-col max-w-2xl'>
               <div className='mb-3 flex flex-col'>
-                <h2 className='text-xl font-medium'>{currentUser.fullName}</h2>
+                <h2 className='text-xl dark:text-black font-medium'>{currentUser.fullName}</h2>
                 <span className='text-[#64B32C]'>{currentUser.category.name}</span>
               </div>
 
               <div className='space-y-2 flex flex-col'>
                 <div className='flex flex-wrap'>
-                  <h3 className='font-medium w-full sm:w-1/3'>Почта</h3>
+                  <h3 className='font-medium w-full dark:text-black  sm:w-1/3'>Почта</h3>
                   <span className='text-muted-foreground w-full sm:w-2/3 break-words'>{currentUser.email}</span>
                 </div>
 
                 <div className='flex flex-wrap'>
-                  <h3 className='font-medium w-full sm:w-1/3'>Телефон</h3>
+                  <h3 className='font-medium w-full dark:text-black  sm:w-1/3'>Телефон</h3>
                   <span className='text-muted-foreground w-full sm:w-2/3'>{currentUser.telephone}</span>
                 </div>
 
                 <div className='flex flex-wrap'>
-                  <h3 className='font-medium w-full sm:w-1/3'>День рождения</h3>
+                  <h3 className='font-medium w-full dark:text-black  sm:w-1/3'>День рождения</h3>
                   <span className='text-muted-foreground w-full sm:w-2/3'>{currentUser.dateOfBirth}</span>
                 </div>
 
                 <div className='flex flex-wrap'>
-                  <h3 className='font-medium w-full sm:w-1/3'>Пол</h3>
+                  <h3 className='font-medium w-full dark:text-black  sm:w-1/3'>Пол</h3>
                   <span className='text-muted-foreground w-full sm:w-2/3'>
                     {currentUser.gender === 'male' ? 'Муж.' : 'Жен.'}
                   </span>
@@ -86,7 +86,7 @@ export const PersonalAccount: React.FC = () => {
 
                 {currentUser.role === 'admin' && (
                   <div className='flex flex-wrap'>
-                    <h3 className='font-medium w-full sm:w-1/3'>Роль</h3>
+                    <h3 className='font-medium w-full dark:text-black  sm:w-1/3'>Роль</h3>
                     <span className='text-muted-foreground w-full sm:w-2/3'>
                       {currentUser.role === 'admin' ? 'Админ' : 'Пользователь'}
                     </span>

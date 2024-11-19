@@ -40,7 +40,7 @@ export interface Props {
   filters: UsersFilter;
 }
 
- const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
+const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
   const currentUser = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectCategories);
@@ -218,6 +218,5 @@ export interface Props {
     </Dialog>
   );
 };
-
 
 export default React.memo(AdminRedactor);

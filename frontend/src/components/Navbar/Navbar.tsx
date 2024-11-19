@@ -74,7 +74,7 @@ const Navbar = () => {
           </div>
 
           <div className='hidden md:flex items-center gap-10'>
-            <ThemeSwitcher/>
+            <ThemeSwitcher />
             {user ? (
               <NavBarDropDown />
             ) : (
