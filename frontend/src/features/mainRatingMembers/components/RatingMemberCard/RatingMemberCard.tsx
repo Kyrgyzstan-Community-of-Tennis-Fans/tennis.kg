@@ -37,7 +37,7 @@ const RatingMemberCard: React.FC<Props> = ({ ratingMember }) => {
             <span className='hidden lg:block absolute left-1/2 -translate-x-1/2 bottom-[-1px] w-[49px] h-[1px] rounded-full bg-[#64B32C]' />
           )}
         </p>
-        <p className='text-[#64B32C] lg:text-[#0000006e] lg:font-medium'>{ratingMember.place} место</p>
+        <p className='text-[#64B32C] lg:text-[#0000006e] lg:font-medium dark:text-white'>{ratingMember.place} место</p>
       </div>
     </div>
   );

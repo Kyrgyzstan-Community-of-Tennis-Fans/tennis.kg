@@ -29,7 +29,7 @@ const RatingMembersTop8: React.FC<Props> = ({ ratingMembers, isFetching, title, 
             <h1 className='text-2xl sm:text-3xl md:text-[38px] font-semibold mb-[14px] sm:mb-4 md:mb-6 lg:mb-8'>
               {title} рейтинг
             </h1>
-            <h1 className='text-lg md:text-2xl font-medium mb-2 sm:mb-5 md:mb-6 lg:mb-8 text-[#000000a1] uppercase'>
+            <h1 className='text-lg md:text-2xl font-medium mb-2 sm:mb-5 md:mb-6 lg:mb-8 text-[#000000a1] uppercase dark:text-white'>
               Топ-8 участников
             </h1>
             <h1 className='text-lg md:text-[22px] font-bold text-[#64B32C]'>{category}</h1>

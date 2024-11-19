@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppSelector } from '@/app/hooks';
 import { selectItemsData } from '@/features/footers/footersSlice';
 import { SocialIcon } from 'react-social-icons';
 import { API_URl } from '@/consts';
@@ -11,22 +11,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ChevronUpIcon } from '@radix-ui/react-icons';
-import { selectCurrentUser, selectUser } from '@/features/users/usersSlice';
-import { useEffect } from 'react';
-import { fetchOneUser } from '@/features/users/usersThunks';
+import { selectPermission } from '@/features/users/usersSlice';
 
 const Footer = () => {
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(selectUser);
-  const currentUser = useAppSelector(selectCurrentUser);
+  const permission = useAppSelector(selectPermission);
   const footerItemsData = useAppSelector(selectItemsData);
 
-  useEffect(() => {
-    if (user) dispatch(fetchOneUser(user._id));
-  }, [dispatch, user]);
-
   return (
-    <div className='bg-cr-shark pt-8 pb-4'>
+    <div className='bg-cr-shark pt-8 pb-4 dark:bg-gray-900'>
       <div className='mx-auto max-w-[1335px] px-[16px] flex flex-col items-center justify-center lmd:items-start lmd:flex-row p-6 lg:px-8 lmd:justify-evenly gap-10'>
         <div className='basis-1/4 flex flex-col gap-5 lmd:gap-10'>
           <div className='flex lg:flex-1 justify-evenly lmd:justify-start'>
@@ -68,14 +60,12 @@ const Footer = () => {
               ))}
               <li>
                 <DropdownMenu>
-                  {footerItemsData.length > 0 &&
-                    footerItemsData[0].menuPosition.length > 0 &&
-                    currentUser?.isActive && (
-                      <DropdownMenuTrigger className='flex cursor-pointer items-center gap-1 hover:text-white'>
-                        Положение
-                        <ChevronUpIcon className='w-4 h-4' />
-                      </DropdownMenuTrigger>
-                    )}
+                  {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && permission && (
+                    <DropdownMenuTrigger className='flex cursor-pointer items-center gap-1 hover:text-white'>
+                      Положение
+                      <ChevronUpIcon className='w-4 h-4' />
+                    </DropdownMenuTrigger>
+                  )}
                   <DropdownMenuContent className='p-0 w-[302px]'>
                     {footerItemsData.length > 0 &&
                       footerItemsData[0].menuPosition.map((menuItem) => (
