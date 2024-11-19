@@ -133,7 +133,6 @@ export const updateUserInfo = createAsyncThunk<User, RegisterMutationWithoutCoup
   async (userInfo) => {
     try {
       const { data: user } = await axiosApi.put<User>('/users/update-info', userInfo);
-
       return user;
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 400) {
@@ -166,5 +165,5 @@ export const updateCurrentUserInfo = createAsyncThunk<User, RedactorForAdmin, { 
 );
 
 export const updateIsActive = createAsyncThunk<void, string>('users/toggle-active', async (id: string) => {
-  await axiosApi.patch(`/users/${id}/toggleActive`);
+    await axiosApi.patch(`/users/${id}/toggleActive`);
 });
