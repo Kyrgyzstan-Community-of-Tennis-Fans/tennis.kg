@@ -17,7 +17,7 @@ const GradientCircle: React.FC<Props> = ({ width, height, top, right, left, bott
 
   return theme === 'dark' ? null : (
     <div
-      className={`hidden lg:block 2xl:hidden absolute z-[-9999] opacity-[${opacity}] rounded-full blur-[40px]`}
+      className='hidden lg:block 2xl:hidden absolute z-[-9999] rounded-full blur-[40px]'
       style={{
         width,
         height,
@@ -26,6 +26,7 @@ const GradientCircle: React.FC<Props> = ({ width, height, top, right, left, bott
         left,
         bottom,
         background,
+        opacity,
       }}
     ></div>
   );
