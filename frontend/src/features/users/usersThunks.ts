@@ -165,5 +165,5 @@ export const updateCurrentUserInfo = createAsyncThunk<User, RedactorForAdmin, { 
 );
 
 export const updateIsActive = createAsyncThunk<void, string>('users/toggle-active', async (id: string) => {
-    await axiosApi.patch(`/users/${id}/toggleActive`);
+  await axiosApi.patch(`/users/${id}/toggleActive`);
 });

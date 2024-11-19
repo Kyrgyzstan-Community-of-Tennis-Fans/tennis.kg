@@ -95,7 +95,7 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
             <PencilSquareIcon />
           </Button>
         ) : (
-          <Button className={'w-full xs:w-max'} >
+          <Button className={'w-full xs:w-max'}>
             Добавить новость <SquaresPlusIcon />
           </Button>
         )}

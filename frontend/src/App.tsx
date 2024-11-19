@@ -37,47 +37,47 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider>
       <div className='flex flex-col min-h-dvh'>
-      <header className='max-h-24 mb-16 sm:mb-24'>
-        <Navbar />
-      </header>
+        <header className='max-h-24 mb-16 sm:mb-24'>
+          <Navbar />
+        </header>
 
-      <main className='grow'>
-        <Routes>
-          <Route path={'/'} element={<Home />} />
-          <Route path={'/login'} element={<Login />} />
-          <Route path={'/register'} element={<Register />} />
-          <Route path={'/rating'} element={<Ratings />} />
-          <Route path={'/reset-password/:token'} element={<ResetPassword />} />
-          <Route path={'/forgot-password'} element={<ForgotPassword />} />
-          <Route path={'/calendar'} element={<Calendar />} />
-          <Route
-            path={'/personal-account'}
-            element={
-              <ProtectedRoute isAllowed={user ? true : null}>
-                <PersonalAccount />
-              </ProtectedRoute>
-            }
-          />
+        <main className='grow'>
+          <Routes>
+            <Route path={'/'} element={<Home />} />
+            <Route path={'/login'} element={<Login />} />
+            <Route path={'/register'} element={<Register />} />
+            <Route path={'/rating'} element={<Ratings />} />
+            <Route path={'/reset-password/:token'} element={<ResetPassword />} />
+            <Route path={'/forgot-password'} element={<ForgotPassword />} />
+            <Route path={'/calendar'} element={<Calendar />} />
+            <Route
+              path={'/personal-account'}
+              element={
+                <ProtectedRoute isAllowed={user ? true : null}>
+                  <PersonalAccount />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path={'/news'} element={<NewsPage />} />
-          <Route path={'/news/:id'} element={<OneNews />} />
-          <Route
-            path={'admin'}
-            element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <AdminPanel />
-              </ProtectedRoute>
-            }
-          />
-          <Route path={'*'} element={<ErrorPage errorCode={404} />} />
-        </Routes>
-      </main>
+            <Route path={'/news'} element={<NewsPage />} />
+            <Route path={'/news/:id'} element={<OneNews />} />
+            <Route
+              path={'admin'}
+              element={
+                <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                  <AdminPanel />
+                </ProtectedRoute>
+              }
+            />
+            <Route path={'*'} element={<ErrorPage errorCode={404} />} />
+          </Routes>
+        </main>
 
-      <footer className={`mt-auto ${page !== 'home' && 'pt-[218px]'}`}>
-        <Footer />
-      </footer>
-      <Toaster />
-    </div>
+        <footer className={`mt-auto ${page !== 'home' && 'pt-[218px]'}`}>
+          <Footer />
+        </footer>
+        <Toaster />
+      </div>
     </ThemeProvider>
   );
 };
