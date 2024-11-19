@@ -5,8 +5,9 @@ import Partners from '@/features/partners/Partners';
 import MainPageRating from '@/features/mainRatingMembers/MainPageRating';
 import { NewsMain } from '@/features/news/containers/NewsMain/NewsMain';
 import GradientCircle from '@/components/GradientCircle/GradientCircle';
+import { GradientCirclesTypes } from '@/types/types';
 
-const gradientCircles = [
+const gradientCircles: GradientCirclesTypes[] = [
   { width: '660px', height: '675px', top: '231px', left: '-150px' },
   { width: '283px', height: '283px', top: '-90px', right: '-90px' },
   { width: '660px', height: '675px', top: '580px', right: '-250px' },
