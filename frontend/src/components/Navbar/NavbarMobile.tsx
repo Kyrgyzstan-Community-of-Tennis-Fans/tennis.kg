@@ -155,7 +155,9 @@ export const NavbarMobile = () => {
               <span className='auth font-bold text-white '>Выйти</span>
             </li>
           )}
-          <li className={'mt-5'}><ThemeSwitcher/></li>
+          <li className={'mt-5'}>
+            <ThemeSwitcher />
+          </li>
         </ul>
       </SheetContent>
     </Sheet>

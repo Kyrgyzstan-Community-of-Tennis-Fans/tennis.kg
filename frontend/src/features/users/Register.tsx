@@ -34,7 +34,9 @@ export const Register: React.FC = () => {
       >
         <div className='mb-3'>
           <h1 className='font-bold text-[28px]'>Создать аккаунт</h1>
-          <p className='text-sm text-black/75 dark:text-white'>Пожалуйста, заполните все данные для создания аккаунта</p>
+          <p className='text-sm text-black/75 dark:text-white'>
+            Пожалуйста, заполните все данные для создания аккаунта
+          </p>
         </div>
 
         <div className='space-y-3 mb-8'>
