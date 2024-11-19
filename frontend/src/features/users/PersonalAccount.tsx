@@ -11,8 +11,22 @@ import GradientCircle from '@/components/GradientCircle/GradientCircle';
 import { GradientCirclesTypes } from '@/types/types';
 
 const gradientCircles: GradientCirclesTypes[] = [
-  { width: '569px', height: '572px', top: '-90px', left: '-272px' },
-  { width: '569px', height: '572px', bottom: '50px', right: '20px' },
+  {
+    width: '569px',
+    height: '572px',
+    top: '-90px',
+    left: '-272px',
+    background: 'linear-gradient(90deg, rgba(79, 173, 13, 0.34) 4.12%, #64b32c 51.53%, rgba(100, 179, 44, 0.26) 100%)',
+    opacity: '13%',
+  },
+  {
+    width: '569px',
+    height: '572px',
+    bottom: '50px',
+    right: '20px',
+    background: 'linear-gradient(90deg, rgba(79, 173, 13, 0.34) 4.12%, #64b32c 51.53%, rgba(100, 179, 44, 0.26) 100%)',
+    opacity: '13%',
+  },
 ];
 
 export const PersonalAccount: React.FC = () => {
