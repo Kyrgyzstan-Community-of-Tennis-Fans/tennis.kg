@@ -9,13 +9,12 @@ import GradientCircle from '@/components/GradientCircle/GradientCircle';
 const gradientCircles = [
   { width: '660px', height: '675px', top: '231px', left: '-150px' },
   { width: '283px', height: '283px', top: '-90px', right: '-90px' },
-  { width: '660px', height: '675px', top: '704px', right: '-250px' },
+  { width: '660px', height: '675px', top: '580px', right: '-250px' },
   { width: '660px', height: '675px', top: '1110px', left: '-200px' },
-  { width: '660px', height: '675px', top: '1480px', right: '-195px' },
+  { width: '660px', height: '675px', top: '1360px', right: '-195px' },
   { width: '516px', height: '528px', top: '2000px', left: '-20px' },
-  { width: '630px', height: '654px', bottom: '1500px', left: '-100px' },
-  { width: '630px', height: '654px', bottom: '1800px', right: '-200px' },
-  { width: '516px', height: '528px', bottom: '700px', right: '-20px' },
+  { width: '630px', height: '654px', bottom: '1700px', left: '-100px' },
+  { width: '516px', height: '528px', bottom: '600px', right: '-20px' },
 ];
 
 export const Home: React.FC = () => {
