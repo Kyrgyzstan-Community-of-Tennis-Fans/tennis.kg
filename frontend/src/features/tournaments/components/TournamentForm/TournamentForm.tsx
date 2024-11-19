@@ -9,6 +9,9 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Confirm } from '@/components/Confirm/Confirm';
 import { CURRENT_YEAR_FULL, NEXT_YEAR } from '@/consts';
 import FileInput from '@/components/FileInput/FilleInput';
+import { useAdminTournaments } from '@/features/tournaments/hooks/useAdminTournaments';
+import ErrorMessage from '@/features/tournaments/components/ErrorMessage/ErrorMessage';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 interface Props {
   onSubmit: (tournament: TournamentMutation) => void;
@@ -16,6 +19,7 @@ interface Props {
   isLoading?: boolean;
   onClose?: () => void;
   open: boolean;
+  tournamentsLastYearExist?: boolean;
 }
 
 const emptyState: TournamentMutation = {
@@ -30,7 +34,14 @@ const emptyState: TournamentMutation = {
   tournamentYear: '',
 };
 
-const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoading, onClose, open }) => {
+const TournamentForm: React.FC<Props> = ({
+  onSubmit,
+  existingTournament,
+  isLoading,
+  onClose,
+  open,
+  tournamentsLastYearExist,
+}) => {
   const initialState = existingTournament
     ? {
         ...existingTournament,
@@ -43,6 +54,8 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
     state,
     setState,
   );
+  const { handleDeleteByYear } = useAdminTournaments();
+  const showWarning = state.tournamentYear === NEXT_YEAR.toString() && tournamentsLastYearExist;
 
   useEffect(() => {
     if (open) {
@@ -52,8 +65,12 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
     }
   }, [open]);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (state.tournamentYear === NEXT_YEAR.toString() && tournamentsLastYearExist) {
+      await handleDeleteByYear(CURRENT_YEAR_FULL.toString());
+    }
 
     onSubmit({
       ...state,
@@ -125,14 +142,14 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
             disabled={!state.tournamentYear}
             onChange={handleDateChange}
           />
-          {!state.tournamentYear && <small className='text-red-500'>Сначала выберите год проведения турнира</small>}
+          {!state.tournamentYear && <ErrorMessage>Сначала выберите год проведения турнира</ErrorMessage>}
           {state.tournamentYear && (
-            <small className='text-gray-500'>
+            <ErrorMessage type='info'>
               Вы можете указать дату только для выбранного года: {state.tournamentYear}
-            </small>
+            </ErrorMessage>
           )}
           {state.tournamentYear && state.eventDate.length < 8 && (
-            <small className='text-red-500'>Введите дату полностью (дд.мм.гг)</small>
+            <ErrorMessage>Введите дату полностью (дд.мм.гг)</ErrorMessage>
           )}
         </div>
 
@@ -170,7 +187,7 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
           </Select>
         </div>
 
-        <div className='flex flex-col gap-1'>
+        <div className='flex flex-col'>
           <Label htmlFor='regulationsDoc'>Регламент турнира</Label>
           <FileInput name='regulationsDoc' onChange={fileInputChangeHandler} />
           {state.regulationsDoc && (
@@ -209,6 +226,17 @@ const TournamentForm: React.FC<Props> = ({ onSubmit, existingTournament, isLoadi
           />
         </div>
       </div>
+
+      {showWarning && (
+        <div className='flex items-start gap-3 p-2 mb-2 border-l-4 border-yellow-500 bg-yellow-50 rounded-md text-yellow-800'>
+          <ExclamationCircleIcon className='w-5 h-5 mt-1 shrink-0' />
+          <small>
+            <strong>Предупреждение:</strong> При создании турнира на следующий год, если есть турниры за прошлый год,
+            они будут автоматически удалены. Это действие необратимо.
+          </small>
+        </div>
+      )}
+
       <div className='flex flex-col gap-1'>
         <Button
           type='submit'

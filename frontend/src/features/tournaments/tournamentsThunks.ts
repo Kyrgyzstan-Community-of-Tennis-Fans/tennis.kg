@@ -42,6 +42,10 @@ export const deleteTournament = createAsyncThunk<void, string>('tournaments/dele
   await axiosApi.delete(`/tournaments/${id}`);
 });
 
+export const deleteTournamentsByYear = createAsyncThunk<void, string>('tournaments/deleteByYear', async (year) => {
+  await axiosApi.delete(`/tournaments/one-year/${year}`);
+});
+
 export const updateTournament = createAsyncThunk<void, UpdateTournamentArg, { rejectValue: GlobalError }>(
   'tournaments/update',
   async ({ id, tournamentMutation }, { rejectWithValue }) => {

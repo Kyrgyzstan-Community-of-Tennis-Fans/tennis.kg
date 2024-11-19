@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { GlobalError } from '@/types/userTypes';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { EditIcon } from 'lucide-react';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { selectTournamentUpdating } from '@/features/tournaments/tournamentsSlice';
 import { Tournament, TournamentMutation } from '@/types/tournamentTypes';
 import { fetchTournaments, updateTournament } from '@/features/tournaments/tournamentsThunks';
@@ -13,9 +13,10 @@ import TournamentForm from '@/features/tournaments/components/TournamentForm/Tou
 interface Props {
   id: string;
   existingTournament: Tournament;
+  tournamentsLastYearExist?: boolean;
 }
 
-const TournamentEdit: React.FC<Props> = ({ id, existingTournament }) => {
+const TournamentEdit: React.FC<Props> = ({ id, existingTournament, tournamentsLastYearExist }) => {
   const dispatch = useAppDispatch();
   const isEditing = useAppSelector(selectTournamentUpdating);
   const [open, setOpen] = useState(false);
@@ -38,7 +39,7 @@ const TournamentEdit: React.FC<Props> = ({ id, existingTournament }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size='sm'>
-          <EditIcon />
+          <PencilSquareIcon />
         </Button>
       </DialogTrigger>
       <DialogContent aria-describedby={undefined} className='max-h-[90vh] overflow-y-auto'>
@@ -51,6 +52,7 @@ const TournamentEdit: React.FC<Props> = ({ id, existingTournament }) => {
           open={open}
           onSubmit={onFormSubmit}
           existingTournament={existingTournament}
+          tournamentsLastYearExist={tournamentsLastYearExist}
         />
       </DialogContent>
     </Dialog>

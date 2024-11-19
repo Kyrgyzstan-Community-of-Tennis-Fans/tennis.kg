@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { toast } from 'sonner';
 import { GlobalError } from '@/types/userTypes';
@@ -10,7 +10,11 @@ import { createTournament, fetchTournaments } from '@/features/tournaments/tourn
 import TournamentForm from '@/features/tournaments/components/TournamentForm/TournamentForm';
 import { selectTournamentCreating } from '@/features/tournaments/tournamentsSlice';
 
-const TournamentNew = () => {
+interface Props {
+  tournamentsLastYearExist: boolean;
+}
+
+const TournamentNew: React.FC<Props> = ({ tournamentsLastYearExist }) => {
   const dispatch = useAppDispatch();
   const isCreating = useAppSelector(selectTournamentCreating);
   const [open, setOpen] = useState(false);
@@ -40,7 +44,13 @@ const TournamentNew = () => {
         <DialogHeader>
           <DialogTitle>Создать новый турнир</DialogTitle>
         </DialogHeader>
-        <TournamentForm isLoading={isCreating} onClose={handleClose} open={open} onSubmit={onFormSubmit} />
+        <TournamentForm
+          isLoading={isCreating}
+          onClose={handleClose}
+          open={open}
+          onSubmit={onFormSubmit}
+          tournamentsLastYearExist={tournamentsLastYearExist}
+        />
       </DialogContent>
     </Dialog>
   );

@@ -3,7 +3,7 @@ import TournamentNew from '@/features/tournaments/components/TournamentNew/Tourn
 import TournamentCalendar from '@/features/tournaments/components/TournamentCalendar/TournamentCalendar';
 
 const AdminCalendar = () => {
-  const { tournaments, tournamentsFetching } = useTournaments();
+  const { tournaments, tournamentsFetching, tournamentsLastYearExist } = useTournaments();
 
   return (
     <div className='max-w-[900px] mx-auto mt-3'>
@@ -12,9 +12,14 @@ const AdminCalendar = () => {
           <h1 className='text-2xl font-medium leading-none mb-1'>Календарь</h1>
           <small className='text-muted-foreground text-base'>Управление турнирами</small>
         </div>
-        <TournamentNew />
+        <TournamentNew tournamentsLastYearExist={tournamentsLastYearExist} />
       </div>
-      <TournamentCalendar tournaments={tournaments} isFetching={tournamentsFetching} isAdmin={true} />
+      <TournamentCalendar
+        tournaments={tournaments}
+        isFetching={tournamentsFetching}
+        isAdmin={true}
+        tournamentsLastYearExist={tournamentsLastYearExist}
+      />
     </div>
   );
 };

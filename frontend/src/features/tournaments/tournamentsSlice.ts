@@ -4,6 +4,7 @@ import { Tournaments } from '@/types/tournamentTypes';
 import {
   createTournament,
   deleteTournament,
+  deleteTournamentsByYear,
   fetchTournaments,
   updateTournament,
 } from '@/features/tournaments/tournamentsThunks';
@@ -14,6 +15,7 @@ export interface tournamentSlice {
   isCreating: boolean;
   isUpdating: boolean;
   isDeleting: boolean | string;
+  isDeletingByYear: boolean | string;
   selectedRank: string | undefined;
 }
 
@@ -27,6 +29,7 @@ const initialState: tournamentSlice = {
   isCreating: false,
   isUpdating: false,
   isDeleting: false,
+  isDeletingByYear: false,
   selectedRank: 'all',
 };
 
@@ -83,6 +86,17 @@ export const tournamentsSlice = createSlice({
       .addCase(deleteTournament.rejected, (state) => {
         state.isDeleting = false;
       });
+
+    builder
+      .addCase(deleteTournamentsByYear.pending, (state, { meta }) => {
+        state.isDeletingByYear = meta.arg;
+      })
+      .addCase(deleteTournamentsByYear.fulfilled, (state) => {
+        state.isDeletingByYear = false;
+      })
+      .addCase(deleteTournamentsByYear.rejected, (state) => {
+        state.isDeletingByYear = false;
+      });
   },
   selectors: {
     selectTournaments: (state) => state.items,
@@ -90,6 +104,7 @@ export const tournamentsSlice = createSlice({
     selectTournamentCreating: (state) => state.isCreating,
     selectTournamentUpdating: (state) => state.isUpdating,
     selectTournamentDeleting: (state) => state.isDeleting,
+    selectTournamentsByYearDeleting: (state) => state.isDeletingByYear,
     selectSelectedRank: (state) => state.selectedRank,
   },
 });
@@ -104,5 +119,6 @@ export const {
   selectTournamentCreating,
   selectTournamentUpdating,
   selectTournamentDeleting,
+  selectTournamentsByYearDeleting,
   selectSelectedRank,
 } = tournamentsSlice.selectors;

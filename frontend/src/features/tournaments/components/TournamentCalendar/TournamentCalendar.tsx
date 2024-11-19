@@ -9,9 +9,10 @@ interface Props {
   tournaments: Tournaments;
   isFetching: boolean;
   isAdmin?: boolean;
+  tournamentsLastYearExist?: boolean;
 }
 
-const TournamentCalendar: React.FC<Props> = ({ tournaments, isFetching, isAdmin }) => {
+const TournamentCalendar: React.FC<Props> = ({ tournaments, isFetching, isAdmin, tournamentsLastYearExist }) => {
   const hasPreviousTournaments = Object.values(tournaments.previousYear).some((month) => month.length > 0);
   const hasNextTournaments = Object.values(tournaments.nextYear).some((month) => month.length > 0);
 
@@ -26,19 +27,34 @@ const TournamentCalendar: React.FC<Props> = ({ tournaments, isFetching, isAdmin 
           <div className='text-xl sm:text-2xl font-bold text-[#3F6A11] mb-5 uppercase text-center'>
             {CURRENT_YEAR_FULL}
           </div>
-          <TournamentAccordion tournaments={tournaments.currentYear} isFetching={isFetching} isAdmin={isAdmin} />
+          <TournamentAccordion
+            tournaments={tournaments.currentYear}
+            isFetching={isFetching}
+            isAdmin={isAdmin}
+            tournamentsLastYearExist={tournamentsLastYearExist}
+          />
         </div>
         {hasNextTournaments ? (
           <div className='mt-8'>
             <div className='text-xl sm:text-2xl font-bold text-[#3F6A11] mb-5 uppercase text-center'>{NEXT_YEAR}</div>
-            <TournamentAccordion tournaments={tournaments.nextYear} isFetching={isFetching} isAdmin={isAdmin} />
+            <TournamentAccordion
+              tournaments={tournaments.nextYear}
+              isFetching={isFetching}
+              isAdmin={isAdmin}
+              tournamentsLastYearExist={tournamentsLastYearExist}
+            />
           </div>
         ) : hasPreviousTournaments ? (
           <div className='mt-8'>
             <div className='text-xl sm:text-2xl font-bold text-[#3F6A11] mb-5 uppercase text-center'>
               {PREVIOUS_YEAR}
             </div>
-            <TournamentAccordion tournaments={tournaments.previousYear} isFetching={isFetching} isAdmin={isAdmin} />
+            <TournamentAccordion
+              tournaments={tournaments.previousYear}
+              isFetching={isFetching}
+              isAdmin={isAdmin}
+              tournamentsLastYearExist={tournamentsLastYearExist}
+            />
           </div>
         ) : null}
       </div>

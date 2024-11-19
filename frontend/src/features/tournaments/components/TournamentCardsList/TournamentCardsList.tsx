@@ -7,9 +7,10 @@ interface Props {
   tournaments: Tournament[];
   isFetching: boolean;
   isAdmin?: boolean;
+  tournamentsLastYearExist?: boolean;
 }
 
-const TournamentCardsList: React.FC<Props> = ({ tournaments, isFetching, isAdmin }) => {
+const TournamentCardsList: React.FC<Props> = ({ tournaments, isFetching, isAdmin, tournamentsLastYearExist }) => {
   let content: React.ReactNode = (
     <p className='my-3 text-center text-xs md:text-sm'>На данный момент турниры отсутствуют</p>
   );
@@ -18,7 +19,12 @@ const TournamentCardsList: React.FC<Props> = ({ tournaments, isFetching, isAdmin
     content = <Loader className='my-3 mx-auto' />;
   } else if (tournaments.length > 0) {
     content = tournaments.map((tournament) => (
-      <TournamentCard key={tournament._id} tournament={tournament} isAdmin={isAdmin} />
+      <TournamentCard
+        key={tournament._id}
+        tournament={tournament}
+        isAdmin={isAdmin}
+        tournamentsLastYearExist={tournamentsLastYearExist}
+      />
     ));
   }
 

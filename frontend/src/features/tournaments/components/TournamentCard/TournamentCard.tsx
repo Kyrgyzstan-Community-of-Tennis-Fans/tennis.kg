@@ -14,9 +14,10 @@ import { isTournamentUpcoming } from '@/features/tournaments/utils/tournamentDat
 interface Props {
   tournament: Tournament;
   isAdmin?: boolean;
+  tournamentsLastYearExist?: boolean;
 }
 
-const TournamentCard: React.FC<Props> = ({ tournament, isAdmin }) => {
+const TournamentCard: React.FC<Props> = ({ tournament, isAdmin, tournamentsLastYearExist }) => {
   const translatedRank = tournament.rank === 'mixed' ? 'Микст' : tournament.rank === 'female' ? 'Женский' : 'Мужской';
   const { handleDelete, isDeleting } = useAdminTournaments();
   const permission = useAppSelector(selectPermission);
@@ -116,7 +117,11 @@ const TournamentCard: React.FC<Props> = ({ tournament, isAdmin }) => {
                 <TrashIcon />
               </Button>
             </Confirm>
-            <TournamentEdit existingTournament={tournament} id={tournament._id} />
+            <TournamentEdit
+              existingTournament={tournament}
+              id={tournament._id}
+              tournamentsLastYearExist={tournamentsLastYearExist}
+            />
           </div>
         )}
       </div>

@@ -8,9 +8,10 @@ interface Props {
   tournaments: { [month: string]: Tournament[] };
   isFetching: boolean;
   isAdmin?: boolean;
+  tournamentsLastYearExist?: boolean;
 }
 
-const TournamentAccordion: React.FC<Props> = ({ tournaments, isFetching, isAdmin }) => {
+const TournamentAccordion: React.FC<Props> = ({ tournaments, isFetching, isAdmin, tournamentsLastYearExist }) => {
   return (
     <Accordion type='multiple'>
       {Object.entries(tournaments).map(([month, tournamentList]) => (
@@ -21,7 +22,12 @@ const TournamentAccordion: React.FC<Props> = ({ tournaments, isFetching, isAdmin
             </div>
           </AccordionTrigger>
           <AccordionContent className='flex flex-col gap-1 py-1'>
-            <TournamentCardsList tournaments={tournamentList} isFetching={isFetching} isAdmin={isAdmin} />
+            <TournamentCardsList
+              tournaments={tournamentList}
+              isFetching={isFetching}
+              isAdmin={isAdmin}
+              tournamentsLastYearExist={tournamentsLastYearExist}
+            />
           </AccordionContent>
         </AccordionItem>
       ))}

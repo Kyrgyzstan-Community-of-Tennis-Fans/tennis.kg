@@ -37,7 +37,6 @@ export const getTournaments = async (req: Request, res: Response, next: NextFunc
 
     tournaments.forEach((tournament) => {
       const eventDate = new Date(tournament.eventDate);
-      const tournamentYear = eventDate.getFullYear();
       const month = eventDate.getMonth() + 1;
 
       const formattedTournament = {
@@ -45,11 +44,11 @@ export const getTournaments = async (req: Request, res: Response, next: NextFunc
         eventDate: format(eventDate, dateFormat),
       };
 
-      if (tournamentYear === PREVIOUS_YEAR) {
+      if (tournament.tournamentYear === PREVIOUS_YEAR) {
         tournamentsByYear.previousYear[month].push(formattedTournament);
-      } else if (tournamentYear === CURRENT_YEAR) {
+      } else if (tournament.tournamentYear === CURRENT_YEAR) {
         tournamentsByYear.currentYear[month].push(formattedTournament);
-      } else if (tournamentYear === NEXT_YEAR) {
+      } else if (tournament.tournamentYear === NEXT_YEAR) {
         tournamentsByYear.nextYear[month].push(formattedTournament);
       }
     });
@@ -101,6 +100,29 @@ export const deleteTournament = async (req: Request, res: Response, next: NextFu
     await Tournament.findByIdAndDelete(id);
 
     return res.send({ message: 'Tournament deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteTournamentsByYear = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const year = parseInt(req.params.year, 10);
+
+    if (isNaN(year)) {
+      return res.status(400).send({ error: 'Invalid year provided' });
+    }
+    const deletedTournaments = await Tournament.deleteMany({
+      tournamentYear: { $lt: year },
+    });
+
+    if (deletedTournaments.deletedCount === 0) {
+      return res.status(404).send({ error: 'No tournaments found for the specified condition' });
+    }
+
+    return res.send({
+      message: `${deletedTournaments.deletedCount} tournament(s) deleted successfully`,
+    });
   } catch (error) {
     next(error);
   }
