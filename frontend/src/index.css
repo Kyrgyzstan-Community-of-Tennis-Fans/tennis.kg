@@ -75,6 +75,8 @@
   }
 
   body {
+    overflow-x: hidden;
+    position: relative;
     @apply bg-background text-foreground;
     font-family: 'Montserrat', sans-serif;
     font-optical-sizing: auto;

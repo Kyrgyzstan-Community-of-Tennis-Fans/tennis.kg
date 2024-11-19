@@ -13,14 +13,18 @@ export const Login: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <section
-        className={'w-full my-14 mx-auto py-10 px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl'}
+        className={
+          'w-full my-14 mx-auto py-10 px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl dark:border dark:border-green-400'
+        }
         style={{
           boxShadow: '0px 4px 100px 0px #00000017',
         }}
       >
         <div className={'mb-7'}>
           <h1 className={'font-bold text-[28px] mb-2'}>Добро пожаловать</h1>
-          <p className={'text-sm text-black/75'}>Пожалуйста, введите ваш телефон и пароль для входа в личный кабинет</p>
+          <p className={'text-sm text-black/75 dark:text-white'}>
+            Пожалуйста, введите ваш телефон и пароль для входа в личный кабинет
+          </p>
         </div>
 
         <div className={'mb-4'}>
@@ -60,7 +64,7 @@ export const Login: React.FC = () => {
 
         <Button
           disabled={loading || isButtonDisabled}
-          className={'w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5'}
+          className={'w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5 dark:bg-white '}
           type={'submit'}
         >
           Войти
@@ -83,7 +87,9 @@ export const Login: React.FC = () => {
         <Link to={'/register'}>
           <Button
             type={'button'}
-            className={'bg-[#D9EBC6] text-[#3F6A11] shadow-none w-full h-12 uppercase rounded-full hover:bg-[#C8E1B1]'}
+            className={
+              'bg-[#D9EBC6] text-[#3F6A11] shadow-none w-full h-12 uppercase rounded-full hover:bg-[#C8E1B1] dark:bg-white'
+            }
           >
             Создать аккаунт
           </Button>

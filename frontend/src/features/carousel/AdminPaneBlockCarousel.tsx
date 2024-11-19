@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { API_URl } from '@/consts';
-import { ArrowPathIcon, PaperAirplaneIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { PaperAirplaneIcon, PencilSquareIcon, SquaresPlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useAdminCarousel } from '@/features/carousel/hooks/useAdminCarousel';
 
 export const AdminPaneBlockCarousel = () => {
@@ -37,9 +37,9 @@ export const AdminPaneBlockCarousel = () => {
             <small className='text-muted-foreground text-base'>Управление фотографиями главной карусели</small>
           </div>
           {!newImage.image ? (
-            <Button onClick={() => inputRef.current?.click()}>
+            <Button onClick={() => inputRef.current?.click()} className={'w-full xs:w-max'}>
               Добавить фото
-              <PencilSquareIcon />
+              <SquaresPlusIcon />
             </Button>
           ) : (
             <Button onClick={handleImageUpload}>
@@ -84,7 +84,7 @@ export const AdminPaneBlockCarousel = () => {
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button>
-                        <ArrowPathIcon />
+                        <PencilSquareIcon />
                       </Button>
                     </DialogTrigger>
                     <DialogContent>

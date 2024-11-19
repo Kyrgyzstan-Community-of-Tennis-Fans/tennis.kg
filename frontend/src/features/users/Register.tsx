@@ -29,12 +29,14 @@ export const Register: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <section
-        className='w-full my-14 py-10 mx-auto px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl'
+        className='w-full my-14 py-10 mx-auto px-6 xs:max-w-[545px] xs:py-12 xs:px-10 rounded-3xl dark:border-2  dark:border-green-400'
         style={{ boxShadow: '0px 4px 100px 0px #00000017' }}
       >
         <div className='mb-3'>
           <h1 className='font-bold text-[28px]'>Создать аккаунт</h1>
-          <p className='text-sm text-black/75'>Пожалуйста, заполните все данные для создания аккаунта</p>
+          <p className='text-sm text-black/75 dark:text-white'>
+            Пожалуйста, заполните все данные для создания аккаунта
+          </p>
         </div>
 
         <div className='space-y-3 mb-8'>
@@ -164,7 +166,7 @@ export const Register: React.FC = () => {
 
         <Button
           type='submit'
-          className='w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5'
+          className='w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5 dark:bg-blue-50'
           disabled={!isFormValid() || !validateEmail(registerMutation.email)}
         >
           Зарегистрироваться

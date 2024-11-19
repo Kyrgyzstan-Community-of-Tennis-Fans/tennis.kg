@@ -26,7 +26,7 @@ export const DatePicker: React.FC<Props> = ({ onDateChange }) => {
             {selectedDates.startDate ? (
               format(selectedDates.startDate, 'PPP', { locale: ru })
             ) : (
-              <span className='text-black'>Начало даты</span>
+              <span className='text-black dark:text-white'>Начало даты</span>
             )}
             <ChevronDownIcon
               className='relative ml-1 h-3 w-3 transition duration-300 group-data-[state=open]:rotate-180'
@@ -51,7 +51,7 @@ export const DatePicker: React.FC<Props> = ({ onDateChange }) => {
             {selectedDates.endDate ? (
               format(selectedDates.endDate, 'PPP', { locale: ru })
             ) : (
-              <span className='text-black'>Конец даты</span>
+              <span className='text-black dark:text-white'>Конец даты</span>
             )}
             <ChevronDownIcon
               className='relative ml-1 h-3 w-3 transition duration-300 group-data-[state=open]:rotate-180'
@@ -72,7 +72,7 @@ export const DatePicker: React.FC<Props> = ({ onDateChange }) => {
       <Button
         variant={'outline'}
         onClick={handleResetDates}
-        className='filter-set-date h-12 text-cr-green-900 hover:text-rose-700'
+        className='filter-set-date h-12 text-cr-green-900 hover:text-rose-700 dark:text-green-500'
       >
         Сбросить
         <XIcon />

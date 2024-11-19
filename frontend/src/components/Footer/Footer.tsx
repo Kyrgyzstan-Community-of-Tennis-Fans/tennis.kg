@@ -18,7 +18,7 @@ const Footer = () => {
   const footerItemsData = useAppSelector(selectItemsData);
 
   return (
-    <div className='bg-cr-shark pt-8 pb-4'>
+    <div className='bg-cr-shark pt-8 pb-4 dark:bg-gray-900'>
       <div className='mx-auto max-w-[1335px] px-[16px] flex flex-col items-center justify-center lmd:items-start lmd:flex-row p-6 lg:px-8 lmd:justify-evenly gap-10'>
         <div className='basis-1/4 flex flex-col gap-5 lmd:gap-10'>
           <div className='flex lg:flex-1 justify-evenly lmd:justify-start'>
