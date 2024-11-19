@@ -36,18 +36,22 @@ export const getNews = async (req: Request, res: Response, next: NextFunction) =
     const page = parseInt(req.query.page as string, 10) || 1;
     const limit = parseInt(req.query.limit as string, 10) || 12;
     const startIndex = (page - 1) * limit;
-    const dateFilter: { createdAt?: { $gte: Date; $lte: Date } } = {};
+    const filter: { createdAt?: { $gte: Date; $lte: Date }; _id?: { $ne: string } } = {};
 
     if (req.query.startDate && req.query.endDate) {
       const startDate = parseISO(req.query.startDate as string);
       const endDate = parseISO(req.query.endDate as string);
 
       if (isValid(startDate) && isValid(endDate)) {
-        dateFilter.createdAt = { $gte: startDate, $lte: endDate };
+        filter.createdAt = { $gte: startDate, $lte: endDate };
       }
     }
 
-    const news = await News.find(dateFilter)
+    if (req.query.excludeId) {
+      filter._id = { $ne: req.query.excludeId as string };
+    }
+
+    const news = await News.find(filter)
       .select('title subtitle newsCover createdAt updatedAt')
       .sort({ createdAt: -1 })
       .skip(startIndex)
@@ -60,7 +64,7 @@ export const getNews = async (req: Request, res: Response, next: NextFunction) =
       updatedAt: format(item.updatedAt, dateFormat),
     }));
 
-    const total = await News.countDocuments(dateFilter);
+    const total = await News.countDocuments(filter);
     const pages = limit > 0 ? Math.ceil(total / limit) : null;
 
     return res.send({ page, limit, total, pages, data: formattedNews });
@@ -98,7 +102,7 @@ export const updateNews = async (req: Request, res: Response, next: NextFunction
     }
 
     const id = new Types.ObjectId(req.params.id);
-    const { title, subtitle, content, newsCover, images } = req.body;
+    const { title, subtitle, content, images } = req.body;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const existingNews = await News.findById(id);
 
@@ -108,8 +112,7 @@ export const updateNews = async (req: Request, res: Response, next: NextFunction
 
     await processImages(files);
 
-    const updatedNewsCover = files['newsCover'] && files['newsCover'][0] ? files['newsCover'][0].filename : newsCover;
-
+    const updatedNewsCover = files['newsCover'] && files['newsCover'][0].filename;
     const existingImages = existingNews.images || [];
     const newImages = files['images'] ? files['images'].map((file) => file.filename) : [];
     const removedImages = images ? existingImages.filter((image) => !images.includes(image)) : [];
@@ -142,7 +145,7 @@ export const updateNews = async (req: Request, res: Response, next: NextFunction
       title: title || existingNews.title,
       subtitle: subtitle || existingNews.subtitle,
       content: content || existingNews.content,
-      newsCover: updatedNewsCover,
+      newsCover: updatedNewsCover || existingNews.newsCover,
       images: finalImages,
     };
 

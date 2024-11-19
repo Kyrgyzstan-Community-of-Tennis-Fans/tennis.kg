@@ -124,7 +124,7 @@ export const newsFixtures = [
     images: [
       'fixtures/news/paddle-tennis-ball-hitting-net.jpg',
       'fixtures/news/close-up-tennis-player.jpg',
-      'fixtures/news/young-couple-playing-tennis-court.jpg',
+      'fixtures/news/young-couple-playing-tennis.jpg',
       'fixtures/news/ready-tennis-game.jpg',
       'fixtures/news/happy-young-woman-playing-tennis-court.jpg',
     ],
@@ -185,7 +185,7 @@ export const newsFixtures = [
       '<p>В этот вечер на кортах встретятся <b>легенды тенниса,</b> которые когда-то занимали высшие позиции в мировом рейтинге. Это уникальная возможность для фанатов увидеть в действии своих кумиров, прошедших через многие турниры и победы.</p>',
     createdAt: '2024-10-21T16:30:40.300000',
     updatedAt: '2024-10-21T17:45:20.300000',
-    newsCover: 'fixtures/news/young-couple-playing-tennis-court.jpg',
+    newsCover: 'fixtures/news/young-couple-playing-tennis.jpg',
     images: [
       'fixtures/news/ready-tennis-game.jpg',
       'fixtures/news/young-woman-tennis-player-court.jpg',
@@ -226,7 +226,7 @@ export const newsFixtures = [
     createdAt: '2024-08-22T11:05:55.300000',
     updatedAt: '2024-08-22T12:15:10.300000',
     newsCover: 'fixtures/news/newsInner3.png',
-    images: ['fixtures/news/young-couple-playing-tennis-court.jpg', 'fixtures/news/third.png'],
+    images: ['fixtures/news/young-couple-playing-tennis.jpg', 'fixtures/news/third.png'],
   },
   {
     title: 'Чемпионат мира по теннису среди юниоров',
@@ -237,7 +237,7 @@ export const newsFixtures = [
     updatedAt: '2024-08-14T16:10:50.300000',
     newsCover: 'fixtures/news/ready-tennis-game.jpg',
     images: [
-      'fixtures/news/young-couple-playing-tennis-court.jpg',
+      'fixtures/news/young-couple-playing-tennis.jpg',
       'fixtures/news/young-woman-tennis-player-court.jpg',
     ],
   },
@@ -249,6 +249,6 @@ export const newsFixtures = [
     createdAt: '2024-08-10T11:15:40.300000',
     updatedAt: '2024-08-10T12:00:35.300000',
     newsCover: 'fixtures/news/hand-with-tennis-ball.jpg',
-    images: ['fixtures/news/young-couple-playing-tennis-court.jpg', 'fixtures/news/ready-tennis-game.jpg'],
+    images: ['fixtures/news/young-couple-playing-tennis.jpg', 'fixtures/news/ready-tennis-game.jpg'],
   },
 ];
