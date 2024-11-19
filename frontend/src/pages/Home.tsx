@@ -4,15 +4,33 @@ import { BlockCarousel } from '@/features/carousel/BlockCarousel';
 import Partners from '@/features/partners/Partners';
 import MainPageRating from '@/features/mainRatingMembers/MainPageRating';
 import { NewsMain } from '@/features/news/containers/NewsMain/NewsMain';
+import GradientCircle from '@/components/GradientCircle/GradientCircle';
+import { GradientCirclesTypes } from '@/types/types';
+
+const gradientCircles: GradientCirclesTypes[] = [
+  { width: '660px', height: '675px', top: '231px', left: '-150px' },
+  { width: '283px', height: '283px', top: '-90px', right: '-90px' },
+  { width: '660px', height: '675px', top: '704px', right: '-250px' },
+  { width: '660px', height: '675px', top: '1110px', left: '-200px' },
+  { width: '660px', height: '675px', top: '1480px', right: '-195px' },
+  { width: '516px', height: '528px', top: '2000px', left: '-20px' },
+  { width: '630px', height: '654px', bottom: '1500px', left: '-20px' },
+  { width: '630px', height: '654px', bottom: '1800px', right: '-200px' },
+  { width: '516px', height: '528px', bottom: '700px', right: '-20px' },
+];
 
 export const Home: React.FC = () => {
   return (
     <>
-      <Layout className={'mb-32'}>
+      {gradientCircles.map((circle, id) => (
+        <GradientCircle key={id} {...circle} />
+      ))}
+
+      <Layout className='mb-32'>
         <BlockCarousel />
       </Layout>
 
-      <section className={'mb-8 lg:mb-28'}>
+      <section className='mb-8 lg:mb-28'>
         <Partners />
       </section>
 
