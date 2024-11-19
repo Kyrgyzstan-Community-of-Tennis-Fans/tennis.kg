@@ -6,14 +6,14 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useCategory } from '@/features/category/hooks/useCategory';
-import { AdminRedactor } from '@/features/users/components/AdminRedactor/AdminRedactor';
-import { selectUsersList, selectUsersListPages } from '@/features/users/usersSlice';
+import  AdminRedactor  from '@/features/users/components/AdminRedactor/AdminRedactor';
+import {selectUsersList, selectUsersListPages} from '@/features/users/usersSlice';
 import { fetchUsers, updateIsActive } from '@/features/users/usersThunks';
 import { formatTelephone } from '@/lib/formatTelephone';
 import type { UsersFilter } from '@/types/userTypes';
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
-import React, { type ChangeEvent, useEffect, useState } from 'react';
-import { CustomPagination } from '@/components/CustomPagination/CustomPagination';
+import { type ChangeEvent, useEffect, useState } from 'react';
+import {CustomPagination} from "@/components/CustomPagination/CustomPagination";
 
 export const AdminUserList = () => {
   const [filters, setFilters] = useState<UsersFilter>({

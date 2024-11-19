@@ -42,6 +42,19 @@ export const fetchOneUser = createAsyncThunk<User, string>('users/fetchOneUser',
   return user;
 });
 
+export const getPermission = createAsyncThunk<boolean, string>('users/get-permission', async (id) => {
+  const { data: user } = await axiosApi.get<User>(`/users/${id}`);
+  if (user) {
+    if (user.isActive) {
+      return true;
+    } else if (user.role === 'admin') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+});
+
 export const register = createAsyncThunk<User, RegisterMutation, { rejectValue: ValidationError }>(
   'users/register',
   async (registerMutation, { rejectWithValue }) => {
@@ -120,7 +133,6 @@ export const updateUserInfo = createAsyncThunk<User, RegisterMutationWithoutCoup
   async (userInfo) => {
     try {
       const { data: user } = await axiosApi.put<User>('/users/update-info', userInfo);
-
       return user;
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 400) {
@@ -153,5 +165,5 @@ export const updateCurrentUserInfo = createAsyncThunk<User, RedactorForAdmin, { 
 );
 
 export const updateIsActive = createAsyncThunk<void, string>('users/toggle-active', async (id: string) => {
-  await axiosApi.patch(`/users/${id}/toggleActive`);
+    await axiosApi.patch(`/users/${id}/toggleActive`);
 });

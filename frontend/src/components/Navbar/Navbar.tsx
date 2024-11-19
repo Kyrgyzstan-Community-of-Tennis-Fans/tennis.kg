@@ -9,25 +9,19 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppSelector } from '@/app/hooks';
 import { selectItemsData } from '@/features/footers/footersSlice';
 import { NavigationItems } from '@/components/Navbar/MenuItems';
-import { selectCurrentUser, selectUser } from '@/features/users/usersSlice';
-import { useEffect } from 'react';
-import { fetchOneUser } from '@/features/users/usersThunks';
+import { selectPermission, selectUser } from '@/features/users/usersSlice';
+import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher';
 
 const Navbar = () => {
-  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
-  const currentUser = useAppSelector(selectCurrentUser);
+  const permission = useAppSelector(selectPermission);
   const footerItemsData = useAppSelector(selectItemsData);
 
-  useEffect(() => {
-    if (user) dispatch(fetchOneUser(user._id));
-  }, [dispatch, user]);
-
   return (
-    <div className='py-[20px] md:py-[27px] mb-[70px] bg-cr-shark'>
+    <div className='py-[20px] md:py-[27px] bg-cr-shark dark:bg-gray-900'>
       <div className='max-w-[1335px] px-[16px] mx-auto'>
         <div className='flex justify-between items-center'>
           <NavLink to='/' className='w-[76px] h-[28px] md:w-[98px] md:h-[36px]'>
@@ -54,18 +48,16 @@ const Navbar = () => {
                 <NavigationMenu>
                   <NavigationMenuList>
                     <NavigationMenuItem>
-                      {footerItemsData.length > 0 &&
-                        footerItemsData[0].menuPosition.length > 0 &&
-                        currentUser?.isActive && (
-                          <NavigationMenuTrigger className='text-white'>Положение</NavigationMenuTrigger>
-                        )}
+                      {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && permission && (
+                        <NavigationMenuTrigger className='text-white'>Положение</NavigationMenuTrigger>
+                      )}
                       <NavigationMenuContent>
                         <ul className='w-[300px]'>
                           {footerItemsData.length > 0 &&
                             footerItemsData[0].menuPosition.map((menuItem) => (
                               <li
                                 key={menuItem._id}
-                                className='hover:bg-gray-50 cursor-pointer transition-colors duration-200'
+                                className='hover:bg-gray-50 cursor-pointer transition-colors duration-200 dark:bg-gray-900'
                               >
                                 <NavigationMenuLink className='block p-[25px]' href={menuItem.value} target='_blank'>
                                   {menuItem.name}
@@ -81,7 +73,8 @@ const Navbar = () => {
             </ul>
           </div>
 
-          <div className='hidden md:block'>
+          <div className='hidden md:flex items-center gap-10'>
+            <ThemeSwitcher/>
             {user ? (
               <NavBarDropDown />
             ) : (

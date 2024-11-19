@@ -65,10 +65,10 @@ export const NewsCard: React.FC<Props> = React.memo(({ news, isAdmin = false }) 
         </CardHeader>
         <CardContent className='news-card-content'>
           <div className='me-auto'>
-            <h4 className='news-card-subtitle'>{subtitle}</h4>
-            <h3 className='news-card-title'>{title}</h3>
+            <h4 className='news-card-subtitle dark:text-white'>{subtitle}</h4>
+            <h3 className='news-card-title dark:text-white'>{title}</h3>
           </div>
-          <span className='news-card-createdAt'>{createdAt}</span>
+          <span className='news-card-createdAt dark:text-green-500'>{createdAt}</span>
         </CardContent>
       </Link>
       {isAdmin && (
