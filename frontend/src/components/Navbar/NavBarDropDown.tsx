@@ -55,7 +55,7 @@ export const NavBarDropDown = () => {
             </DropdownMenuItem>
             {user?.role === 'admin' && (
               <DropdownMenuItem onClick={() => setDropDown(false)}>
-                <Link className='flex items-center gap-1.5' to='/admin'>
+                <Link className='flex items-center gap-1.5' to='/admin' id={'admin'}>
                   <Cog6ToothIcon className='w-[15px] h-[15px]' />
                   Панель администратора
                 </Link>
