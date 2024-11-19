@@ -12,11 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { API_URl } from '@/consts';
-import {
-  PaperAirplaneIcon, PencilSquareIcon,
-  SquaresPlusIcon,
-  TrashIcon,
-} from '@heroicons/react/24/outline';
+import { PaperAirplaneIcon, PencilSquareIcon, SquaresPlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useAdminCarousel } from '@/features/carousel/hooks/useAdminCarousel';
 
 export const AdminPaneBlockCarousel = () => {
