@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { RatingMemberFields } from '../../types';
+import { RatingMemberFields } from '../types/rating';
 
 const Schema = mongoose.Schema;
 

@@ -1,5 +1,5 @@
 import mongoose, { type HydratedDocument } from 'mongoose';
-import type { CategoryFields } from '../../types';
+import { CategoryFields } from '../types/category';
 
 const Schema = mongoose.Schema;
 

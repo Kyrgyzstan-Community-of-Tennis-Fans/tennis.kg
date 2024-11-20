@@ -1,9 +1,9 @@
 import { randomBytes } from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { type RequestWithUser } from '../middleware/auth';
 import { User } from '../model/User';
 import { sendMail } from '../utils/utils';
+import { RequestWithUser } from '../types/user';
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
