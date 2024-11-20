@@ -1,1 +1,1 @@
-export const API_URl = 'http://localhost:8000/';
+export const API_URl = import.meta.env['VITE_API_URL'];
