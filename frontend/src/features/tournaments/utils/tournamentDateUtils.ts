@@ -1,8 +1,0 @@
-import { isBefore, parse } from 'date-fns';
-
-export const isTournamentUpcoming = (eventDate: string): boolean => {
-  const parsedDate = parse(eventDate, 'dd.MM.yy', new Date());
-  const currentDate = new Date();
-
-  return !isBefore(parsedDate, currentDate);
-};

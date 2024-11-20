@@ -15,6 +15,7 @@ interface Props {
 const TournamentCalendar: React.FC<Props> = ({ tournaments, isFetching, isAdmin, tournamentsLastYearExist }) => {
   const hasPreviousTournaments = Object.values(tournaments.previousYear).some((month) => month.length > 0);
   const hasNextTournaments = Object.values(tournaments.nextYear).some((month) => month.length > 0);
+  const calendarTitleStyles = 'text-xl sm:text-2xl font-bold text-[#3F6A11] dark:text-white mb-5 uppercase text-center';
 
   return (
     <Layout className='max-w-[900px] mx-auto'>
@@ -24,9 +25,7 @@ const TournamentCalendar: React.FC<Props> = ({ tournaments, isFetching, isAdmin,
           <RankFilter />
         </div>
         <div className='mb-10'>
-          <div className='text-xl sm:text-2xl font-bold text-[#3F6A11] mb-5 uppercase text-center'>
-            {CURRENT_YEAR_FULL}
-          </div>
+          <div className={calendarTitleStyles}>{CURRENT_YEAR_FULL}</div>
           <TournamentAccordion
             tournaments={tournaments.currentYear}
             isFetching={isFetching}
@@ -36,7 +35,7 @@ const TournamentCalendar: React.FC<Props> = ({ tournaments, isFetching, isAdmin,
         </div>
         {hasNextTournaments ? (
           <div className='mt-8'>
-            <div className='text-xl sm:text-2xl font-bold text-[#3F6A11] mb-5 uppercase text-center'>{NEXT_YEAR}</div>
+            <div className={calendarTitleStyles}>{NEXT_YEAR}</div>
             <TournamentAccordion
               tournaments={tournaments.nextYear}
               isFetching={isFetching}
@@ -46,9 +45,7 @@ const TournamentCalendar: React.FC<Props> = ({ tournaments, isFetching, isAdmin,
           </div>
         ) : hasPreviousTournaments ? (
           <div className='mt-8'>
-            <div className='text-xl sm:text-2xl font-bold text-[#3F6A11] mb-5 uppercase text-center'>
-              {PREVIOUS_YEAR}
-            </div>
+            <div className={calendarTitleStyles}>{PREVIOUS_YEAR}</div>
             <TournamentAccordion
               tournaments={tournaments.previousYear}
               isFetching={isFetching}
