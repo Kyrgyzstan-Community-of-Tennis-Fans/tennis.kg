@@ -19,10 +19,9 @@ Then("я должен быть на главной", () => {
 
 Then("я должен быть на админке", () => {
   I.amOnPage("/admin");
-  I.wait(1);
   I.seeInCurrentUrl("/admin");
   I.dontSee("Авторизация");
-  I.wait(2);
+  I.wait(1);
 });
 
 When("я залогинен на сайте", () => {
@@ -45,14 +44,34 @@ Given("я нахожусь на странице логина", () => {
 Given("перехожу на админ панель", () => {
   I.seeElement("#admin");
   I.click("#admin");
-  I.wait(2);
 });
 
 Then("я нажимаю на кнопку {string}", (addPartner: string) => {
   I.click(addPartner);
-  I.wait(3);
+  I.wait(1);
 });
 
 Given("Загружаю изображения", () => {
   I.attachFile("input[type='file']", "public/Knauf.svg");
+  I.wait(1);
 });
+
+Given("я вижу карточку партнера {string}", (partnerName: string) => {
+  I.seeElement(`[data-testid="${partnerName}"]`);
+  I.wait(2);
+});
+
+When(
+  "я нажимаю на кнопку редактирования партнера {string}",
+  (partnerName: string) => {
+    I.click(`[data-testid="${partnerName}"] button[data-testid="edit"]`);
+    I.wait(1);
+  },
+);
+When(
+  "я нажимаю на кнопку удаления партнера {string}",
+  (partnerName: string) => {
+    I.click(`[data-testid="${partnerName}"] button[data-testid="delete"]`);
+    I.wait(2);
+  },
+);
