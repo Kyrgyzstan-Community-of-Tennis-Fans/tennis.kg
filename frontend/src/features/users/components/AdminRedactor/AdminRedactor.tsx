@@ -18,7 +18,7 @@ import { fetchOneUser, fetchUsers, updateCurrentUserInfo } from '@/features/user
 import { validateEmail } from '@/lib/emailValidate';
 import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
-import type { RedactorForAdmin, UsersFilter } from '@/types/userTypes';
+import type { RedactorForAdmin, UsersFilter } from '@/types/user';
 import React, { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';

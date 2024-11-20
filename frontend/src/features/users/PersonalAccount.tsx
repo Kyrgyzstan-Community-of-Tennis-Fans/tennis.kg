@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchOneUser } from '@/features/users/usersThunks';
 import GradientCircle from '@/components/GradientCircle/GradientCircle';
-import { GradientCirclesTypes } from '@/types/types';
+import { GradientCirclesTypes } from '@/types/general';
 
 const gradientCircles: GradientCirclesTypes[] = [
   { width: '569px', height: '572px', top: '-90px', left: '-272px' },

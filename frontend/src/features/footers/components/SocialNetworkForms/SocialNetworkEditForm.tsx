@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import React, { type FormEvent, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { LinkDataMutation } from '@/types/footerTypes';
+import { LinkDataMutation } from '@/types/footer';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';

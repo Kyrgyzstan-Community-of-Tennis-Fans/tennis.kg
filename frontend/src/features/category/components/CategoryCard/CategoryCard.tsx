@@ -7,7 +7,7 @@ import { selectCategoryDeleting } from '@/features/category/categorySlice';
 import { deleteCategory } from '@/features/category/categoryThunks';
 import { CategoryEdit } from '@/features/category/components/CategoryEdit/CategoryEdit';
 import { formatDate } from '@/lib/formatDate';
-import type { Category } from '@/types/categoryTypes';
+import type { Category } from '@/types/category';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { toast } from 'sonner';

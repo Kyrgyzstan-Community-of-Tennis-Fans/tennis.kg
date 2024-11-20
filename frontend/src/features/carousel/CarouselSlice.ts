@@ -7,7 +7,7 @@ import {
   postFetchCarousel,
   updateCarouselImage,
 } from '@/features/carousel/CarouselThunk';
-import type { GlobalError } from '@/types/userTypes';
+import type { GlobalError } from '@/types/user';
 import { toast } from 'sonner';
 
 export interface carouselState {

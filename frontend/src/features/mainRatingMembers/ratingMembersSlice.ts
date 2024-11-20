@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RatingMember } from '@/types/ratingMemberTypes';
+import { RatingMember } from '@/types/ratingMember';
 import {
   createRatingMember,
   fetchRatingMembers,

@@ -5,7 +5,7 @@ import Partners from '@/features/partners/Partners';
 import MainPageRating from '@/features/mainRatingMembers/MainPageRating';
 import { NewsMain } from '@/features/news/containers/NewsMain/NewsMain';
 import GradientCircle from '@/components/GradientCircle/GradientCircle';
-import { GradientCirclesTypes } from '@/types/types';
+import { GradientCirclesTypes } from '@/types/general';
 
 const gradientCircles: GradientCirclesTypes[] = [
   { width: '660px', height: '675px', top: '231px', left: '-150px' },

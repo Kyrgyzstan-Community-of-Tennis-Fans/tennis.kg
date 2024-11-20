@@ -5,9 +5,9 @@ import {
   RatingMemberMutation,
   UpdateCategoryArg,
   UpdateRatingMemberArg,
-} from '@/types/ratingMemberTypes';
+} from '@/types/ratingMember';
 import { isAxiosError } from 'axios';
-import { GlobalError } from '@/types/userTypes';
+import { GlobalError } from '@/types/user';
 
 export const fetchRatingMembers = createAsyncThunk<RatingMember[]>('ratingMembers/fetchAll', async () => {
   const { data: ratingMembers } = await axiosApi.get<RatingMember[]>('/ratingMembers');

@@ -7,10 +7,10 @@ import { selectCategories, selectCategoriesFetching } from '@/features/category/
 import { fetchCategories } from '@/features/category/categoryThunks';
 import { selectEventFetching } from '@/features/ratings/ratingsSlice';
 import { getMonth } from '@/lib/getMonth';
-import type { EventMutation } from '@/types/eventTypes';
-import type { Rating } from '@/types/ratingTypes';
+import type { EventMutation } from '@/types/event';
+import type { Rating } from '@/types/rating';
 import React, { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
-import { Event } from '@/types/eventTypes';
+import { Event } from '@/types/event';
 
 interface Props {
   onSubmit: (eventMutation: EventMutation) => void;

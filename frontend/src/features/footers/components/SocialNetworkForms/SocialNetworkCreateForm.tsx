@@ -10,7 +10,7 @@ import {
 import React, { type FormEvent, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { LinkDataMutation, SocialNetworkIconsValue } from '@/types/footerTypes';
+import { LinkDataMutation, SocialNetworkIconsValue } from '@/types/footer';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';

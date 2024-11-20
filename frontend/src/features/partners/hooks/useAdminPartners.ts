@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectPartners, selectPartnersFetching } from '@/features/partners/partnerSlice';
 import { useEffect, useState } from 'react';
 import { createPartner, fetchPartner } from '@/features/partners/partnerThunks';
-import { Partner } from '@/types/partnerTypes';
+import { Partner } from '@/types/partner';
 
 export const useAdminPartners = () => {
   const dispatch = useAppDispatch();
