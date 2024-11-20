@@ -18,11 +18,20 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
   try {
     if (!req.file) return res.status(400).send({ error: 'Image field is required' });
 
-    const imagePath = path.join(config.publicPath, 'images', 'imgCarousel', req.file.filename);
-    await compressImage(imagePath);
+    const fileType = req.file.mimetype.startsWith('video') ? 'video' : 'image';
+    const filePath = path.join(
+        config.publicPath,
+        fileType === 'video' ? 'videos' : 'images/imgCarousel',
+        req.file.filename
+    );
+
+    if (fileType === 'image') {
+      await compressImage(filePath);
+    }
+
 
     const carousel = await Carousel.create({
-      image: req.file ? 'images/imgCarousel/' + req.file.filename : null,
+      [fileType]: `${fileType === 'video' ? 'videos' : 'images/imgCarousel'}/${req.file.filename}`,
     });
 
     return res.status(201).send(carousel);
