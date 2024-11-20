@@ -6,7 +6,6 @@ import { DatePicker } from '@/features/news/components/DatePicker/DatePicker';
 import { NewsCard } from '@/features/news/components/NewsCard/NewsCard';
 import { NewsTitle } from '@/features/news/components/NewsTitle/NewsTitle';
 import './newsPage.css';
-import { Loader } from '@/components/Loader/Loader';
 
 interface Props {
   isAdmin?: boolean;
@@ -14,8 +13,8 @@ interface Props {
 
 export const NewsPage: React.FC<Props> = ({ isAdmin }) => {
   const { news, newsFetching, totalPages, page, setPage, handleDateChange } = useNews();
+  // if (newsFetching) return <Loader />;
 
-  if (newsFetching) return <Loader />;
   let noDataContent;
 
   switch (true) {

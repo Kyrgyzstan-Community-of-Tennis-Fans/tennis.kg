@@ -145,7 +145,7 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
                         : API_URl + '/' + news.newsCover
                     }
                     alt='NewsPage Cover Preview'
-                    className='w-full h-full object-cover'
+                    className='w-full h-full object-cover max-h-[230px]'
                   />
                   <Confirm onOk={() => handleRemoveMedia()}>
                     <Button className='absolute top-1 right-1 bg-transparent border text-white rounded-md p-2 hover:bg-red-500'>
@@ -164,11 +164,11 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
               {news.images.length > 0 && (
                 <div className='mt-2 flex flex-wrap gap-2'>
                   {news.images.map((image, index) => (
-                    <div className='relative h-auto w-full sm:w-[49%] md:w-1/5' key={index}>
+                    <div className='relative h-auto w-full sm:w-[49%] md:w-[19%]' key={index}>
                       <img
                         src={image instanceof File ? URL.createObjectURL(image) : `${API_URl}/${image}`}
                         alt={`NewsPage Image ${index + 1}`}
-                        className='w-full h-full object-cover'
+                        className='w-full h-full object-cover max-h-[150px]'
                       />
                       <Confirm onOk={() => handleRemoveMedia(index)}>
                         <Button className='absolute top-1 right-1 bg-transparent border text-white rounded-md p-2 hover:bg-red-500'>

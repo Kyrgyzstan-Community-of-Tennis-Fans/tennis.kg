@@ -69,14 +69,16 @@ export const DatePicker: React.FC<Props> = ({ onDateChange }) => {
           />
         </PopoverContent>
       </Popover>
-      <Button
-        variant={'outline'}
-        onClick={handleResetDates}
-        className='filter-set-date h-12 text-cr-green-900 hover:text-rose-700 dark:text-green-500'
-      >
-        Сбросить
-        <XIcon />
-      </Button>
+      {(selectedDates.startDate !== undefined || selectedDates.endDate !== undefined) && (
+        <Button
+          variant={'outline'}
+          onClick={handleResetDates}
+          className='filter-set-date h-12 text-cr-green-900 hover:text-rose-700 dark:text-green-500'
+        >
+          Сбросить
+          <XIcon />
+        </Button>
+      )}
     </div>
   );
 };
