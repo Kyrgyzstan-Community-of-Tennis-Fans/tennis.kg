@@ -13,8 +13,8 @@ interface Props {
 
 export const NewsPage: React.FC<Props> = ({ isAdmin }) => {
   const { news, newsFetching, totalPages, page, setPage, handleDateChange } = useNews();
+  // if (newsFetching) return <Loader />;
 
-  // if (newsFetching) return <Loader fixed />;
   let noDataContent;
 
   switch (true) {

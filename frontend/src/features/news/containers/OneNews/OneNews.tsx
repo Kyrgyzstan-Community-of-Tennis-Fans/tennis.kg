@@ -1,8 +1,8 @@
 import React from 'react';
+import DOMPurify from 'dompurify';
 import { API_URl } from '@/consts';
 import { useOneNews } from '@/features/news/hooks/useOneNews';
 import { Layout } from '@/components/Layout';
-import { NextButton, PrevButton } from '@/features/news/components/CustomCarousel/CarouselButtons';
 import { NewsCard } from '@/features/news/components/NewsCard/NewsCard';
 import { Loader } from '@/components/Loader/Loader';
 import { useDialogState } from '@/features/news/hooks/useDialogState';
@@ -11,32 +11,22 @@ import './oneNews.css';
 import '../../components/CustomCarousel/embla.css';
 
 export const OneNews: React.FC = () => {
-  const {
-    emblaRef,
-    oneNews,
-    initialIndex,
-    setInitialIndex,
-    news,
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick,
-    oneNewsFetching,
-  } = useOneNews();
+  const { emblaRef, oneNews, initialIndex, setInitialIndex, news, oneNewsFetching } = useOneNews();
   const { open, toggleOpen } = useDialogState();
+  const sanitize = (html: string): string => DOMPurify.sanitize(html);
 
   const handleImageClick = (index: number) => {
     setInitialIndex(index);
     toggleOpen();
   };
 
-  if (oneNewsFetching) return <Loader fixed />;
+  if (oneNewsFetching) return <Loader />;
 
   return (
-    <Layout className='py-16'>
+    <Layout>
       <div className='one-news-title-block'>
-        <h1 className='one-news-subtitle'>{oneNews?.subtitle}</h1>
-        <h2 className='one-news-title'>{oneNews?.title}</h2>
+        <h1 className='one-news-title'>{oneNews?.title}</h1>
+        <h2 className='one-news-subtitle'>{oneNews?.subtitle}</h2>
       </div>
 
       <section className={oneNews && oneNews.images.length > 0 ? 'embla' : 'hidden'}>
@@ -49,19 +39,12 @@ export const OneNews: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className='embla__controls'>
-          <div className='embla__buttons'>
-            <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-            <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
-          </div>
-        </div>
       </section>
 
       {oneNews && oneNews.content && (
-        <section className='mb-5'>
-          <div dangerouslySetInnerHTML={{ __html: oneNews.content }} />
-        </section>
+        <section className='news-content' dangerouslySetInnerHTML={{ __html: sanitize(oneNews.content) }} />
       )}
+
       <section>
         <h3 className='one-news-section-title'>Другие новости</h3>
         <div className='one-news-card-container'>

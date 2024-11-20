@@ -15,20 +15,16 @@ const NewsSchema = new Schema<NewsFields>(
     content: {
       type: String,
       required: [true, 'Введите текст новости!'],
-      trim: true,
     },
     newsCover: {
       type: String,
-      // required: [true, 'Загрузите обложку новости!'],
+      required: [true, 'Загрузите обложку новости!'],
     },
     images: {
       type: [String],
     },
   },
-  {
-    timestamps: true,
-    versionKey: false,
-  }
+  { timestamps: true }
 );
 
 export const News = model('News', NewsSchema);
