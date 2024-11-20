@@ -24,8 +24,9 @@ const TournamentActions = ({ tournament, permission }: { tournament: Tournament;
             {text}
           </span>
         </PopoverTrigger>
-        <PopoverContent>
-          <small>Чтобы просмотреть {text.toLowerCase()}, войдите в систему</small>
+        <PopoverContent className='bg-gray-100 text-xs'>
+          Этот функционал доступен только для зарегистрированных пользователей. Пожалуйста, войдите или
+          зарегистрируйтесь, чтобы получить доступ.
         </PopoverContent>
       </Popover>
     );

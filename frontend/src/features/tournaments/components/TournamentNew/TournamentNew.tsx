@@ -47,7 +47,6 @@ const TournamentNew: React.FC<Props> = ({ tournamentsLastYearExist }) => {
         <TournamentForm
           isLoading={isCreating}
           onClose={handleClose}
-          open={open}
           onSubmit={onFormSubmit}
           tournamentsLastYearExist={tournamentsLastYearExist}
         />

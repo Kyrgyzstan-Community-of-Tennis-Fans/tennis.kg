@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Tournament, TournamentMutation } from '@/types/tournamentTypes';
 import { useFormHandlers } from '@/features/tournaments/hooks/useFormHandlers';
 import { Label } from '@/components/ui/label';
@@ -7,18 +7,17 @@ import { Button } from '@/components/ui/button';
 import { DialogClose } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Confirm } from '@/components/Confirm/Confirm';
-import { CURRENT_YEAR_FULL, NEXT_YEAR } from '@/consts';
+import { CURRENT_YEAR_FULL, NEXT_YEAR, PREVIOUS_YEAR } from '@/consts';
 import FileInput from '@/components/FileInput/FilleInput';
 import { useAdminTournaments } from '@/features/tournaments/hooks/useAdminTournaments';
 import ErrorMessage from '@/features/tournaments/components/ErrorMessage/ErrorMessage';
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import WarningMessage from '@/features/tournaments/components/WarningMessage/WarningMessage';
 
 interface Props {
   onSubmit: (tournament: TournamentMutation) => void;
   existingTournament?: Tournament;
   isLoading?: boolean;
   onClose?: () => void;
-  open: boolean;
   tournamentsLastYearExist?: boolean;
 }
 
@@ -39,7 +38,6 @@ const TournamentForm: React.FC<Props> = ({
   existingTournament,
   isLoading,
   onClose,
-  open,
   tournamentsLastYearExist,
 }) => {
   const initialState = existingTournament
@@ -50,20 +48,22 @@ const TournamentForm: React.FC<Props> = ({
       }
     : emptyState;
   const [state, setState] = useState<TournamentMutation>(initialState);
-  const { handleChange, handleChangeSelect, fileInputChangeHandler, handleDateChange } = useFormHandlers(
-    state,
+  const { handleChange, handleChangeSelect, fileInputChangeHandler, handleDateChange, dateError } = useFormHandlers(
     setState,
+    existingTournament,
   );
   const { handleDeleteByYear } = useAdminTournaments();
   const showWarning = state.tournamentYear === NEXT_YEAR.toString() && tournamentsLastYearExist;
-
-  useEffect(() => {
-    if (open) {
-      setState((prevState) => ({
-        ...prevState,
-      }));
-    }
-  }, [open]);
+  const isFormInvalid =
+    isLoading ||
+    !state.name ||
+    !state.rank ||
+    !state.participants ||
+    !state.eventDate ||
+    state.eventDate.length < 8 ||
+    !state.category ||
+    !state.registrationLink ||
+    dateError;
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -72,9 +72,11 @@ const TournamentForm: React.FC<Props> = ({
       await handleDeleteByYear(CURRENT_YEAR_FULL.toString());
     }
 
-    onSubmit({
-      ...state,
-    });
+    if (!dateError) {
+      onSubmit({
+        ...state,
+      });
+    }
 
     setState(initialState);
   };
@@ -101,34 +103,17 @@ const TournamentForm: React.FC<Props> = ({
             id='participants'
             name='participants'
             type='number'
-            placeholder='Введите кол-во участиников'
+            min='1'
+            onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const value = event.target.value;
+              if (!/^\d+$/.test(value) || parseInt(value, 10) < 1) {
+                event.target.value = value.slice(0, -1);
+              }
+            }}
+            placeholder='Введите кол-во участников'
             value={state.participants}
             onChange={handleChange}
           />
-        </div>
-
-        <div className='flex flex-col gap-1'>
-          <Label htmlFor='tournamentYear'>Год проведения турнира</Label>
-          <Select
-            required
-            name='tournamentYear'
-            value={state.tournamentYear}
-            onValueChange={(value) => handleChangeSelect(value, 'tournamentYear')}
-          >
-            <SelectTrigger id='tournamentYear'>
-              <SelectValue placeholder='Укажите год проведения' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem key={CURRENT_YEAR_FULL} value={CURRENT_YEAR_FULL.toString()}>
-                  {CURRENT_YEAR_FULL} (текущий)
-                </SelectItem>
-                <SelectItem key={NEXT_YEAR} value={NEXT_YEAR.toString()}>
-                  {NEXT_YEAR} (следующий)
-                </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
         </div>
 
         <div className='flex flex-col gap-1'>
@@ -139,18 +124,24 @@ const TournamentForm: React.FC<Props> = ({
             name='eventDate'
             value={state.eventDate}
             placeholder='Формат: дд.мм.гг (например, 18.11.24)'
-            disabled={!state.tournamentYear}
             onChange={handleDateChange}
           />
-          {!state.tournamentYear && <ErrorMessage>Сначала выберите год проведения турнира</ErrorMessage>}
-          {state.tournamentYear && (
-            <ErrorMessage type='info'>
-              Вы можете указать дату только для выбранного года: {state.tournamentYear}
-            </ErrorMessage>
-          )}
+          <ErrorMessage type={dateError ? 'error' : 'info'}>
+            Вы можете указать дату только на {CURRENT_YEAR_FULL} или {NEXT_YEAR}
+            {existingTournament && existingTournament.tournamentYear === PREVIOUS_YEAR
+              ? ` (также ${PREVIOUS_YEAR})`
+              : ''}
+          </ErrorMessage>
+
           {state.tournamentYear && state.eventDate.length < 8 && (
             <ErrorMessage>Введите дату полностью (дд.мм.гг)</ErrorMessage>
           )}
+
+          {existingTournament &&
+            Number(state.tournamentYear) !== Number(existingTournament.tournamentYear) &&
+            !dateError && (
+              <WarningMessage message='Вы изменили год турнира. Убедитесь, что все связанные данные (например, ссылка на регистрацию, результаты, регламент) актуальны для нового года.' />
+            )}
         </div>
 
         <div className='flex flex-col gap-1'>
@@ -228,29 +219,11 @@ const TournamentForm: React.FC<Props> = ({
       </div>
 
       {showWarning && (
-        <div className='flex items-start gap-3 p-2 mb-2 border-l-4 border-yellow-500 bg-yellow-50 rounded-md text-yellow-800'>
-          <ExclamationCircleIcon className='w-5 h-5 mt-1 shrink-0' />
-          <small>
-            <strong>Предупреждение:</strong> При создании турнира на следующий год, если есть турниры за прошлый год,
-            они будут автоматически удалены. Это действие необратимо.
-          </small>
-        </div>
+        <WarningMessage message='При создании турнира на следующий год, если есть турниры за прошлый год, они будут автоматически удалены. Это действие необратимо.' />
       )}
 
       <div className='flex flex-col gap-1'>
-        <Button
-          type='submit'
-          disabled={
-            isLoading ||
-            state.name === '' ||
-            state.rank === '' ||
-            state.participants === '' ||
-            state.eventDate === '' ||
-            state.eventDate.length < 8 ||
-            state.category === '' ||
-            state.registrationLink === ''
-          }
-        >
+        <Button type='submit' disabled={isFormInvalid}>
           Сохранить
         </Button>
         <DialogClose asChild>

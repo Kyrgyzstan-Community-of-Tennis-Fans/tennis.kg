@@ -1,4 +1,6 @@
-export const validateEventDate = (date: string, selectedYear: number | null) => {
+import { PREVIOUS_YEAR } from '@/consts';
+
+export const validateEventDate = (date: string, allowedYears: number[], isEditingPreviousYear: boolean) => {
   let value = date.replace(/\D/g, '');
 
   if (value.length > 6) {
@@ -6,6 +8,7 @@ export const validateEventDate = (date: string, selectedYear: number | null) => 
   }
 
   let formattedDate = '';
+  let isYearValid = true;
 
   if (value.length > 0) {
     const day = value.slice(0, 2);
@@ -21,15 +24,18 @@ export const validateEventDate = (date: string, selectedYear: number | null) => 
   if (value.length >= 4) {
     formattedDate += '.';
     const year = value.slice(4);
+    const fullYear = 2000 + parseInt(year, 10);
 
     if (year.length === 2) {
-      let fullYear: number | null = parseInt(year, 10);
-      fullYear = fullYear !== selectedYear ? selectedYear : fullYear;
-      formattedDate += fullYear?.toString().slice(-2);
-    } else {
-      formattedDate += year;
+      const extendedAllowedYears = isEditingPreviousYear ? [...allowedYears, PREVIOUS_YEAR] : allowedYears;
+
+      if (!extendedAllowedYears.includes(fullYear)) {
+        isYearValid = false;
+      }
     }
+
+    formattedDate += year;
   }
 
-  return formattedDate;
+  return { formattedDate, isYearValid };
 };

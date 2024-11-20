@@ -1,11 +1,14 @@
-import React from 'react';
-import { TournamentMutation } from '@/types/tournamentTypes';
+import React, { useState } from 'react';
+import { Tournament, TournamentMutation } from '@/types/tournamentTypes';
 import { validateEventDate } from '@/lib/validateEventDate';
+import { CURRENT_YEAR_FULL, NEXT_YEAR, PREVIOUS_YEAR } from '@/consts';
 
 export const useFormHandlers = (
-  state: TournamentMutation,
   setState: React.Dispatch<React.SetStateAction<TournamentMutation>>,
+  existingTournament?: Tournament,
 ) => {
+  const [dateError, setDateError] = useState(false);
+
   const handleChangeSelect = (value: string, name: string) => {
     setState((prev) => ({
       ...prev,
@@ -32,14 +35,24 @@ export const useFormHandlers = (
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    const selectedYear = state.tournamentYear ? parseInt(state.tournamentYear, 10) : null;
-    const formattedDate = validateEventDate(value, selectedYear);
 
-    setState((prevState) => ({
-      ...prevState,
-      [name]: formattedDate,
-    }));
+    const allowedYears = [CURRENT_YEAR_FULL, NEXT_YEAR];
+    const isEditingPreviousYear = !!existingTournament && Number(existingTournament.tournamentYear) === PREVIOUS_YEAR;
+    const { formattedDate, isYearValid } = validateEventDate(value, allowedYears, isEditingPreviousYear);
+
+    setDateError(!isYearValid);
+
+    setState((prevState) => {
+      const year =
+        formattedDate.length === 8 ? 2000 + parseInt(formattedDate.split('.')[2], 10) : prevState.tournamentYear;
+
+      return {
+        ...prevState,
+        [name]: formattedDate,
+        tournamentYear: year?.toString() || '',
+      };
+    });
   };
 
-  return { handleChange, handleChangeSelect, fileInputChangeHandler, handleDateChange };
+  return { handleChange, handleChangeSelect, fileInputChangeHandler, handleDateChange, dateError };
 };

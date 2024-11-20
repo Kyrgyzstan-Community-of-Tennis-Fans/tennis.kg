@@ -49,7 +49,6 @@ const TournamentEdit: React.FC<Props> = ({ id, existingTournament, tournamentsLa
         <TournamentForm
           isLoading={isEditing}
           onClose={handleClose}
-          open={open}
           onSubmit={onFormSubmit}
           existingTournament={existingTournament}
           tournamentsLastYearExist={tournamentsLastYearExist}
