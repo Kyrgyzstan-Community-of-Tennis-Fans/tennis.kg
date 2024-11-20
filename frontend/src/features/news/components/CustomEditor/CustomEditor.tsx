@@ -7,7 +7,7 @@ interface Props {
   onChange: (value: string) => void;
 }
 
-const CustomEditor = forwardRef<ReactQuill, Props>(({ value, onChange }, ref) => {
+export const CustomEditor = forwardRef<ReactQuill, Props>(({ value, onChange }, ref) => {
   const toolbarOptions = [
     [{ header: [1, 2, false] }],
     ['bold', 'italic', 'underline', 'strike'],
@@ -18,8 +18,14 @@ const CustomEditor = forwardRef<ReactQuill, Props>(({ value, onChange }, ref) =>
   useEffect(() => {
     // bug in quill editor with word-wrap problem(it is solution)
     const qlEditor = document.querySelector('.ql-editor');
+    const qlContainer = document.querySelector('.ql-container');
     if (qlEditor) {
       (qlEditor as HTMLElement).style.wordWrap = 'anywhere';
+      (qlEditor as HTMLElement).style.minHeight = 'inherit';
+    }
+
+    if (qlContainer) {
+      (qlContainer as HTMLElement).style.minHeight = 'inherit';
     }
   }, []);
 
@@ -32,9 +38,7 @@ const CustomEditor = forwardRef<ReactQuill, Props>(({ value, onChange }, ref) =>
         toolbar: toolbarOptions,
       }}
       placeholder='Содержание новости...'
-      className='max-h-[500px] h-[200px] overflow-y-auto'
+      className='min-h-[200px]'
     />
   );
 });
-
-export default CustomEditor;
