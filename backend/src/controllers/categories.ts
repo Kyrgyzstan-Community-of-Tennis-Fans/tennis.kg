@@ -1,6 +1,7 @@
 import { Category } from '../model/Category';
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
+import { User } from '../model/User';
 
 export const getCategories = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -31,6 +32,12 @@ export const createCategory = async (req: Request, res: Response, next: NextFunc
 export const removeCategory = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rank = await Category.findById(req.params.id);
+
+    const isUsed = await User.findOne({ category: req.params.id });
+
+    if (isUsed) {
+      return res.status(400).send({ error: 'Категория привязана к пользователям!' });
+    }
 
     if (!rank) return res.status(404).send({ message: 'Category not found' });
 
