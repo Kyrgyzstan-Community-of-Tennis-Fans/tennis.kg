@@ -13,3 +13,15 @@
 .filter-set-date {
   @apply w-full xs:w-[135px] sm:w-[180px] md:w-[200px] text-left font-medium flex justify-center items-center;
 }
+
+.rdp-tbody > tr > td .rdp-button {
+  @apply rounded-2xl border-none bg-transparent font-medium text-black;
+}
+
+.rdp-tbody > tr > td .rdp-button:hover {
+  @apply bg-[#64B32C] text-white;
+}
+
+.rdp-tbody > tr > td .rdp-button:focus {
+  @apply bg-[#64B32C] text-white;
+}

@@ -4,12 +4,10 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { fetchNewsByLimit, fetchOneNews } from '@/features/news/newsThunks';
 import { selectFetchOneNewsLoading, selectNews, selectOneNews } from '@/features/news/newsSlice';
 import useEmblaCarousel from 'embla-carousel-react';
-import { useCarouselButtons } from '@/features/news/hooks/useCarouselButtons';
 
 export const useOneNews = () => {
   const { id } = useParams<{ id: string }>();
-  const [emblaRef, emblaApi] = useEmblaCarousel({ dragFree: true, loop: true });
-  const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = useCarouselButtons(emblaApi);
+  const [emblaRef] = useEmblaCarousel({ dragFree: true, loop: true });
   const [initialIndex, setInitialIndex] = useState<number>(0);
 
   const dispatch = useAppDispatch();
@@ -17,7 +15,7 @@ export const useOneNews = () => {
   useEffect(() => {
     if (id) {
       dispatch(fetchOneNews(id));
-      dispatch(fetchNewsByLimit(4));
+      dispatch(fetchNewsByLimit({ limit: 4, excludeId: id }));
     }
   }, [dispatch, id]);
 
@@ -31,10 +29,6 @@ export const useOneNews = () => {
     news,
     initialIndex,
     setInitialIndex,
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick,
     oneNewsFetching,
   };
 };

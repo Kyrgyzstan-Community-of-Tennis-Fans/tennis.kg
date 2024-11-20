@@ -68,10 +68,14 @@ export const fetchOneNews = createAsyncThunk<News, string>('news/fetchOneNews', 
   return oneNews;
 });
 
-export const fetchNewsByLimit = createAsyncThunk<NewsResponse, number>('news/fetchNewsByLimit', async (limit) => {
-  const response = await axiosApi.get<NewsResponse>(`/news?limit=${limit}`);
-  return response.data;
-});
+export const fetchNewsByLimit = createAsyncThunk<NewsResponse, { limit: number; excludeId?: string }>(
+  'news/fetchNewsByLimit',
+  async ({ limit, excludeId }) => {
+    const params = { limit, ...(excludeId ? { excludeId } : {}) };
+    const response = await axiosApi.get<NewsResponse>('/news', { params });
+    return response.data;
+  },
+);
 
 export const updateNews = createAsyncThunk<
   News | null,
