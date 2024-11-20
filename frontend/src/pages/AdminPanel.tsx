@@ -9,6 +9,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { AdminRatings } from '@/features/ratings/AdminRatings';
 import AdminPanelBlockFooter from '@/features/footers/containers/AdminPanelBlockFooter';
 import { AdminUserList } from '@/features/users/AdminUserList';
+import AdminCalendar from '@/features/tournaments/AdminCalendar';
 
 const AdminPanel = () => {
   return (
@@ -22,6 +23,7 @@ const AdminPanel = () => {
               <TabsTrigger value='category'>Категории</TabsTrigger>
               <TabsTrigger value='carousel'>Карусель</TabsTrigger>
               <TabsTrigger value='top'>Топ Игроки</TabsTrigger>
+              <TabsTrigger value='calendar'>Календарь</TabsTrigger>
               <TabsTrigger value='rating'>Рейтинги</TabsTrigger>
               <TabsTrigger value='news'>Новости</TabsTrigger>
               <TabsTrigger value='footer'>Подвал сайта</TabsTrigger>
@@ -40,6 +42,9 @@ const AdminPanel = () => {
           </TabsContent>
           <TabsContent value={'top'}>
             <RatingMembersAdminList />
+          </TabsContent>
+          <TabsContent value={'calendar'}>
+            <AdminCalendar />
           </TabsContent>
           <TabsContent value={'rating'}>
             <AdminRatings />
