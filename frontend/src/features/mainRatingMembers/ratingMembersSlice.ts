@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RatingMember } from '@/types/ratingMemberTypes';
 import {
   createRatingMember,
+  deleteRatingMember,
   fetchRatingMembers,
   updateRatingCategories,
   updateRatingMember,
@@ -11,6 +12,7 @@ export interface RatingMembersSlice {
   items: RatingMember[];
   itemsFetching: boolean;
   isCreating: boolean;
+  isDeleting: boolean | string;
   updateLoading: boolean;
   categoriesUpdateLoading: boolean;
 }
@@ -19,6 +21,7 @@ const initialState: RatingMembersSlice = {
   items: [],
   itemsFetching: false,
   isCreating: false,
+  isDeleting: false,
   updateLoading: false,
   categoriesUpdateLoading: false,
 };
@@ -52,6 +55,17 @@ export const ratingMembersSlice = createSlice({
       });
 
     builder
+      .addCase(deleteRatingMember.pending, (state, { meta }) => {
+        state.isDeleting = meta.arg;
+      })
+      .addCase(deleteRatingMember.fulfilled, (state) => {
+        state.isDeleting = false;
+      })
+      .addCase(deleteRatingMember.rejected, (state) => {
+        state.isDeleting = false;
+      });
+
+    builder
       .addCase(updateRatingMember.pending, (state) => {
         state.updateLoading = true;
       })
@@ -78,6 +92,7 @@ export const ratingMembersSlice = createSlice({
     selectRatingMembersFetching: (state) => state.itemsFetching,
     selectRatingMemberCreating: (state) => state.isCreating,
     selectRatingMemberUpdating: (state) => state.updateLoading,
+    selectRatingMemberDeleting: (state) => state.isDeleting,
     selectRatingMembersCategoriesUpdating: (state) => state.categoriesUpdateLoading,
   },
 });
@@ -89,5 +104,6 @@ export const {
   selectRatingMembersFetching,
   selectRatingMemberCreating,
   selectRatingMemberUpdating,
+  selectRatingMemberDeleting,
   selectRatingMembersCategoriesUpdating,
 } = ratingMembersSlice.selectors;

@@ -43,5 +43,19 @@ export const clearImages = (imageName: string) => {
   });
 };
 
+const fileStorage = multer.diskStorage({
+  destination: async (_, __, callback) => {
+    const destDir = path.join(config.publicPath, 'files');
+    await fs.mkdir(destDir, { recursive: true });
+    callback(null, config.publicPath);
+  },
+  filename: (_, file, callback) => {
+    const extension = path.extname(file.originalname);
+    const newFilename = randomUUID() + extension;
+    callback(null, 'files/' + newFilename);
+  },
+});
+
 export const ImagesCarousel = multer({ storage: imageCarousel });
 export const imagesUpload = multer({ storage: imageStorage });
+export const filesUpload = multer({ storage: fileStorage });

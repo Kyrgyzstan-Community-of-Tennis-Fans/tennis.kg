@@ -14,7 +14,7 @@ interface Props {
 
 const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember }) => {
   const image = `${API_URl}/${ratingMember.image}`;
-  const { handleDelete } = useAdminRatingMembers();
+  const { handleDelete, isDeleting } = useAdminRatingMembers();
 
   return (
     <Card className='p-3 shadow-none flex-1 w-full'>
@@ -36,7 +36,7 @@ const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember }) => {
         </h3>
         <div className='space-x-1 flex items-center ml-auto'>
           <Confirm onOk={() => handleDelete(ratingMember._id)}>
-            <Button size='sm'>
+            <Button size='sm' disabled={isDeleting === ratingMember._id}>
               <TrashIcon />
             </Button>
           </Confirm>

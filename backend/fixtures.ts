@@ -11,6 +11,8 @@ import { Carousel } from './src/model/Carousel';
 import { newsFixtures } from './src/utils/newsFixtures';
 import { RatingMember } from './src/model/RatingMember';
 import Footer from './src/model/Footer';
+import { Tournament } from './src/model/Tournament';
+import { tournamentsFixtures } from './src/utils/tournamentsFixtures';
 
 const run = async () => {
   await mongoose.connect(config.database);
@@ -24,6 +26,7 @@ const run = async () => {
     await db.dropCollection('news');
     await db.dropCollection('ratings');
     await db.dropCollection('ratingmembers');
+    await db.dropCollection('tournaments');
     await db.dropCollection('footers');
   } catch (e) {
     console.log('Skipping drop...');
@@ -242,6 +245,8 @@ const run = async () => {
       womensRatingCategoryTop3: 'Masters',
     }
   );
+
+  await Tournament.create(tournamentsFixtures);
 
   await Carousel.create([
     {
