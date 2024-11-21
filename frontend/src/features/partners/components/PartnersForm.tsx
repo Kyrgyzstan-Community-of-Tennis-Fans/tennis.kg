@@ -37,6 +37,7 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
   const closeRef = useRef<HTMLButtonElement>(null);
   const blockedWords = partners.map((p) => p.name.toLowerCase());
   const isBlocked = blockedWords.includes(state.name.toLowerCase());
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -47,8 +48,9 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
       });
       setNameError(null);
       setImageError(null);
+      setPreviewImage(null);
     }
-  }, [isOpen, setState]);
+  }, [isOpen]);
 
   const submitFormHandler = (event: React.FormEvent) => {
     try {
@@ -86,11 +88,18 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, files } = event.target;
-    const value = files && files[0] ? files[0] : null;
+    const file = files && files[0] ? files[0] : null;
+
     setState((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: file,
     }));
+
+    if (file) {
+      setPreviewImage(URL.createObjectURL(file));
+    } else {
+      setPreviewImage(null);
+    }
   };
 
   return (
@@ -118,6 +127,13 @@ const PartnersForm: React.FC<PartnersFormProps> = ({ isOpen, onClose, onSubmit }
             <FileInput name='image' onChange={handleImageChange} />
             {imageError && <small className='text-red-600 text-sm'>{imageError}</small>}
           </div>
+
+          {previewImage && (
+            <div className='border rounded-lg mt-2 mb-2 p-5 bg-muted'>
+              <img src={previewImage} alt={'preview'} className='w-auto h-40 rounded-lg mx-auto' />
+            </div>
+          )}
+
           <Button disabled={loading || !isFormValid} type='submit' className=' mt-4'>
             Добавить {loading && <Loader size={'sm'} theme={'light'} />}
           </Button>
