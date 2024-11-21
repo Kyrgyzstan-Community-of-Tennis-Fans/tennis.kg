@@ -15,6 +15,7 @@ import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
 import { OneNews } from '@/features/news/containers/OneNews/OneNews';
 import AdminPanel from '@/pages/AdminPanel';
 import { getFooterItems } from '@/features/footers/footersThunks';
+import Calendar from '@/features/tournaments/Calendar';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import { ErrorPage } from '@/components/Errors/ErrorPage';
@@ -48,6 +49,7 @@ export const App: React.FC = () => {
             <Route path={'/rating'} element={<Ratings />} />
             <Route path={'/reset-password/:token'} element={<ResetPassword />} />
             <Route path={'/forgot-password'} element={<ForgotPassword />} />
+            <Route path={'/calendar'} element={<Calendar />} />
             <Route
               path={'/personal-account'}
               element={
