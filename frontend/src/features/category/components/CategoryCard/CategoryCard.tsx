@@ -10,7 +10,6 @@ import { formatDate } from '@/lib/formatDate';
 import type { Category } from '@/types/category';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import { toast } from 'sonner';
 
 interface Props {
   category: Category;
@@ -21,12 +20,7 @@ export const CategoryCard: React.FC<Props> = ({ category }) => {
   const categoryDeleting = useAppSelector(selectCategoryDeleting);
 
   const handleDelete = async () => {
-    try {
-      await dispatch(deleteCategory(category._id)).unwrap();
-    } catch (error) {
-      console.error(error);
-      toast.error('Что-то пошло не так, попробуйте еще раз.');
-    }
+    await dispatch(deleteCategory(category._id)).unwrap();
   };
 
   return (

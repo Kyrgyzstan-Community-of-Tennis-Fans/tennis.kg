@@ -63,13 +63,19 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
         {idAdminPage && (
           <div className={'flex gap-1'}>
             <Confirm onOk={handleDelete}>
-              <button className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent'}>
+              <button
+                aria-label={'delete-event'}
+                className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent'}
+              >
                 <TrashIcon className={'size-5 stroke-[1.2]'} />
               </button>
             </Confirm>
 
             <EventEdit ratings={ratings} id={event._id}>
-              <button className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent'}>
+              <button
+                aria-label={'edit-event'}
+                className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent'}
+              >
                 <PencilSquareIcon className={'size-5 stroke-[1.2]'} />
               </button>
             </EventEdit>

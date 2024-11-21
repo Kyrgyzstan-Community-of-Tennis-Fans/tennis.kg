@@ -38,7 +38,10 @@ export const RatingBlock: React.FC<Props> = ({ ratings }) => {
               {isAdminPage && (
                 <Confirm onOk={() => handleDelete(rating._id)}>
                   <Button asChild size={'icon'}>
-                    <span>{isDeleting ? <Loader theme={'light'} /> : <TrashIcon />}</span>
+                    <button aria-label={'deleteRating'}>
+                      {isDeleting ? <Loader theme={'light'} /> : <TrashIcon />}
+                      <span className={'sr-only'}>Удалить рейтинг</span>
+                    </button>
                   </Button>
                 </Confirm>
               )}
