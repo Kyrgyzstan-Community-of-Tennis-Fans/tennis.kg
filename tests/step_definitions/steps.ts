@@ -65,7 +65,7 @@ Then("я вижу уведомление {string}", (text: string) => {
   I.see(text);
 });
 
-Then("нажимаю на кнопку удалить у рейтинга", (btn: string, rating: string) => {
+Then("нажимаю на кнопку удалить у рейтинга", () => {
   I.click(locate('button[aria-label="deleteRating"]'));
   I.wait(1);
 });
