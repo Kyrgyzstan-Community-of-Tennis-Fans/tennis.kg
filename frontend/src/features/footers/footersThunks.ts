@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { FooterElementsData, LinkDataMutation, MenuOnePositionField, SocialOneNetworkField } from '@/types/footerTypes';
+import { FooterElementsData, LinkDataMutation, MenuOnePositionField, SocialOneNetworkField } from '@/types/footer';
 import { RootState } from '@/app/store';
 import { axiosApi } from '@/axiosApi';
 

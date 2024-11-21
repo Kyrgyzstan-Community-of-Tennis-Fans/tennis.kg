@@ -1,6 +1,6 @@
 import React from 'react';
 import RatingMemberCard from '@/features/mainRatingMembers/components/RatingMemberCard/RatingMemberCard';
-import { RatingMember } from '@/types/ratingMemberTypes';
+import { RatingMember } from '@/types/ratingMember';
 import RatingMembersTop3Skeleton from '@/features/mainRatingMembers/components/RatingMembersTop3/RatingMembersTop3Skeleton';
 
 interface Props {

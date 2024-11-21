@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { selectCategoryCreating } from '@/features/category/categorySlice';
 import { createCategory } from '@/features/category/categoryThunks';
-import type { Category } from '@/types/categoryTypes';
+import type { Category } from '@/types/category';
 import React, { type FormEvent, type PropsWithChildren, useRef, useState } from 'react';
 import { toast } from 'sonner';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import RankFilter from '@/features/tournaments/components/RankFilter/RankFilter';
 import TournamentAccordion from '@/features/tournaments/components/TournamentAccordion/TournamentAccordion';
-import { Tournaments } from '@/types/tournamentTypes';
+import { Tournaments } from '@/types/tournament';
 import { Layout } from '@/components/Layout';
 import { CURRENT_YEAR_FULL, NEXT_YEAR, PREVIOUS_YEAR } from '@/consts';
 

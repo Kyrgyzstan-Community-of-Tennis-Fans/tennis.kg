@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { fetchCategories } from '@/features/category/categoryThunks';
 import { selectRatingsCreating } from '@/features/ratings/ratingsSlice';
-import type { RatingMutation } from '@/types/ratingTypes';
+import type { RatingMutation } from '@/types/rating';
 import React, { type ChangeEvent, type FormEvent, useEffect } from 'react';
 
 interface Props {

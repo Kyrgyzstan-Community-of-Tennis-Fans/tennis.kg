@@ -5,7 +5,7 @@ import {
   fetchCategory,
   updateCategory,
 } from '@/features/category/categoryThunks';
-import type { Category } from '@/types/categoryTypes';
+import type { Category } from '@/types/category';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface RanksState {

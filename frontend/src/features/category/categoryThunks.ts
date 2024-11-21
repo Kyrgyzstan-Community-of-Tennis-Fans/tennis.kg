@@ -1,5 +1,5 @@
 import { axiosApi } from '@/axiosApi';
-import type { Category } from '@/types/categoryTypes';
+import type { Category } from '@/types/category';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';

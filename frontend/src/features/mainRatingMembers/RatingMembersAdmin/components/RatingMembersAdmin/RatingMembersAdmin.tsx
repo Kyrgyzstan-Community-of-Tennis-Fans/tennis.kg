@@ -1,5 +1,5 @@
 import React from 'react';
-import { RatingMember } from '@/types/ratingMemberTypes';
+import { RatingMember } from '@/types/ratingMember';
 import RatingMemberAdminCard from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingMembersCardAdmin/RatingMemberAdminCard';
 
 interface Props {

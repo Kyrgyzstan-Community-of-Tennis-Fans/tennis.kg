@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectItemsData, selectItemUpdating, selectMenuPositionLink } from '@/features/footers/footersSlice';
-import { LinkDataMutation } from '@/types/footerTypes';
+import { LinkDataMutation } from '@/types/footer';
 import { getFooterItems, getOneMenuPosition, updateMenuPosition } from '@/features/footers/footersThunks';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';

@@ -5,7 +5,7 @@ import { GlobalError } from '@/types/userTypes';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { SquaresPlusIcon } from '@heroicons/react/24/outline';
-import { TournamentMutation } from '@/types/tournamentTypes';
+import { TournamentMutation } from '@/types/tournament';
 import { createTournament, fetchTournaments } from '@/features/tournaments/tournamentsThunks';
 import TournamentForm from '@/features/tournaments/components/TournamentForm/TournamentForm';
 import { selectTournamentCreating } from '@/features/tournaments/tournamentsSlice';

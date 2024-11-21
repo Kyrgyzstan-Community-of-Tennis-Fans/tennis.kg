@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tournament } from '@/types/tournamentTypes';
+import { Tournament } from '@/types/tournament';
 import TournamentCard from '@/features/tournaments/components/TournamentCard/TournamentCard';
 import { Loader } from '@/components/Loader/Loader';
 

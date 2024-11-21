@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { NewsFields } from '../../types';
+import { NewsFields } from '../types/news';
 
 const NewsSchema = new Schema<NewsFields>(
   {

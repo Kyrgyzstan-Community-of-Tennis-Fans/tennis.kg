@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectRatingMemberUpdating } from '@/features/mainRatingMembers/ratingMembersSlice';
-import { RatingMember, RatingMemberMutation } from '@/types/ratingMemberTypes';
+import { RatingMember, RatingMemberMutation } from '@/types/ratingMember';
 import { fetchRatingMembers, updateRatingMember } from '@/features/mainRatingMembers/ratingMembersThunks';
 import { toast } from 'sonner';
-import { GlobalError } from '@/types/userTypes';
+import { GlobalError } from '@/types/user';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import RatingMemberForm from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingMemberForm/RatingMemberForm';

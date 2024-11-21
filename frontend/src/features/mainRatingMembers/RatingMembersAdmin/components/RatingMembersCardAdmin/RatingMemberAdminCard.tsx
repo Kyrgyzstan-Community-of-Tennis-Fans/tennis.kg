@@ -1,5 +1,5 @@
 import React from 'react';
-import { RatingMember } from '@/types/ratingMemberTypes';
+import { RatingMember } from '@/types/ratingMember';
 import { Confirm } from '@/components/Confirm/Confirm';
 import { Button } from '@/components/ui/button';
 import { TrashIcon } from '@heroicons/react/24/outline';
