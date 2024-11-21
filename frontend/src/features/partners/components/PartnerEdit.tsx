@@ -109,7 +109,7 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size={'sm'} data-testid={`edit`}>
+        <Button size={'sm'} data-testid={'edit'}>
           <PencilSquareIcon />
         </Button>
       </DialogTrigger>
