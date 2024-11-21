@@ -65,13 +65,10 @@ Then("я вижу уведомление {string}", (text: string) => {
   I.see(text);
 });
 
-Then(
-  "нажимаю на кнопку {string} у рейтинга {string}",
-  (btn: string, rating: string) => {
-    I.click(locate('button[aria-label="deleteRating"]'));
-    I.wait(1);
-  },
-);
+Then("нажимаю на кнопку удалить у рейтинга", (btn: string, rating: string) => {
+  I.click(locate('button[aria-label="deleteRating"]'));
+  I.wait(1);
+});
 
 Then("я вижу попап с вопросом {string}", (question: string) => {
   I.see(question);
