@@ -1,6 +1,8 @@
 import { axiosApi } from '@/axiosApi';
 import type { Category } from '@/types/categoryTypes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { isAxiosError } from 'axios';
+import { toast } from 'sonner';
 
 export const fetchCategories = createAsyncThunk<Category[], void>('category/fetchCategories', async () => {
   const { data: ranks } = await axiosApi.get<Category[]>('/categories');
@@ -9,7 +11,15 @@ export const fetchCategories = createAsyncThunk<Category[], void>('category/fetc
 });
 
 export const deleteCategory = createAsyncThunk<void, string>('category/deleteCategory', async (id) => {
-  await axiosApi.delete(`/categories/${id}`);
+  try {
+    await axiosApi.delete(`/categories/${id}`);
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      toast.error(error.response.data.error);
+    }
+    console.error(error);
+    throw error;
+  }
 });
 
 export const createCategory = createAsyncThunk<Category, string>('category/createCategory', async (name) => {
