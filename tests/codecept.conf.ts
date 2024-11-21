@@ -17,7 +17,11 @@ exports.config = {
   hooks: [],
   gherkin: {
     features: "./features/*.feature",
-    steps: ["./step_definitions/steps.ts", "./step_definitions/usersSteps.ts"],
+    steps: [
+      "./step_definitions/steps.ts",
+      "./step_definitions/usersSteps.ts",
+      "./step_definitions/partnersSteps.ts",
+    ],
   },
   plugins: {
     screenshotOnFail: {

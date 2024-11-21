@@ -26,7 +26,10 @@ const PartnersCard: React.FC<Props> = ({ partner }) => {
   };
 
   return (
-    <div className='w-full md:max-w-sm lg:max-w-md xl:max-w-lg bg-white/0 rounded-lg flex items-center p-2 space-x-2 mx-auto border'>
+    <div
+      className='w-full md:max-w-sm lg:max-w-md xl:max-w-lg bg-white/0 rounded-lg flex items-center p-2 space-x-2 mx-auto border'
+      data-testid={`${partner.name}`}
+    >
       <TooltipProvider>
         <Tooltip delayDuration={200}>
           <TooltipTrigger asChild>
@@ -45,7 +48,7 @@ const PartnersCard: React.FC<Props> = ({ partner }) => {
         <h3 className='font-semibold text-gray-800 hidden md:block dark:text-white'>{partner.name}</h3>
       </div>
       <Confirm onOk={handleDelete}>
-        <Button className='sm h-8 w-10'>
+        <Button className='sm h-8 w-10' data-testid='delete'>
           <TrashIcon />
         </Button>
       </Confirm>

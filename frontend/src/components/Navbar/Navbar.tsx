@@ -76,7 +76,7 @@ const Navbar = () => {
           <div className='hidden md:flex items-center gap-10'>
             <ThemeSwitcher />
             {user ? (
-              <NavBarDropDown />
+              <NavBarDropDown  />
             ) : (
               <Link className='auth text-white' to='/login'>
                 Авторизация
