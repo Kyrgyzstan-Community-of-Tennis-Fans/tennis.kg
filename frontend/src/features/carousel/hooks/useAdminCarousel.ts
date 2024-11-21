@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 
 const emptyState: CarouselMutation = {
   image: null,
+  video: null,
 };
 
 export const useAdminCarousel = () => {
@@ -30,19 +31,22 @@ export const useAdminCarousel = () => {
     }
   }, [errorImgCarousel]);
 
+
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files, name } = e.target;
+    const { files,  } = e.target;
     if (files && files.length > 0) {
+      const file = files[0];
+      const fileType = file.type.startsWith('video') ? 'video' : 'image';
       setNewImage((prevState) => ({
         ...prevState,
-        [name]: files[0],
+        [fileType]: file,
       }));
     }
   };
 
   const handleImageUpload = async () => {
-    if (!newImage.image) {
-      toast.warning('Изображение обязательно!');
+    if (!newImage.image && !newImage.video) {
+      toast.warning('Выберите фото или видео!');
       return;
     }
     try {

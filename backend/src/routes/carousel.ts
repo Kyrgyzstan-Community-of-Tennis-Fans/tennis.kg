@@ -8,7 +8,7 @@ export const carouselRouter = express.Router();
 
 carouselRouter.get('/', getCarousel);
 
-carouselRouter.post('/admin-post-image-carousel', auth, permit('admin'), ImagesCarousel.single('image'), create);
+carouselRouter.post('/admin-post-image-carousel', auth, permit('admin'),ImagesCarousel.single('file'), create);
 
 carouselRouter.delete('/admin-delete-image-carousel/:id', auth, permit('admin'), remove);
 

@@ -11,14 +11,13 @@ export const getCarousel = createAsyncThunk<Carousel[]>('carousel/getCarousel', 
 
 export const postFetchCarousel = createAsyncThunk('carousel/postFetchCarousel', async (newImage: CarouselMutation) => {
   const formData = new FormData();
-  const keys = Object.keys(newImage) as (keyof CarouselMutation)[];
 
-  keys.forEach((key) => {
-    const value = newImage[key];
-    if (value !== null) {
-      formData.append(key, value);
-    }
-  });
+  if (newImage.image) {
+    formData.append('file', newImage.image);
+  }
+  if (newImage.video) {
+    formData.append('file', newImage.video);
+  }
 
   const response = await axiosApi.post<CarouselMutation>('/carousel/admin-post-image-carousel', formData);
   return response.data;

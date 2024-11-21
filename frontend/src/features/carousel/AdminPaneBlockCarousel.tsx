@@ -36,16 +36,16 @@ export const AdminPaneBlockCarousel = () => {
             <h1 className='text-2xl font-medium leading-none'>Карусель</h1>
             <small className='text-muted-foreground text-base'>Управление фотографиями главной карусели</small>
           </div>
-          {!newImage.image ? (
-            <Button onClick={() => inputRef.current?.click()} className={'w-full xs:w-max'}>
-              Добавить фото
-              <SquaresPlusIcon />
-            </Button>
+          {newImage.image || newImage.video ? (
+              <Button onClick={handleImageUpload}>
+                Отправить
+                <PaperAirplaneIcon />
+              </Button>
           ) : (
-            <Button onClick={handleImageUpload}>
-              Отправить
-              <PaperAirplaneIcon />
-            </Button>
+              <Button onClick={() => inputRef.current?.click()} className={'w-full xs:w-max'}>
+                Добавить файл
+                <SquaresPlusIcon />
+              </Button>
           )}
         </header>
 
