@@ -1,4 +1,4 @@
-import { Tournament } from '@/types/tournamentTypes';
+import { Tournament } from '@/types/tournament';
 import InfoRow from '@/features/tournaments/components/TournamentCard/Components/InfoRow';
 import { translateRank } from '@/features/tournaments/utils/tournamentHelpers';
 

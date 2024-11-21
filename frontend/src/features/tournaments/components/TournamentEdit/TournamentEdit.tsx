@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from '@/components/ui/button';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { selectTournamentUpdating } from '@/features/tournaments/tournamentsSlice';
-import { Tournament, TournamentMutation } from '@/types/tournamentTypes';
+import { Tournament, TournamentMutation } from '@/types/tournament';
 import { fetchTournaments, updateTournament } from '@/features/tournaments/tournamentsThunks';
 import TournamentForm from '@/features/tournaments/components/TournamentForm/TournamentForm';
 

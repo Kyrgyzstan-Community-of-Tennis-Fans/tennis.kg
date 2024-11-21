@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { RatingForm } from '@/features/ratings/components/RatingForm/RatingForm';
 import { createRating } from '@/features/ratings/ratingsThunks';
-import type { RatingMutation } from '@/types/ratingTypes';
+import type { RatingMutation } from '@/types/rating';
 import React, { type PropsWithChildren, useRef } from 'react';
 import { toast } from 'sonner';
 

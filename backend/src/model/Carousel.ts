@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { CarouselFields } from '../../types';
+import { CarouselFields } from '../types/carousel';
 
 const Schema = mongoose.Schema;
 

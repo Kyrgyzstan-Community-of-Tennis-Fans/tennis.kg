@@ -6,8 +6,8 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectRatingMemberCreating } from '@/features/mainRatingMembers/ratingMembersSlice';
 import { createRatingMember, fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
 import { toast } from 'sonner';
-import { GlobalError } from '@/types/userTypes';
-import { RatingMemberMutation } from '@/types/ratingMemberTypes';
+import { GlobalError } from '@/types/user';
+import { RatingMemberMutation } from '@/types/ratingMember';
 import RatingMemberForm from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingMemberForm/RatingMemberForm';
 
 interface Props {

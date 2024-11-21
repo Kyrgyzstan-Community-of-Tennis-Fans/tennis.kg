@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { FooterFields, LinksMediaFields } from '../../types';
+import { FooterFields, LinksMediaFields } from '../types/footer';
 
 const SocialNetworkSchema = new mongoose.Schema<LinksMediaFields>({
   name: {

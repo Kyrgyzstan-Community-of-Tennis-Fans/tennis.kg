@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
-import { Tournaments } from '@/types/tournamentTypes';
+import { Tournaments } from '@/types/tournament';
 import {
   createTournament,
   deleteTournament,

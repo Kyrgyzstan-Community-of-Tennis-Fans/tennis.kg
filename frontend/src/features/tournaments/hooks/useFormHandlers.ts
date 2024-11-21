@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tournament, TournamentMutation } from '@/types/tournamentTypes';
+import { Tournament, TournamentMutation } from '@/types/tournament';
 import { validateEventDate } from '@/lib/validateEventDate';
 import { CURRENT_YEAR_FULL, NEXT_YEAR, PREVIOUS_YEAR } from '@/consts';
 

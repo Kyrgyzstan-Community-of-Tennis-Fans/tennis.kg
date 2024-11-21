@@ -1,8 +1,8 @@
 import type { HydratedDocument } from 'mongoose';
 import mongoose from 'mongoose';
 import { randomUUID } from 'node:crypto';
-import type { UserFields, UserMethods, UserModel } from '../../types';
 import bcrypt from 'bcrypt';
+import { UserFields, UserMethods, UserModel } from '../types/user';
 
 const SALT_WORK_FACTOR = 10;
 

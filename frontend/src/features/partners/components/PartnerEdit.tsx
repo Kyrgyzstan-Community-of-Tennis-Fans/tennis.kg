@@ -24,7 +24,7 @@ import {
 } from '@/features/partners/partnerSlice';
 import { fetchOnePartner, fetchPartner, updatePartner } from '@/features/partners/partnerThunks';
 import { API_URl } from '@/consts';
-import { mutationPartner } from '@/types/partnerTypes';
+import { mutationPartner } from '@/types/partner';
 import FileInput from '@/components/FileInput/FilleInput';
 
 interface Props {
@@ -109,7 +109,7 @@ export const PartnerEdit: React.FC<Props> = ({ id }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size={'sm'} data-testid={`edit`}>
+        <Button size={'sm'} data-testid={'edit'}>
           <PencilSquareIcon />
         </Button>
       </DialogTrigger>

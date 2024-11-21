@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { PartnerFields } from '../../types';
+import { PartnerFields } from '../types/partner';
 
 const Schema = mongoose.Schema;
 

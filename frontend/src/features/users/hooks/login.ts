@@ -3,7 +3,7 @@ import { selectLoginError, selectLoginLoading } from '@/features/users/usersSlic
 import { useNavigate } from 'react-router-dom';
 import { type ChangeEvent, type FormEvent, useState } from 'react';
 import { login } from '@/features/users/usersThunks';
-import type { LoginMutation } from '@/types/userTypes';
+import type { LoginMutation } from '@/types/user';
 import { formatTelephone } from '@/lib/formatTelephone';
 
 const initialState: LoginMutation = {

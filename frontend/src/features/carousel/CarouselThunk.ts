@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosApi } from '@/axiosApi';
 import { Carousel, CarouselMutation } from '@/types/carousel';
 import { isAxiosError } from 'axios';
-import type { GlobalError } from '@/types/userTypes';
+import type { GlobalError } from '@/types/user';
 
 export const getCarousel = createAsyncThunk<Carousel[]>('carousel/getCarousel', async () => {
   const response = await axiosApi.get<Carousel[] | []>('/carousel');
