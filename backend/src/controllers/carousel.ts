@@ -50,16 +50,21 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
     }
 
     const id = req.params.id;
-    const carouselImage = await Carousel.findById(id);
+    const carouselItem = await Carousel.findById(id);
 
-    if (!carouselImage) {
+    if (!carouselItem) {
       return res.status(404).send({ error: 'Изображение не найдено!' });
     }
 
     const result = await Carousel.deleteOne({ _id: id });
 
     if (result.deletedCount === 1) {
-      clearImages(carouselImage.image);
+      if (carouselItem.image) {
+        clearImages(carouselItem.image);
+      }
+      if (carouselItem.video) {
+        clearImages(carouselItem.video);
+      }
     }
 
     return res.status(200).send({ message: 'Image deleted successfully' });
