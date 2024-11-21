@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tournament } from '@/types/tournamentTypes';
+import { Tournament } from '@/types/tournament';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { useAdminTournaments } from '@/features/tournaments/hooks/useAdminTournaments';
 import { useAppSelector } from '@/app/hooks';

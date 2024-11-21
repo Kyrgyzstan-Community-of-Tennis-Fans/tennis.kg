@@ -3,8 +3,8 @@ import { Confirm } from '@/components/Confirm/Confirm';
 import { Button } from '@/components/ui/button';
 import { EventEdit } from '@/features/ratings/components/EventEdit/EventEdit';
 import { deleteEvent, fetchRatings } from '@/features/ratings/ratingsThunks';
-import { Event } from '@/types/eventTypes';
-import type { Rating } from '@/types/ratingTypes';
+import { Event } from '@/types/event';
+import type { Rating } from '@/types/rating';
 import { ArrowRightIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -63,13 +63,19 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
         {idAdminPage && (
           <div className={'flex gap-1'}>
             <Confirm onOk={handleDelete}>
-              <button className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent'}>
+              <button
+                aria-label={'delete-event'}
+                className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent'}
+              >
                 <TrashIcon className={'size-5 stroke-[1.2]'} />
               </button>
             </Confirm>
 
             <EventEdit ratings={ratings} id={event._id}>
-              <button className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent'}>
+              <button
+                aria-label={'edit-event'}
+                className={'bg-primary text-white px-1.5 rounded-md dark:bg-transparent'}
+              >
                 <PencilSquareIcon className={'size-5 stroke-[1.2]'} />
               </button>
             </EventEdit>

@@ -1,6 +1,6 @@
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { API_URl } from '@/consts';
-import { Tournament } from '@/types/tournamentTypes';
+import { Tournament } from '@/types/tournament';
 
 const TournamentActions = ({ tournament, permission }: { tournament: Tournament; permission: boolean }) => {
   const renderActionItem = (text: string, link?: string | null) => {

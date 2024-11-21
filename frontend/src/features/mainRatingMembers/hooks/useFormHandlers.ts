@@ -1,4 +1,4 @@
-import { RatingMemberMutation } from '@/types/ratingMemberTypes';
+import { RatingMemberMutation } from '@/types/ratingMember';
 import React from 'react';
 
 export const useFormHandlers = (setState: React.Dispatch<React.SetStateAction<RatingMemberMutation>>) => {

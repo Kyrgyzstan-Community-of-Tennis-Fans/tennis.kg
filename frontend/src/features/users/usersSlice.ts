@@ -9,7 +9,7 @@ import {
   updateIsActive,
   updateUserInfo,
 } from '@/features/users/usersThunks';
-import type { GlobalError, User, ValidationError } from '@/types/userTypes';
+import type { GlobalError, User, ValidationError } from '@/types/user';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface UsersState {

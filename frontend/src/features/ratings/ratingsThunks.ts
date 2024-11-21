@@ -1,10 +1,10 @@
 import { axiosApi } from '@/axiosApi';
-import type { EventMutation } from '@/types/eventTypes';
-import type { Rating, RatingMutation } from '@/types/ratingTypes';
+import type { EventMutation } from '@/types/event';
+import type { Rating, RatingMutation } from '@/types/rating';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';
-import { Event } from '@/types/eventTypes';
+import { Event } from '@/types/event';
 
 export const fetchRatings = createAsyncThunk('ratings/fetchRatings', async () => {
   const { data: ratings } = await axiosApi.get<Rating[]>('/ratings');

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectRatingMemberCreating } from '@/features/mainRatingMembers/ratingMembersSlice';
 import { createRatingMember, fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
 import { toast } from 'sonner';
-import { GlobalError } from '@/types/userTypes';
+import { GlobalError } from '@/types/user';
 import { RatingMember, RatingMemberMutation } from '@/types/ratingMemberTypes';
 import RatingMemberForm from '@/features/mainRatingMembers/components/RatingMemberForm/RatingMemberForm';
 import { getGenderTitles } from '@/features/mainRatingMembers/utils/ratingMembersHelpers';

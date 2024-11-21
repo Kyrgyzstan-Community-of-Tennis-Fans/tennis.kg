@@ -1,5 +1,5 @@
-import type { Category } from '@/types/categoryTypes';
-import type { Rating } from '@/types/ratingTypes';
+import type { Category } from '@/types/category';
+import type { Rating } from '@/types/rating';
 
 export interface Event {
   _id: string;

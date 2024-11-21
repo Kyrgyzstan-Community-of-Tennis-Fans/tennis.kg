@@ -1,4 +1,4 @@
-export const API_URl = 'http://localhost:8000/';
+export const API_URl = import.meta.env['VITE_API_URL'];
 
 export const CURRENT_YEAR_FULL = new Date().getFullYear();
 export const NEXT_YEAR = CURRENT_YEAR_FULL + 1;

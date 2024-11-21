@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { RequestWithUser } from './auth';
+import { RequestWithUser } from '../types/user';
 
 export const permit = (...roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {

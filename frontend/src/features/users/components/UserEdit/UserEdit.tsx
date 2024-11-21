@@ -18,7 +18,7 @@ import { fetchOneUser, updateUserInfo } from '@/features/users/usersThunks';
 import { validateEmail } from '@/lib/emailValidate';
 import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
-import type { RegisterMutationWithoutCoupleFields, User } from '@/types/userTypes';
+import type { RegisterMutationWithoutCoupleFields, User } from '@/types/user';
 import React, { type ChangeEvent, type FormEvent, type PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
