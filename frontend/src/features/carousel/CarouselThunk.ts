@@ -14,9 +14,10 @@ export const postFetchCarousel = createAsyncThunk('carousel/postFetchCarousel', 
 
   if (newImage.image) {
     formData.append('file', newImage.image);
-  }
-  if (newImage.video) {
+  } else if (newImage.video) {
     formData.append('file', newImage.video);
+  } else {
+    throw new Error('No media file provided');
   }
 
   const response = await axiosApi.post<CarouselMutation>('/carousel/admin-post-image-carousel', formData);

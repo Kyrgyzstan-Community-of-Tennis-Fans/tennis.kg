@@ -28,10 +28,6 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
     if (fileType === 'image') {
       await compressImage(filePath);
     }
-    if (fileType === 'video') {
-      await compressImage(filePath);
-    }
-
 
     const carousel = await Carousel.create({
       [fileType]: `${fileType === 'video' ? 'videos' : 'images/imgCarousel'}/${req.file.filename}`,

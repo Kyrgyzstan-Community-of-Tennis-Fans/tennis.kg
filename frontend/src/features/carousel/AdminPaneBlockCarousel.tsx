@@ -69,11 +69,19 @@ export const AdminPaneBlockCarousel = () => {
         ) : (
           carousel.map((image) => (
             <div key={image._id} className='relative'>
-              <img
-                src={`${API_URl}/${image.image}`}
-                alt={`${image._id}`}
-                className='rounded-lg object-cover h-full w-full max-h-[300px]'
-              />
+              {image.image ? (
+                  <img
+                      src={API_URl + '/' + image.image}
+                      alt={image._id}
+                      className='rounded-lg object-cover h-full w-full max-h-[300px]'
+                  />
+              ) : image.video ? (
+                  <video
+                      controls
+                      src={API_URl + '/' + image.video}
+                      className='rounded-lg object-cover h-full w-full max-h-[300px]'
+                  />
+              ) : null}
               {user && user.role === 'admin' && (
                 <div className='top-3 left-6 absolute'>
                   <Confirm onOk={() => onDelete(image._id)}>
