@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import TournamentCardsList from '@/features/tournaments/components/TournamentCardsList/TournamentCardsList';
-import { Tournament } from '@/types/tournamentTypes';
+import { Tournament } from '@/types/tournament';
 import { MONTH_NAMES } from '@/consts';
 
 interface Props {

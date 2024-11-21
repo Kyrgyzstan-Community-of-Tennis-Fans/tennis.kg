@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import { SocialNetworkFields } from '@/types/footerTypes';
+import { SocialNetworkFields } from '@/types/footer';
 import { toast } from 'sonner';
 import { SocialIcon } from 'react-social-icons';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';

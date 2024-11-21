@@ -1,4 +1,4 @@
-import { Event } from './eventTypes';
+import { Event } from './event';
 
 export interface Rating {
   _id: string;

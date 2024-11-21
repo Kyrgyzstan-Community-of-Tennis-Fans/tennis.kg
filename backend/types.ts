@@ -66,7 +66,6 @@ export interface CategoryFields {
 
 export interface CarouselFields {
   image: string;
-  video?: string;
   createdAt: Date;
   updatedAt: Date;
 }

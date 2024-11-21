@@ -10,7 +10,7 @@ import AdminRedactor from '@/features/users/components/AdminRedactor/AdminRedact
 import { selectUsersList, selectUsersListPages } from '@/features/users/usersSlice';
 import { fetchUsers, updateIsActive } from '@/features/users/usersThunks';
 import { formatTelephone } from '@/lib/formatTelephone';
-import type { UsersFilter } from '@/types/userTypes';
+import type { UsersFilter } from '@/types/user';
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { type ChangeEvent, useEffect, useState } from 'react';
 import { CustomPagination } from '@/components/CustomPagination/CustomPagination';

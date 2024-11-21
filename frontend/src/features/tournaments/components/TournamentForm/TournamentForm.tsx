@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tournament, TournamentMutation } from '@/types/tournamentTypes';
+import { Tournament, TournamentMutation } from '@/types/tournament';
 import { useFormHandlers } from '@/features/tournaments/hooks/useFormHandlers';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';

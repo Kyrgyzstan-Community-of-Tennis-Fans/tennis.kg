@@ -11,7 +11,7 @@ import type {
   UsersFilter,
   UsersResponse,
   ValidationError,
-} from '@/types/userTypes';
+} from '@/types/user';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';

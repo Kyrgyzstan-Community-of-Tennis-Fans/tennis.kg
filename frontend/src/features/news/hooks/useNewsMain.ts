@@ -6,7 +6,7 @@ import { selectFetchNewsLoading, selectNews } from '@/features/news/newsSlice';
 export const useNewsMain = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchNewsByLimit(3));
+    dispatch(fetchNewsByLimit({limit: 3}));
   }, [dispatch]);
 
   const news = useAppSelector(selectNews);

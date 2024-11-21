@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { TournamentFields } from '../../types';
+import { TournamentFields } from '../types/tournament';
 
 const Schema = mongoose.Schema;
 

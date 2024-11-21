@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Button } from '@/components/ui/button';
 import { DialogClose } from '@/components/ui/dialog';
 import { useAdminRatingMembers } from '@/features/mainRatingMembers/hooks/useAdminRatingMembers';
-import { RatingMember, RatingMemberMutation } from '@/types/ratingMemberTypes';
+import { RatingMember, RatingMemberMutation } from '@/types/ratingMember';
 import { useFormHandlers } from '@/features/mainRatingMembers/hooks/useFormHandlers';
 
 interface Props {

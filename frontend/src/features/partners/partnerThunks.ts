@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosApi } from '@/axiosApi';
-import { Partner } from '@/types/partnerTypes';
-import { GlobalError } from '@/types/userTypes';
+import { Partner } from '@/types/partner';
+import { GlobalError } from '@/types/user';
 import { RootState } from '@/app/store';
 import { isAxiosError } from 'axios';
 
