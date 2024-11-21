@@ -7,20 +7,21 @@ import { selectRatingMemberCreating } from '@/features/mainRatingMembers/ratingM
 import { createRatingMember, fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
 import { toast } from 'sonner';
 import { GlobalError } from '@/types/userTypes';
-import { RatingMemberMutation } from '@/types/ratingMemberTypes';
-import RatingMemberForm from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingMemberForm/RatingMemberForm';
+import { RatingMember, RatingMemberMutation } from '@/types/ratingMemberTypes';
+import RatingMemberForm from '@/features/mainRatingMembers/components/RatingMemberForm/RatingMemberForm';
+import { getGenderTitles } from '@/features/mainRatingMembers/utils/ratingMembersHelpers';
 
 interface Props {
   forWhichGender: 'male' | 'female';
+  ratingMembers: RatingMember[];
 }
 
-const RatingMemberNew: React.FC<Props> = ({ forWhichGender }) => {
+const RatingMemberNew: React.FC<Props> = ({ forWhichGender, ratingMembers }) => {
   const dispatch = useAppDispatch();
   const isCreating = useAppSelector(selectRatingMemberCreating);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
-  const genderButtonTitle = forWhichGender === 'male' ? 'мужской' : 'женский';
-  const genderDialogTitle = forWhichGender === 'male' ? 'мужского' : 'женского';
+  const { buttonTitle, dialogTitle } = getGenderTitles(forWhichGender);
 
   const onFormSubmit = async (state: RatingMemberMutation) => {
     try {
@@ -38,20 +39,20 @@ const RatingMemberNew: React.FC<Props> = ({ forWhichGender }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size='sm'>
-          Добавить в {genderButtonTitle} рейтинг <SquaresPlusIcon />
+        <Button className='w-full xs:w-max'>
+          Добавить в {buttonTitle} рейтинг <SquaresPlusIcon />
         </Button>
       </DialogTrigger>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>Добавить участника {genderDialogTitle} рейтинга</DialogTitle>
+          <DialogTitle>Добавить участника {dialogTitle} рейтинга</DialogTitle>
         </DialogHeader>
         <RatingMemberForm
           forWhichGender={forWhichGender}
           isLoading={isCreating}
           onClose={handleClose}
-          open={open}
           onSubmit={onFormSubmit}
+          ratingMembers={ratingMembers}
         />
       </DialogContent>
     </Dialog>

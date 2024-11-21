@@ -6,13 +6,14 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import { Card } from '@/components/ui/card';
 import { API_URl } from '@/consts';
 import { useAdminRatingMembers } from '@/features/mainRatingMembers/hooks/useAdminRatingMembers';
-import RatingMemberEdit from '@/features/mainRatingMembers/RatingMembersAdmin/components/RatingMemberEdit/RatingMemberEdit';
+import RatingMemberEdit from '@/features/mainRatingMembers/components/RatingMemberEdit/RatingMemberEdit';
 
 interface Props {
   ratingMember: RatingMember;
+  ratingMembers: RatingMember[];
 }
 
-const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember }) => {
+const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember, ratingMembers }) => {
   const image = `${API_URl}/${ratingMember.image}`;
   const { handleDelete, isDeleting } = useAdminRatingMembers();
 
@@ -41,6 +42,7 @@ const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember }) => {
             </Button>
           </Confirm>
           <RatingMemberEdit
+            ratingMembers={ratingMembers}
             id={ratingMember._id}
             existingMember={ratingMember}
             forWhichGender={ratingMember.gender === 'female' ? 'female' : 'male'}
