@@ -36,19 +36,14 @@ export const AdminRatings: React.FC = () => {
       <section>
         {ratingsFetching ? (
           <div className={'grid grid-cols-4 gap-2 mt-4'}>
-            <Skeleton className={'h-24 flex-1'} />
-            <Skeleton className={'h-24 flex-1'} />
-            <Skeleton className={'h-24 flex-1'} />
-            <Skeleton className={'h-24 flex-1'} />
-            <Skeleton className={'h-24 flex-1'} />
-            <Skeleton className={'h-24 flex-1'} />
-            <Skeleton className={'h-24 flex-1'} />
-            <Skeleton className={'h-24 flex-1'} />
-            <Skeleton className={'h-24 flex-1'} />
-            <Skeleton className={'h-24 flex-1'} />
-            <Skeleton className={'h-24 flex-1'} />
-            <Skeleton className={'h-24 flex-1'} />
+            {Array.from({ length: 12 }).map((_, index) => (
+              <Skeleton key={index} className={'h-24 flex-1'} />
+            ))}
           </div>
+        ) : !ratingsFetching && ratings.length === 0 ? (
+          <span className={'text-muted-foreground mt-10 block text-center'}>
+            Список рейтингов пуст. Пожалуйста, добавьте рейтинг.
+          </span>
         ) : (
           <div className={'mt-4 space-y-10'}>
             {maleRatings.length > 0 && (
