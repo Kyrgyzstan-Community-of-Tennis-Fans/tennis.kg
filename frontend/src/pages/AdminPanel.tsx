@@ -3,13 +3,13 @@ import AdminPartners from '@/features/partners/AdminPartners';
 import { Category } from '@/features/category/category';
 import { AdminPaneBlockCarousel } from '@/features/carousel/AdminPaneBlockCarousel';
 import { Layout } from '@/components/Layout';
-import RatingMembersAdminList from '@/features/mainRatingMembers/RatingMembersAdmin/RatingMembersAdminList';
 import { AdminNews } from '@/features/news/containers/AdminNews/AdminNews';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { AdminRatings } from '@/features/ratings/AdminRatings';
 import AdminPanelBlockFooter from '@/features/footers/containers/AdminPanelBlockFooter';
 import { AdminUserList } from '@/features/users/AdminUserList';
 import AdminCalendar from '@/features/tournaments/AdminCalendar';
+import RatingMembersAdmin from '@/features/mainRatingMembers/RatingMembersAdmin';
 
 const AdminPanel = () => {
   return (
@@ -41,7 +41,7 @@ const AdminPanel = () => {
             <AdminPaneBlockCarousel />
           </TabsContent>
           <TabsContent value={'top'}>
-            <RatingMembersAdminList />
+            <RatingMembersAdmin />
           </TabsContent>
           <TabsContent value={'calendar'}>
             <AdminCalendar />
