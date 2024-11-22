@@ -129,7 +129,7 @@ export const tournamentsFixtures = [
     eventDate: '2023-01-05T00:00:00.000Z',
     category: 'Masters',
     rank: 'male',
-    regulationsDoc: 'fixtures/tournaments/New_rating.pdf',
+    regulationsDoc: null,
     resultsLink: 'https://tenor.com/ru/search/cute-cats-gifs',
     registrationLink: 'https://www.example.com/new-year-invitational-registration',
     tournamentYear: 2023,
@@ -162,7 +162,7 @@ export const tournamentsFixtures = [
     eventDate: '2023-03-15T00:00:00.000Z',
     category: 'ProMasters',
     rank: 'female',
-    regulationsDoc: 'fixtures/tournaments/New_rating.pdf',
+    regulationsDoc: null,
     resultsLink:
       'https://soranews24.com/wp-content/uploads/sites/3/2021/09/Cute-Cat-Japan-coronavirus-vaccine-side-effect-pfizer-moderns-reaction-photo-.jpg?w=640',
     registrationLink: 'https://www.example.com/spring-championship-registration',
