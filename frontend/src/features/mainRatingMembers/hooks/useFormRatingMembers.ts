@@ -1,4 +1,4 @@
-import { RatingMember, RatingMemberMutation } from '@/types/ratingMemberTypes';
+import { RatingMember, RatingMemberMutation } from '@/types/ratingMember';
 
 export const useFormRatingMembers = (
   ratingMembers: RatingMember[],

@@ -119,6 +119,5 @@ export const {
   selectTournamentCreating,
   selectTournamentUpdating,
   selectTournamentDeleting,
-  selectTournamentsByYearDeleting,
   selectSelectedRank,
 } = tournamentsSlice.selectors;

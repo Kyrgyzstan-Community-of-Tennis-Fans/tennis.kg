@@ -3,7 +3,7 @@ import RatingMembersCategoriesEdit from '@/features/mainRatingMembers/components
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import { RatingMember } from '@/types/ratingMemberTypes';
+import { RatingMember } from '@/types/ratingMember';
 
 interface Props {
   ratingMembers: RatingMember[];

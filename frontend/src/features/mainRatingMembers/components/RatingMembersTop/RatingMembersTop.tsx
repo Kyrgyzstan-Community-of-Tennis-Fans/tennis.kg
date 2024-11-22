@@ -1,6 +1,6 @@
 import React from 'react';
 import RatingMembersTop8Skeleton from '@/features/mainRatingMembers/components/RatingMembersTop/RatingMembersTop8Skeleton';
-import { RatingMember } from '@/types/ratingMemberTypes';
+import { RatingMember } from '@/types/ratingMember';
 import RatingMemberCard from '@/features/mainRatingMembers/components/RatingMemberCard/RatingMemberCard';
 import RatingMembersTop3Skeleton from '@/features/mainRatingMembers/components/RatingMembersTop/RatingMembersTop3Skeleton';
 

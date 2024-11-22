@@ -1,6 +1,6 @@
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectRatingMembers, selectRatingMembersFetching } from '@/features/mainRatingMembers/ratingMembersSlice';
-import { useEffect } from 'react';
 import { fetchRatingMembers } from '@/features/mainRatingMembers/ratingMembersThunks';
 
 export const useRatingMembers = () => {

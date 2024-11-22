@@ -1,7 +1,7 @@
 import React from 'react';
-import { RatingMember } from '@/types/ratingMemberTypes';
 import RatingMemberAdminCard from '@/features/mainRatingMembers/components/RatingMembersCardAdmin/RatingMemberAdminCard';
 import WarningMessage from '@/components/WarningMessage/WarningMessage';
+import { RatingMember } from '@/types/ratingMember';
 
 interface Props {
   ratingMembers: RatingMember[];

@@ -11,6 +11,7 @@ import FileInput from '@/components/FileInput/FilleInput';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import WarningMessage from '@/components/WarningMessage/WarningMessage';
 import { useFormRatingMembers } from '@/features/mainRatingMembers/hooks/useFormRatingMembers';
+import { getGenderTitles } from '@/features/mainRatingMembers/utils/ratingMembersHelpers';
 
 interface Props {
   forWhichGender: 'male' | 'female';
@@ -44,6 +45,7 @@ const RatingMemberForm: React.FC<Props> = ({
         gender: forWhichGender,
         ratingType: forWhichGender === 'female' ? 'womensTop3' : ('' as '' | 'mensTop8' | 'mensTop3' | 'womensTop3'),
       };
+  const { dialogTitle } = getGenderTitles(forWhichGender);
 
   const [state, setState] = useState<RatingMemberMutation>(initialState);
   const { placesTop3, placesTop8 } = useAdminRatingMembers();
@@ -149,7 +151,7 @@ const RatingMemberForm: React.FC<Props> = ({
         <WarningMessage
           message={`Максимальное количество участников для ${
             state.ratingType === 'mensTop8' ? 'Топ-8' : 'Топ-3'
-          } мужского рейтинга уже добавлено. 
+          } ${dialogTitle} рейтинга уже добавлено. 
           Вы можете удалить или редактировать участников, но не добавлять новых.`}
         />
       )}
