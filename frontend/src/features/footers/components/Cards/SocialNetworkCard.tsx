@@ -45,7 +45,7 @@ export const SocialNetworkCard: React.FC<Props> = ({ item }) => {
 
         <div className={'space-x-1 flex items-center'}>
           <Confirm onOk={handleDelete}>
-            <Button disabled={Boolean(socialNetworkDeleting)} size={'sm'}>
+            <Button disabled={Boolean(socialNetworkDeleting)} size={'sm'} data-test-id='delete'>
               {socialNetworkDeleting === item._id ? <Loader /> : <TrashIcon />}
             </Button>
           </Confirm>

@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import Footer from '../model/Footer';
@@ -205,7 +207,19 @@ export const updateMainPartnerImage = async (req: Request, res: Response, next: 
     const imagePath = req.file ? req.file.filename : null;
 
     if (!imagePath) {
-      return res.status(400).send({ error: 'MainPartner image are required!' });
+      return res.status(400).send({ error: 'MainPartner image is required!' });
+    }
+
+    const footer = await Footer.findOne({});
+    const oldImagePath = footer?.mainPartnerImage;
+
+    if (oldImagePath) {
+      const oldImageFullPath = path.join(__dirname, '..', '..', 'public', oldImagePath);
+      fs.unlink(oldImageFullPath, (err) => {
+        if (err) {
+          console.error('Error when deleting old image:', err);
+        }
+      });
     }
 
     const updatedMainPartnerImageLink = await Footer.findOneAndUpdate(

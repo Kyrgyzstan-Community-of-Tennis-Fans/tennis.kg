@@ -93,7 +93,7 @@ const MenuPositionEditForm: React.FC<Props> = ({ id }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size={'sm'}>
+        <Button size={'sm'} data-test-id='edit'>
           <PencilSquareIcon />
         </Button>
       </DialogTrigger>
@@ -134,7 +134,7 @@ const MenuPositionEditForm: React.FC<Props> = ({ id }) => {
                 Сохранить {menuPositionUpdating && <Loader size={'sm'} theme={'light'} />}
               </Button>
               <DialogClose ref={closeRef} asChild>
-                <Button type={'button'} variant={'outline'}>
+                <Button type={'button'} variant={'outline'} data-test-id='edit'>
                   Отменить
                 </Button>
               </DialogClose>

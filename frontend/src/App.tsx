@@ -58,7 +58,6 @@ export const App: React.FC = () => {
                 </ProtectedRoute>
               }
             />
-
             <Route path={'/news'} element={<NewsPage />} />
             <Route path={'/news/:id'} element={<OneNews />} />
             <Route

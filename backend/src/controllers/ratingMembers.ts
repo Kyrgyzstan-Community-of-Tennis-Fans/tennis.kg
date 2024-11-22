@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { RatingMember } from '../model/RatingMember';
 import mongoose from 'mongoose';
+import { clearImages } from '../utils/multer';
 
 export const getRatingMembers = async (_req: Request, res: Response, next: NextFunction) => {
   try {
@@ -13,16 +14,20 @@ export const getRatingMembers = async (_req: Request, res: Response, next: NextF
 };
 
 export const createRatingMember = async (req: Request, res: Response, next: NextFunction) => {
+  const uploadedImage = req.file ? req.file.filename : null;
+
   try {
     const { name, gender, place, ratingType } = req.body;
 
     const maxParticipants = getMaxParticipants(ratingType);
     if (maxParticipants === null) {
+      if (uploadedImage) clearImages(uploadedImage);
       return res.status(400).send({ error: 'Неверный тип рейтинга' });
     }
 
     const participantCount = await RatingMember.countDocuments({ ratingType });
     if (participantCount >= maxParticipants) {
+      if (uploadedImage) clearImages(uploadedImage);
       return res
         .status(400)
         .send({ error: `В данном топе уже максимальное количество участников (${maxParticipants})` });
@@ -30,12 +35,13 @@ export const createRatingMember = async (req: Request, res: Response, next: Next
 
     const existingMember = await RatingMember.findOne({ name });
     if (existingMember) {
+      if (uploadedImage) clearImages(uploadedImage); // Удаляем файл
       return res.status(400).send({ error: 'Данное имя уже занято!' });
     }
 
     const ratingMember = await RatingMember.create({
       name,
-      image: req.file ? req.file.filename : null,
+      image: uploadedImage,
       gender,
       place,
       ratingType,
@@ -43,6 +49,7 @@ export const createRatingMember = async (req: Request, res: Response, next: Next
 
     return res.send(ratingMember);
   } catch (error) {
+    if (uploadedImage) clearImages(uploadedImage);
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(error);
     }
@@ -57,7 +64,11 @@ export const deleteRatingMember = async (req: Request, res: Response, next: Next
     const existingMember = await findRatingMemberById(id, res);
     if (!existingMember) return;
 
-    await RatingMember.findByIdAndDelete(id);
+    const result = await RatingMember.deleteOne({ _id: id });
+
+    if (result.deletedCount === 1) {
+      clearImages(existingMember.image);
+    }
 
     return res.send({ message: 'Rating member deleted successfully' });
   } catch (error) {
@@ -66,20 +77,27 @@ export const deleteRatingMember = async (req: Request, res: Response, next: Next
 };
 
 export const updateRatingMember = async (req: Request, res: Response, next: NextFunction) => {
+  const uploadedImage = req.file ? req.file.filename : null;
+
   try {
     const { id } = req.params;
     const { name, ratingType } = req.body;
 
     const existingMember = await findRatingMemberById(id, res);
-    if (!existingMember) return;
+    if (!existingMember) {
+      if (uploadedImage) clearImages(uploadedImage);
+      return;
+    }
 
     const maxParticipants = getMaxParticipants(ratingType);
     if (maxParticipants === null) {
+      if (uploadedImage) clearImages(uploadedImage);
       return res.status(400).send({ error: 'Неверный тип рейтинга' });
     }
 
     const participantCount = await RatingMember.countDocuments({ ratingType });
     if (participantCount >= maxParticipants && ratingType !== existingMember.ratingType) {
+      if (uploadedImage) clearImages(uploadedImage);
       return res
         .status(400)
         .send({ error: `В данном топе уже максимальное количество участников (${maxParticipants})` });
@@ -88,13 +106,14 @@ export const updateRatingMember = async (req: Request, res: Response, next: Next
     if (name && name !== existingMember.name) {
       const existingName = await RatingMember.findOne({ name });
       if (existingName) {
+        if (uploadedImage) clearImages(uploadedImage);
         return res.status(400).send({ error: 'Данное имя уже занято!' });
       }
     }
 
     const updatedData = { ...req.body };
-    if (req.file) {
-      updatedData.image = req.file.filename;
+    if (uploadedImage) {
+      updatedData.image = uploadedImage;
     }
 
     const updatedRatingMember = await RatingMember.findByIdAndUpdate(
@@ -104,11 +123,17 @@ export const updateRatingMember = async (req: Request, res: Response, next: Next
     );
 
     if (!updatedRatingMember) {
-      return res.status(404).send({ error: 'Rating member not found' });
+      if (uploadedImage) clearImages(uploadedImage);
+      return res.status(404).send({ error: 'Участник рейтинга не найден' });
     }
 
-    return res.send({ message: 'Rating member edited successfully', updatedRatingMember });
+    if (uploadedImage && existingMember.image !== uploadedImage) {
+      clearImages(existingMember.image);
+    }
+
+    return res.send({ message: 'Участник рейтинга успешно обновлен', updatedRatingMember });
   } catch (error) {
+    if (uploadedImage) clearImages(uploadedImage);
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(error);
     }
