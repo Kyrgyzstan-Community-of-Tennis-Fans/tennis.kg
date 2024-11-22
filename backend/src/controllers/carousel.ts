@@ -102,7 +102,6 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
       carouselItem.image = undefined; // Обнуляем ссылку на изображение
     }
 
-
     const existingFilePath = fileType === 'video'
         ? `videos/${req.file.filename}`
         : `images/imgCarousel/${req.file.filename}`;
@@ -113,7 +112,6 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
     } else {
       carouselItem[fileType] = existingFilePath;
     }
-
 
     await carouselItem.save();
     return res.status(200).send({ message: 'Image updated successfully', carouselItem });
