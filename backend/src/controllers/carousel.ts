@@ -83,17 +83,33 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
     if (!carouselItem) return res.status(404).send({ error: 'Image not found' });
 
-    const imagePath = path.join(config.publicPath, 'images', 'imgCarousel', req.file.filename);
-    await compressImage(imagePath);
+    const fileType = req.file.mimetype.startsWith('video') ? 'video' : 'image';
+    const filePath = path.join(
+        config.publicPath,
+        fileType === 'video' ? 'videos' : 'images/imgCarousel',
+        req.file.filename
+    );
 
-    const oldImagePath = carouselItem.image;
-
-    carouselItem.image = 'images/imgCarousel/' + req.file.filename;
-    await carouselItem.save();
-
-    if (carouselItem.image !== oldImagePath) {
-      clearImages(oldImagePath);
+    // Если новое медиа — изображение, сжимаем его
+    if (fileType === 'image') {
+      await compressImage(filePath);
     }
+
+
+
+    if (fileType === 'image' && carouselItem.video) {
+      clearImages(carouselItem.video); // Если было видео, удаляем его
+      carouselItem.video = undefined; // Обнуляем поле в БД
+    } else if (fileType === 'video' && carouselItem.image) {
+      clearImages(carouselItem.image); // Если было изображение, удаляем его
+      carouselItem.image = undefined; // Обнуляем поле в БД
+    }
+
+    // Обновляем запись в БД с новым путем
+    carouselItem[fileType] = fileType === 'video'
+        ? `videos/${req.file.filename}`
+        : `images/imgCarousel/${req.file.filename}`;
+    await carouselItem.save();
 
     return res.status(200).send({ message: 'Image updated successfully', carouselItem });
   } catch (error) {

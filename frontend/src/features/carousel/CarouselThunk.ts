@@ -52,7 +52,7 @@ export const updateCarouselImage = createAsyncThunk<
 
     keys.forEach((key) => {
       const value = updatedImage[key];
-      if (value !== null) {
+      if (value !== null && value !== undefined) {
         formData.append(key, value);
       }
     });
