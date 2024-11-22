@@ -33,7 +33,7 @@ const TournamentActions = ({ tournament, permission }: { tournament: Tournament;
   };
 
   return (
-    <div className='flex flex-col text-[13px]'>
+    <div className='flex flex-col text-[13px] mt-3 sm:mt-0'>
       {renderActionItem(
         'Результаты Турнира',
         tournament.resultsLink && tournament.resultsLink !== '' ? tournament.resultsLink : null,

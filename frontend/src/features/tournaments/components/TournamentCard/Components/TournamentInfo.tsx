@@ -11,7 +11,7 @@ const TournamentInfo = ({ tournament }: { tournament: Tournament }) => {
         Турнир “{tournament.name}”
         <span className='text-[#64B32C] italic dark:text-[#478c16]'>{tournament.category}</span>
       </h1>
-      <div className='flex flex-col gap-1 text-sm mt-3 sm:mt-2 mb-3 sm:mb-0 text-[#4d4d4d] dark:text-[#3c3c3c]'>
+      <div className='flex flex-col gap-1 text-sm mt-3 sm:mt-2  text-[#4d4d4d] dark:text-[#3c3c3c]'>
         <InfoRow label='Дата проведения:' value={tournament.eventDate} />
         <InfoRow label='Разряд:' value={translatedRank} />
         <InfoRow label='Кол-во участников:' value={tournament.participants} />

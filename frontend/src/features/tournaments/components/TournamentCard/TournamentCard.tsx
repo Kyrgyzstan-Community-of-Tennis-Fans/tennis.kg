@@ -26,9 +26,9 @@ const TournamentCard: React.FC<Props> = ({ tournament, isAdmin, tournamentsLastY
       <div className='flex flex-col bg-[white] dark:bg-[#aec9a5] rounded-[19px]'>
         <div className='px-3 py-3 sm:flex sm:justify-between'>
           <TournamentInfo tournament={tournament} />
-          <div className='flex flex-col gap-3 sm:mt-auto'>
+          <div className='flex flex-col sm:mt-auto'>
             <TournamentActions tournament={tournament} permission={permission} />
-            <div className='text-[#64B32C] dark:text-[#478c16] font-semibold ml-auto sm:ml-0'>
+            <div className='text-[#64B32C] dark:text-[#478c16] font-semibold ml-auto sm:ml-0 sm:mt-1'>
               <TournamentRegistration tournament={tournament} />
             </div>
           </div>

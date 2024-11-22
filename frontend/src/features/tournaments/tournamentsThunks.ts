@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosApi } from '@/axiosApi';
 import { isAxiosError } from 'axios';
-import { GlobalError } from '@/types/userTypes';
+import { GlobalError } from '@/types/user';
 import { TournamentMutation, Tournaments, UpdateTournamentArg } from '@/types/tournament';
 
 export const fetchTournaments = createAsyncThunk<Tournaments, string | undefined>(
