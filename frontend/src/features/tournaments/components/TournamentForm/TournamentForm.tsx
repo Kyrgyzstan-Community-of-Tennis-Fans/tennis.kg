@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tournament, TournamentMutation } from '@/types/tournamentTypes';
+import { Tournament, TournamentMutation } from '@/types/tournament';
 import { useFormHandlers } from '@/features/tournaments/hooks/useFormHandlers';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -10,8 +10,8 @@ import { Confirm } from '@/components/Confirm/Confirm';
 import { CURRENT_YEAR_FULL, NEXT_YEAR, PREVIOUS_YEAR } from '@/consts';
 import FileInput from '@/components/FileInput/FilleInput';
 import { useAdminTournaments } from '@/features/tournaments/hooks/useAdminTournaments';
-import ErrorMessage from '@/features/tournaments/components/ErrorMessage/ErrorMessage';
-import WarningMessage from '@/features/tournaments/components/WarningMessage/WarningMessage';
+import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+import WarningMessage from '@/components/WarningMessage/WarningMessage';
 
 interface Props {
   onSubmit: (tournament: TournamentMutation) => void;
@@ -103,7 +103,6 @@ const TournamentForm: React.FC<Props> = ({
             id='participants'
             name='participants'
             type='number'
-            min='1'
             onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
               const value = event.target.value;
               if (!/^\d+$/.test(value) || parseInt(value, 10) < 1) {

@@ -6,7 +6,7 @@ import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { fetchCategories } from '@/features/category/categoryThunks';
 import { register } from '@/features/users/usersThunks';
-import type { RegisterMutation } from '@/types/userTypes';
+import type { RegisterMutation } from '@/types/user';
 import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
 

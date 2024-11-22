@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { toast } from 'sonner';
-import { GlobalError } from '@/types/userTypes';
+import { GlobalError } from '@/types/user';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { selectTournamentUpdating } from '@/features/tournaments/tournamentsSlice';
-import { Tournament, TournamentMutation } from '@/types/tournamentTypes';
+import { Tournament, TournamentMutation } from '@/types/tournament';
 import { fetchTournaments, updateTournament } from '@/features/tournaments/tournamentsThunks';
 import TournamentForm from '@/features/tournaments/components/TournamentForm/TournamentForm';
 

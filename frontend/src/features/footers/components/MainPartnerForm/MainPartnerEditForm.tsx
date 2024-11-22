@@ -16,7 +16,7 @@ import { toast } from 'sonner';
 import { getFooterItems, updateMainPartnerImage } from '@/features/footers/footersThunks';
 import { Loader } from '@/components/Loader/Loader';
 import { selectItemUpdating } from '@/features/footers/footersSlice';
-import { MainPartnerForm } from '@/types/footerTypes';
+import { MainPartnerForm } from '@/types/footer';
 
 const MainPartnerEditForm: React.FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();

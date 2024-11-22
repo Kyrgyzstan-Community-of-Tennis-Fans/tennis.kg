@@ -32,7 +32,7 @@ export const App: React.FC = () => {
     if (user) {
       dispatch(getPermission(user._id));
     }
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   return (
     <ThemeProvider>

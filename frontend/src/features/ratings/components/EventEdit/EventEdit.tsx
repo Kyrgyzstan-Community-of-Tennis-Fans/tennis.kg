@@ -10,8 +10,8 @@ import {
 import { EventForm } from '@/features/ratings/components/EventForm/EventForm';
 import { selectEvent } from '@/features/ratings/ratingsSlice';
 import { editEvent, fetchRatings, getEvent } from '@/features/ratings/ratingsThunks';
-import type { EventMutation } from '@/types/eventTypes';
-import type { Rating } from '@/types/ratingTypes';
+import type { EventMutation } from '@/types/event';
+import type { Rating } from '@/types/rating';
 import React, { type PropsWithChildren, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 

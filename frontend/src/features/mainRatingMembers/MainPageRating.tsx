@@ -1,5 +1,4 @@
-import RatingMembersTop8 from '@/features/mainRatingMembers/components/RatingMembersTop8/RatingMembersTop8';
-import RatingMembersTop3 from '@/features/mainRatingMembers/components/RatingMembersTop3/RatingMembersTop3';
+import RatingMembers from '@/features/mainRatingMembers/components/RatingMembersTop/RatingMembersTop';
 import { useRatingMembers } from '@/features/mainRatingMembers/hooks/useRatingMembers';
 
 const MainPageRating = () => {
@@ -9,30 +8,31 @@ const MainPageRating = () => {
   return (
     <>
       <div className='mb-12 sm:mb-16 md:mb-18 lg:mb-20'>
-        <RatingMembersTop8
+        <RatingMembers
           ratingMembers={ratingMenMembersTop8}
           isFetching={ratingMembersFetching}
           category={ratingMembers[0]?.mensRatingCategoryTop8 || 'Мужская категория'}
-          title={'Мужской'}
+          title='Мужской'
+          ratingType='top8'
         />
       </div>
       <div className='mb-24 sm:mb-32 md:mb-36 lg:mb-40'>
-        <RatingMembersTop3
+        <RatingMembers
           ratingMembers={ratingMenMembersTop3}
           isFetching={ratingMembersFetching}
           category={ratingMembers[0]?.mensRatingCategoryTop3 || 'Мужская категория'}
-          subtitle={'участника'}
-          existingTitle={false}
+          subtitle='участника'
+          ratingType='top3'
         />
       </div>
       <div>
-        <RatingMembersTop3
+        <RatingMembers
           ratingMembers={ratingWomenMembers}
           isFetching={ratingMembersFetching}
           category={ratingMembers[0]?.womensRatingCategoryTop3 || 'Женская категория'}
-          title={'Женский'}
-          subtitle={'участницы'}
-          existingTitle={true}
+          title='Женский'
+          subtitle='участницы'
+          ratingType='top3'
         />
       </div>
     </>

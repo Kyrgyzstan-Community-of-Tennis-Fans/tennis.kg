@@ -1,7 +1,7 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Partner } from '@/types/partnerTypes';
+import { Partner } from '@/types/partner';
 import { API_URl } from '@/consts';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { useAppDispatch } from '@/app/hooks';

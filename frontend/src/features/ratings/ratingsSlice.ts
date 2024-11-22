@@ -1,7 +1,7 @@
 import { createRating, deleteEvent, deleteRating, fetchRatings, getEvent } from '@/features/ratings/ratingsThunks';
-import type { Rating } from '@/types/ratingTypes';
+import type { Rating } from '@/types/rating';
 import { createSlice } from '@reduxjs/toolkit';
-import type { Event } from '@/types/eventTypes';
+import type { Event } from '@/types/event';
 
 interface RatingsState {
   ratings: Rating[];

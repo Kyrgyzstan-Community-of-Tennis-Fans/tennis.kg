@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { isTournamentUpcoming } from '@/features/tournaments/utils/tournamentHelpers';
-import { Tournament } from '@/types/tournamentTypes';
+import { Tournament } from '@/types/tournament';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 interface Props {

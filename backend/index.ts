@@ -14,7 +14,6 @@ import { footersRouter } from './src/routes/footers';
 import { tournamentsRouter } from './src/routes/tournament';
 
 const app = express();
-const port = 8000;
 
 app.use(cors());
 app.use(express.json());
@@ -34,8 +33,8 @@ app.use('/tournaments', tournamentsRouter);
 const run = async () => {
   await mongoose.connect(config.database);
 
-  app.listen(port, () => {
-    console.log(`Server running at http://127.0.0.1:${port}`);
+  app.listen(config.port, () => {
+    console.log(`Server running at http://127.0.0.1:${config.port}`);
   });
 
   process.on('exit', () => {

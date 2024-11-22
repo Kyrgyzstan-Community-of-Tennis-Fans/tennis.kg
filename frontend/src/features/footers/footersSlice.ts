@@ -1,4 +1,4 @@
-import { FooterElementsData, MenuOnePositionField, SocialOneNetworkField } from '@/types/footerTypes';
+import { FooterElementsData, MenuOnePositionField, SocialOneNetworkField } from '@/types/footer';
 import { createSlice } from '@reduxjs/toolkit';
 import {
   createMenuPosition,

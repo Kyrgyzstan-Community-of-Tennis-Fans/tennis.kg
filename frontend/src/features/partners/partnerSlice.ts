@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Partner } from '@/types/partnerTypes';
+import { Partner } from '@/types/partner';
 import {
   createPartner,
   deletePartner,

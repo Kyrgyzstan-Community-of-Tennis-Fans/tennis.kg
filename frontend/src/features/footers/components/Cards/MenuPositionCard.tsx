@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { LinkIcon, TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import { MenuPositionFields } from '@/types/footerTypes';
+import { MenuPositionFields } from '@/types/footer';
 import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { deleteMenuPosition, getFooterItems } from '@/features/footers/footersThunks';

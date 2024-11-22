@@ -7,7 +7,7 @@ import { EventCard } from '@/features/ratings/components/EventCard/EventCard';
 import { selectRatingsDeleting } from '@/features/ratings/ratingsSlice';
 import { deleteRating } from '@/features/ratings/ratingsThunks';
 import { getMonth } from '@/lib/getMonth';
-import type { Rating } from '@/types/ratingTypes';
+import type { Rating } from '@/types/rating';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { useLocation } from 'react-router-dom';

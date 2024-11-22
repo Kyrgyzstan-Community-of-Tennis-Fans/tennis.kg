@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { Tournament } from '../model/Tournament';
 import { format } from 'date-fns';
+import { clearImages } from '../utils/multer';
 
 export const getTournaments = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -97,7 +98,11 @@ export const deleteTournament = async (req: Request, res: Response, next: NextFu
       return res.status(404).send({ error: 'Tournament not found' });
     }
 
-    await Tournament.findByIdAndDelete(id);
+    const result = await Tournament.deleteOne({ _id: id });
+
+    if (result.deletedCount === 1 && existingTournament.regulationsDoc !== null) {
+      clearImages(existingTournament.regulationsDoc);
+    }
 
     return res.send({ message: 'Tournament deleted successfully' });
   } catch (error) {
@@ -112,12 +117,23 @@ export const deleteTournamentsByYear = async (req: Request, res: Response, next:
     if (isNaN(year)) {
       return res.status(400).send({ error: 'Invalid year provided' });
     }
+
+    const tournamentsToDelete = await Tournament.find({
+      tournamentYear: { $lt: year },
+    });
+
+    if (tournamentsToDelete.length === 0) {
+      return res.status(404).send({ error: 'No tournaments found for the specified condition' });
+    }
+
     const deletedTournaments = await Tournament.deleteMany({
       tournamentYear: { $lt: year },
     });
 
-    if (deletedTournaments.deletedCount === 0) {
-      return res.status(404).send({ error: 'No tournaments found for the specified condition' });
+    for (const tournament of tournamentsToDelete) {
+      if (tournament.regulationsDoc !== null) {
+        clearImages(tournament.regulationsDoc);
+      }
     }
 
     return res.send({
@@ -146,6 +162,12 @@ export const updateTournament = async (req: Request, res: Response, next: NextFu
     const [day, month, year] = eventDate.split('.').map((part: string) => part.padStart(2, '0'));
     const formattedEventDate = new Date(Number(year) + 2000, Number(month) - 1, Number(day));
 
+    const existingTournament = await Tournament.findById(id);
+
+    if (!existingTournament) {
+      return res.status(404).send({ error: 'Tournament not found' });
+    }
+
     const updatedData: Record<string, unknown> = {
       name,
       participants: parseFloat(participants),
@@ -163,13 +185,21 @@ export const updateTournament = async (req: Request, res: Response, next: NextFu
       updatedData.regulationsDoc = req.file.filename;
     }
 
-    const tournament = await Tournament.findByIdAndUpdate(id, updatedData, { new: true, runValidators: true });
+    const updatedTournament = await Tournament.findByIdAndUpdate(id, updatedData, { new: true, runValidators: true });
 
-    if (!tournament) {
-      return res.status(404).send({ error: 'Tournament not found' });
+    if (!updatedTournament) {
+      return res.status(404).send({ error: 'Tournament not found after update' });
     }
 
-    return res.send(tournament);
+    if (
+      req.file &&
+      existingTournament.regulationsDoc &&
+      existingTournament.regulationsDoc !== updatedData.regulationsDoc
+    ) {
+      clearImages(existingTournament.regulationsDoc);
+    }
+
+    return res.send(updatedTournament);
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).send(error);

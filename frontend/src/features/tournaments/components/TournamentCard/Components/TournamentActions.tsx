@@ -1,6 +1,6 @@
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { API_URl } from '@/consts';
-import { Tournament } from '@/types/tournamentTypes';
+import { Tournament } from '@/types/tournament';
 
 const TournamentActions = ({ tournament, permission }: { tournament: Tournament; permission: boolean }) => {
   const renderActionItem = (text: string, link?: string | null) => {
@@ -33,7 +33,7 @@ const TournamentActions = ({ tournament, permission }: { tournament: Tournament;
   };
 
   return (
-    <div className='flex flex-col text-[13px]'>
+    <div className='flex flex-col text-[13px] mt-3 sm:mt-0'>
       {renderActionItem(
         'Результаты Турнира',
         tournament.resultsLink && tournament.resultsLink !== '' ? tournament.resultsLink : null,
