@@ -90,27 +90,32 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
         req.file.filename
     );
 
-    // Если новое медиа — изображение, сжимаем его
     if (fileType === 'image') {
       await compressImage(filePath);
     }
 
-
-
     if (fileType === 'image' && carouselItem.video) {
-      clearImages(carouselItem.video); // Если было видео, удаляем его
-      carouselItem.video = undefined; // Обнуляем поле в БД
+      clearImages(carouselItem.video);
+      carouselItem.video = undefined;
     } else if (fileType === 'video' && carouselItem.image) {
-      clearImages(carouselItem.image); // Если было изображение, удаляем его
-      carouselItem.image = undefined; // Обнуляем поле в БД
+      clearImages(carouselItem.image);
+      carouselItem.image = undefined; // Обнуляем ссылку на изображение
     }
 
-    // Обновляем запись в БД с новым путем
-    carouselItem[fileType] = fileType === 'video'
+
+    const existingFilePath = fileType === 'video'
         ? `videos/${req.file.filename}`
         : `images/imgCarousel/${req.file.filename}`;
-    await carouselItem.save();
+    const existingFileInDB = await Carousel.findOne({ [fileType]: existingFilePath });
 
+    if (existingFileInDB) {
+      carouselItem[fileType] = existingFilePath;
+    } else {
+      carouselItem[fileType] = existingFilePath;
+    }
+
+
+    await carouselItem.save();
     return res.status(200).send({ message: 'Image updated successfully', carouselItem });
   } catch (error) {
     return next(error);

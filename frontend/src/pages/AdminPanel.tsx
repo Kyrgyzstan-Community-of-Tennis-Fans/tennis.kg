@@ -20,12 +20,12 @@ const AdminPanel = () => {
     if(savedTab){
       setCurrentTab(savedTab );
     }
-  }, [])
+  }, []);
 
   const handleTabChange = (newTab: string) => {
     setCurrentTab(newTab);
-    localStorage.setItem('adminPanelTab',newTab)
-  }
+    localStorage.setItem('adminPanelTab',newTab);
+  };
 
   return (
     <>
