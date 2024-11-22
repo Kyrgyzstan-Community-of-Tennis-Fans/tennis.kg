@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -7,6 +7,11 @@ import { DialogClose } from '@/components/ui/dialog';
 import { useAdminRatingMembers } from '@/features/mainRatingMembers/hooks/useAdminRatingMembers';
 import { RatingMember, RatingMemberMutation } from '@/types/ratingMember';
 import { useFormHandlers } from '@/features/mainRatingMembers/hooks/useFormHandlers';
+import FileInput from '@/components/FileInput/FilleInput';
+import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+import WarningMessage from '@/components/WarningMessage/WarningMessage';
+import { useFormRatingMembers } from '@/features/mainRatingMembers/hooks/useFormRatingMembers';
+import { getGenderTitles } from '@/features/mainRatingMembers/utils/ratingMembersHelpers';
 
 interface Props {
   forWhichGender: 'male' | 'female';
@@ -14,7 +19,7 @@ interface Props {
   existingMember?: RatingMember;
   isLoading?: boolean;
   onClose?: () => void;
-  open: boolean;
+  ratingMembers: RatingMember[];
 }
 
 const emptyState: RatingMemberMutation = {
@@ -25,7 +30,14 @@ const emptyState: RatingMemberMutation = {
   ratingType: '',
 };
 
-const RatingMemberForm: React.FC<Props> = ({ forWhichGender, onSubmit, existingMember, isLoading, onClose, open }) => {
+const RatingMemberForm: React.FC<Props> = ({
+  forWhichGender,
+  onSubmit,
+  existingMember,
+  isLoading,
+  onClose,
+  ratingMembers,
+}) => {
   const initialState = existingMember
     ? { ...existingMember, place: existingMember.place.toString() }
     : {
@@ -33,21 +45,18 @@ const RatingMemberForm: React.FC<Props> = ({ forWhichGender, onSubmit, existingM
         gender: forWhichGender,
         ratingType: forWhichGender === 'female' ? 'womensTop3' : ('' as '' | 'mensTop8' | 'mensTop3' | 'womensTop3'),
       };
+  const { dialogTitle } = getGenderTitles(forWhichGender);
 
   const [state, setState] = useState<RatingMemberMutation>(initialState);
   const { placesTop3, placesTop8 } = useAdminRatingMembers();
-
-  useEffect(() => {
-    if (open) {
-      setState((prevState) => ({
-        ...prevState,
-        gender: forWhichGender,
-        ratingType: forWhichGender === 'female' ? 'womensTop3' : prevState.ratingType,
-      }));
-    }
-  }, [open, forWhichGender]);
-
   const { handleChange, handleChangeSelect, fileInputChangeHandler } = useFormHandlers(setState);
+  const { existingName, maxMembersExceeded, isFormInvalid } = useFormRatingMembers(
+    ratingMembers,
+    state,
+    forWhichGender,
+    existingMember,
+    isLoading,
+  );
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -64,8 +73,20 @@ const RatingMemberForm: React.FC<Props> = ({ forWhichGender, onSubmit, existingM
       <div className='flex flex-col gap-3 pt-3 pb-5'>
         <div className='flex flex-col gap-1'>
           <Label htmlFor='name'>Имя</Label>
-          <Input required id='name' name='name' value={state.name} onChange={handleChange} />
+          <Input
+            required
+            id='name'
+            name='name'
+            placeholder='Введите имя участника'
+            value={state.name}
+            onChange={handleChange}
+          />
+          {((!existingMember && existingName) ||
+            (existingMember && existingMember.name !== state.name && existingName)) && (
+            <ErrorMessage>Имя уже занято!</ErrorMessage>
+          )}
         </div>
+
         {forWhichGender === 'male' && (
           <div className='flex flex-col gap-1'>
             <Label htmlFor='ratingType'>Топ</Label>
@@ -86,6 +107,7 @@ const RatingMemberForm: React.FC<Props> = ({ forWhichGender, onSubmit, existingM
             </Select>
           </div>
         )}
+
         <div className='flex flex-col gap-1'>
           <Label htmlFor='place'>Место</Label>
           <Select
@@ -118,13 +140,31 @@ const RatingMemberForm: React.FC<Props> = ({ forWhichGender, onSubmit, existingM
             <small className='text-red-500'>Сначала выберите топ</small>
           )}
         </div>
-        <div className='flex flex-col gap-1'>
+
+        <div className='flex flex-col'>
           <Label htmlFor='image'>Фото</Label>
-          <Input id='image' name='image' type='file' onChange={fileInputChangeHandler} />
+          <FileInput id='image' name='image' onChange={fileInputChangeHandler} />
         </div>
       </div>
+
+      {!existingMember && maxMembersExceeded && (
+        <WarningMessage
+          message={`Максимальное количество участников для ${
+            state.ratingType === 'mensTop8' ? 'Топ-8' : 'Топ-3'
+          } ${dialogTitle} рейтинга уже добавлено. 
+          Вы можете удалить или редактировать участников, но не добавлять новых.`}
+        />
+      )}
+      {existingMember && maxMembersExceeded && (
+        <WarningMessage
+          message={`Вы не можете переместить участника в ${
+            state.ratingType === 'mensTop8' ? 'Топ-8' : 'Топ-3'
+          }, так как там уже достигнуто максимальное количество участников.`}
+        />
+      )}
+
       <div className='flex flex-col gap-1'>
-        <Button type='submit' disabled={isLoading || state.place === '' || state.image === null}>
+        <Button type='submit' disabled={isFormInvalid}>
           Сохранить
         </Button>
         <DialogClose asChild>
