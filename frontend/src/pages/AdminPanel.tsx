@@ -10,13 +10,28 @@ import AdminPanelBlockFooter from '@/features/footers/containers/AdminPanelBlock
 import { AdminUserList } from '@/features/users/AdminUserList';
 import AdminCalendar from '@/features/tournaments/AdminCalendar';
 import RatingMembersAdmin from '@/features/mainRatingMembers/RatingMembersAdmin';
+import { useEffect, useState } from 'react';
 
 const AdminPanel = () => {
+  const [currentTab, setCurrentTab] = useState<string>('adminPanelTab');
+
+  useEffect(() => {
+    const savedTab = localStorage.getItem('adminPanelTab');
+    if(savedTab){
+      setCurrentTab(savedTab );
+    }
+  }, [])
+
+  const handleTabChange = (newTab: string) => {
+    setCurrentTab(newTab);
+    localStorage.setItem('adminPanelTab',newTab)
+  }
+
   return (
     <>
       <Layout>
         <h1 className={'text-center text-2xl sm:text-4xl mb-8 font-semibold'}>Панель Администратора</h1>
-        <Tabs defaultValue='partners' orientation={'vertical'}>
+        <Tabs value={currentTab} onValueChange={handleTabChange} orientation={'vertical'}>
           <ScrollArea className={'max-w-max pb-3 mx-auto'}>
             <TabsList className='flex items-center gap-1'>
               <TabsTrigger value='partners'>Партнеры</TabsTrigger>
