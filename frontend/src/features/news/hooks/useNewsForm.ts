@@ -66,25 +66,28 @@ export const useNewsForm = () => {
     });
   };
 
-  const fetchNewsAndSetData = useCallback((newsId: string) => {
-    if (newsId && newsId !== lastFetchedNewsId) {
-      dispatch(fetchOneNews(newsId));
-      setLastFetchedNewsId(newsId);
-    }
+  const fetchNewsAndSetData = useCallback(
+    (newsId: string) => {
+      if (newsId && newsId !== lastFetchedNewsId) {
+        dispatch(fetchOneNews(newsId));
+        setLastFetchedNewsId(newsId);
+      }
 
-    if (oneNews) {
-      setNews({
-        title: oneNews.title,
-        subtitle: oneNews.subtitle,
-        content: oneNews.content,
-        newsCover: oneNews.newsCover,
-        images: oneNews.images,
-      });
-      setLastFetchedNewsId(oneNews._id);
-    }
-  }, [lastFetchedNewsId, dispatch, oneNews, setNews]);
+      if (oneNews) {
+        setNews({
+          title: oneNews.title,
+          subtitle: oneNews.subtitle,
+          content: oneNews.content,
+          newsCover: oneNews.newsCover,
+          images: oneNews.images,
+        });
+        setLastFetchedNewsId(oneNews._id);
+      }
+    },
+    [lastFetchedNewsId, dispatch, oneNews, setNews],
+  );
 
-    const resetForm = () => {
+  const resetForm = () => {
     setNews({ ...initialState });
     setResetKey((prevKey) => prevKey + 1);
   };

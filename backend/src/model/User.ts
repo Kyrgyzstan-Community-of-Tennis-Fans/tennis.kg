@@ -55,7 +55,7 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>(
     },
     role: {
       type: String,
-      enum: ['user', 'admin'],
+      enum: ['user', 'moderator', 'admin'],
       default: 'user',
     },
     email: {

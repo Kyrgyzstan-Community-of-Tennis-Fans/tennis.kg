@@ -13,6 +13,7 @@ export interface RegisterMutation {
   category: string;
   dateOfBirth: string;
   email: string;
+  role?: 'admin' | 'moderator' | 'user';
 }
 
 export interface User {
@@ -25,7 +26,7 @@ export interface User {
   email: string;
   isActive: boolean;
   token: string;
-  role: 'admin' | 'user';
+  role: 'admin' | 'moderator' | 'user';
   createdAt: string;
   updatedAt: string;
 }
@@ -63,6 +64,7 @@ export interface UsersFilter {
   telephone?: string;
   fullName?: string;
   page: number;
+  role: string;
 }
 
 export interface UsersResponse {
@@ -71,4 +73,8 @@ export interface UsersResponse {
   total: number;
   pages: number;
   data: User[];
+}
+
+export interface UserPermissionLevel {
+  permissionLevel: number;
 }

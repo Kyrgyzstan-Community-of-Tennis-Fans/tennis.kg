@@ -32,6 +32,32 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
+export const addUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email, category, fullName, telephone, dateOfBirth, gender, password, role } = req.body;
+
+    const user = new User({
+      category,
+      fullName,
+      telephone,
+      dateOfBirth,
+      gender,
+      password,
+      email,
+      role,
+    });
+
+    user.generateToken();
+    await user.save();
+
+    return res.send({ message: 'Пользователь был создан.' });
+  } catch (error) {
+    if (error instanceof mongoose.Error.ValidationError) return res.status(400).send(error);
+
+    return next(error);
+  }
+};
+
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await User.findOne({ telephone: req.body.telephone }).populate('category');
@@ -156,9 +182,9 @@ export const updateProfile = async (req: RequestWithUser, res: Response, next: N
   }
 };
 
-export const getAllUsers = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+export const getUsers = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const { category, telephone, fullName } = req.query;
+    const { category, telephone, fullName, role } = req.query;
     const page = parseInt(req.query.page as string, 10) || 1;
     const limit = parseInt(req.query.limit as string, 10) || 6;
     const startIndex = (page - 1) * limit;
@@ -173,6 +199,9 @@ export const getAllUsers = async (req: RequestWithUser, res: Response, next: Nex
     }
     if (fullName) {
       filter.fullName = { $regex: fullName, $options: 'i' };
+    }
+    if (role) {
+      filter.role = { $regex: role, $options: 'i' };
     }
 
     const users = await User.find(filter).populate('category').skip(startIndex).limit(limit).lean();
@@ -190,6 +219,30 @@ export const getOneUser = async (req: RequestWithUser, res: Response, next: Next
   try {
     const user = await User.findById(req.params.id).populate('category');
     return res.status(200).send(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getPermissionLevel = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      if (user.role === 'user') {
+        if (user.isActive) {
+          return res.status(200).send({ permissionLevel: 1 });
+        } else {
+          return res.status(200).send({ permissionLevel: 0 });
+        }
+      }
+      if (user.role === 'moderator') {
+        return res.status(200).send({ permissionLevel: 2 });
+      }
+      if (user.role === 'admin') {
+        return res.status(200).send({ permissionLevel: 3 });
+      }
+    }
+    return res.status(200).send({ permissionLevel: 0 });
   } catch (error) {
     next(error);
   }
@@ -251,6 +304,32 @@ export const updateActiveStatus = async (req: RequestWithUser, res: Response, ne
       } else {
         await User.findByIdAndUpdate(req.params.id, {
           isActive: true,
+        });
+      }
+    }
+
+    return res.send('Статус пользователя был обновлен');
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateRoleStatus = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  try {
+    if (!req.params.id) {
+      res.status(400).send({ error: 'Id items params must be in url' });
+    }
+
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+      if (user.role === 'user') {
+        await User.findByIdAndUpdate(req.params.id, {
+          role: 'moderator',
+        });
+      } else {
+        await User.findByIdAndUpdate(req.params.id, {
+          role: 'user',
         });
       }
     }

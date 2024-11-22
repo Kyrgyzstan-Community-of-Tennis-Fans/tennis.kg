@@ -1,8 +1,9 @@
 import {
+  addUser,
   fetchOneUser,
   fetchUsers,
   forgotPassword,
-  getPermission,
+  getPermissionForUser,
   login,
   register,
   updateCurrentUserInfo,
@@ -18,7 +19,7 @@ interface UsersState {
   users: User[];
   usersPages: number;
   usersFetching: boolean;
-  permission: boolean;
+  userPermission: number;
   registerLoading: boolean;
   registerError: ValidationError | null;
   loginLoading: boolean;
@@ -38,7 +39,7 @@ const initialState: UsersState = {
   users: [],
   usersPages: 0,
   usersFetching: false,
-  permission: false,
+  userPermission: 0,
   registerLoading: false,
   registerError: null,
   loginLoading: false,
@@ -58,7 +59,7 @@ export const usersSlice = createSlice({
   reducers: {
     unsetUser: (state) => {
       state.user = null;
-      state.permission = false;
+      state.userPermission = 0;
     },
   },
   extraReducers: (builder) => {
@@ -76,6 +77,10 @@ export const usersSlice = createSlice({
         state.usersFetching = false;
       });
 
+    builder.addCase(getPermissionForUser.fulfilled, (state, { payload: permission }) => {
+      state.userPermission = permission;
+    });
+
     builder
       .addCase(fetchOneUser.pending, (state) => {
         state.currentUser = null;
@@ -90,17 +95,6 @@ export const usersSlice = createSlice({
       });
 
     builder
-      .addCase(getPermission.pending, (state) => {
-        state.permission = false;
-      })
-      .addCase(getPermission.fulfilled, (state, { payload: permission }) => {
-        state.permission = permission;
-      })
-      .addCase(getPermission.rejected, (state) => {
-        state.permission = false;
-      });
-
-    builder
       .addCase(register.pending, (state) => {
         state.registerLoading = true;
         state.registerError = null;
@@ -108,9 +102,21 @@ export const usersSlice = createSlice({
       .addCase(register.fulfilled, (state, { payload: user }) => {
         state.registerLoading = false;
         state.user = user;
-        state.permission = true;
       })
       .addCase(register.rejected, (state, { payload: error }) => {
+        state.registerError = error || null;
+        state.registerLoading = false;
+      });
+
+    builder
+      .addCase(addUser.pending, (state) => {
+        state.registerLoading = true;
+        state.registerError = null;
+      })
+      .addCase(addUser.fulfilled, (state) => {
+        state.registerLoading = false;
+      })
+      .addCase(addUser.rejected, (state, { payload: error }) => {
         state.registerError = error || null;
         state.registerLoading = false;
       });
@@ -123,10 +129,16 @@ export const usersSlice = createSlice({
       .addCase(login.fulfilled, (state, { payload: user }) => {
         state.loginLoading = false;
         state.user = user;
-        if (user.isActive) {
-          state.permission = true;
+        if (user.role === 'user') {
+          if (user.isActive) {
+            state.userPermission = 1;
+          } else {
+            state.userPermission = 0;
+          }
+        } else if (user.role === 'moderator') {
+          state.userPermission = 2;
         } else {
-          state.permission = false;
+          state.userPermission = 3;
         }
       })
       .addCase(login.rejected, (state, { payload: error }) => {
@@ -189,8 +201,7 @@ export const usersSlice = createSlice({
     selectCurrentUser: (state) => state.currentUser,
     selectUsersList: (state) => state.users,
     selectUsersListPages: (state) => state.usersPages,
-    selectUserFetching: (state) => state.usersFetching,
-    selectPermission: (state) => state.permission,
+    selectUserPermission: (state) => state.userPermission,
     selectRegisterLoading: (state) => state.registerLoading,
     selectRegisterError: (state) => state.registerError,
     selectLoginLoading: (state) => state.loginLoading,
@@ -211,8 +222,7 @@ export const {
   selectCurrentUser,
   selectUsersList,
   selectUsersListPages,
-  selectUserFetching,
-  selectPermission,
+  selectUserPermission,
   selectRegisterLoading,
   selectRegisterError,
   selectLoginLoading,

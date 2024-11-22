@@ -8,7 +8,7 @@ interface Props {
   name: string;
   label?: string;
   multiple?: boolean;
-  id?: string
+  id?: string;
 }
 
 const FileInput: React.FC<Props> = ({ onChange, name, label, multiple = false }) => {

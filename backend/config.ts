@@ -1,6 +1,6 @@
 import path from 'path';
 import { CorsOptions } from 'cors';
-import {configDotenv} from "dotenv";
+import { configDotenv } from 'dotenv';
 
 const envFile = process.env['NODE_ENV'] ? `.${process.env['NODE_ENV']}.env` : '.env';
 configDotenv({ path: envFile });

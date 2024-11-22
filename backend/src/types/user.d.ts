@@ -10,7 +10,7 @@ export interface UserFields {
   avatar: string | null;
   password: string;
   token: string;
-  role: 'user' | 'admin';
+  role: 'admin' | 'moderator' | 'user';
   email: string;
   isActive: boolean;
   createdAt: Date;

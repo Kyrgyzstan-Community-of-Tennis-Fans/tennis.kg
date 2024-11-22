@@ -4,7 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { NavigationItems } from '@/components/Navbar/MenuItems';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { selectPermission, selectUser } from '@/features/users/usersSlice';
+import { selectUser, selectUserPermission } from '@/features/users/usersSlice';
 import { selectItemsData } from '@/features/footers/footersSlice';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import './auth.css';
@@ -14,7 +14,7 @@ import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher';
 export const NavbarMobile = () => {
   const location = useLocation();
   const user = useAppSelector(selectUser);
-  const permission = useAppSelector(selectPermission);
+  const userPermission = useAppSelector(selectUserPermission);
   const dispatch = useAppDispatch();
   const footerItemsData = useAppSelector(selectItemsData);
   const [isOpen, setIsOpen] = useState(false);
@@ -80,7 +80,7 @@ export const NavbarMobile = () => {
         </ul>
 
         <div className='pb-[15px] mb-[15px] border-b border-[#2f373d]'>
-          {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && permission && (
+          {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && userPermission >= 1 && (
             <div
               onClick={toggleStatePosition}
               className='flex items-center cursor-pointer gap-1 font-bold text-white py-[8px] px-[10px]'
