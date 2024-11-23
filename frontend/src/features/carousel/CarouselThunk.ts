@@ -48,14 +48,15 @@ export const updateCarouselImage = createAsyncThunk<
 >('carousel/updateCarouselImage', async ({ id, updatedImage }, { rejectWithValue }) => {
   try {
     const formData = new FormData();
-    const keys = Object.keys(updatedImage) as (keyof CarouselMutation)[];
 
-    keys.forEach((key) => {
-      const value = updatedImage[key];
-      if (value !== null && value !== undefined) {
-        formData.append(key, value);
-      }
-    });
+    if (updatedImage.image) {
+      formData.append('file', updatedImage.image);
+    } else if (updatedImage.video) {
+      formData.append('file', updatedImage.video);
+    } else {
+      return rejectWithValue({ error: 'No media file provided' });
+    }
+
 
     const response = await axiosApi.put<Carousel>(`/carousel/admin-update-image-carousel/${id}`, formData);
 

@@ -23,7 +23,8 @@ export const useAdminCarousel = () => {
   const carousel = useAppSelector(photoCarouselState);
   const loadingCarousel = useAppSelector(loadingCarouselState);
   const errorImgCarousel = useAppSelector(errorImgCarouselState);
-  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (errorImgCarousel) {
@@ -37,14 +38,22 @@ export const useAdminCarousel = () => {
     if (files && files.length > 0) {
       const file = files[0];
       const fileType = file.type.startsWith('video') ? 'video' : 'image';
+
       setNewImage((prevState) => ({
         ...prevState,
         [fileType]: file,
       }));
+
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewUrl(fileReader.result as string);
+      };
+      fileReader.readAsDataURL(file);
     }
   };
 
-  const handleImageUpload = async () => {
+  const handleImageUpload = async (event: FormEvent) => {
+    event.preventDefault();
     if (!newImage.image && !newImage.video) {
       toast.warning('Выберите фото или видео!');
       return;
@@ -52,8 +61,10 @@ export const useAdminCarousel = () => {
     try {
       await dispatch(postFetchCarousel(newImage)).unwrap();
       setNewImage(emptyState);
+      setPreviewUrl(null);
       await dispatch(getCarousel());
       toast.success('Изображение успешно выложено');
+      setAddModalOpen(false);
     } catch (error) {
       console.error(error);
       toast.error('Не удалось загрузить изображение');
@@ -73,13 +84,14 @@ export const useAdminCarousel = () => {
 
   const onUpdateImage = async (id: string, event: FormEvent) => {
     event.preventDefault();
-    if (!newImage.image) {
-      toast.warning('Изображение обязательно!');
+    if (!newImage.image && !newImage.video) {
+      toast.warning('Выберите фото или видео!');
       return;
     }
     try {
       await dispatch(updateCarouselImage({ id, updatedImage: newImage })).unwrap();
       setNewImage(emptyState);
+      setPreviewUrl(null);
       await dispatch(getCarousel());
       toast.success('Изображение успешно обновлено');
     } catch (error) {
@@ -96,8 +108,10 @@ export const useAdminCarousel = () => {
     user,
     carousel,
     loadingCarousel,
-    inputRef,
     newImage,
+    setAddModalOpen,
+    isAddModalOpen,
+    previewUrl,
     handleImageUpload,
     fileInputChangeHandler,
     onDelete,

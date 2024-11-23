@@ -16,7 +16,7 @@ export const getCarousel = async (_req: Request, res: Response, next: NextFuncti
 
 export const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    if (!req.file) return res.status(400).send({ error: 'Image field is required' });
+    if (!req.file) return res.status(400).send({ error: 'File field is required' });
 
     const fileType = req.file.mimetype.startsWith('video') ? 'video' : 'image';
     const filePath = path.join(
@@ -94,24 +94,31 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
       await compressImage(filePath);
     }
 
-    if (fileType === 'image' && carouselItem.video) {
-      clearImages(carouselItem.video);
-      carouselItem.video = undefined;
-    } else if (fileType === 'video' && carouselItem.image) {
-      clearImages(carouselItem.image);
-      carouselItem.image = undefined; // Обнуляем ссылку на изображение
+    if (fileType === 'image') {
+      if (carouselItem.video) {
+        clearImages(carouselItem.video);
+        carouselItem.video = undefined;
+      }
+
+      if (carouselItem.image) {
+        clearImages(carouselItem.image);
+      }
+    } else if (fileType === 'video') {
+
+      if (carouselItem.image) {
+        clearImages(carouselItem.image);
+        carouselItem.image = undefined;
+      }
+
+      if (carouselItem.video) {
+        clearImages(carouselItem.video);
+      }
     }
 
-    const existingFilePath = fileType === 'video'
+
+    carouselItem[fileType] = fileType === 'video'
         ? `videos/${req.file.filename}`
         : `images/imgCarousel/${req.file.filename}`;
-    const existingFileInDB = await Carousel.findOne({ [fileType]: existingFilePath });
-
-    if (existingFileInDB) {
-      carouselItem[fileType] = existingFilePath;
-    } else {
-      carouselItem[fileType] = existingFilePath;
-    }
 
     await carouselItem.save();
     return res.status(200).send({ message: 'Image updated successfully', carouselItem });

@@ -12,4 +12,4 @@ carouselRouter.post('/admin-post-image-carousel', auth, permit('admin'),MediaUpl
 
 carouselRouter.delete('/admin-delete-image-carousel/:id', auth, permit('admin'), remove);
 
-carouselRouter.put('/admin-update-image-carousel/:id', auth, permit('admin'), MediaUpload.single('image'), update);
+carouselRouter.put('/admin-update-image-carousel/:id', auth, permit('admin'), MediaUpload.single('file'), update);
