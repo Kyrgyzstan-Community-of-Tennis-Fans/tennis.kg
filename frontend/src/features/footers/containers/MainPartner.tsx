@@ -10,29 +10,35 @@ const MainPartner = () => {
   const mainPartnerData = useAppSelector(selectItemsData);
   const mainPartnerFetching = useAppSelector(selectItemsFetching);
 
-  if (mainPartnerFetching) return <Loader fixed />;
-
   return (
-    <>
-      <div className='flex justify-end'>
-        <MainPartnerEditForm>
-          <Button disabled={mainPartnerData.length === 0} className={'w-full xs:w-max'}>
-            Изменить ген.партнера <EditIcon />
-          </Button>
-        </MainPartnerEditForm>
-      </div>
-
-      {(!mainPartnerFetching && mainPartnerData.length === 0) ||
-      (mainPartnerData.length > 0 && mainPartnerData[0].mainPartnerImage === '') ? (
-        <small className='flex justify-center items-center flex-col mt-[30px]'>
-          Изображение ген.партнера не найдено.
-        </small>
-      ) : (
-        <div className={'flex items-center gap-2 mt-3 flex-wrap'}>
-          {mainPartnerData.length > 0 && <MainPartnerCard image={mainPartnerData[0].mainPartnerImage} />}
+    <div className='relative'>
+      {mainPartnerFetching ? (
+        <div className='absolute mt-[100px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+          <Loader />
         </div>
+      ) : (
+        <>
+          <div className='flex justify-end'>
+            <MainPartnerEditForm>
+              <Button disabled={mainPartnerData.length === 0} className={'w-full xs:w-max'}>
+                Изменить ген.партнера <EditIcon />
+              </Button>
+            </MainPartnerEditForm>
+          </div>
+
+          {(!mainPartnerFetching && mainPartnerData.length === 0) ||
+          (mainPartnerData.length > 0 && mainPartnerData[0].mainPartnerImage === '') ? (
+            <small className='flex justify-center items-center flex-col mt-[30px]'>
+              Изображение ген.партнера не найдено.
+            </small>
+          ) : (
+            <div className={'flex items-center gap-2 mt-3 flex-wrap'}>
+              {mainPartnerData.length > 0 && <MainPartnerCard image={mainPartnerData[0].mainPartnerImage} />}
+            </div>
+          )}
+        </>
       )}
-    </>
+    </div>
   );
 };
 
