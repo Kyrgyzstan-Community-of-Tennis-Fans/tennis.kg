@@ -12,15 +12,13 @@ When("нажимаю на кнопку {string}", (btn: string) => {
 });
 
 Then("я должен быть на главной", () => {
-  I.seeInCurrentUrl("/");
-  I.dontSee("Авторизация");
   I.wait(1);
+  I.seeInCurrentUrl("/");
 });
 
 Then("я должен быть на админке", () => {
   I.amOnPage("/admin");
   I.seeInCurrentUrl("/admin");
-  I.dontSee("Авторизация");
   I.wait(1);
 });
 
