@@ -90,7 +90,7 @@ const SocialNetworkCreateForm: React.FC<Props> = ({ id }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size={'sm'}>
+        <Button size={'sm'} data-test-id='edit'>
           <PencilSquareIcon />
         </Button>
       </DialogTrigger>
