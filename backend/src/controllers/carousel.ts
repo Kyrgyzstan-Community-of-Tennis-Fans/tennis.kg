@@ -16,13 +16,21 @@ export const getCarousel = async (_req: Request, res: Response, next: NextFuncti
 
 export const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    if (!req.file) return res.status(400).send({ error: 'Image field is required' });
+    if (!req.file) return res.status(400).send({ error: 'File field is required' });
 
-    const imagePath = path.join(config.publicPath, 'images', 'imgCarousel', req.file.filename);
-    await compressImage(imagePath);
+    const fileType = req.file.mimetype.startsWith('video') ? 'video' : 'image';
+    const filePath = path.join(
+        config.publicPath,
+        fileType === 'video' ? 'videos' : 'images/imgCarousel',
+        req.file.filename
+    );
+
+    if (fileType === 'image') {
+      await compressImage(filePath);
+    }
 
     const carousel = await Carousel.create({
-      image: req.file ? 'images/imgCarousel/' + req.file.filename : null,
+      [fileType]: `${fileType === 'video' ? 'videos' : 'images/imgCarousel'}/${req.file.filename}`,
     });
 
     return res.status(201).send(carousel);
@@ -42,16 +50,21 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
     }
 
     const id = req.params.id;
-    const carouselImage = await Carousel.findById(id);
+    const carouselItem = await Carousel.findById(id);
 
-    if (!carouselImage) {
+    if (!carouselItem) {
       return res.status(404).send({ error: 'Изображение не найдено!' });
     }
 
     const result = await Carousel.deleteOne({ _id: id });
 
     if (result.deletedCount === 1) {
-      clearImages(carouselImage.image);
+      if (carouselItem.image) {
+        clearImages(carouselItem.image);
+      }
+      if (carouselItem.video) {
+        clearImages(carouselItem.video);
+      }
     }
 
     return res.status(200).send({ message: 'Image deleted successfully' });
@@ -70,18 +83,44 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
     if (!carouselItem) return res.status(404).send({ error: 'Image not found' });
 
-    const imagePath = path.join(config.publicPath, 'images', 'imgCarousel', req.file.filename);
-    await compressImage(imagePath);
+    const fileType = req.file.mimetype.startsWith('video') ? 'video' : 'image';
+    const filePath = path.join(
+        config.publicPath,
+        fileType === 'video' ? 'videos' : 'images/imgCarousel',
+        req.file.filename
+    );
 
-    const oldImagePath = carouselItem.image;
-
-    carouselItem.image = 'images/imgCarousel/' + req.file.filename;
-    await carouselItem.save();
-
-    if (carouselItem.image !== oldImagePath) {
-      clearImages(oldImagePath);
+    if (fileType === 'image') {
+      await compressImage(filePath);
     }
 
+    if (fileType === 'image') {
+      if (carouselItem.video) {
+        clearImages(carouselItem.video);
+        carouselItem.video = undefined;
+      }
+
+      if (carouselItem.image) {
+        clearImages(carouselItem.image);
+      }
+    } else if (fileType === 'video') {
+
+      if (carouselItem.image) {
+        clearImages(carouselItem.image);
+        carouselItem.image = undefined;
+      }
+
+      if (carouselItem.video) {
+        clearImages(carouselItem.video);
+      }
+    }
+
+
+    carouselItem[fileType] = fileType === 'video'
+        ? `videos/${req.file.filename}`
+        : `images/imgCarousel/${req.file.filename}`;
+
+    await carouselItem.save();
     return res.status(200).send({ message: 'Image updated successfully', carouselItem });
   } catch (error) {
     return next(error);
