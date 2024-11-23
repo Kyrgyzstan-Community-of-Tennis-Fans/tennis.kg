@@ -13,25 +13,25 @@ import RatingMembersAdmin from '@/features/mainRatingMembers/RatingMembersAdmin'
 import { useEffect, useState } from 'react';
 
 const AdminPanel = () => {
-  const [currentTab, setCurrentTab] = useState<string>('adminPanelTab');
+  const [currentTab, setCurrentTab] = useState<string>('partners');
 
   useEffect(() => {
-    const savedTab = localStorage.getItem('adminPanelTab');
-    if(savedTab){
-      setCurrentTab(savedTab );
+    const savedTab = sessionStorage.getItem('adminPanelTab');
+    if (savedTab) {
+      setCurrentTab(savedTab);
     }
-  }, [])
+  }, []);
 
   const handleTabChange = (newTab: string) => {
     setCurrentTab(newTab);
-    localStorage.setItem('adminPanelTab',newTab)
-  }
+    sessionStorage.setItem('adminPanelTab', newTab);
+  };
 
   return (
     <>
       <Layout>
         <h1 className={'text-center text-2xl sm:text-4xl mb-8 font-semibold'}>Панель Администратора</h1>
-        <Tabs value={currentTab} onValueChange={handleTabChange} orientation={'vertical'}>
+        <Tabs value={currentTab} onValueChange={handleTabChange} orientation={'vertical'} defaultValue={'partners'}>
           <ScrollArea className={'max-w-max pb-3 mx-auto'}>
             <TabsList className='flex items-center gap-1'>
               <TabsTrigger value='partners'>Партнеры</TabsTrigger>
