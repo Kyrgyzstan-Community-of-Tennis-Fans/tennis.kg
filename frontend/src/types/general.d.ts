@@ -5,4 +5,5 @@ export interface GradientCirclesTypes {
   bottom?: string;
   right?: string;
   left?: string;
+  visible: string;
 }

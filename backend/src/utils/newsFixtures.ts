@@ -236,10 +236,7 @@ export const newsFixtures = [
     createdAt: '2024-08-14T15:30:25.300000',
     updatedAt: '2024-08-14T16:10:50.300000',
     newsCover: 'fixtures/news/ready-tennis-game.jpg',
-    images: [
-      'fixtures/news/young-couple-playing-tennis.jpg',
-      'fixtures/news/young-woman-tennis-player-court.jpg',
-    ],
+    images: ['fixtures/news/young-couple-playing-tennis.jpg', 'fixtures/news/young-woman-tennis-player-court.jpg'],
   },
   {
     title: 'Мужской турнир на травяных кортах',

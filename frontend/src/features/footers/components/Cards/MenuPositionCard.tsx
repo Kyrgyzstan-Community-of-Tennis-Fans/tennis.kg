@@ -39,7 +39,7 @@ export const MenuPositionCard: React.FC<Props> = ({ item }) => {
 
         <div className={'space-x-1 flex items-center'}>
           <Confirm onOk={handleDelete}>
-            <Button disabled={Boolean(menuPositionDeleting)} size={'sm'}>
+            <Button disabled={Boolean(menuPositionDeleting)} size={'sm'} data-test-id='delete'>
               {menuPositionDeleting === item._id ? <Loader /> : <TrashIcon />}
             </Button>
           </Confirm>

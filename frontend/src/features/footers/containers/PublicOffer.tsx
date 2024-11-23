@@ -10,27 +10,33 @@ const PublicOffer = () => {
   const publicOfferData = useAppSelector(selectItemsData);
   const publicOfferFetching = useAppSelector(selectItemsFetching);
 
-  if (publicOfferFetching) return <Loader fixed />;
-
   return (
-    <>
-      <div className='flex justify-end'>
-        <PublicOfferEditForm>
-          <Button disabled={publicOfferData.length === 0} className={'w-full xs:w-max'}>
-            Изменить публичную оферту <EditIcon />
-          </Button>
-        </PublicOfferEditForm>
-      </div>
-
-      {(!publicOfferFetching && publicOfferData.length === 0) ||
-      (publicOfferData.length > 0 && publicOfferData[0].publicOffer === '') ? (
-        <small className='flex justify-center items-center flex-col mt-[30px]'>Публичная оферта не найдена.</small>
-      ) : (
-        <div className={'flex items-center gap-2 mt-3 flex-wrap'}>
-          {publicOfferData.length > 0 && <PublicOfferCard publicOfferText={publicOfferData[0]?.publicOffer} />}
+    <div className='relative'>
+      {publicOfferFetching ? (
+        <div className='absolute mt-[100px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+          <Loader />
         </div>
+      ) : (
+        <>
+          {' '}
+          <div className='flex justify-end'>
+            <PublicOfferEditForm>
+              <Button disabled={publicOfferData.length === 0} className={'w-full xs:w-max'}>
+                Изменить публичную оферту <EditIcon />
+              </Button>
+            </PublicOfferEditForm>
+          </div>
+          {(!publicOfferFetching && publicOfferData.length === 0) ||
+          (publicOfferData.length > 0 && publicOfferData[0].publicOffer === '') ? (
+            <small className='flex justify-center items-center flex-col mt-[30px]'>Публичная оферта не найдена.</small>
+          ) : (
+            <div className={'flex items-center gap-2 mt-3 flex-wrap'}>
+              {publicOfferData.length > 0 && <PublicOfferCard publicOfferText={publicOfferData[0]?.publicOffer} />}
+            </div>
+          )}
+        </>
       )}
-    </>
+    </div>
   );
 };
 
