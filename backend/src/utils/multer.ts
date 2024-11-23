@@ -19,9 +19,10 @@ const imageStorage = multer.diskStorage({
   },
 });
 
-const imageCarousel = multer.diskStorage({
-  destination: async (_, __, callback) => {
-    const destDir = path.join(config.publicPath, 'images/imgCarousel');
+const mediaStorage = multer.diskStorage({
+  destination: async (_, file, callback) => {
+    const isVideo = file.mimetype.startsWith('video');
+    const destDir = path.join(config.publicPath, isVideo ? 'videos' : 'images/imgCarousel');
     await fs.mkdir(destDir, { recursive: true });
     callback(null, destDir);
   },
@@ -56,6 +57,6 @@ const fileStorage = multer.diskStorage({
   },
 });
 
-export const ImagesCarousel = multer({ storage: imageCarousel });
+export const MediaUpload = multer({ storage: mediaStorage });
 export const imagesUpload = multer({ storage: imageStorage });
 export const filesUpload = multer({ storage: fileStorage });

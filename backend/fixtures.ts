@@ -115,7 +115,12 @@ const run = async () => {
     {
       image: 'fixtures/carousel/photo-2.jpg',
     },
-    { image: 'fixtures/carousel/Aq.gif' },
+    {
+      image: 'fixtures/carousel/Aq.gif'
+    },
+    {
+      video: 'fixtures/carousel/video-carousel.MP4'
+    }
   ]);
 
   const [firstRating, secondRating, thirdRating] = await Rating.create([
