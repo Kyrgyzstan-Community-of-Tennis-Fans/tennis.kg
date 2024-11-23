@@ -1,14 +1,8 @@
-import React, { useState } from 'react';
-import { Tournament, TournamentMutation } from '@/types/tournament';
-import { validateEventDate } from '@/lib/validateEventDate';
-import { CURRENT_YEAR_FULL, NEXT_YEAR, PREVIOUS_YEAR } from '@/consts';
+import React from 'react';
+import { TournamentMutation } from '@/types/tournament';
+import { format } from 'date-fns';
 
-export const useFormHandlers = (
-  setState: React.Dispatch<React.SetStateAction<TournamentMutation>>,
-  existingTournament?: Tournament,
-) => {
-  const [dateError, setDateError] = useState(false);
-
+export const useFormHandlers = (setState: React.Dispatch<React.SetStateAction<TournamentMutation>>) => {
   const handleChangeSelect = (value: string, name: string) => {
     setState((prev) => ({
       ...prev,
@@ -33,26 +27,18 @@ export const useFormHandlers = (
     }));
   };
 
-  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+  const handleDateChange = (date: Date | undefined) => {
+    if (date) {
+      const formattedDate = format(date, 'dd.MM.yy');
+      const tournamentYear = date.getFullYear();
 
-    const allowedYears = [CURRENT_YEAR_FULL, NEXT_YEAR];
-    const isEditingPreviousYear = !!existingTournament && Number(existingTournament.tournamentYear) === PREVIOUS_YEAR;
-    const { formattedDate, isYearValid } = validateEventDate(value, allowedYears, isEditingPreviousYear);
-
-    setDateError(!isYearValid);
-
-    setState((prevState) => {
-      const year =
-        formattedDate.length === 8 ? 2000 + parseInt(formattedDate.split('.')[2], 10) : prevState.tournamentYear;
-
-      return {
+      setState((prevState) => ({
         ...prevState,
-        [name]: formattedDate,
-        tournamentYear: year?.toString() || '',
-      };
-    });
+        eventDate: formattedDate,
+        tournamentYear: tournamentYear.toString(),
+      }));
+    }
   };
 
-  return { handleChange, handleChangeSelect, fileInputChangeHandler, handleDateChange, dateError };
+  return { handleChange, handleChangeSelect, fileInputChangeHandler, handleDateChange };
 };
