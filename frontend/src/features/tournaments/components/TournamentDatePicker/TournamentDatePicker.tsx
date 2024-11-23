@@ -8,13 +8,13 @@ import { Calendar } from '@/components/ui/calendar';
 import { Tournament } from '@/types/tournament';
 import { CURRENT_YEAR_FULL, NEXT_YEAR, PREVIOUS_YEAR } from '@/consts';
 
-interface DatePickerProps {
+interface Props {
   value: string;
   onChange: (date: Date | undefined) => void;
   existingTournament: Tournament | undefined;
 }
 
-const TournamentDatePicker: React.FC<DatePickerProps> = ({ value, onChange, existingTournament }) => {
+const TournamentDatePicker: React.FC<Props> = ({ value, onChange, existingTournament }) => {
   const getDateFromState = (dateString: string) => {
     const dateParts = dateString.split('.');
 
