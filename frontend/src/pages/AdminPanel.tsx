@@ -13,10 +13,10 @@ import RatingMembersAdmin from '@/features/mainRatingMembers/RatingMembersAdmin'
 import { useEffect, useState } from 'react';
 
 const AdminPanel = () => {
-  const [currentTab, setCurrentTab] = useState<string>();
+  const [currentTab, setCurrentTab] = useState<string>('partners');
 
   useEffect(() => {
-    const savedTab = localStorage.getItem('adminPanelTab');
+    const savedTab = sessionStorage.getItem('adminPanelTab');
     if (savedTab) {
       setCurrentTab(savedTab);
     }
@@ -24,7 +24,7 @@ const AdminPanel = () => {
 
   const handleTabChange = (newTab: string) => {
     setCurrentTab(newTab);
-    localStorage.setItem('adminPanelTab', newTab);
+    sessionStorage.setItem('adminPanelTab', newTab);
   };
 
   return (
