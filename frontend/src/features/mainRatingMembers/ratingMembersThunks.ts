@@ -1,11 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosApi } from '@/axiosApi';
-import {
-  RatingMember,
-  RatingMemberMutation,
-  UpdateCategoryArg,
-  UpdateRatingMemberArg,
-} from '@/types/ratingMember';
+import { RatingMember, RatingMemberMutation, UpdateCategoryArg, UpdateRatingMemberArg } from '@/types/ratingMember';
 import { isAxiosError } from 'axios';
 import { GlobalError } from '@/types/user';
 

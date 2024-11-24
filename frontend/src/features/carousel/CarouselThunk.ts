@@ -11,14 +11,14 @@ export const getCarousel = createAsyncThunk<Carousel[]>('carousel/getCarousel', 
 
 export const postFetchCarousel = createAsyncThunk('carousel/postFetchCarousel', async (newImage: CarouselMutation) => {
   const formData = new FormData();
-  const keys = Object.keys(newImage) as (keyof CarouselMutation)[];
 
-  keys.forEach((key) => {
-    const value = newImage[key];
-    if (value !== null) {
-      formData.append(key, value);
-    }
-  });
+  if (newImage.image) {
+    formData.append('file', newImage.image);
+  } else if (newImage.video) {
+    formData.append('file', newImage.video);
+  } else {
+    throw new Error('No media file provided');
+  }
 
   const response = await axiosApi.post<CarouselMutation>('/carousel/admin-post-image-carousel', formData);
   return response.data;
@@ -48,14 +48,15 @@ export const updateCarouselImage = createAsyncThunk<
 >('carousel/updateCarouselImage', async ({ id, updatedImage }, { rejectWithValue }) => {
   try {
     const formData = new FormData();
-    const keys = Object.keys(updatedImage) as (keyof CarouselMutation)[];
 
-    keys.forEach((key) => {
-      const value = updatedImage[key];
-      if (value !== null) {
-        formData.append(key, value);
-      }
-    });
+    if (updatedImage.image) {
+      formData.append('file', updatedImage.image);
+    } else if (updatedImage.video) {
+      formData.append('file', updatedImage.video);
+    } else {
+      return rejectWithValue({ error: 'No media file provided' });
+    }
+
 
     const response = await axiosApi.put<Carousel>(`/carousel/admin-update-image-carousel/${id}`, formData);
 

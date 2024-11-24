@@ -22,6 +22,7 @@ exports.config = {
       "./step_definitions/steps.ts",
       "./step_definitions/usersSteps.ts",
       "./step_definitions/partnersSteps.ts",
+      "./step_definitions/footersSteps.ts",
     ],
   },
   plugins: {
