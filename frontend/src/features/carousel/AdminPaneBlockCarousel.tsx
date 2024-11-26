@@ -57,7 +57,8 @@ export const AdminPaneBlockCarousel = () => {
                       name='image'
                      onChange={fileInputChangeHandler}
                     />
-                   <Button type='submit' className='mt-0'>
+                   <Button type='submit' className='mt-0' data-test-id='add-file-in-carousel'>
+                       Добавить файл
                     <PaperAirplaneIcon />
                    </Button>
                   </form>
@@ -132,6 +133,7 @@ export const AdminPaneBlockCarousel = () => {
                             onChange={fileInputChangeHandler}
                           />
                           <Button type='submit' className='mt-0'>
+                              Добавить файл
                             <PaperAirplaneIcon />
                           </Button>
                         </form>

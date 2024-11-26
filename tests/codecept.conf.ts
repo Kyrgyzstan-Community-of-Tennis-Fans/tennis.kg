@@ -18,6 +18,7 @@ exports.config = {
   gherkin: {
     features: "./features/*.feature",
     steps: [
+      "./step_definitions/carouselSteps.ts",
       "./step_definitions/steps.ts",
       "./step_definitions/usersSteps.ts",
       "./step_definitions/partnersSteps.ts",

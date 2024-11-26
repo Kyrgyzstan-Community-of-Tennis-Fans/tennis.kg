@@ -63,7 +63,7 @@ export const useAdminCarousel = () => {
       setNewImage(emptyState);
       setPreviewUrl(null);
       await dispatch(getCarousel());
-      toast.success('Изображение успешно выложено');
+      toast.success('Файл успешно выложен');
       setAddModalOpen(false);
     } catch (error) {
       console.error(error);
