@@ -14,15 +14,19 @@ When(/^я загружаю файл "(.*?)"$/, (file:string) => {
     I.attachFile("input[type='file']", `${file}`);
     I.wait(1);
 });
-When('я кликаю на кнопку с инконкой', () => {
-    I.waitForElement("[data-test-id='add-file-in-carousel']", 10);
-    I.click(`[data-test-id="add-file-in-carousel"]`);
+
+When('я кликаю на кнопку с инконкой в котором есть дата {string}', (dataId:string) => {
+    I.waitForElement(`[data-test-id='${dataId}']`, 10);
+    I.click(`[data-test-id="${dataId}"]`);
 });
+
 When('если данные пришли и я виже текст {string} то тест успешно завершен', (Msg:string) => {
     I.see(Msg);
 });
 
 // удаление файла из карусели
+
+
 
 
 
