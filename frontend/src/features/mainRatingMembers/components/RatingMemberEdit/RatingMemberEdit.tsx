@@ -41,7 +41,7 @@ const RatingMemberEdit: React.FC<Props> = ({ forWhichGender, id, existingMember,
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size='sm'>
+        <Button size='sm' data-testid='edit'>
           <PencilSquareIcon />
         </Button>
       </DialogTrigger>
