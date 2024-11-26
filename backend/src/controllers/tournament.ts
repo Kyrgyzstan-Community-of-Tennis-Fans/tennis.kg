@@ -180,23 +180,22 @@ export const updateTournament = async (req: Request, res: Response, next: NextFu
     };
 
     if (regulationsDoc === 'null') {
+      if (existingTournament.regulationsDoc) {
+        clearImages(existingTournament.regulationsDoc);
+      }
       updatedData.regulationsDoc = null;
     } else if (req.file) {
       updatedData.regulationsDoc = req.file.filename;
+
+      if (existingTournament.regulationsDoc && existingTournament.regulationsDoc !== updatedData.regulationsDoc) {
+        clearImages(existingTournament.regulationsDoc);
+      }
     }
 
     const updatedTournament = await Tournament.findByIdAndUpdate(id, updatedData, { new: true, runValidators: true });
 
     if (!updatedTournament) {
       return res.status(404).send({ error: 'Tournament not found after update' });
-    }
-
-    if (
-      req.file &&
-      existingTournament.regulationsDoc &&
-      existingTournament.regulationsDoc !== updatedData.regulationsDoc
-    ) {
-      clearImages(existingTournament.regulationsDoc);
     }
 
     return res.send(updatedTournament);

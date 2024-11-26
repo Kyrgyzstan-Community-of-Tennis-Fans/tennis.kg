@@ -7,8 +7,8 @@ import { toast } from 'sonner';
 import { fetchCategories } from '@/features/category/categoryThunks';
 import { register } from '@/features/users/usersThunks';
 import type { RegisterMutation } from '@/types/user';
-import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
+import { format } from 'date-fns';
 
 const initialState: RegisterMutation = {
   telephone: '',
@@ -46,10 +46,11 @@ export const useRegister = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const date = formatDateOfBirth(event.target.value);
-
-    updateRegisterField('dateOfBirth', date);
+  const handleDateChange = (date: Date | undefined) => {
+    if (date) {
+      const formattedDate = format(date, 'dd.MM.yyyy');
+      updateRegisterField('dateOfBirth', formattedDate);
+    }
   };
 
   const handleRulesChange = (value: boolean, id: string) => {
