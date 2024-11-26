@@ -55,7 +55,7 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
     >
       <div className={'bg-[#64B32C42] px-2 rounded-md'}>
         <h3 className={'text-sm'}>
-          Категория - <span className={'font-medium'}>{category.name}</span>
+          Категория - <span className={'font-medium'}>{category?.name}</span>
         </h3>
       </div>
 

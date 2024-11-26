@@ -35,7 +35,7 @@ export const CategoryCard: React.FC<Props> = ({ category }) => {
 
         <div className={'space-x-1 flex items-center'}>
           <Confirm onOk={handleDelete}>
-            <Button size={'sm'}>
+            <Button size={'sm'} aria-label={'delete-category'}>
               <TrashIcon />
             </Button>
           </Confirm>

@@ -12,7 +12,7 @@ interface RanksState {
   categories: Category[];
   category: Category | null;
   categoriesFetching: boolean;
-  categoryDeleting: string | null;
+  categoryDeleting: string | boolean;
   categoryCreating: boolean;
   categoryUpdating: boolean;
   categoryFetching: boolean;
@@ -22,7 +22,7 @@ const initialState: RanksState = {
   categories: [],
   category: null,
   categoriesFetching: false,
-  categoryDeleting: null,
+  categoryDeleting: false,
   categoryCreating: false,
   categoryUpdating: false,
   categoryFetching: true,
@@ -49,12 +49,11 @@ export const categorySlice = createSlice({
       .addCase(deleteCategory.pending, (state, { meta }) => {
         state.categoryDeleting = meta.arg;
       })
-      .addCase(deleteCategory.fulfilled, (state, { meta }) => {
-        state.categories = state.categories.filter((rank) => rank._id !== meta.arg);
-        state.categoryDeleting = null;
+      .addCase(deleteCategory.fulfilled, (state) => {
+        state.categoryDeleting = false;
       })
       .addCase(deleteCategory.rejected, (state) => {
-        state.categoryDeleting = null;
+        state.categoryDeleting = false;
       });
 
     builder
