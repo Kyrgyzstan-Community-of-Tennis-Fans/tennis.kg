@@ -6,8 +6,7 @@ export const tournamentsFixtures = [
     category: 'Masters',
     rank: 'male',
     regulationsDoc: 'fixtures/tournaments/New_rating.pdf',
-    resultsLink:
-      'https://soranews24.com/wp-content/uploads/sites/3/2021/09/Cute-Cat-Japan-coronavirus-vaccine-side-effect-pfizer-moderns-reaction-photo-.jpg?w=640',
+    resultsLink: 'https://www.google.com',
     registrationLink: 'https://www.example.com/january-open-registration',
     tournamentYear: 2024,
   },

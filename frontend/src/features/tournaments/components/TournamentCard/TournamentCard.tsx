@@ -22,7 +22,10 @@ const TournamentCard: React.FC<Props> = ({ tournament, isAdmin, tournamentsLastY
   const permission = useAppSelector(selectPermission);
 
   return (
-    <div className='rounded-[22px] bg-gradient-135 from-[#f5f5f5] dark:from-[#e1e1e1] from-30% sm:from-25% md:from-10% to-[#64B32C] dark:to-[#478c16] p-1'>
+    <div
+      className='rounded-[22px] bg-gradient-135 from-[#f5f5f5] dark:from-[#e1e1e1] from-30% sm:from-25% md:from-10% to-[#64B32C] dark:to-[#478c16] p-1'
+      data-testid={`${tournament.name}`}
+    >
       <div className='flex flex-col bg-[white] dark:bg-[#aec9a5] rounded-[19px]'>
         <div className='px-3 py-3 sm:flex sm:justify-between'>
           <TournamentInfo tournament={tournament} />
@@ -37,7 +40,7 @@ const TournamentCard: React.FC<Props> = ({ tournament, isAdmin, tournamentsLastY
         {isAdmin && (
           <div className='ml-auto mt-1 gap-4 flex pr-3 mb-2'>
             <Confirm onOk={() => handleDelete(tournament._id)}>
-              <Button size='sm' disabled={isDeleting === tournament._id}>
+              <Button size='sm' disabled={isDeleting === tournament._id} data-testid='delete'>
                 <TrashIcon />
               </Button>
             </Confirm>

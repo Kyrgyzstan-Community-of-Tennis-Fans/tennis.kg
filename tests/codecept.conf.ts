@@ -23,6 +23,7 @@ exports.config = {
       "./step_definitions/partnersSteps.ts",
       "./step_definitions/footersSteps.ts",
       "./step_definitions/categoriesSteps.ts",
+      "./step_definitions/tournamentsSteps.ts",
     ],
   },
   plugins: {
