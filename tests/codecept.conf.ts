@@ -3,7 +3,7 @@ exports.config = {
   helpers: {
     Puppeteer: {
       url: "http://localhost:5183",
-      show: true,
+      show: false,
       windowSize: "1200x900",
     },
   },
@@ -23,6 +23,7 @@ exports.config = {
       "./step_definitions/usersSteps.ts",
       "./step_definitions/partnersSteps.ts",
       "./step_definitions/footersSteps.ts",
+      "./step_definitions/categoriesSteps.ts",
     ],
   },
   plugins: {

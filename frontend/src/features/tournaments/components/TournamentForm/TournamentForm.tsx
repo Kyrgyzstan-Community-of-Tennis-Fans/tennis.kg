@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/button';
 import { DialogClose } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Confirm } from '@/components/Confirm/Confirm';
-import { CURRENT_YEAR_FULL, NEXT_YEAR, PREVIOUS_YEAR } from '@/consts';
+import { CURRENT_YEAR_FULL, NEXT_YEAR } from '@/consts';
 import FileInput from '@/components/FileInput/FilleInput';
 import { useAdminTournaments } from '@/features/tournaments/hooks/useAdminTournaments';
-import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import WarningMessage from '@/components/WarningMessage/WarningMessage';
+import TournamentDatePicker from '@/features/tournaments/components/TournamentDatePicker/TournamentDatePicker';
 
 interface Props {
   onSubmit: (tournament: TournamentMutation) => void;
@@ -48,10 +48,7 @@ const TournamentForm: React.FC<Props> = ({
       }
     : emptyState;
   const [state, setState] = useState<TournamentMutation>(initialState);
-  const { handleChange, handleChangeSelect, fileInputChangeHandler, handleDateChange, dateError } = useFormHandlers(
-    setState,
-    existingTournament,
-  );
+  const { handleChange, handleChangeSelect, fileInputChangeHandler, handleDateChange } = useFormHandlers(setState);
   const { handleDeleteByYear } = useAdminTournaments();
   const showWarning = state.tournamentYear === NEXT_YEAR.toString() && tournamentsLastYearExist;
   const isFormInvalid =
@@ -60,10 +57,9 @@ const TournamentForm: React.FC<Props> = ({
     !state.rank ||
     !state.participants ||
     !state.eventDate ||
-    state.eventDate.length < 8 ||
+    !state.eventDate ||
     !state.category ||
-    !state.registrationLink ||
-    dateError;
+    !state.registrationLink;
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -72,11 +68,9 @@ const TournamentForm: React.FC<Props> = ({
       await handleDeleteByYear(CURRENT_YEAR_FULL.toString());
     }
 
-    if (!dateError) {
-      onSubmit({
-        ...state,
-      });
-    }
+    onSubmit({
+      ...state,
+    });
 
     setState(initialState);
   };
@@ -117,30 +111,15 @@ const TournamentForm: React.FC<Props> = ({
 
         <div className='flex flex-col gap-1'>
           <Label htmlFor='eventDate'>Дата проведения</Label>
-          <Input
-            required
-            id='eventDate'
-            name='eventDate'
+          <TournamentDatePicker
             value={state.eventDate}
-            placeholder='Формат: дд.мм.гг (например, 18.11.24)'
-            onChange={handleDateChange}
+            onChange={(date) => handleDateChange(date)}
+            existingTournament={existingTournament}
           />
-          <ErrorMessage type={dateError ? 'error' : 'info'}>
-            Вы можете указать дату только на {CURRENT_YEAR_FULL} или {NEXT_YEAR}
-            {existingTournament && existingTournament.tournamentYear === PREVIOUS_YEAR
-              ? ` (также ${PREVIOUS_YEAR})`
-              : ''}
-          </ErrorMessage>
 
-          {state.tournamentYear && state.eventDate.length < 8 && (
-            <ErrorMessage>Введите дату полностью (дд.мм.гг)</ErrorMessage>
+          {existingTournament && Number(state.tournamentYear) !== Number(existingTournament.tournamentYear) && (
+            <WarningMessage message='Вы изменили год турнира. Убедитесь, что все связанные данные (например, ссылка на регистрацию, результаты, регламент) актуальны для нового года.' />
           )}
-
-          {existingTournament &&
-            Number(state.tournamentYear) !== Number(existingTournament.tournamentYear) &&
-            !dateError && (
-              <WarningMessage message='Вы изменили год турнира. Убедитесь, что все связанные данные (например, ссылка на регистрацию, результаты, регламент) актуальны для нового года.' />
-            )}
         </div>
 
         <div className='flex flex-col gap-1'>

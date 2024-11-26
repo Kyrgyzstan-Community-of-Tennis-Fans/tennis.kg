@@ -16,7 +16,6 @@ import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
 import { selectCurrentUser, selectUpdating } from '@/features/users/usersSlice';
 import { fetchOneUser, fetchUsers, updateCurrentUserInfo } from '@/features/users/usersThunks';
 import { validateEmail } from '@/lib/emailValidate';
-import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
 import type { RedactorForAdmin, UsersFilter } from '@/types/user';
 import React, { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from 'react';
@@ -24,6 +23,8 @@ import { toast } from 'sonner';
 import { selectCategories, selectCategoriesFetching } from '@/features/category/categorySlice';
 import { fetchCategories } from '@/features/category/categoryThunks';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import UserDatePicker from '@/features/users/components/UserDatePicker/UserDatePicker';
+import { format } from 'date-fns';
 
 const initialState: RedactorForAdmin = {
   id: '',
@@ -88,10 +89,11 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
     updateRegisterField(id, value);
   };
 
-  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const date = formatDateOfBirth(event.target.value);
-
-    updateRegisterField('dateOfBirth', date);
+  const handleDateChange = (date: Date | undefined) => {
+    if (date) {
+      const formattedDate = format(date, 'dd.MM.yyyy');
+      updateRegisterField('dateOfBirth', formattedDate);
+    }
   };
 
   const handleSelectChange = (value: string, id: string) => {
@@ -151,13 +153,10 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
               autoComplete={'tel'}
             />
 
-            <UsersInput
-              id='dateOfBirth'
+            <UserDatePicker
               value={userInfoMutation.dateOfBirth}
-              onChange={handleDateChange}
-              label='Дата рождения'
-              placeholder='15.10.2007'
-              autoComplete='bday'
+              onChange={(date) => handleDateChange(date)}
+              label={'Дата рождения'}
             />
 
             <div>

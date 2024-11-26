@@ -81,7 +81,7 @@ export const CategoryEdit: React.FC<Props> = ({ id }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size={'sm'}>
+        <Button size={'sm'} aria-label={'edit-category'}>
           <PencilSquareIcon />
         </Button>
       </DialogTrigger>
