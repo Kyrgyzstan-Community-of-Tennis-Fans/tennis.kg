@@ -1,3 +1,4 @@
+import React, { type ChangeEvent, type FormEvent, type PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/components/ui/button';
@@ -16,11 +17,11 @@ import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
 import { selectUpdating } from '@/features/users/usersSlice';
 import { fetchOneUser, updateUserInfo } from '@/features/users/usersThunks';
 import { validateEmail } from '@/lib/emailValidate';
-import { formatDateOfBirth } from '@/lib/formatDateOfBirth';
 import { formatTelephone } from '@/lib/formatTelephone';
 import type { RegisterMutationWithoutCoupleFields, User } from '@/types/user';
-import React, { type ChangeEvent, type FormEvent, type PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
+import UserDatePicker from '@/features/users/components/UserDatePicker/UserDatePicker';
+import { format } from 'date-fns';
 
 const initialState: RegisterMutationWithoutCoupleFields = {
   telephone: '',
@@ -70,10 +71,11 @@ export const UserEdit: React.FC<PropsWithChildren & Props> = ({ children, user }
     updateRegisterField(id, value);
   };
 
-  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const date = formatDateOfBirth(event.target.value);
-
-    updateRegisterField('dateOfBirth', date);
+  const handleDateChange = (date: Date | undefined) => {
+    if (date) {
+      const formattedDate = format(date, 'dd.MM.yyyy');
+      updateRegisterField('dateOfBirth', formattedDate);
+    }
   };
 
   const handleSelectChange = (value: string, id: string) => {
@@ -128,13 +130,10 @@ export const UserEdit: React.FC<PropsWithChildren & Props> = ({ children, user }
               autoComplete={'tel'}
             />
 
-            <UsersInput
-              id='dateOfBirth'
+            <UserDatePicker
               value={userInfoMutation.dateOfBirth}
-              onChange={handleDateChange}
-              label='Дата рождения'
-              placeholder='15.10.2007'
-              autoComplete='bday'
+              onChange={(date) => handleDateChange(date)}
+              label={'Дата рождения'}
             />
 
             <div>

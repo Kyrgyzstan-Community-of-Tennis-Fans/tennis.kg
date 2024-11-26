@@ -9,6 +9,7 @@ import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useRegister } from '@/features/users/hooks/register';
+import UserDatePicker from '@/features/users/components/UserDatePicker/UserDatePicker';
 
 export const Register: React.FC = () => {
   const {
@@ -80,13 +81,18 @@ export const Register: React.FC = () => {
             error={confirmPassword !== registerMutation.password ? 'Пароли не совпадают' : ''}
           />
 
-          <UsersInput
-            id='dateOfBirth'
+          {/*<UsersInput*/}
+          {/*  id='dateOfBirth'*/}
+          {/*  value={registerMutation.dateOfBirth}*/}
+          {/*  onChange={handleDateChange}*/}
+          {/*  label='Дата рождения'*/}
+          {/*  placeholder='15.10.2007'*/}
+          {/*  autoComplete='bday'*/}
+          {/*/>*/}
+          <UserDatePicker
             value={registerMutation.dateOfBirth}
-            onChange={handleDateChange}
-            label='Дата рождения'
-            placeholder='15.10.2007'
-            autoComplete='bday'
+            onChange={(date) => handleDateChange(date)}
+            label={'Дата рождения'}
           />
 
           <UsersInput
