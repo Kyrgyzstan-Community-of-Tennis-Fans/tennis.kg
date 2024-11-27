@@ -34,14 +34,38 @@ const mediaStorage = multer.diskStorage({
 });
 
 export const clearImages = (imageName: string) => {
-  unlink(resolve(config.publicPath, imageName), (err) => {
-    if (err) {
-      console.log("File doesn't exist");
-      throw err;
-    } else {
-      console.log(`Deleted file: ${imageName}`);
-    }
-  });
+  const imagesPath = resolve(config.publicPath, 'images');
+  const filesPath = resolve(config.publicPath, 'files');
+  const videosPath = resolve(config.publicPath, 'videos');
+  const filePath = resolve(config.publicPath, imageName);
+
+  if (filePath.startsWith(imagesPath)) {
+    unlink(filePath, (err) => {
+      if (err) {
+        console.log(`File in images directory doesn't exist: ${filePath}`);
+      } else {
+        console.log(`Deleted file from images directory: ${filePath}`);
+      }
+    });
+  } else if (filePath.startsWith(filesPath)) {
+    unlink(filePath, (err) => {
+      if (err) {
+        console.log(`File in files directory doesn't exist: ${filePath}`);
+      } else {
+        console.log(`Deleted file from files directory: ${filePath}`);
+      }
+    });
+  } else if (filePath.startsWith(videosPath)) {
+    unlink(filePath, (err) => {
+      if (err) {
+        console.log(`File in videos directory doesn't exist: ${filePath}`);
+      } else {
+        console.log(`Deleted file from videos directory: ${filePath}`);
+      }
+    });
+  } else {
+    console.log(`Skipping deletion for file outside of images, files, or videos directories: ${imageName}`);
+  }
 };
 
 const fileStorage = multer.diskStorage({
