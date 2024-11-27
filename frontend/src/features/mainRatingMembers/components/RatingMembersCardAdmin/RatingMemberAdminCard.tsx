@@ -18,7 +18,7 @@ const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember, ratingMembers })
   const { handleDelete, isDeleting } = useAdminRatingMembers();
 
   return (
-    <Card className='p-3 shadow-none flex-1 w-full'>
+    <Card className='p-3 shadow-none flex-1 w-full' data-testid={`${ratingMember.name}`}>
       <div className='flex items-center'>
         <img
           src={image}
@@ -37,7 +37,7 @@ const RatingMemberAdminCard: React.FC<Props> = ({ ratingMember, ratingMembers })
         </h3>
         <div className='space-x-1 flex items-center ml-auto'>
           <Confirm onOk={() => handleDelete(ratingMember._id)}>
-            <Button size='sm' disabled={isDeleting === ratingMember._id}>
+            <Button size='sm' disabled={isDeleting === ratingMember._id} data-testid='delete'>
               <TrashIcon />
             </Button>
           </Confirm>
