@@ -115,7 +115,7 @@ export const AdminPaneBlockCarousel = () => {
                   </Confirm>
                     <Dialog>
                     <DialogTrigger asChild>
-                      <Button>
+                      <Button data-test-id="change-file-in-carousel">
                         <PencilSquareIcon />
                       </Button>
                     </DialogTrigger>
@@ -132,7 +132,7 @@ export const AdminPaneBlockCarousel = () => {
                             name='image'
                             onChange={fileInputChangeHandler}
                           />
-                            <Button type="submit" className="w-full sm:w-auto" data-test-id="change-file-in-carousel">
+                            <Button type="submit" className="w-full sm:w-auto" data-test-id="update-file-in-carousel">
                               Добавить файл
                             <PaperAirplaneIcon />
                           </Button>

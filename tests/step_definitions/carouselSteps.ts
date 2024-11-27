@@ -1,12 +1,6 @@
 import { I } from './steps';
 
-
-// добовление файла в админ панель
 When('я кликаю на кнопку в админ пенели {string}', (carouselAdminBtn:string) => {
-    I.click(carouselAdminBtn);
-});
-
-When('я кликаю на кнопку в админ пенели карусели {string}', (carouselAdminBtn:string) => {
     I.click(carouselAdminBtn);
 });
 
@@ -20,11 +14,9 @@ When('я кликаю на кнопку с инконкой в котором е
     I.click(`[data-test-id="${dataId}"]`);
 });
 
-When('если данные пришли и я виже текст {string} то тест успешно завершен', (Msg:string) => {
+When('если я вижу текст {string} то тест успешно завершен', (Msg:string) => {
     I.see(Msg);
 });
-
-// удаление файла из карусели
 
 
 
