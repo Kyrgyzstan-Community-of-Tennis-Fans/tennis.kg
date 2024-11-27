@@ -90,7 +90,7 @@ When(
   },
 );
 
-When("выбираю дату {string} в календаре", (date: string) => {
+When("выбираю дату турнира {string} в календаре", (date: string) => {
   const [day, month] = date.split(" ");
 
   const currentDate = new Date();
@@ -106,7 +106,6 @@ When("выбираю дату {string} в календаре", (date: string) =>
     const element = document.querySelector("div[role='listbox']");
     element.scrollIntoView({ behavior: "smooth", block: "nearest" });
   });
-  I.waitForVisible("//div[@role='listbox']", 2);
   I.click(`//div[@role='listbox']//span[text()='${currentYear}']`);
 
   I.click(
@@ -116,7 +115,6 @@ When("выбираю дату {string} в календаре", (date: string) =>
     const element = document.querySelector("div[role='listbox']");
     element.scrollIntoView({ behavior: "smooth", block: "nearest" });
   });
-  I.waitForVisible("//div[@role='listbox']", 2);
   I.click(`//div[@role='listbox']//span[text()='${month}']`);
 
   I.click(`//button[@role='gridcell' and text()='${day}']`);
