@@ -9,13 +9,13 @@ import {
   updateIsActive,
   updateUserInfo,
 } from '@/features/users/usersThunks';
-import type { GlobalError, User, ValidationError } from '@/types/user';
+import type { GlobalError, User, UsersResponse, ValidationError } from '@/types/user';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface UsersState {
   user: User | null;
   currentUser: User | null;
-  users: User[];
+  users: UsersResponse[];
   usersPages: number;
   usersFetching: boolean;
   permission: boolean;
@@ -69,8 +69,7 @@ export const usersSlice = createSlice({
       })
       .addCase(fetchUsers.fulfilled, (state, { payload: users }) => {
         state.usersFetching = false;
-        state.users = users.data;
-        state.usersPages = users.pages;
+        state.users = users;
       })
       .addCase(fetchUsers.rejected, (state) => {
         state.usersFetching = false;

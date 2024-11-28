@@ -44,15 +44,8 @@ export const fetchOneUser = createAsyncThunk<User, string>('users/fetchOneUser',
 
 export const getPermission = createAsyncThunk<boolean, string>('users/get-permission', async (id) => {
   const { data: user } = await axiosApi.get<User>(`/users/${id}`);
-  if (user) {
-    if (user.isActive) {
-      return true;
-    } else if (user.role === 'admin') {
-      return true;
-    } else {
-      return false;
-    }
-  }
+
+  return user.role === 'admin';
 });
 
 export const register = createAsyncThunk<User, RegisterMutation, { rejectValue: ValidationError }>(
