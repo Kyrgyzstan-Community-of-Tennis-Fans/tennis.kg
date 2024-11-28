@@ -14,13 +14,17 @@ const TournamentActions = ({ tournament, permission }: { tournament: Tournament;
         target='_blank'
         rel='noopener noreferrer'
         className='hover:text-[#4d4d4d] dark:hover:text-black mt-1 text-[#8c8c8c] dark:text-[#4d4d4d] underline underline-offset-2'
+        data-testid='tournament-actions-link'
       >
         {text}
       </a>
     ) : (
       <Popover>
         <PopoverTrigger asChild>
-          <span className='text-[#8c8c8c] dark:text-[#4d4d4d] mt-1 cursor-pointer underline underline-offset-2'>
+          <span
+            className='text-[#8c8c8c] dark:text-[#4d4d4d] mt-1 cursor-pointer underline underline-offset-2'
+            data-testid='tournament-actions-link'
+          >
             {text}
           </span>
         </PopoverTrigger>

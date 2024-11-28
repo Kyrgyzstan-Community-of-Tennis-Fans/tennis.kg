@@ -26,22 +26,20 @@ When('в поле {string} выбираю {string}', (select: string, value: str
     I.selectOption(`//*[contains(text(), '${select}')]/following-sibling::select`, value);
 });
 
-When('выбираю дату {string} в календаре', (date: string) => {
+When('выбираю дату рождения {string} в календаре', (date: string) => {
     const [day, month, year] = date.split(' ');
 
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.toLocaleString('ru-RU', { month: 'long' });
 
-    I.click('//button[span[text()=\'Дата рождения\']]');
-    I.waitForVisible('//div[@role=\'dialog\']', 2);
+    I.waitForVisible("//div[@role='dialog']", 2);
 
     I.click(`//button[@role='combobox' and span[contains(text(), '${currentYear}')]]`);
     I.executeScript(function () {
       const element = document.querySelector("div[role='listbox']");
       element.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
-    I.waitForVisible("//div[@role='listbox']", 2);
     I.click(`//div[@role='listbox']//span[text()='${year}']`);
 
 
@@ -50,7 +48,6 @@ When('выбираю дату {string} в календаре', (date: string) =>
       const element = document.querySelector("div[role='listbox']");
       element.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
-    I.waitForVisible("//div[@role='listbox']", 2);
     I.click(`//div[@role='listbox']//span[text()='${month}']`);
 
     I.click(`//button[@role='gridcell' and text()='${day}']`);
