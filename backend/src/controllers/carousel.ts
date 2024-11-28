@@ -20,9 +20,9 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
 
     const fileType = req.file.mimetype.startsWith('video') ? 'video' : 'image';
     const filePath = path.join(
-        config.publicPath,
-        fileType === 'video' ? 'videos' : 'images/imgCarousel',
-        req.file.filename
+      config.publicPath,
+      fileType === 'video' ? 'videos' : 'images/imgCarousel',
+      req.file.filename
     );
 
     if (fileType === 'image') {
@@ -85,9 +85,9 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
     const fileType = req.file.mimetype.startsWith('video') ? 'video' : 'image';
     const filePath = path.join(
-        config.publicPath,
-        fileType === 'video' ? 'videos' : 'images/imgCarousel',
-        req.file.filename
+      config.publicPath,
+      fileType === 'video' ? 'videos' : 'images/imgCarousel',
+      req.file.filename
     );
 
     if (fileType === 'image') {
@@ -104,7 +104,6 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
         clearImages(carouselItem.image);
       }
     } else if (fileType === 'video') {
-
       if (carouselItem.image) {
         clearImages(carouselItem.image);
         carouselItem.image = undefined;
@@ -115,10 +114,8 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
       }
     }
 
-
-    carouselItem[fileType] = fileType === 'video'
-        ? `videos/${req.file.filename}`
-        : `images/imgCarousel/${req.file.filename}`;
+    carouselItem[fileType] =
+      fileType === 'video' ? `videos/${req.file.filename}` : `images/imgCarousel/${req.file.filename}`;
 
     await carouselItem.save();
     return res.status(200).send({ message: 'Image updated successfully', carouselItem });

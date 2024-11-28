@@ -116,11 +116,11 @@ const run = async () => {
       image: 'fixtures/carousel/photo-2.jpg',
     },
     {
-      image: 'fixtures/carousel/Aq.gif'
+      image: 'fixtures/carousel/Aq.gif',
     },
     {
-      video: 'fixtures/carousel/video-carousel.MP4'
-    }
+      video: 'fixtures/carousel/video-carousel.MP4',
+    },
   ]);
 
   const [firstRating, secondRating, thirdRating] = await Rating.create([
@@ -143,7 +143,7 @@ const run = async () => {
 
   await Footer.create([
     {
-      mainPartnerImage: 'footer/kslt.svg',
+      mainPartnerImage: 'fixtures/footer/kslt.svg',
       menuPosition: [
         {
           name: 'Положение КСЛТ',

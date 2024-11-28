@@ -27,7 +27,7 @@ export const AdminPaneBlockCarousel = () => {
     onDelete,
     onUpdateImage,
     isAddModalOpen,
-    previewUrl
+    previewUrl,
   } = useAdminCarousel();
 
   return (
@@ -38,49 +38,41 @@ export const AdminPaneBlockCarousel = () => {
             <h1 className='text-2xl font-medium leading-none'>Карусель</h1>
             <small className='text-muted-foreground text-base'>Управление фотографиями главной карусели</small>
           </div>
-            <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
-              <DialogTrigger asChild>
-                <Button className={'w-full xs:w-max'}  onClick={() => setAddModalOpen(true)}>
-                  Добавить файл
-                  <SquaresPlusIcon />
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-               <DialogHeader>
+          <Dialog open={isAddModalOpen} onOpenChange={setAddModalOpen}>
+            <DialogTrigger asChild>
+              <Button className={'w-full xs:w-max'} onClick={() => setAddModalOpen(true)}>
+                Добавить файл
+                <SquaresPlusIcon />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
                 <DialogTitle>Добавить файл</DialogTitle>
-                 <DialogDescription>Заполните форму перед добавлением.</DialogDescription>
-                  <form onSubmit={(e) =>handleImageUpload(e)} className='flex items-center space-x-2'>
-                    <Input
-                      className='w-[250px] md:w-full'
-                      id='image'
-                      type='file'
-                      name='image'
-                     onChange={fileInputChangeHandler}
-                    />
-                   <Button type='submit' className='mt-0'>
+                <DialogDescription>Заполните форму перед добавлением.</DialogDescription>
+                <form onSubmit={(e) => handleImageUpload(e)} className='flex items-center space-x-2'>
+                  <Input
+                    className='w-[250px] md:w-full'
+                    id='image'
+                    type='file'
+                    name='image'
+                    onChange={fileInputChangeHandler}
+                  />
+                  <Button type='submit' className='mt-0'>
                     <PaperAirplaneIcon />
-                   </Button>
-                  </form>
-                   {previewUrl && (
-                       <div className='border rounded-lg mt-2 mb-2 p-5 bg-muted'>
-                           {newImage.image ? (
-                               <img
-                                   src={previewUrl}
-                                   alt='Preview'
-                                   className='w-auto h-40 rounded-lg mx-auto object-contain'
-                               />
-                           ) : (
-                               <video
-                                   controls
-                                   src={previewUrl}
-                                   className='w-auto h-40 rounded-lg mx-auto'
-                               />
-                           )}
-                       </div>
-                   )}
+                  </Button>
+                </form>
+                {previewUrl && (
+                  <div className='border rounded-lg mt-2 mb-2 p-5 bg-muted'>
+                    {newImage.image ? (
+                      <img src={previewUrl} alt='Preview' className='w-auto h-40 rounded-lg mx-auto object-contain' />
+                    ) : (
+                      <video controls src={previewUrl} className='w-auto h-40 rounded-lg mx-auto' />
+                    )}
+                  </div>
+                )}
               </DialogHeader>
-             </DialogContent>
-            </Dialog>
+            </DialogContent>
+          </Dialog>
         </header>
       </div>
 
@@ -93,17 +85,17 @@ export const AdminPaneBlockCarousel = () => {
           carousel.map((image) => (
             <div key={image._id} className='relative'>
               {image.image ? (
-                  <img
-                      src={API_URl + '/' + image.image}
-                      alt={image._id}
-                      className='rounded-lg object-cover h-full w-full max-h-[300px]'
-                  />
+                <img
+                  src={API_URl + '/' + image.image}
+                  alt={image._id}
+                  className='rounded-lg object-cover h-full w-full max-h-[300px]'
+                />
               ) : image.video ? (
-                  <video
-                      controls
-                      src={API_URl + '/' + image.video}
-                      className='rounded-lg object-cover h-full w-full max-h-[300px]'
-                  />
+                <video
+                  controls
+                  src={API_URl + '/' + image.video}
+                  className='rounded-lg object-cover h-full w-full max-h-[300px]'
+                />
               ) : null}
               {user && user.role === 'admin' && (
                 <div className='top-3 left-6 absolute'>
@@ -112,7 +104,7 @@ export const AdminPaneBlockCarousel = () => {
                       <TrashIcon />
                     </Button>
                   </Confirm>
-                    <Dialog>
+                  <Dialog>
                     <DialogTrigger asChild>
                       <Button>
                         <PencilSquareIcon />
@@ -135,26 +127,21 @@ export const AdminPaneBlockCarousel = () => {
                             <PaperAirplaneIcon />
                           </Button>
                         </form>
-                          {previewUrl && (
-                              <div className="border rounded-lg mt-2 mb-2 p-5 bg-muted">
-                                  {newImage.image ? (
-                                      <img
-                                          src={previewUrl}
-                                          alt="Preview"
-                                          className="w-auto h-40 rounded-lg mx-auto object-contain"
-                                      />
-                                  ) : (
-                                      <video
-                                          controls
-                                          src={previewUrl}
-                                          className="w-auto h-40 rounded-lg mx-auto"
-                                      />
-                                  )}
-                              </div>
-                          )}
+                        {previewUrl && (
+                          <div className='border rounded-lg mt-2 mb-2 p-5 bg-muted'>
+                            {newImage.image ? (
+                              <img
+                                src={previewUrl}
+                                alt='Preview'
+                                className='w-auto h-40 rounded-lg mx-auto object-contain'
+                              />
+                            ) : (
+                              <video controls src={previewUrl} className='w-auto h-40 rounded-lg mx-auto' />
+                            )}
+                          </div>
+                        )}
                       </DialogHeader>
                     </DialogContent>
-
                   </Dialog>
                 </div>
               )}

@@ -1,8 +1,7 @@
-import fs from 'fs';
-import path from 'path';
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import Footer from '../model/Footer';
+import { clearImages } from '../utils/multer';
 
 export const getFooterItems = async (_: Request, res: Response, next: NextFunction) => {
   try {
@@ -22,10 +21,17 @@ export const createFooterSocialNetwork = async (req: Request, res: Response, nex
       return res.status(400).send({ error: 'Fields name and value are required!' });
     }
 
-    const footerSocialNetwork = await Footer.findOneAndUpdate(
+    let footerSocialNetwork;
+
+    footerSocialNetwork = await Footer.findOneAndUpdate(
       {},
       { $push: { socialNetwork: { name, value } } },
       { new: true, upsert: true }
+    );
+
+    footerSocialNetwork = await Footer.updateOne(
+      { 'socialNetwork.name': 'email' },
+      { $set: { 'socialNetwork.$.isMail': true } }
     );
 
     return res.send(footerSocialNetwork);
@@ -214,12 +220,7 @@ export const updateMainPartnerImage = async (req: Request, res: Response, next: 
     const oldImagePath = footer?.mainPartnerImage;
 
     if (oldImagePath) {
-      const oldImageFullPath = path.join(__dirname, '..', '..', 'public', oldImagePath);
-      fs.unlink(oldImageFullPath, (err) => {
-        if (err) {
-          console.error('Error when deleting old image:', err);
-        }
-      });
+      clearImages(oldImagePath);
     }
 
     const updatedMainPartnerImageLink = await Footer.findOneAndUpdate(

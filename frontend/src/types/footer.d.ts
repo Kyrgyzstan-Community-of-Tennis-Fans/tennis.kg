@@ -10,6 +10,7 @@ export interface SocialNetworkFields {
   _id: string;
   name: string;
   value: string;
+  isMail: boolean;
 }
 
 export interface NavigationItemsTypes {

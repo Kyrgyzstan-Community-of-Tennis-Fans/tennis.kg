@@ -82,7 +82,9 @@ const SocialNetworkCreateForm: React.FC<PropsWithChildren> = ({ children }) => {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Добавить социальную сеть</DialogTitle>
+          <DialogTitle>
+            {socialNetwork.name === 'email' ? 'Добавить электронную почту' : 'Добавить социальную сеть'}
+          </DialogTitle>
           <DialogDescription>Заполните форму перед добавлением.</DialogDescription>
           <form onSubmit={handleSubmit}>
             <div className={'flex flex-col justify-between gap-2 mb-3'}>
@@ -112,13 +114,17 @@ const SocialNetworkCreateForm: React.FC<PropsWithChildren> = ({ children }) => {
                   ))}
                 </SelectContent>
               </Select>
-              <Label htmlFor={'social-network'}>Адрес социальной сети</Label>
+              <Label htmlFor={'social-network'}>
+                {socialNetwork.name === 'email' ? 'Адрес электронной почты' : 'Адрес социальной сети'}
+              </Label>
               <Input
                 name='value'
-                type='url'
+                type={socialNetwork.name === 'email' ? 'email' : 'url'}
                 value={socialNetwork.value}
                 onChange={inputChangeHandler}
-                placeholder={'Введите URL социальной сети'}
+                placeholder={
+                  socialNetwork.name === 'email' ? 'Введите адрес электронной почты' : 'Введите URL социальной сети'
+                }
                 id={'social-network'}
               />
             </div>

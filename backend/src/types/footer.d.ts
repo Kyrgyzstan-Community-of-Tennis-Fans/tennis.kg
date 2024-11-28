@@ -1,6 +1,7 @@
 export interface LinksMediaFields {
   name: string;
   value: string;
+  isMail: boolean;
 }
 
 export interface FooterFields {

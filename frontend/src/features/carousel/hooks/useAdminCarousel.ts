@@ -32,9 +32,8 @@ export const useAdminCarousel = () => {
     }
   }, [errorImgCarousel]);
 
-
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files,  } = e.target;
+    const { files } = e.target;
     if (files && files.length > 0) {
       const file = files[0];
       const fileType = file.type.startsWith('video') ? 'video' : 'image';
