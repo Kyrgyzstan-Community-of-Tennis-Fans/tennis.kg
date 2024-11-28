@@ -3,9 +3,8 @@ exports.config = {
   helpers: {
     Puppeteer: {
       url: "http://localhost:5183",
-      show: process.env.CI !== "true",
+      show: false,
       windowSize: "1200x900",
-      headless: process.env.CI === "true",
     },
   },
   include: {
