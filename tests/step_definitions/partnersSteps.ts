@@ -19,7 +19,7 @@ Then("я должен быть на главной", () => {
 Then("я должен быть на админке", () => {
   I.amOnPage("/admin");
   I.seeInCurrentUrl("/admin");
-  I.wait(1);
+  I.wait(5);
 });
 
 When("я залогинен на сайте", () => {
