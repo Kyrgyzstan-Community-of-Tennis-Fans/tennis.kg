@@ -61,6 +61,7 @@ Then("нажимаю на кнопку {string}", (btn: string) => {
 });
 
 Then("я вижу уведомление {string}", (text: string) => {
+  I.wait(5);
   I.see(text);
 });
 
@@ -81,4 +82,8 @@ Then("нажимаю на кнопку удалить у события", () => 
 Then("нажимаю на кнопку редактировать у события", () => {
   I.click(locate(`button[aria-label="edit-event"]`));
   I.wait(1);
+});
+
+Then("я жду {int} секунд", (seconds: string) => {
+  I.wait(parseInt(seconds.toString()));
 });

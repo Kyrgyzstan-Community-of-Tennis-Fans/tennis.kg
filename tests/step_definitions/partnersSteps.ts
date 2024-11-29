@@ -47,6 +47,7 @@ Given("перехожу на админ панель", () => {
 });
 
 Then("я нажимаю на кнопку {string}", (addPartner: string) => {
+  I.wait(5);
   I.click(addPartner);
   I.wait(1);
 });
