@@ -61,7 +61,7 @@ Then("нажимаю на кнопку {string}", (btn: string) => {
 });
 
 Then("я вижу уведомление {string}", (text: string) => {
-  I.wait(5);
+  I.wait(1);
   I.see(text);
 });
 
