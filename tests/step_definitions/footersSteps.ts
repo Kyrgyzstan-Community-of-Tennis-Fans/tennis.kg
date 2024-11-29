@@ -64,6 +64,7 @@ Then(
 // Сценарий CRUD элемента меню положение.
 
 Then("в меню положения я вижу текст {string}", (text: string) => {
+  I.wait(5);
   I.see(text);
 });
 
@@ -93,7 +94,9 @@ When(
 );
 
 When("в меню положения я не вижу текста {string}", (text: string) => {
+  I.wait(5);
   I.click('button[aria-controls="radix-:r7:-content-radix-:r9:"]');
+  I.wait(5);
   I.dontSee(text);
 });
 

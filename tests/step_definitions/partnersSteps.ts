@@ -12,14 +12,14 @@ When("нажимаю на кнопку {string}", (btn: string) => {
 });
 
 Then("я должен быть на главной", () => {
-  I.wait(1);
+  I.wait(3);
   I.seeInCurrentUrl("/");
 });
 
 Then("я должен быть на админке", () => {
   I.amOnPage("/admin");
   I.seeInCurrentUrl("/admin");
-  I.wait(1);
+  I.wait(5);
 });
 
 When("я залогинен на сайте", () => {
@@ -55,6 +55,7 @@ Given("Загружаю изображения", () => {
 });
 
 Given("я вижу карточку партнера {string}", (partnerName: string) => {
+  I.wait(2);
   I.seeElement(`[data-testid="${partnerName}"]`);
   I.wait(2);
 });
