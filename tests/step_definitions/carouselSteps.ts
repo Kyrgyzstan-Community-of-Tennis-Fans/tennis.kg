@@ -21,6 +21,6 @@ When(
 );
 
 When("если я вижу текст {string} то тест успешно завершен", (Msg: string) => {
-  I.wait(5);
+  I.wait(3);
   I.see(Msg);
 });

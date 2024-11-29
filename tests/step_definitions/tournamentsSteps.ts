@@ -45,13 +45,12 @@ Then("в селекте {string} выбираю {string}", (select: string, valu
 });
 
 Then("я вижу уведомление {string}", (text: string) => {
-  I.wait(1);
   I.see(text);
 });
 
 When("я нажимаю на месяц в календаре {string}", (month: string) => {
-  I.click(month);
   I.wait(2);
+  I.click(month);
 });
 
 // Просмотр турнира

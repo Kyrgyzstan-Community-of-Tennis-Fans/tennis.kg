@@ -94,7 +94,7 @@ When(
 );
 
 When("в меню положения я не вижу текста {string}", (text: string) => {
-  I.wait(5);
+  I.wait(3);
   I.dontSee(text);
 });
 

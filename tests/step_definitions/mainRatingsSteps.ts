@@ -17,13 +17,11 @@ Given("я должен быть в административной панели
 });
 
 Then("я нажимаю на кнопку {string}", (btn: string) => {
-  I.wait(5);
   I.click(btn);
 });
 
 Given("я вижу карточку с текстом {string}", (memberName: string) => {
   I.seeElement(`[data-testid="${memberName}"]`);
-  I.wait(2);
 });
 
 When(
@@ -41,7 +39,6 @@ Then("в селекте {string} выбираю {string}", (select: string, valu
 });
 
 Then("я вижу уведомление {string}", (text: string) => {
-  I.wait(1);
   I.see(text);
 });
 
@@ -58,7 +55,7 @@ When(
 When(
   "я нажимаю на кнопку редактирования в карточке участника рейтинга {string}",
   (memberName: string) => {
-    I.click(`[data-testid="${memberName}"] button[data-testid="edit"]`);
     I.wait(1);
+    I.click(`[data-testid="${memberName}"] button[data-testid="edit"]`);
   },
 );

@@ -47,7 +47,6 @@ Given("перехожу на админ панель", () => {
 });
 
 Then("я нажимаю на кнопку {string}", (addPartner: string) => {
-  I.wait(5);
   I.click(addPartner);
   I.wait(1);
 });
@@ -60,7 +59,6 @@ Given("Загружаю изображения", () => {
 Given("я вижу карточку партнера {string}", (partnerName: string) => {
   I.wait(2);
   I.seeElement(`[data-testid="${partnerName}"]`);
-  I.wait(2);
 });
 
 When(
