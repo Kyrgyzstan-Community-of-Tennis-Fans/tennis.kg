@@ -123,11 +123,7 @@ export const usersSlice = createSlice({
       .addCase(login.fulfilled, (state, { payload: user }) => {
         state.loginLoading = false;
         state.user = user;
-        if (user.isActive) {
-          state.permission = true;
-        } else {
-          state.permission = false;
-        }
+        state.permission = user.isActive;
       })
       .addCase(login.rejected, (state, { payload: error }) => {
         state.loginError = error || null;
