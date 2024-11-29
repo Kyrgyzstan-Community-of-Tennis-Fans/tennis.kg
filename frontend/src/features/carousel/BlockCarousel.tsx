@@ -35,17 +35,17 @@ export const BlockCarousel = () => {
               {carousel.map((img) => (
                 <CarouselItem key={img._id} className='overflow-hidden rounded-lg'>
                   {img.image ? (
-                      <img
-                          src={API_URl + '/' + img.image}
-                          alt={img._id}
-                          className='w-full h-[244px] sm:h-[400px] md:h-[450px] lg:h-[662px] object-cover rounded-lg'
-                      />
+                    <img
+                      src={API_URl + '/' + img.image}
+                      alt={img._id}
+                      className='w-full h-[244px] sm:h-[400px] md:h-[450px] lg:h-[662px] object-cover rounded-lg'
+                    />
                   ) : img.video ? (
-                      <video
-                          controls
-                          src={API_URl + '/' + img.video}
-                          className='w-full h-[244px] sm:h-[400px] md:h-[450px] lg:h-[662px] object-cover rounded-lg'
-                      />
+                    <video
+                      controls
+                      src={API_URl + '/' + img.video}
+                      className='w-full h-[244px] sm:h-[400px] md:h-[450px] lg:h-[662px] object-cover rounded-lg'
+                    />
                   ) : null}
                 </CarouselItem>
               ))}

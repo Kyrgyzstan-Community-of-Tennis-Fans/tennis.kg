@@ -57,7 +57,6 @@ export const updateCarouselImage = createAsyncThunk<
       return rejectWithValue({ error: 'No media file provided' });
     }
 
-
     const response = await axiosApi.put<Carousel>(`/carousel/admin-update-image-carousel/${id}`, formData);
 
     return response.data;

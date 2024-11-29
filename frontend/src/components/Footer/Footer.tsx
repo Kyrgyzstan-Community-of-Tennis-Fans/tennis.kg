@@ -36,8 +36,8 @@ const Footer = () => {
                 <div key={item._id} className='inline-flex text-white gap-5'>
                   <SocialIcon
                     bgColor='#373A40'
-                    target='_blank'
-                    url={item.value}
+                    target={item.isMail ? '_self' : '_blank'}
+                    url={item.isMail ? `mailto:${item.value}` : item.value}
                     fgColor='#fff'
                     style={{ height: '32px', width: '32px' }}
                     network={item.name}

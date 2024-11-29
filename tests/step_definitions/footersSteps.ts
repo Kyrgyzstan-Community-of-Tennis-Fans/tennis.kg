@@ -26,7 +26,7 @@ When('я нажимаю на текст {string} и в поле выбираю {
 });
 
 Then(/^в футер я вижу иконку у которой ссылка "(.*?)"$/, async (link: string) => {
-  I.seeElement(`footer a.social-icon[href="${link}"]`);
+  I.seeElement(`footer a.social-icon[href="mailto:${link}"]`);
 });
 
 Then('я вижу иконку {string}', (text: string) => {
@@ -42,7 +42,7 @@ Then('я нажимаю на кнопку удалить иконку {string}',
 });
 
 Then(/^в футер я не вижу иконку у которой есть ссылка "(.*?)"$/, (link: string) => {
-  I.dontSeeElement(`footer a.social-icon[href="${link}"]`);
+  I.dontSeeElement(`footer a.social-icon[href="mailto:${link}"]`);
 });
 
 // Сценарий CRUD элемента меню положение.

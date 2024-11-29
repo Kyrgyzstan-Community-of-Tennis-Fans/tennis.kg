@@ -6,6 +6,10 @@ const SocialNetworkSchema = new mongoose.Schema<LinksMediaFields>({
     type: String,
     required: [true, 'Поле иконки обязательно!'],
   },
+  isMail: {
+    type: Boolean,
+    default: false,
+  },
   value: {
     type: String,
     required: [true, 'Поле ссылка обязательно!'],
@@ -38,7 +42,7 @@ const FooterSchema = new mongoose.Schema<FooterFields>({
   mainPartnerImage: {
     type: String,
     required: [true, 'Поле главный партнер обязательно!'],
-    default: 'footer/kslt.svg',
+    default: 'fixtures/footer/kslt.svg',
   },
 });
 

@@ -96,17 +96,23 @@ const SocialNetworkCreateForm: React.FC<Props> = ({ id }) => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Редактировать социальную сеть</DialogTitle>
+          <DialogTitle>
+            {socialNetwork.name === 'email' ? 'Редактировать электронную почту' : 'Редактировать социальную сеть'}
+          </DialogTitle>
           <DialogDescription>Заполните форму перед обновлением.</DialogDescription>
           <form onSubmit={handleSubmit}>
             <div className={'flex flex-col justify-between gap-2 mb-3'}>
-              <Label htmlFor={'social-network'}>Адрес социальной сети</Label>
+              <Label htmlFor={'social-network'}>
+                {socialNetwork.name === 'email' ? 'Адрес электронной почты' : 'Адрес социальной сети'}
+              </Label>
               <Input
-                type='url'
+                type={socialNetwork.name === 'email' ? 'email' : 'url'}
                 name='value'
                 value={socialNetwork.value}
                 onChange={inputChangeHandler}
-                placeholder={'Введите URL социальной сети'}
+                placeholder={
+                  socialNetwork.name === 'email' ? 'Введите адрес электронной почты' : 'Введите URL социальной сети'
+                }
                 id={'social-network'}
               />
             </div>
