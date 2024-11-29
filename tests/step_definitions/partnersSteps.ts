@@ -17,6 +17,7 @@ Then("я должен быть на главной", () => {
 });
 
 Then("я должен быть на админке", () => {
+  I.wait(3);
   I.amOnPage("/admin");
   I.seeInCurrentUrl("/admin");
   I.wait(5);
@@ -28,6 +29,7 @@ When("я залогинен на сайте", () => {
   I.fillField("Пароль", "123qwe");
   I.click("Войти");
   I.seeInCurrentUrl("/");
+  I.wait(5);
 });
 
 When("я нажимаю на иконку пользователя в хедере", () => {
