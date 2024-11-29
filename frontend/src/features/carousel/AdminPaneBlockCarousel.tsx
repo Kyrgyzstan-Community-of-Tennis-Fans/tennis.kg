@@ -57,7 +57,7 @@ export const AdminPaneBlockCarousel = () => {
                     name='image'
                     onChange={fileInputChangeHandler}
                   />
-                  <Button type='submit' className='mt-0'>
+                  <Button type='submit' className='mt-0' data-test-id={'add-file-in-carousel'}>
                     <PaperAirplaneIcon />
                   </Button>
                 </form>
@@ -106,7 +106,7 @@ export const AdminPaneBlockCarousel = () => {
                   </Confirm>
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button data-test-id="change-file-in-carousel">
+                      <Button data-test-id='change-file-in-carousel'>
                         <PencilSquareIcon />
                       </Button>
                     </DialogTrigger>
@@ -117,34 +117,26 @@ export const AdminPaneBlockCarousel = () => {
                         <DialogDescription>Заполните форму перед добавлением.</DialogDescription>
                         <form onSubmit={(e) => onUpdateImage(image._id, e)} className='flex items-center space-x-2'>
                           <Input
-                            className="w-full sm:w-[250px]"
+                            className='w-full sm:w-[250px]'
                             id='image'
                             type='file'
                             name='image'
                             onChange={fileInputChangeHandler}
                           />
-                            <Button type="submit" className="w-full sm:w-auto" data-test-id="update-file-in-carousel">
-                              Добавить файл
+                          <Button type='submit' className='w-full sm:w-auto' data-test-id='update-file-in-carousel'>
+                            Добавить файл
                             <PaperAirplaneIcon />
                           </Button>
                         </form>
-                          {previewUrl && (
-                              <div className="border rounded-lg mt-2 mb-2 p-5 bg-muted">
-                                  {newImage.image ? (
-                                      <img
-                                          src={previewUrl}
-                                          alt="Preview"
-                                          className='w-auto h-40 rounded-lg mx-auto'
-                                      />
-                                  ) : (
-                                      <video
-                                          controls
-                                          src={previewUrl}
-                                          className='w-auto h-40 rounded-lg mx-auto'
-                                      />
-                                  )}
-                              </div>
-                          )}
+                        {previewUrl && (
+                          <div className='border rounded-lg mt-2 mb-2 p-5 bg-muted'>
+                            {newImage.image ? (
+                              <img src={previewUrl} alt='Preview' className='w-auto h-40 rounded-lg mx-auto' />
+                            ) : (
+                              <video controls src={previewUrl} className='w-auto h-40 rounded-lg mx-auto' />
+                            )}
+                          </div>
+                        )}
                       </DialogHeader>
                     </DialogContent>
                   </Dialog>
