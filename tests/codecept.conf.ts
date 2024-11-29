@@ -3,8 +3,12 @@ exports.config = {
   helpers: {
     Puppeteer: {
       url: "http://localhost:5183",
-      show: false,
+      show: process.env.CI !== "true",
       windowSize: "1200x900",
+      headless: process.env.CI === "true",
+      chrome: {
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      },
     },
   },
   include: {
