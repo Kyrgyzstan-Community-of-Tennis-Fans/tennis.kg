@@ -21,6 +21,7 @@ import Footer from '@/components/Footer/Footer';
 import { ErrorPage } from '@/components/Errors/ErrorPage';
 import { getPermission } from '@/features/users/usersThunks';
 import { ThemeProvider } from '@/ThemeProvider';
+import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,8 +35,11 @@ export const App: React.FC = () => {
     }
   }, [dispatch, user]);
 
+
   return (
     <ThemeProvider>
+      <ScrollToTop />
+
       <div className='flex flex-col min-h-dvh'>
         <header className='max-h-24 mb-16 sm:mb-24'>
           <Navbar />
