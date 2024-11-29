@@ -63,7 +63,7 @@ export const useAdminCarousel = () => {
       setNewImage(emptyState);
       setPreviewUrl(null);
       await dispatch(getCarousel());
-      toast.success('Изображение успешно выложено');
+      toast.success('Файл успешно выложен');
       setAddModalOpen(false);
     } catch (error) {
       console.error(error);
@@ -75,10 +75,10 @@ export const useAdminCarousel = () => {
     try {
       await dispatch(deleteImageCarousel({ id })).unwrap();
       await dispatch(getCarousel());
-      toast.success('Изображение успешно удалено');
+      toast.success('Файл успешно удален');
     } catch (error) {
       console.error(error);
-      toast.error('Не удалось удалить изображение');
+      toast.error('Не удалось удалить файл');
     }
   };
 
@@ -93,10 +93,10 @@ export const useAdminCarousel = () => {
       setNewImage(emptyState);
       setPreviewUrl(null);
       await dispatch(getCarousel());
-      toast.success('Изображение успешно обновлено');
+      toast.success('Файл успешно обновлен');
     } catch (error) {
       console.error(error);
-      toast.error('Не удалось обновить изображение');
+      toast.error('Не удалось обновить файл');
     }
   };
 

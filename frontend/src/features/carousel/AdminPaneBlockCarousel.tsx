@@ -49,21 +49,22 @@ export const AdminPaneBlockCarousel = () => {
                <DialogHeader>
                 <DialogTitle>Добавить файл</DialogTitle>
                  <DialogDescription>Заполните форму перед добавлением.</DialogDescription>
-                  <form onSubmit={(e) =>handleImageUpload(e)} className='flex items-center space-x-2'>
-                    <Input
-                      className='w-[250px] md:w-full'
-                      id='image'
-                      type='file'
-                      name='image'
-                     onChange={fileInputChangeHandler}
-                    />
-                   <Button type='submit' className='mt-0'>
-                    <PaperAirplaneIcon />
-                   </Button>
-                  </form>
+                   <form onSubmit={(e) => handleImageUpload(e)} className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                       <Input
+                           className="w-full sm:w-[250px]"
+                           id='image'
+                           type='file'
+                           name='image'
+                           onChange={fileInputChangeHandler}
+                       />
+                       <Button type="submit" className="w-full sm:w-auto" data-test-id="add-file-in-carousel">
+                           Добавить файл
+                           <PaperAirplaneIcon/>
+                       </Button>
+                   </form>
                    {previewUrl && (
                        <div className='border rounded-lg mt-2 mb-2 p-5 bg-muted'>
-                           {newImage.image ? (
+                       {newImage.image ? (
                                <img
                                    src={previewUrl}
                                    alt='Preview'
@@ -108,13 +109,13 @@ export const AdminPaneBlockCarousel = () => {
               {user && user.role === 'admin' && (
                 <div className='top-3 left-6 absolute'>
                   <Confirm onOk={() => onDelete(image._id)}>
-                    <Button className='me-3'>
+                    <Button className='me-3' data-test-id='delete-file-in-carousel'>
                       <TrashIcon />
                     </Button>
                   </Confirm>
                     <Dialog>
                     <DialogTrigger asChild>
-                      <Button>
+                      <Button data-test-id="change-file-in-carousel">
                         <PencilSquareIcon />
                       </Button>
                     </DialogTrigger>
@@ -125,13 +126,14 @@ export const AdminPaneBlockCarousel = () => {
                         <DialogDescription>Заполните форму перед добавлением.</DialogDescription>
                         <form onSubmit={(e) => onUpdateImage(image._id, e)} className='flex items-center space-x-2'>
                           <Input
-                            className='w-[250px] md:w-full'
+                            className="w-full sm:w-[250px]"
                             id='image'
                             type='file'
                             name='image'
                             onChange={fileInputChangeHandler}
                           />
-                          <Button type='submit' className='mt-0'>
+                            <Button type="submit" className="w-full sm:w-auto" data-test-id="update-file-in-carousel">
+                              Добавить файл
                             <PaperAirplaneIcon />
                           </Button>
                         </form>
@@ -141,13 +143,13 @@ export const AdminPaneBlockCarousel = () => {
                                       <img
                                           src={previewUrl}
                                           alt="Preview"
-                                          className="w-auto h-40 rounded-lg mx-auto object-contain"
+                                          className='w-auto h-40 rounded-lg mx-auto'
                                       />
                                   ) : (
                                       <video
                                           controls
                                           src={previewUrl}
-                                          className="w-auto h-40 rounded-lg mx-auto"
+                                          className='w-auto h-40 rounded-lg mx-auto'
                                       />
                                   )}
                               </div>
