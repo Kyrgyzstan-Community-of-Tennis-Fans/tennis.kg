@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { selectUser } from '@/features/users/usersSlice';
+import { selectUserPermission } from '@/features/users/usersSlice';
 import { ArrowRightStartOnRectangleIcon, Cog6ToothIcon, UserCircleIcon, UserIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import {
@@ -15,7 +15,7 @@ import './auth.css';
 import { useEffect, useState } from 'react';
 
 export const NavBarDropDown = () => {
-  const user = useAppSelector(selectUser);
+  const userPermission = useAppSelector(selectUserPermission);
   const [isOpen, setIsOpen] = useState(false);
   const [dropDown, setDropDown] = useState(true);
   const dispatch = useAppDispatch();
@@ -53,7 +53,7 @@ export const NavBarDropDown = () => {
                 Личный кабинет
               </Link>
             </DropdownMenuItem>
-            {user?.role === 'admin' && (
+            {userPermission >= 2 && (
               <DropdownMenuItem onClick={() => setDropDown(false)}>
                 <Link className='flex items-center gap-1.5' to='/admin' id={'admin'}>
                   <Cog6ToothIcon className='w-[15px] h-[15px]' />

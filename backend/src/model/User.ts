@@ -47,15 +47,17 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>(
     },
     password: {
       type: String,
+      select: false,
       required: true,
     },
     token: {
       type: String,
       required: true,
+      select: false,
     },
     role: {
       type: String,
-      enum: ['user', 'admin'],
+      enum: ['user', 'moderator', 'admin'],
       default: 'user',
     },
     email: {
@@ -66,8 +68,8 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>(
       type: Boolean,
       default: true,
     },
-    resetPasswordToken: { type: String, default: null },
-    resetPasswordExpires: { type: Date, default: null },
+    resetPasswordToken: { type: String, default: null, select: false },
+    resetPasswordExpires: { type: Date, default: null, select: false },
   },
   { timestamps: true }
 );

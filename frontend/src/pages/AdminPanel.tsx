@@ -7,7 +7,7 @@ import { AdminNews } from '@/features/news/containers/AdminNews/AdminNews';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { AdminRatings } from '@/features/ratings/AdminRatings';
 import AdminPanelBlockFooter from '@/features/footers/containers/AdminPanelBlockFooter';
-import { AdminUserList } from '@/features/users/AdminUserList';
+import { AdminUsers } from '@/features/users/AdminUsers';
 import AdminCalendar from '@/features/tournaments/AdminCalendar';
 import RatingMembersAdmin from '@/features/mainRatingMembers/RatingMembersAdmin';
 import { useEffect, useState } from 'react';
@@ -42,7 +42,7 @@ const AdminPanel = () => {
               <TabsTrigger value='rating'>Рейтинги</TabsTrigger>
               <TabsTrigger value='news'>Новости</TabsTrigger>
               <TabsTrigger value='footer'>Подвал сайта</TabsTrigger>
-              <TabsTrigger value='users'>Список пользователей</TabsTrigger>
+              <TabsTrigger value='users'>Все пользователи</TabsTrigger>
             </TabsList>
             <ScrollBar orientation={'horizontal'} />
           </ScrollArea>
@@ -71,7 +71,7 @@ const AdminPanel = () => {
             <AdminPanelBlockFooter />
           </TabsContent>
           <TabsContent value={'users'}>
-            <AdminUserList />
+            <AdminUsers />
           </TabsContent>
         </Tabs>
       </Layout>

@@ -13,7 +13,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UsersInput } from '@/features/users/components/UsersInput/UsersInput';
-import { selectCurrentUser, selectUpdating } from '@/features/users/usersSlice';
+import { selectCurrentUser, selectUpdating, selectUserPermission } from '@/features/users/usersSlice';
 import { fetchOneUser, fetchUsers, updateCurrentUserInfo } from '@/features/users/usersThunks';
 import { validateEmail } from '@/lib/emailValidate';
 import { formatTelephone } from '@/lib/formatTelephone';
@@ -24,7 +24,7 @@ import { selectCategories, selectCategoriesFetching } from '@/features/category/
 import { fetchCategories } from '@/features/category/categoryThunks';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import UserDatePicker from '@/features/users/components/UserDatePicker/UserDatePicker';
-import { format } from 'date-fns';
+import {format} from "date-fns";
 
 const initialState: RedactorForAdmin = {
   id: '',
@@ -34,6 +34,7 @@ const initialState: RedactorForAdmin = {
   gender: '',
   email: '',
   dateOfBirth: '',
+  role: '',
 };
 
 export interface Props {
@@ -46,6 +47,7 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectCategories);
   const categoriesFetching = useAppSelector(selectCategoriesFetching);
+  const userPermission = useAppSelector(selectUserPermission);
   const updatingUser = useAppSelector(selectUpdating);
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const [userInfoMutation, setUserInfoMutation] = useState<RedactorForAdmin>(initialState);
@@ -68,6 +70,7 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
         category: currentUser.category._id,
         dateOfBirth: currentUser.dateOfBirth,
         gender: currentUser.gender,
+        role: currentUser.role,
       });
     }
   }, [currentUser]);
@@ -97,7 +100,15 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
   };
 
   const handleSelectChange = (value: string, id: string) => {
-    const field = id === 'gender' ? 'gender' : 'category';
+    let field: string;
+    if (id === 'gender') {
+      field = id;
+    } else if (id === 'category') {
+      field = id;
+    } else if (id === 'role') {
+      field = id;
+    }
+
     updateRegisterField(field, value);
   };
 
@@ -131,7 +142,7 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
               value={userInfoMutation.fullName}
               onChange={handleChange}
               label='ФИО'
-              placeholder='Введите ваше полное ФИО'
+              placeholder='Введите полное ФИО'
               autoComplete='name'
             />
 
@@ -165,7 +176,7 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
               </Label>
               <Select value={userInfoMutation.gender} onValueChange={(value) => handleSelectChange(value, 'gender')}>
                 <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='gender'>
-                  <SelectValue placeholder='Укажите ваш пол' />
+                  <SelectValue placeholder='Укажите пол' />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -186,7 +197,7 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
                 onValueChange={(value) => handleSelectChange(value, 'category')}
               >
                 <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='category'>
-                  <SelectValue placeholder='Выберите вашу категорию' />
+                  <SelectValue placeholder='Выберите категорию' />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -195,6 +206,23 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
                         {item.name}
                       </SelectItem>
                     ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor='role' className={'text-base text-left font-medium block'}>
+                Пол
+              </Label>
+              <Select value={userInfoMutation.role} onValueChange={(value) => handleSelectChange(value, 'role')}>
+                <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='role'>
+                  <SelectValue placeholder='Укажите роль' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value='user'>Пользователь</SelectItem>
+                    {userPermission === 3 && <SelectItem value='moderator'>Модератор</SelectItem>}
                   </SelectGroup>
                 </SelectContent>
               </Select>

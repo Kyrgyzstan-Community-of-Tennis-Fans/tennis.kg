@@ -3,13 +3,13 @@ import { Tournament } from '@/types/tournament';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { useAdminTournaments } from '@/features/tournaments/hooks/useAdminTournaments';
 import { useAppSelector } from '@/app/hooks';
-import { selectPermission } from '@/features/users/usersSlice';
 import { Confirm } from '@/components/Confirm/Confirm';
 import { Button } from '@/components/ui/button';
 import TournamentEdit from '@/features/tournaments/components/TournamentEdit/TournamentEdit';
 import TournamentInfo from '@/features/tournaments/components/TournamentCard/Components/TournamentInfo';
 import TournamentActions from '@/features/tournaments/components/TournamentCard/Components/TournamentActions';
 import TournamentRegistration from '@/features/tournaments/components/TournamentCard/Components/TournamentRegistration';
+import { selectUserPermission } from '@/features/users/usersSlice';
 
 interface Props {
   tournament: Tournament;
@@ -19,7 +19,7 @@ interface Props {
 
 const TournamentCard: React.FC<Props> = ({ tournament, isAdmin, tournamentsLastYearExist }) => {
   const { handleDelete, isDeleting } = useAdminTournaments();
-  const permission = useAppSelector(selectPermission);
+  const userPermission = useAppSelector(selectUserPermission);
 
   return (
     <div
@@ -30,7 +30,7 @@ const TournamentCard: React.FC<Props> = ({ tournament, isAdmin, tournamentsLastY
         <div className='px-3 py-3 sm:flex sm:justify-between'>
           <TournamentInfo tournament={tournament} />
           <div className='flex flex-col sm:mt-auto'>
-            <TournamentActions tournament={tournament} permission={permission} />
+            <TournamentActions tournament={tournament} permission={userPermission} />
             <div className='text-[#64B32C] dark:text-[#478c16] font-semibold ml-auto sm:ml-0 sm:mt-1'>
               <TournamentRegistration tournament={tournament} />
             </div>
