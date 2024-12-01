@@ -59,7 +59,7 @@ export const usersSlice = createSlice({
   reducers: {
     unsetUser: (state) => {
       state.user = null;
-      state.permission = false;
+      state.userPermission = 0;
     },
   },
   extraReducers: (builder) => {

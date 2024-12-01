@@ -12,6 +12,7 @@ import { selectUsersList, selectUsersListPages } from '@/features/users/usersSli
 import { fetchUsers } from '@/features/users/usersThunks';
 import { formatTelephone } from '@/lib/formatTelephone';
 import {useDebounce} from "react-use";
+import {toast} from "sonner";
 
 export const AdminList = () => {
   const [filters, setFilters] = useState<UsersFilter>({
@@ -35,6 +36,11 @@ export const AdminList = () => {
     const name = event.target.name;
     let value = event.target.value;
 
+    if (filters.fullName?.trim().length === 0 && value.trim() === '') {
+      toast.error('Нельзя ввести пустое поле.')
+      return;
+    }
+
     if (name === 'telephone') {
       value = formatTelephone(value);
     }
@@ -56,7 +62,7 @@ export const AdminList = () => {
 
   return (
     <Layout>
-      <div className={'flex gap-4 mb-4'}>
+      <div className={'flex gap-4 mb-4 flex-col md:flex-row'}>
         <Input
           placeholder={'Поиск по ФИО…'}
           value={filters.fullName}

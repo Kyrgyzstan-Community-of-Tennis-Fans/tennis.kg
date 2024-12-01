@@ -15,6 +15,7 @@ import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { type ChangeEvent, useState } from 'react';
 import { CustomPagination } from '@/components/CustomPagination/CustomPagination';
 import {useDebounce} from "react-use";
+import {toast} from "sonner";
 
 export const UsersList = () => {
   const [filters, setFilters] = useState<UsersFilter>({
@@ -42,6 +43,11 @@ export const UsersList = () => {
     const name = event.target.name;
     let value = event.target.value;
 
+    if (filters.fullName?.trim().length === 0 && value.trim() === '') {
+      toast.error('Нельзя ввести пустое поле.')
+      return;
+    }
+
     if (name === 'telephone') {
       value = formatTelephone(value);
     }
@@ -64,7 +70,7 @@ export const UsersList = () => {
   return (
     users && (
       <Layout>
-        <div className={'flex gap-4 mb-4 flex-col sm:flex-row'}>
+        <div className={'flex gap-4 mb-4 flex-col md:flex-row'}>
           <Input
             placeholder={'Поиск по ФИО…'}
             value={filters.fullName}

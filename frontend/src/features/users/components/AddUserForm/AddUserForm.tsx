@@ -17,7 +17,7 @@ import { addUser, fetchUsers } from '@/features/users/usersThunks';
 import {
   Dialog,
   DialogClose,
-  DialogContent,
+  DialogContent, DialogDescription, DialogHeader, DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
 import UserDatePicker from '@/features/users/components/UserDatePicker/UserDatePicker';
@@ -132,19 +132,12 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
           Добавить пользователя <SquaresPlusIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent className={'max-w-3xl'}>
-        <ScrollArea className={'max-h-svh p-6 overflow-y-auto'}>
+      <DialogContent className={'py-0 xs:py-4'}>
+        <ScrollArea className={'max-h-svh py-9 xs:py-6 md:py-3 overflow-y-auto'}>
+        <DialogHeader>
+          <DialogTitle>Создание аккаунта</DialogTitle>
+          <DialogDescription>Заполните форму для создания аккаунта.</DialogDescription>
           <form onSubmit={addUserAdmin}>
-            <section
-                style={{ boxShadow: '0px 4px 100px 0px #00000017' }}
-            >
-              <div className='mb-3'>
-                <h1 className='font-bold text-[28px]'>Создать аккаунт</h1>
-                <p className='text-sm text-black/75 dark:text-white'>
-                  Пожалуйста, заполните все данные для создания аккаунта
-                </p>
-              </div>
-
               <div className='space-y-3 mb-8'>
                 <UsersInput
                     id='telephone'
@@ -153,6 +146,7 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
                     label='Номер телефона'
                     placeholder={'0500 000 000'}
                     autoComplete={'tel'}
+                    className={'h-10 focus-visible:border-[#80BC41]'}
                 />
 
                 <UsersInput
@@ -162,6 +156,7 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
                     label='Почта'
                     placeholder={'example@gmail.com'}
                     autoComplete={'email'}
+                    className={'h-10 focus-visible:border-[#80BC41]'}
                 />
 
                 <UsersInput
@@ -172,6 +167,7 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
                     placeholder='Введите пароль'
                     type='password'
                     autoComplete={'new-password'}
+                    className={'h-10 focus-visible:border-[#80BC41]'}
                 />
 
                 <UsersInput
@@ -182,7 +178,7 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
                     type='password'
                     autoComplete={'current-password'}
                     placeholder='Введите пароль еще раз'
-                    className={`${confirmPassword !== newUser.password && 'ring-red-500 ring-1 focus-visible:ring-red-500'} h-12 focus-visible:ring-[#80BC41]`}
+                    className={`${confirmPassword !== newUser.password && 'ring-red-500 ring-1 focus-visible:ring-red-500'} h-10 focus-visible:border-[#80BC41]`}
                     error={confirmPassword !== newUser.password ? 'Пароли не совпадают' : ''}
                 />
 
@@ -190,6 +186,8 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
                     value={newUser.dateOfBirth}
                     onChange={(date) => handleDateChange(date)}
                     label={'Дата рождения'}
+                    className={'h-10 focus-visible:border-[#80BC41]'}
+                    addUserAdmin={true}
                 />
 
                 <UsersInput
@@ -199,14 +197,15 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
                     label='ФИО'
                     placeholder='Введите ваше полное ФИО'
                     autoComplete={'name'}
+                    className={'h-10 focus-visible:border-[#80BC41]'}
                 />
 
                 <div>
-                  <Label htmlFor='gender' className={'text-base font-medium block'}>
+                  <Label htmlFor='gender' className={'text-base text-start font-medium block'}>
                     Пол
                   </Label>
                   <Select value={newUser.gender} onValueChange={(value) => handleSelectChange(value, 'gender')}>
-                    <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='gender'>
+                    <SelectTrigger className={'h-10 focus:border-[#80BC41]'} id='gender'>
                       <SelectValue placeholder='Укажите пол' />
                     </SelectTrigger>
                     <SelectContent>
@@ -219,7 +218,7 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
                 </div>
 
                 <div>
-                  <Label htmlFor='category' className={'text-base font-medium block'}>
+                  <Label htmlFor='category' className={'text-base text-start font-medium block'}>
                     Категория
                   </Label>
                   <Select
@@ -227,7 +226,7 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
                       value={newUser.category}
                       onValueChange={(value) => handleSelectChange(value, 'category')}
                   >
-                    <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='category'>
+                    <SelectTrigger className={'h-10 focus:border-[#80BC41]'} id='category'>
                       <SelectValue placeholder='Выберите категорию' />
                     </SelectTrigger>
                     <SelectContent>
@@ -242,11 +241,11 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor='role' className={'text-base font-medium block'}>
+                  <Label htmlFor='role' className={'text-base text-start font-medium block'}>
                     Роль
                   </Label>
                   <Select value={newUser.role} onValueChange={(value) => handleSelectChange(value, 'role')}>
-                    <SelectTrigger className={'h-12 focus:ring-[#80BC41]'} id='role'>
+                    <SelectTrigger className={'h-10 focus:border-[#80BC41]'} id='role'>
                       <SelectValue placeholder='Выберите роль' />
                     </SelectTrigger>
                     <SelectContent>
@@ -261,7 +260,7 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
 
               <Button
                   type='submit'
-                  className='w-full h-14 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5 dark:bg-blue-50'
+                  className='w-full h-8 sm:h-10 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5 dark:bg-blue-50'
                   disabled={!isFormValidAdmin() || !validateEmail(newUser.email)}
               >
                 Добавить
@@ -269,12 +268,13 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
               </Button>
 
               <DialogClose asChild>
-                <Button ref={closeRef} className={'w-full'} type={'button'} variant={'outline'}>
+                <Button ref={closeRef} className={'w-full h-8 sm:h-10'} type={'button'} variant={'outline'}>
                   Отменить
                 </Button>
               </DialogClose>
-            </section>
           </form>
+
+        </DialogHeader>
           <ScrollBar orientation={'vertical'}/>
         </ScrollArea>
       </DialogContent>
