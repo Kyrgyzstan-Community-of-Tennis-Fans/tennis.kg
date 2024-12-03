@@ -1,44 +1,45 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { InfoTip } from '@/components/Confirm/InfoTip/InfoTip';
-import { Layout } from '@/components/Layout';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { useCategory } from '@/features/category/hooks/useCategory';
 import AdminRedactor from '@/features/users/components/AdminRedactor/AdminRedactor';
-import { selectUsersList, selectUsersListPages } from '@/features/users/usersSlice';
-import { fetchUsers, updateIsActive } from '@/features/users/usersThunks';
-import { formatTelephone } from '@/lib/formatTelephone';
-import type { UsersFilter } from '@/types/user';
-import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
-import { type ChangeEvent, useEffect, useState } from 'react';
 import { CustomPagination } from '@/components/CustomPagination/CustomPagination';
+import { Layout } from '@/components/Layout';
+import React, { ChangeEvent, useState } from 'react';
+import type { UsersFilter } from '@/types/user';
+import { useCategory } from '@/features/category/hooks/useCategory';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { selectUsersList, selectUsersListPages } from '@/features/users/usersSlice';
+import { fetchUsers } from '@/features/users/usersThunks';
+import { formatTelephone } from '@/lib/formatTelephone';
+import {useDebounce} from "react-use";
+import {toast} from "sonner";
 
-export const AdminUserList = () => {
+export const AdminList = () => {
   const [filters, setFilters] = useState<UsersFilter>({
     telephone: '',
     fullName: '',
     category: 'all',
     page: 1,
+    role: 'moderator',
   });
+
   const { categories, categoriesFetching } = useCategory();
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsersList);
   const totalPages = useAppSelector(selectUsersListPages);
 
-  useEffect(() => {
+  useDebounce(() => {
     dispatch(fetchUsers(filters));
-  }, [dispatch, filters]);
-
-  const toggleActive = async (id: string) => {
-    await dispatch(updateIsActive(id));
-    await dispatch(fetchUsers(filters));
-  };
+  }, 300, [filters])
 
   const handleFiltersChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
     let value = event.target.value;
+
+    if (filters.fullName?.trim().length === 0 && value.trim() === '') {
+      toast.error('Нельзя ввести пустое поле.')
+      return;
+    }
 
     if (name === 'telephone') {
       value = formatTelephone(value);
@@ -61,7 +62,7 @@ export const AdminUserList = () => {
 
   return (
     <Layout>
-      <div className={'flex gap-4 mb-4'}>
+      <div className={'flex gap-4 mb-4 flex-col md:flex-row'}>
         <Input
           placeholder={'Поиск по ФИО…'}
           value={filters.fullName}
@@ -123,36 +124,15 @@ export const AdminUserList = () => {
           <TableBody>
             {users.map((user) => (
               <TableRow key={user._id}>
-                <TableCell className={'w-[125px]'}>{user.isActive ? 'Активен' : 'Неактивен'}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.telephone}</TableCell>
-                <TableCell>{user.fullName}</TableCell>
-                <TableCell>{user.gender === 'male' ? 'Муж.' : 'Жен.'}</TableCell>
-                <TableCell>{user.dateOfBirth}</TableCell>
-                <TableCell>{user.category.name}</TableCell>
-                <TableCell className={'w-[90px] flex gap-2'}>
+                <TableCell className={'w-[12.5%]'}>{user.isActive ? 'Активен' : 'Неактивен'}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.email}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.telephone}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.fullName}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.gender === 'male' ? 'Муж.' : 'Жен.'}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.dateOfBirth}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.category.name}</TableCell>
+                <TableCell className={'w-[160px] flex gap-2'}>
                   <AdminRedactor filters={filters} id={user._id} />
-                  {user.isActive ? (
-                    <InfoTip text={'Деактивировать'} delay={300} className={'border border-muted-foreground'}>
-                      <Button
-                        size={'icon'}
-                        className={'font-normal'}
-                        variant='destructive'
-                        onClick={() => toggleActive(user._id)}
-                      >
-                        <XMarkIcon className={'size-4'} />
-                      </Button>
-                    </InfoTip>
-                  ) : (
-                    <InfoTip text={'Активировать'} className={'border border-muted-foreground'} delay={300}>
-                      <Button
-                        className={'p-2 text-white hover:bg-green-600 font-normal rounded-lg bg-green-500'}
-                        onClick={() => toggleActive(user._id)}
-                      >
-                        <CheckIcon className={'size-4'} />
-                      </Button>
-                    </InfoTip>
-                  )}
                 </TableCell>
               </TableRow>
             ))}

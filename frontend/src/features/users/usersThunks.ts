@@ -8,6 +8,7 @@ import type {
   RegisterMutation,
   RegisterMutationWithoutCoupleFields,
   User,
+  UserPermissionLevel,
   UsersFilter,
   UsersResponse,
   ValidationError,
@@ -16,24 +17,25 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';
 
-export const fetchUsers = createAsyncThunk<UsersResponse, UsersFilter>('users/fetchUsers', async (filters) => {
+export const fetchUsers = createAsyncThunk<UsersResponse[], UsersFilter>('users/fetchUsers', async (filters) => {
   try {
-    const { fullName, telephone, category, page } = filters;
+    const { fullName, telephone, category, page, role } = filters;
     const filterUrl = [
       category && `category=${category}`,
       fullName && `fullName=${fullName}`,
       telephone && `telephone=${telephone}`,
       page && `page=${page}`,
+      role && `role=${role}`,
     ]
       .filter(Boolean)
       .join('&');
 
     const url = `/users/get-users${filterUrl ? `?${filterUrl}` : ''}`;
-    const response = await axiosApi.get<UsersResponse>(url);
+    const response = await axiosApi.get<UsersResponse[]>(url);
     return response.data;
   } catch (error) {
     console.error(error);
-    throw error;
+    return [];
   }
 });
 
@@ -42,10 +44,13 @@ export const fetchOneUser = createAsyncThunk<User, string>('users/fetchOneUser',
   return user;
 });
 
-export const getPermission = createAsyncThunk<boolean, string>('users/get-permission', async (id) => {
-  const { data: user } = await axiosApi.get<User>(`/users/${id}`);
-  return user.role === 'admin';
-});
+export const getPermissionForUser = createAsyncThunk<UserPermissionLevel, string>(
+  'users/get-permission',
+  async (id) => {
+    const { data: response } = await axiosApi.get<User>(`/users/${id}/permission`);
+    return response.permissionLevel;
+  },
+);
 
 export const register = createAsyncThunk<User, RegisterMutation, { rejectValue: ValidationError }>(
   'users/register',
@@ -71,6 +76,21 @@ export const login = createAsyncThunk<User, LoginMutation, { rejectValue: Global
       const { data: user } = await axiosApi.post<User>('/users/sessions', loginMutation);
 
       return user;
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data);
+      }
+
+      throw error;
+    }
+  },
+);
+
+export const addUser = createAsyncThunk<void, RegisterMutation, { rejectValue: ValidationError }>(
+  'users/add-user',
+  async (registerMutation, { rejectWithValue }) => {
+    try {
+      await axiosApi.post<User>('/users/add-user', registerMutation);
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data);

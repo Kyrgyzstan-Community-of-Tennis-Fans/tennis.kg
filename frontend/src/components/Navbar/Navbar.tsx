@@ -12,12 +12,12 @@ import {
 import { useAppSelector } from '@/app/hooks';
 import { selectItemsData } from '@/features/footers/footersSlice';
 import { NavigationItems } from '@/components/Navbar/MenuItems';
-import { selectPermission, selectUser } from '@/features/users/usersSlice';
+import { selectUser, selectUserPermission } from '@/features/users/usersSlice';
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher';
 
 const Navbar = () => {
   const user = useAppSelector(selectUser);
-  const permission = useAppSelector(selectPermission);
+  const userPermission = useAppSelector(selectUserPermission);
   const footerItemsData = useAppSelector(selectItemsData);
 
   return (
@@ -48,9 +48,11 @@ const Navbar = () => {
                 <NavigationMenu>
                   <NavigationMenuList>
                     <NavigationMenuItem>
-                      {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && permission && (
-                        <NavigationMenuTrigger className='text-white'>Положение</NavigationMenuTrigger>
-                      )}
+                      {footerItemsData.length > 0 &&
+                        footerItemsData[0].menuPosition.length > 0 &&
+                        userPermission >= 1 && (
+                          <NavigationMenuTrigger className='text-white'>Положение</NavigationMenuTrigger>
+                        )}
                       <NavigationMenuContent>
                         <ul className='w-[300px]'>
                           {footerItemsData.length > 0 &&

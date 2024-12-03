@@ -13,6 +13,7 @@ export interface RegisterMutation {
   category: string;
   dateOfBirth: string;
   email: string;
+  role?: string;
 }
 
 export interface User {
@@ -25,7 +26,7 @@ export interface User {
   email: string;
   isActive: boolean;
   token: string;
-  role: 'admin' | 'user';
+  role: 'admin' | 'moderator' | 'user';
   createdAt: string;
   updatedAt: string;
 }
@@ -54,6 +55,7 @@ export interface RedactorForAdmin {
   category: string;
   dateOfBirth: string;
   email: string;
+  role: string;
 }
 
 export type RegisterMutationWithoutCoupleFields = Omit<RegisterMutation, 'password' | 'category'>;
@@ -71,4 +73,8 @@ export interface UsersResponse {
   total: number;
   pages: number;
   data: User[];
+}
+
+export interface UserPermissionLevel {
+  permissionLevel: number;
 }

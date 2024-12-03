@@ -8,7 +8,7 @@ const TournamentActions = ({ tournament, permission }: { tournament: Tournament;
       return null;
     }
 
-    return permission ? (
+    return permission >= 1 ? (
       <a
         href={link}
         target='_blank'

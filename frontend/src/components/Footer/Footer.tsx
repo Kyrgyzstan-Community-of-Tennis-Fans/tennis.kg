@@ -11,10 +11,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ChevronUpIcon } from '@radix-ui/react-icons';
-import { selectPermission } from '@/features/users/usersSlice';
+import { selectUserPermission } from '@/features/users/usersSlice';
 
 const Footer = () => {
-  const permission = useAppSelector(selectPermission);
+  const userPermission = useAppSelector(selectUserPermission);
   const footerItemsData = useAppSelector(selectItemsData);
 
   return (
@@ -60,7 +60,7 @@ const Footer = () => {
               ))}
               <li>
                 <DropdownMenu>
-                  {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && permission && (
+                  {footerItemsData.length > 0 && footerItemsData[0].menuPosition.length > 0 && userPermission >= 1 && (
                     <DropdownMenuTrigger className='flex cursor-pointer items-center gap-1 hover:text-white'>
                       Положение
                       <ChevronUpIcon className='w-4 h-4' />

@@ -17,7 +17,7 @@ export const UsersInput: React.FC<Props> = ({ id, value, onChange, placeholder, 
         {error && <small className={'leading-none text-red-500'}>{error}</small>}
       </div>
       <Input
-        className={'h-12 focus-visible:ring-[#80BC41]'}
+        className={'h-12 focus-visible:border-[#80BC41]'}
         id={id}
         value={value}
         onChange={onChange}

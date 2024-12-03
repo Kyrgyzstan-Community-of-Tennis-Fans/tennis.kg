@@ -8,7 +8,7 @@ import { Login } from '@/features/users/Login';
 import { PersonalAccount } from '@/features/users/PersonalAccount';
 import { Register } from '@/features/users/Register';
 import { ResetPassword } from '@/features/users/ResetPassword';
-import { selectUser } from '@/features/users/usersSlice';
+import { selectUser, selectUserPermission } from '@/features/users/usersSlice';
 import { Home } from '@/pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { NewsPage } from '@/features/news/containers/NewsPage/NewsPage';
@@ -19,22 +19,22 @@ import Calendar from '@/features/tournaments/Calendar';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import { ErrorPage } from '@/components/Errors/ErrorPage';
-import { getPermission } from '@/features/users/usersThunks';
 import { ThemeProvider } from '@/ThemeProvider';
 import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
+import { getPermissionForUser } from '@/features/users/usersThunks';
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const userPermission = useAppSelector(selectUserPermission);
   const page = useLocation().pathname.slice(1);
 
   useEffect(() => {
     dispatch(getFooterItems());
     if (user) {
-      dispatch(getPermission(user._id));
+      dispatch(getPermissionForUser(user._id));
     }
   }, [dispatch, user]);
-
 
   return (
     <ThemeProvider>
@@ -67,7 +67,7 @@ export const App: React.FC = () => {
             <Route
               path={'admin'}
               element={
-                <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <ProtectedRoute isAllowed={user && userPermission >= 2}>
                   <AdminPanel />
                 </ProtectedRoute>
               }

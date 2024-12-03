@@ -12,9 +12,10 @@ interface Props {
   value: string;
   onChange: (date: Date | undefined) => void;
   label: string;
+  addUserAdmin: boolean;
 }
 
-const UserDatePicker: React.FC<Props> = ({ value, onChange, label }) => {
+const UserDatePicker: React.FC<Props> = ({ value, onChange, label, addUserAdmin }) => {
   const parseDate = (dateString: string): Date | undefined => {
     const [day, month, year] = dateString.split('.');
 
@@ -32,7 +33,7 @@ const UserDatePicker: React.FC<Props> = ({ value, onChange, label }) => {
       </div>
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant='outline' className='w-full font-normal py-6'>
+          <Button variant='outline' className={`w-full font-normal ${addUserAdmin ? 'py-5' : 'py-6'}`}>
             {value ? format(parseDate(value) || new Date(), 'PPP', { locale: ru }) : <span>Дата рождения</span>}
             <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
           </Button>
