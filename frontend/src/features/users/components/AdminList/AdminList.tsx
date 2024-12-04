@@ -58,10 +58,6 @@ export const AdminList = () => {
       }
     }
 
-    if (name === 'telephone') {
-      value = formatTelephone(value);
-    }
-
     setFilters((prevState) => ({
       ...prevState,
       [name]: value,
