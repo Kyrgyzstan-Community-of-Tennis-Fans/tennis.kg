@@ -16,6 +16,8 @@ import { type ChangeEvent, useState } from 'react';
 import { CustomPagination } from '@/components/CustomPagination/CustomPagination';
 import { useDebounce } from 'react-use';
 import { toast } from 'sonner';
+import { XIcon } from 'lucide-react';
+import * as React from 'react';
 
 export const UsersList = () => {
   const [filters, setFilters] = useState<UsersFilter>({
@@ -47,13 +49,20 @@ export const UsersList = () => {
     const name = event.target.name;
     let value = event.target.value;
 
-    if (filters.fullName?.trim().length === 0 && value.trim() === '') {
-      toast.error('Нельзя ввести пустое поле.');
-      return;
+    if (name === 'fullName') {
+      if (filters.fullName?.trim() === '' && value.trim() === '') {
+        toast.error('Нельзя ввести пустое поле.');
+        return;
+      }
     }
 
     if (name === 'telephone') {
-      value = formatTelephone(value);
+      if (filters.telephone?.trim() === '' && value.trim() === '') {
+        toast.error('Нельзя ввести пустое поле.');
+        return;
+      } else {
+        value = formatTelephone(value);
+      }
     }
 
     setFilters((prevState) => ({
@@ -71,12 +80,25 @@ export const UsersList = () => {
     }));
   };
 
+  const handleResetFilters = async () => {
+    setFilters({
+      telephone: '',
+      fullName: '',
+      category: 'all',
+      page: 1,
+      role: 'user',
+    });
+
+    await dispatch(fetchUsers(filters));
+  };
+
   return (
     users && (
       <Layout>
         <div className={'flex gap-4 mb-4 flex-col md:flex-row'}>
           <Input
-            placeholder={'Поиск по ФИО…'}
+            id='fullName'
+            placeholder={'Поиск по ФИО'}
             value={filters.fullName}
             name={'fullName'}
             onChange={handleFiltersChange}
@@ -116,6 +138,15 @@ export const UsersList = () => {
               )}
             </SelectContent>
           </Select>
+
+          <Button
+            variant={'outline'}
+            onClick={handleResetFilters}
+            className='filter-set-date h-9 ms-auto text-cr-green-900 hover:text-rose-700 dark:text-green-500'
+          >
+            Сбросить
+            <XIcon />
+          </Button>
         </div>
 
         {users.length === 0 ? (

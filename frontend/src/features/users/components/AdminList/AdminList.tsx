@@ -13,6 +13,8 @@ import { fetchUsers } from '@/features/users/usersThunks';
 import { formatTelephone } from '@/lib/formatTelephone';
 import { useDebounce } from 'react-use';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { XIcon } from 'lucide-react';
 
 export const AdminList = () => {
   const [filters, setFilters] = useState<UsersFilter>({
@@ -40,9 +42,20 @@ export const AdminList = () => {
     const name = event.target.name;
     let value = event.target.value;
 
-    if (filters.fullName?.trim().length === 0 && value.trim() === '') {
-      toast.error('Нельзя ввести пустое поле.');
-      return;
+    if (name === 'fullName') {
+      if (filters.fullName?.trim() === '' && value.trim() === '') {
+        toast.error('Нельзя ввести пустое поле.');
+        return;
+      }
+    }
+
+    if (name === 'telephone') {
+      if (filters.telephone?.trim() === '' && value.trim() === '') {
+        toast.error('Нельзя ввести пустое поле.');
+        return;
+      } else {
+        value = formatTelephone(value);
+      }
     }
 
     if (name === 'telephone') {
@@ -62,6 +75,18 @@ export const AdminList = () => {
       category,
       page: 1,
     }));
+  };
+
+  const handleResetFilters = async () => {
+    setFilters({
+      telephone: '',
+      fullName: '',
+      category: 'all',
+      page: 1,
+      role: 'moderator',
+    });
+
+    await dispatch(fetchUsers(filters));
   };
 
   return (
@@ -108,6 +133,15 @@ export const AdminList = () => {
             )}
           </SelectContent>
         </Select>
+
+        <Button
+          variant={'outline'}
+          onClick={handleResetFilters}
+          className='filter-set-date h-9 ms-auto text-cr-green-900 hover:text-rose-700 dark:text-green-500'
+        >
+          Сбросить
+          <XIcon />
+        </Button>
       </div>
 
       {users.length === 0 ? (
