@@ -30,7 +30,7 @@ export const UsersList = () => {
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsersList);
   const totalPages = useAppSelector(selectUsersListPages);
-
+  
   useDebounce(
     () => {
       dispatch(fetchUsers(filters));
