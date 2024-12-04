@@ -12,14 +12,15 @@ When("нажимаю на кнопку {string}", (btn: string) => {
 });
 
 Then("я должен быть на главной", () => {
-  I.wait(1);
+  I.wait(3);
   I.seeInCurrentUrl("/");
 });
 
 Then("я должен быть на админке", () => {
+  I.wait(3);
   I.amOnPage("/admin");
   I.seeInCurrentUrl("/admin");
-  I.wait(1);
+  I.wait(5);
 });
 
 When("я залогинен на сайте", () => {
@@ -28,6 +29,7 @@ When("я залогинен на сайте", () => {
   I.fillField("Пароль", "123qwe");
   I.click("Войти");
   I.seeInCurrentUrl("/");
+  I.wait(5);
 });
 
 When("я нажимаю на иконку пользователя в хедере", () => {
@@ -55,8 +57,8 @@ Given("Загружаю изображения", () => {
 });
 
 Given("я вижу карточку партнера {string}", (partnerName: string) => {
-  I.seeElement(`[data-testid="${partnerName}"]`);
   I.wait(2);
+  I.seeElement(`[data-testid="${partnerName}"]`);
 });
 
 When(

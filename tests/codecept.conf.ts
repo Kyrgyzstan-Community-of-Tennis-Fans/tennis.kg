@@ -3,8 +3,12 @@ exports.config = {
   helpers: {
     Puppeteer: {
       url: "http://localhost:5183",
-      show: false,
+      show: process.env.CI !== "true",
       windowSize: "1200x900",
+      headless: process.env.CI === "true",
+      chrome: {
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      },
     },
   },
   include: {
@@ -18,10 +22,10 @@ exports.config = {
   gherkin: {
     features: "./features/*.feature",
     steps: [
+      "./step_definitions/partnersSteps.ts",
       "./step_definitions/carouselSteps.ts",
       "./step_definitions/steps.ts",
       "./step_definitions/usersSteps.ts",
-      "./step_definitions/partnersSteps.ts",
       "./step_definitions/footersSteps.ts",
       "./step_definitions/categoriesSteps.ts",
       "./step_definitions/mainRatingsSteps.ts",
