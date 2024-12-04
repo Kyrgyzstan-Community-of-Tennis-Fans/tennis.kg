@@ -24,8 +24,7 @@ import { selectCategories, selectCategoriesFetching } from '@/features/category/
 import { fetchCategories } from '@/features/category/categoryThunks';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import UserDatePicker from '@/features/users/components/UserDatePicker/UserDatePicker';
-import {format} from "date-fns";
-import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
+import { format } from 'date-fns';
 
 const initialState: RedactorForAdmin = {
   id: '',
@@ -132,8 +131,7 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
           <PencilSquareIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent className={'py-0 xs:py-4'}>
-        <ScrollArea className={'max-h-svh py-9 xs:py-6 md:py-3 overflow-y-auto'}>
+      <DialogContent className={'py-4 max-h-[80dvh]'}>
         <DialogHeader>
           <DialogTitle>Редактирование профиля</DialogTitle>
           <DialogDescription>Заполните форму для редактирования профиля.</DialogDescription>
@@ -231,9 +229,11 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
             </div>
 
             <div className={'flex flex-col gap-1 mt-1'}>
-              <Button type={'submit'}
-                      className='w-full h-8 sm:h-10 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5 dark:bg-blue-50'
-                      disabled={updatingUser || !validateEmail(userInfoMutation.email)}>
+              <Button
+                type={'submit'}
+                className='w-full h-8 sm:h-10 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5 dark:bg-blue-50'
+                disabled={updatingUser || !validateEmail(userInfoMutation.email)}
+              >
                 Сохранить {updatingUser && <Loader theme={'light'} />}
               </Button>
 
@@ -245,8 +245,6 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
             </div>
           </form>
         </DialogHeader>
-          <ScrollBar orientation={'vertical'}/>
-        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

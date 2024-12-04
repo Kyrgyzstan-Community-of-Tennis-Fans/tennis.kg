@@ -12,7 +12,7 @@ interface Props {
   value: string;
   onChange: (date: Date | undefined) => void;
   label: string;
-  addUserAdmin: boolean;
+  addUserAdmin?: boolean;
 }
 
 const UserDatePicker: React.FC<Props> = ({ value, onChange, label, addUserAdmin }) => {

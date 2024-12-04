@@ -77,18 +77,10 @@ export const Register: React.FC = () => {
             type='password'
             placeholder='Введите пароль еще раз'
             autoComplete='current-password'
-            className={`${confirmPassword !== registerMutation.password && 'ring-red-500 ring-1 focus-visible:ring-red-500'} h-12 focus-visible:ring-[#80BC41]`}
+            className={`${confirmPassword !== registerMutation.password && 'border-[#eb3434] focus-visible:border-[#eb3434]'} h-12 focus-visible:border-[#80BC41]`}
             error={confirmPassword !== registerMutation.password ? 'Пароли не совпадают' : ''}
           />
 
-          {/*<UsersInput*/}
-          {/*  id='dateOfBirth'*/}
-          {/*  value={registerMutation.dateOfBirth}*/}
-          {/*  onChange={handleDateChange}*/}
-          {/*  label='Дата рождения'*/}
-          {/*  placeholder='15.10.2007'*/}
-          {/*  autoComplete='bday'*/}
-          {/*/>*/}
           <UserDatePicker
             value={registerMutation.dateOfBirth}
             onChange={(date) => handleDateChange(date)}

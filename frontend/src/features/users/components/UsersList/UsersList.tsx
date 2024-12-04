@@ -14,8 +14,8 @@ import type { UsersFilter } from '@/types/user';
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { type ChangeEvent, useState } from 'react';
 import { CustomPagination } from '@/components/CustomPagination/CustomPagination';
-import {useDebounce} from "react-use";
-import {toast} from "sonner";
+import { useDebounce } from 'react-use';
+import { toast } from 'sonner';
 
 export const UsersList = () => {
   const [filters, setFilters] = useState<UsersFilter>({
@@ -30,9 +30,13 @@ export const UsersList = () => {
   const users = useAppSelector(selectUsersList);
   const totalPages = useAppSelector(selectUsersListPages);
 
-  useDebounce(() => {
-    dispatch(fetchUsers(filters));
-  }, 300, [filters])
+  useDebounce(
+    () => {
+      dispatch(fetchUsers(filters));
+    },
+    300,
+    [filters],
+  );
 
   const toggleActive = async (id: string) => {
     await dispatch(updateIsActive(id));
@@ -44,7 +48,7 @@ export const UsersList = () => {
     let value = event.target.value;
 
     if (filters.fullName?.trim().length === 0 && value.trim() === '') {
-      toast.error('Нельзя ввести пустое поле.')
+      toast.error('Нельзя ввести пустое поле.');
       return;
     }
 

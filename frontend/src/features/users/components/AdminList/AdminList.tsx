@@ -11,8 +11,8 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectUsersList, selectUsersListPages } from '@/features/users/usersSlice';
 import { fetchUsers } from '@/features/users/usersThunks';
 import { formatTelephone } from '@/lib/formatTelephone';
-import {useDebounce} from "react-use";
-import {toast} from "sonner";
+import { useDebounce } from 'react-use';
+import { toast } from 'sonner';
 
 export const AdminList = () => {
   const [filters, setFilters] = useState<UsersFilter>({
@@ -28,16 +28,20 @@ export const AdminList = () => {
   const users = useAppSelector(selectUsersList);
   const totalPages = useAppSelector(selectUsersListPages);
 
-  useDebounce(() => {
-    dispatch(fetchUsers(filters));
-  }, 300, [filters])
+  useDebounce(
+    () => {
+      dispatch(fetchUsers(filters));
+    },
+    300,
+    [filters],
+  );
 
   const handleFiltersChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
     let value = event.target.value;
 
     if (filters.fullName?.trim().length === 0 && value.trim() === '') {
-      toast.error('Нельзя ввести пустое поле.')
+      toast.error('Нельзя ввести пустое поле.');
       return;
     }
 
