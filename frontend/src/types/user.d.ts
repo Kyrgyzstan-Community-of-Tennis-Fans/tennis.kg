@@ -64,8 +64,8 @@ export interface UsersFilter {
   category?: string;
   telephone?: string;
   fullName?: string;
-  page: number;
-  role: 'admin' | 'moderator' | 'user';
+  page?: number;
+  role?: string;
 }
 
 export interface UsersResponse {

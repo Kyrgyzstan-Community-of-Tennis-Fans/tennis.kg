@@ -17,7 +17,6 @@ import { CustomPagination } from '@/components/CustomPagination/CustomPagination
 import { useDebounce } from 'react-use';
 import { toast } from 'sonner';
 import { XIcon } from 'lucide-react';
-import * as React from 'react';
 
 export const UsersList = () => {
   const [filters, setFilters] = useState<UsersFilter>({

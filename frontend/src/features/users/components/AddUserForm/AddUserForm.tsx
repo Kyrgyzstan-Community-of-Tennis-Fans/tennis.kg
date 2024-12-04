@@ -92,6 +92,8 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
       field = id;
     } else if (id === 'category') {
       field = id;
+    } else {
+      throw new Error(`Unknown id: ${id}`);
     }
 
     updateRegisterField(field, value);
@@ -118,6 +120,10 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
     setCurrentTab(newUser.role + 's');
     await dispatch(
       fetchUsers({
+        fullName: '',
+        telephone: '',
+        category: 'all',
+        page: 1,
         role: newUser.role,
       }),
     );

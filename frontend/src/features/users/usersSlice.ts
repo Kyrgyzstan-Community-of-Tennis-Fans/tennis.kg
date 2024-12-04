@@ -69,6 +69,7 @@ export const usersSlice = createSlice({
       })
       .addCase(fetchUsers.fulfilled, (state, { payload: users }) => {
         state.usersFetching = false;
+
         state.users = users.data;
         state.usersPages = users.pages;
       })
@@ -101,7 +102,6 @@ export const usersSlice = createSlice({
       .addCase(register.fulfilled, (state, { payload: user }) => {
         state.registerLoading = false;
         state.user = user;
-        state.permission = true;
       })
       .addCase(register.rejected, (state, { payload: error }) => {
         state.registerError = error || null;
@@ -165,7 +165,7 @@ export const usersSlice = createSlice({
       })
       .addCase(updateUserInfo.fulfilled, (state, { payload: user }) => {
         state.usersUpdating = false;
-        state.user = user;
+        state.currentUser = user;
       })
       .addCase(updateUserInfo.rejected, (state, { payload }) => {
         state.usersUpdatingError = payload || null;

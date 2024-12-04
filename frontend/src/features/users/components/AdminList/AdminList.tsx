@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AdminRedactor from '@/features/users/components/AdminRedactor/AdminRedactor';
 import { CustomPagination } from '@/components/CustomPagination/CustomPagination';
 import { Layout } from '@/components/Layout';
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import type { UsersFilter } from '@/types/user';
 import { useCategory } from '@/features/category/hooks/useCategory';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';

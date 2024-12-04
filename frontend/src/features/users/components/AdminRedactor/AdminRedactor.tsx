@@ -107,6 +107,8 @@ const AdminRedactor: React.FC<Props> = ({ id, filters }) => {
       field = id;
     } else if (id === 'role') {
       field = id;
+    } else {
+      throw new Error(`Unknown id: ${id}`);
     }
 
     updateRegisterField(field, value);

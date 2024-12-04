@@ -13,9 +13,10 @@ interface Props {
   onChange: (date: Date | undefined) => void;
   label: string;
   addUserAdmin?: boolean;
+  className?: string;
 }
 
-const UserDatePicker: React.FC<Props> = ({ value, onChange, label, addUserAdmin }) => {
+const UserDatePicker: React.FC<Props> = ({ value, onChange, label, addUserAdmin, className }) => {
   const parseDate = (dateString: string): Date | undefined => {
     const [day, month, year] = dateString.split('.');
 
@@ -27,7 +28,7 @@ const UserDatePicker: React.FC<Props> = ({ value, onChange, label, addUserAdmin 
   };
 
   return (
-    <div>
+    <div className={className}>
       <div className='flex items-center justify-between mb-0.5'>
         <Label className='text-base font-medium block'>{label}</Label>
       </div>
