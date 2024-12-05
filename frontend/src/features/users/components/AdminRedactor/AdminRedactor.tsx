@@ -25,7 +25,6 @@ import { fetchCategories } from '@/features/category/categoryThunks';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import UserDatePicker from '@/features/users/components/UserDatePicker/UserDatePicker';
 import {format} from "date-fns";
-import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
 
 const initialState: RedactorForAdmin = {
   id: '',
