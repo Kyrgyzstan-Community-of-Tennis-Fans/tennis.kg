@@ -17,8 +17,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';
 
-export const fetchUsers = createAsyncThunk<[] | UsersResponse, UsersFilter>('users/fetchUsers', async (filters) => {
-  try {
+export const fetchUsers = createAsyncThunk<UsersResponse, UsersFilter>('users/fetchUsers', async (filters) => {
     const { fullName, telephone, category, page, role } = filters;
     const filterUrl = [
       category && `category=${category}`,
@@ -33,10 +32,6 @@ export const fetchUsers = createAsyncThunk<[] | UsersResponse, UsersFilter>('use
     const url = `/users/get-users${filterUrl ? `?${filterUrl}` : ''}`;
     const { data: response } = await axiosApi.get<UsersResponse>(url);
     return response;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
 });
 
 export const fetchOneUser = createAsyncThunk<User, string>('users/fetchOneUser', async (id) => {
