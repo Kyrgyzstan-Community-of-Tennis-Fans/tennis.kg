@@ -64,7 +64,7 @@ export interface UsersFilter {
   category?: string;
   telephone?: string;
   fullName?: string;
-  page?: number;
+  page: number;
   role?: string;
 }
 
