@@ -17,7 +17,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';
 
-export const fetchUsers = createAsyncThunk<UsersResponse, UsersFilter>('users/fetchUsers', async (filters) => {
+export const fetchUsers = createAsyncThunk<[] | UsersResponse, UsersFilter>('users/fetchUsers', async (filters) => {
   try {
     const { fullName, telephone, category, page, role } = filters;
     const filterUrl = [

@@ -24,7 +24,7 @@ import { selectCategories, selectCategoriesFetching } from '@/features/category/
 import { fetchCategories } from '@/features/category/categoryThunks';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import UserDatePicker from '@/features/users/components/UserDatePicker/UserDatePicker';
-import {format} from "date-fns";
+import { format } from 'date-fns';
 
 const initialState: RedactorForAdmin = {
   id: '',

@@ -129,7 +129,7 @@ export const AdminList = () => {
             )}
           </SelectContent>
         </Select>
-        
+
         <Button
           variant={'outline'}
           onClick={handleResetFilters}
