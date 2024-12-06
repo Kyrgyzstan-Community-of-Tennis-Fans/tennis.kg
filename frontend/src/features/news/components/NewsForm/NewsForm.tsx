@@ -89,7 +89,7 @@ export const NewsForm: React.FC<Props> = ({ newsId, isEdit = false }) => {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className='max-h-svh overflow-y-auto max-w-7xl'>
+      <DialogContent className='max-h-[90dvh] max-w-7xl' news={true}>
         <DialogHeader>
           <DialogTitle className='text-2xl font-bold'>
             {isEdit ? 'Редактировать новость' : 'Добавить новость'}

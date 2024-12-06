@@ -14,8 +14,9 @@ import type { UsersFilter } from '@/types/user';
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { type ChangeEvent, useState } from 'react';
 import { CustomPagination } from '@/components/CustomPagination/CustomPagination';
-import {useDebounce} from "react-use";
-import {toast} from "sonner";
+import { useDebounce } from 'react-use';
+import { toast } from 'sonner';
+import { XIcon } from 'lucide-react';
 
 export const UsersList = () => {
   const [filters, setFilters] = useState<UsersFilter>({
@@ -30,9 +31,13 @@ export const UsersList = () => {
   const users = useAppSelector(selectUsersList);
   const totalPages = useAppSelector(selectUsersListPages);
 
-  useDebounce(() => {
-    dispatch(fetchUsers(filters));
-  }, 300, [filters])
+  useDebounce(
+    () => {
+      dispatch(fetchUsers(filters));
+    },
+    300,
+    [filters],
+  );
 
   const toggleActive = async (id: string) => {
     await dispatch(updateIsActive(id));
@@ -43,13 +48,20 @@ export const UsersList = () => {
     const name = event.target.name;
     let value = event.target.value;
 
-    if (filters.fullName?.trim().length === 0 && value.trim() === '') {
-      toast.error('Нельзя ввести пустое поле.')
-      return;
+    if (name === 'fullName') {
+      if (filters.fullName?.trim() === '' && value.trim() === '') {
+        toast.error('Нельзя ввести пустое поле.');
+        return;
+      }
     }
 
     if (name === 'telephone') {
-      value = formatTelephone(value);
+      if (filters.telephone?.trim() === '' && value.trim() === '') {
+        toast.error('Нельзя ввести пустое поле.');
+        return;
+      } else {
+        value = formatTelephone(value);
+      }
     }
 
     setFilters((prevState) => ({
@@ -67,114 +79,134 @@ export const UsersList = () => {
     }));
   };
 
+  const handleResetFilters = async () => {
+    setFilters({
+      telephone: '',
+      fullName: '',
+      category: 'all',
+      page: 1,
+      role: 'user',
+    });
+
+    await dispatch(fetchUsers(filters));
+  };
+
   return (
-    users && (
-      <Layout>
-        <div className={'flex gap-4 mb-4 flex-col md:flex-row'}>
-          <Input
-            placeholder={'Поиск по ФИО…'}
-            value={filters.fullName}
-            name={'fullName'}
-            onChange={handleFiltersChange}
-          />
-
-          <Input
-            placeholder={'Поиск по номеру телефона…'}
-            value={filters.telephone}
-            type={'tel'}
-            name={'telephone'}
-            onChange={handleFiltersChange}
-          />
-
-          <Select value={filters.category} onValueChange={handleCategoryFilterChange}>
-            <SelectTrigger>
-              <SelectValue placeholder={'Выберите категорию…'} />
-            </SelectTrigger>
-            <SelectContent>
-              {categoriesFetching ? (
-                <SelectItem disabled value={'null'}>
-                  Загрузка…
-                </SelectItem>
-              ) : !categoriesFetching && categories.length === 0 ? (
-                <SelectItem disabled value={'null'}>
-                  Список категорий пуст
-                </SelectItem>
-              ) : (
-                <>
-                  <SelectItem value={'all'}>Все</SelectItem>
-
-                  {categories.map((category) => (
-                    <SelectItem key={category._id} value={category._id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </>
-              )}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {users.length === 0 ? (
-          <p className={'text-center text-muted-foreground mt-10'}>Список пользователей пуст…</p>
-        ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Статус</TableHead>
-                <TableHead>Почта</TableHead>
-                <TableHead>Номер телефона</TableHead>
-                <TableHead>ФИО</TableHead>
-                <TableHead>Пол</TableHead>
-                <TableHead>Год рождения</TableHead>
-                <TableHead>Категория</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {users.map((user) => (
-                <TableRow key={user._id}>
-                  <TableCell className={'w-[12.5%]'}>{user.isActive ? 'Активен' : 'Неактивен'}</TableCell>
-                  <TableCell className={'w-[12.5%]'}>{user.email}</TableCell>
-                  <TableCell className={'w-[12.5%]'}>{user.telephone}</TableCell>
-                  <TableCell className={'w-[12.5%]'}>{user.fullName}</TableCell>
-                  <TableCell className={'w-[12.5%]'}>{user.gender === 'male' ? 'Муж.' : 'Жен.'}</TableCell>
-                  <TableCell className={'w-[12.5%]'}>{user.dateOfBirth}</TableCell>
-                  <TableCell className={'w-[12.5%]'}>{user.category.name}</TableCell>
-                  <TableCell className={'w-[160px] flex gap-2'}>
-                    <AdminRedactor filters={filters} id={user._id} />
-                    {user.isActive ? (
-                      <InfoTip text={'Деактивировать'} delay={300} className={'border border-muted-foreground'}>
-                        <Button
-                          size={'icon'}
-                          className={'font-normal'}
-                          variant='destructive'
-                          onClick={() => toggleActive(user._id)}
-                        >
-                          <XMarkIcon className={'size-4'} />
-                        </Button>
-                      </InfoTip>
-                    ) : (
-                      <InfoTip text={'Активировать'} className={'border border-muted-foreground'} delay={300}>
-                        <Button
-                          size={'icon'}
-                          className={'p-3 text-white hover:bg-green-600 font-normal bg-green-500'}
-                          onClick={() => toggleActive(user._id)}
-                        >
-                          <CheckIcon className={'size-4'} />
-                        </Button>
-                      </InfoTip>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-        <CustomPagination
-          page={filters.page}
-          total={totalPages}
-          setPage={(page = filters.page) => setFilters((prevState) => ({ ...prevState, page }))}
+    <Layout>
+      <div className={'flex gap-4 mb-4 flex-col md:flex-row'}>
+        <Input
+          id='fullName'
+          placeholder={'Поиск по ФИО'}
+          value={filters.fullName}
+          name={'fullName'}
+          onChange={handleFiltersChange}
         />
-      </Layout>
-    )
+
+        <Input
+          placeholder={'Поиск по номеру телефона…'}
+          value={filters.telephone}
+          type={'tel'}
+          name={'telephone'}
+          onChange={handleFiltersChange}
+        />
+
+        <Select value={filters.category} onValueChange={handleCategoryFilterChange}>
+          <SelectTrigger>
+            <SelectValue placeholder={'Выберите категорию…'} />
+          </SelectTrigger>
+          <SelectContent>
+            {categoriesFetching ? (
+              <SelectItem disabled value={'null'}>
+                Загрузка…
+              </SelectItem>
+            ) : !categoriesFetching && categories.length === 0 ? (
+              <SelectItem disabled value={'null'}>
+                Список категорий пуст
+              </SelectItem>
+            ) : (
+              <>
+                <SelectItem value={'all'}>Все</SelectItem>
+
+                {categories.map((category) => (
+                  <SelectItem key={category._id} value={category._id}>
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </>
+            )}
+          </SelectContent>
+        </Select>
+
+        <Button
+          variant={'outline'}
+          onClick={handleResetFilters}
+          className='filter-set-date h-9 ms-auto text-cr-green-900 hover:text-rose-700 dark:text-green-500'
+        >
+          Сбросить
+          <XIcon />
+        </Button>
+      </div>
+
+      {users.length === 0 ? (
+        <p className={'text-center text-muted-foreground mt-10'}>Список пользователей пуст…</p>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Статус</TableHead>
+              <TableHead>Почта</TableHead>
+              <TableHead>Номер телефона</TableHead>
+              <TableHead>ФИО</TableHead>
+              <TableHead>Пол</TableHead>
+              <TableHead>Год рождения</TableHead>
+              <TableHead>Категория</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {users.map((user) => (
+              <TableRow key={user._id}>
+                <TableCell className={'w-[12.5%]'}>{user.isActive ? 'Активен' : 'Неактивен'}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.email}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.telephone}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.fullName}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.gender === 'male' ? 'Муж.' : 'Жен.'}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.dateOfBirth}</TableCell>
+                <TableCell className={'w-[12.5%]'}>{user.category.name}</TableCell>
+                <TableCell className={'w-[160px] flex gap-2'}>
+                  <AdminRedactor filters={filters} id={user._id} />
+                  {user.isActive ? (
+                    <InfoTip text={'Деактивировать'} delay={300} className={'border border-muted-foreground'}>
+                      <Button
+                        size={'icon'}
+                        className={'font-normal'}
+                        variant='destructive'
+                        onClick={() => toggleActive(user._id)}
+                      >
+                        <XMarkIcon className={'size-4'} />
+                      </Button>
+                    </InfoTip>
+                  ) : (
+                    <InfoTip text={'Активировать'} className={'border border-muted-foreground'} delay={300}>
+                      <Button
+                        size={'icon'}
+                        className={'p-3 text-white hover:bg-green-600 font-normal bg-green-500'}
+                        onClick={() => toggleActive(user._id)}
+                      >
+                        <CheckIcon className={'size-4'} />
+                      </Button>
+                    </InfoTip>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+      <CustomPagination
+        page={filters.page}
+        total={totalPages}
+        setPage={(page = filters.page) => setFilters((prevState) => ({ ...prevState, page }))}
+      />
+    </Layout>
   );
 };

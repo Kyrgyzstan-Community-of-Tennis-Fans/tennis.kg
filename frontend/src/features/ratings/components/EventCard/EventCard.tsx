@@ -26,7 +26,6 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
   const { category, link } = event;
   const idAdminPage = pathname.includes('admin');
   const user = useAppSelector(selectUser);
-  // const currentUser = useAppSelector(selectCurrentUser);
   const { open, toggleOpen } = useDialogState();
 
   const handleDelete = async () => {
@@ -38,13 +37,6 @@ export const EventCard: React.FC<Props> = ({ event, ratings }) => {
   useEffect(() => {
     if (user) dispatch(fetchOneUser(user._id));
   }, [dispatch, user]);
-
-  // const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-  //   if (!currentUser?.isActive) {
-  //     e.preventDefault();
-  //     toggleOpen();
-  //   }
-  // };
 
   return (
     <div

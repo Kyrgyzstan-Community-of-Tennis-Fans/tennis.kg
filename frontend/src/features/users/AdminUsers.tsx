@@ -5,8 +5,7 @@ import { Layout } from '@/components/Layout';
 import { AdminList } from '@/features/users/components/AdminList/AdminList';
 import { useAppSelector } from '@/app/hooks';
 import { selectUserPermission } from '@/features/users/usersSlice';
-import { SquaresPlusIcon } from '@heroicons/react/24/outline';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AddUserForm } from '@/features/users/components/AddUserForm/AddUserForm';
 
 export const AdminUsers = () => {
@@ -33,11 +32,7 @@ export const AdminUsers = () => {
             Список всех пользователей и управление пользователями.
           </small>
         </div>
-        {userPermission === 3 && (
-          <AddUserForm className={'w-full xs:w-max'} setCurrentTab={(tab) => setCurrentTab(tab)}>
-            Добавить пользователя <SquaresPlusIcon />
-          </AddUserForm>
-        )}
+        {userPermission === 3 && <AddUserForm setCurrentTab={(tab) => setCurrentTab(tab)} />}
       </header>
       <Tabs value={currentTab} onValueChange={handleTabChange} orientation={'vertical'} defaultValue={'users'}>
         <ScrollArea className={'max-w-max pb-3 mx-auto'}>

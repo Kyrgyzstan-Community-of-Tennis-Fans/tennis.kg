@@ -65,6 +65,7 @@ export interface UsersFilter {
   telephone?: string;
   fullName?: string;
   page: number;
+  role?: string;
 }
 
 export interface UsersResponse {

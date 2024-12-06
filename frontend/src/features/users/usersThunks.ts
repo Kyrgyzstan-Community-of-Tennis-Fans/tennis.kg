@@ -17,8 +17,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';
 
-export const fetchUsers = createAsyncThunk<UsersResponse[], UsersFilter>('users/fetchUsers', async (filters) => {
-  try {
+export const fetchUsers = createAsyncThunk<UsersResponse, UsersFilter>('users/fetchUsers', async (filters) => {
     const { fullName, telephone, category, page, role } = filters;
     const filterUrl = [
       category && `category=${category}`,
@@ -31,12 +30,8 @@ export const fetchUsers = createAsyncThunk<UsersResponse[], UsersFilter>('users/
       .join('&');
 
     const url = `/users/get-users${filterUrl ? `?${filterUrl}` : ''}`;
-    const response = await axiosApi.get<UsersResponse[]>(url);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+    const { data: response } = await axiosApi.get<UsersResponse>(url);
+    return response;
 });
 
 export const fetchOneUser = createAsyncThunk<User, string>('users/fetchOneUser', async (id) => {
@@ -44,13 +39,10 @@ export const fetchOneUser = createAsyncThunk<User, string>('users/fetchOneUser',
   return user;
 });
 
-export const getPermissionForUser = createAsyncThunk<UserPermissionLevel, string>(
-  'users/get-permission',
-  async (id) => {
-    const { data: response } = await axiosApi.get<User>(`/users/${id}/permission`);
-    return response.permissionLevel;
-  },
-);
+export const getPermissionForUser = createAsyncThunk<number, string>('users/get-permission', async (id) => {
+  const { data: response } = await axiosApi.get<UserPermissionLevel>(`/users/${id}/permission`);
+  return response.permissionLevel;
+});
 
 export const register = createAsyncThunk<User, RegisterMutation, { rejectValue: ValidationError }>(
   'users/register',

@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Button } from '@/components/ui/button';
 import { validateEmail } from '@/lib/emailValidate';
 import { Loader } from '@/components/Loader/Loader';
-import { ArrowLongRightIcon, SquaresPlusIcon } from '@heroicons/react/24/outline';
+import { SquaresPlusIcon } from '@heroicons/react/24/outline';
 import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import type { RegisterMutation } from '@/types/user';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
@@ -17,12 +17,14 @@ import { addUser, fetchUsers } from '@/features/users/usersThunks';
 import {
   Dialog,
   DialogClose,
-  DialogContent, DialogDescription, DialogHeader, DialogTitle,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
 import UserDatePicker from '@/features/users/components/UserDatePicker/UserDatePicker';
-import {format} from "date-fns";
-import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
+import { format } from 'date-fns';
 
 const initialState: RegisterMutation = {
   telephone: '',
@@ -90,6 +92,8 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
       field = id;
     } else if (id === 'category') {
       field = id;
+    } else {
+      throw new Error(`Unknown id: ${id}`);
     }
 
     updateRegisterField(field, value);
@@ -116,6 +120,10 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
     setCurrentTab(newUser.role + 's');
     await dispatch(
       fetchUsers({
+        fullName: '',
+        telephone: '',
+        category: 'all',
+        page: 1,
         role: newUser.role,
       }),
     );
@@ -132,151 +140,146 @@ export const AddUserForm: React.FC<Props> = ({ setCurrentTab }) => {
           Добавить пользователя <SquaresPlusIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent className={'py-0 xs:py-4'}>
-        <ScrollArea className={'max-h-svh py-9 xs:py-6 md:py-3 overflow-y-auto'}>
+      <DialogContent className={'py-4 max-h-[80dvh]'}>
         <DialogHeader>
           <DialogTitle>Создание аккаунта</DialogTitle>
           <DialogDescription>Заполните форму для создания аккаунта.</DialogDescription>
           <form onSubmit={addUserAdmin}>
-              <div className='space-y-3 mb-8'>
-                <UsersInput
-                    id='telephone'
-                    value={newUser.telephone}
-                    onChange={handleChange}
-                    label='Номер телефона'
-                    placeholder={'0500 000 000'}
-                    autoComplete={'tel'}
-                    className={'h-10 focus-visible:border-[#80BC41]'}
-                />
+            <div className='space-y-3 mb-8'>
+              <UsersInput
+                id='telephone'
+                value={newUser.telephone}
+                onChange={handleChange}
+                label='Номер телефона'
+                placeholder={'0500 000 000'}
+                autoComplete={'tel'}
+                className={'h-10'}
+              />
 
-                <UsersInput
-                    id='email'
-                    value={newUser.email}
-                    onChange={handleChange}
-                    label='Почта'
-                    placeholder={'example@gmail.com'}
-                    autoComplete={'email'}
-                    className={'h-10 focus-visible:border-[#80BC41]'}
-                />
+              <UsersInput
+                id='email'
+                value={newUser.email}
+                onChange={handleChange}
+                label='Почта'
+                placeholder={'example@gmail.com'}
+                autoComplete={'email'}
+                className={'h-10'}
+              />
 
-                <UsersInput
-                    id='password'
-                    value={newUser.password}
-                    onChange={handleChange}
-                    label='Пароль'
-                    placeholder='Введите пароль'
-                    type='password'
-                    autoComplete={'new-password'}
-                    className={'h-10 focus-visible:border-[#80BC41]'}
-                />
+              <UsersInput
+                id='password'
+                value={newUser.password}
+                onChange={handleChange}
+                label='Пароль'
+                placeholder='Введите пароль'
+                type='password'
+                autoComplete={'new-password'}
+                className={'h-10'}
+              />
 
-                <UsersInput
-                    id='confirm-password'
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    label='Подтвердите пароль'
-                    type='password'
-                    autoComplete={'current-password'}
-                    placeholder='Введите пароль еще раз'
-                    className={`${confirmPassword !== newUser.password && 'ring-red-500 ring-1 focus-visible:ring-red-500'} h-10 focus-visible:border-[#80BC41]`}
-                    error={confirmPassword !== newUser.password ? 'Пароли не совпадают' : ''}
-                />
+              <UsersInput
+                id='confirm-password'
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                label='Подтвердите пароль'
+                type='password'
+                autoComplete={'current-password'}
+                placeholder='Введите пароль еще раз'
+                className={`${confirmPassword !== newUser.password && 'border-[#eb3434] focus-visible:border-[#eb3434]'} h-10 focus-visible:border-[#80BC41]`}
+                error={confirmPassword !== newUser.password ? 'Пароли не совпадают' : ''}
+              />
 
-                <UserDatePicker
-                    value={newUser.dateOfBirth}
-                    onChange={(date) => handleDateChange(date)}
-                    label={'Дата рождения'}
-                    className={'h-10 focus-visible:border-[#80BC41]'}
-                    addUserAdmin={true}
-                />
+              <UserDatePicker
+                value={newUser.dateOfBirth}
+                onChange={(date) => handleDateChange(date)}
+                label={'Дата рождения'}
+                className={'h-10 focus-visible:border-[#80BC41]'}
+                addUserAdmin={true}
+              />
 
-                <UsersInput
-                    id='fullName'
-                    value={newUser.fullName}
-                    onChange={handleChange}
-                    label='ФИО'
-                    placeholder='Введите ваше полное ФИО'
-                    autoComplete={'name'}
-                    className={'h-10 focus-visible:border-[#80BC41]'}
-                />
+              <UsersInput
+                id='fullName'
+                value={newUser.fullName}
+                onChange={handleChange}
+                label='ФИО'
+                placeholder='Введите ваше полное ФИО'
+                autoComplete={'name'}
+                className={'h-10 focus-visible:border-[#80BC41]'}
+              />
 
-                <div>
-                  <Label htmlFor='gender' className={'text-base text-start font-medium block'}>
-                    Пол
-                  </Label>
-                  <Select value={newUser.gender} onValueChange={(value) => handleSelectChange(value, 'gender')}>
-                    <SelectTrigger className={'h-10 focus:border-[#80BC41]'} id='gender'>
-                      <SelectValue placeholder='Укажите пол' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value='male'>Мужской</SelectItem>
-                        <SelectItem value='female'>Женский</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor='category' className={'text-base text-start font-medium block'}>
-                    Категория
-                  </Label>
-                  <Select
-                      disabled={categoriesFetching || categories.length === 0}
-                      value={newUser.category}
-                      onValueChange={(value) => handleSelectChange(value, 'category')}
-                  >
-                    <SelectTrigger className={'h-10 focus:border-[#80BC41]'} id='category'>
-                      <SelectValue placeholder='Выберите категорию' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {categories.map((item) => (
-                            <SelectItem key={item._id} value={item._id}>
-                              {item.name}
-                            </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor='role' className={'text-base text-start font-medium block'}>
-                    Роль
-                  </Label>
-                  <Select value={newUser.role} onValueChange={(value) => handleSelectChange(value, 'role')}>
-                    <SelectTrigger className={'h-10 focus:border-[#80BC41]'} id='role'>
-                      <SelectValue placeholder='Выберите роль' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value={'user'}>Пользователь</SelectItem>
-                        <SelectItem value={'moderator'}>Модератор</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div>
+                <Label htmlFor='gender' className={'text-base text-start font-medium block'}>
+                  Пол
+                </Label>
+                <Select value={newUser.gender} onValueChange={(value) => handleSelectChange(value, 'gender')}>
+                  <SelectTrigger className={'h-10 focus:border-[#80BC41]'} id='gender'>
+                    <SelectValue placeholder='Укажите пол' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value='male'>Мужской</SelectItem>
+                      <SelectItem value='female'>Женский</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
 
-              <Button
-                  type='submit'
-                  className='w-full h-8 sm:h-10 bg-[#232A2E] flex justify-between px-10 font-bold mb-2.5 dark:bg-blue-50'
-                  disabled={!isFormValidAdmin() || !validateEmail(newUser.email)}
-              >
-                Добавить
-                {loading ? <Loader /> : <ArrowLongRightIcon style={{ width: 40, height: 40 }} strokeWidth={1} />}
+              <div>
+                <Label htmlFor='category' className={'text-base text-start font-medium block'}>
+                  Категория
+                </Label>
+                <Select
+                  disabled={categoriesFetching || categories.length === 0}
+                  value={newUser.category}
+                  onValueChange={(value) => handleSelectChange(value, 'category')}
+                >
+                  <SelectTrigger className={'h-10 focus:border-[#80BC41]'} id='category'>
+                    <SelectValue placeholder='Выберите категорию' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {categories.map((item) => (
+                        <SelectItem key={item._id} value={item._id}>
+                          {item.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor='role' className={'text-base text-start font-medium block'}>
+                  Роль
+                </Label>
+                <Select value={newUser.role} onValueChange={(value) => handleSelectChange(value, 'role')}>
+                  <SelectTrigger className={'h-10 focus:border-[#80BC41]'} id='role'>
+                    <SelectValue placeholder='Выберите роль' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value={'user'}>Пользователь</SelectItem>
+                      <SelectItem value={'moderator'}>Модератор</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <Button
+              type='submit'
+              className='w-full h-8 sm:h-10 bg-[#232A2E] px-10 font-bold mb-2.5 dark:bg-blue-50'
+              disabled={!isFormValidAdmin() || !validateEmail(newUser.email)}
+            >
+              Добавить {loading && <Loader />}
+            </Button>
+
+            <DialogClose asChild>
+              <Button ref={closeRef} className={'w-full h-8 sm:h-10'} type={'button'} variant={'outline'}>
+                Отменить
               </Button>
-
-              <DialogClose asChild>
-                <Button ref={closeRef} className={'w-full h-8 sm:h-10'} type={'button'} variant={'outline'}>
-                  Отменить
-                </Button>
-              </DialogClose>
+            </DialogClose>
           </form>
-
         </DialogHeader>
-          <ScrollBar orientation={'vertical'}/>
-        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
