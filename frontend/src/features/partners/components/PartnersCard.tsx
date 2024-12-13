@@ -25,6 +25,8 @@ const PartnersCard: React.FC<Props> = ({ partner }) => {
     }
   };
 
+  console.log(partner.name);
+
   return (
     <div
       className='w-full md:max-w-sm lg:max-w-md xl:max-w-lg bg-white/0 rounded-lg flex items-center p-2 space-x-2 mx-auto border'

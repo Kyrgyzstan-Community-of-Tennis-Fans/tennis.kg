@@ -22,10 +22,12 @@ Given("я нахожусь на странице календаря", () => {
 
 Then("я нажимаю на кнопку {string}", (btn: string) => {
   I.click(btn);
+  I.wait(5);
 });
 
 Given("я вижу карточку с текстом {string}", (tournamentName: string) => {
   I.seeElement(`[data-testid="${tournamentName}"]`);
+  I.wait(2);
 });
 
 When(
@@ -47,8 +49,8 @@ Then("я вижу уведомление {string}", (text: string) => {
 });
 
 When("я нажимаю на месяц в календаре {string}", (month: string) => {
+  I.wait(2);
   I.click(month);
-  I.wait(1);
 });
 
 // Просмотр турнира
@@ -72,6 +74,7 @@ Then("я нажимаю на кнопку в админ панели {string}", 
   I.click(
     `//button[@type='button' and @role='tab' and contains(text(), '${btn}')]`,
   );
+  I.wait(2);
 });
 
 When(
